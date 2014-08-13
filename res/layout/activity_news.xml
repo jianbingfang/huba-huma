@@ -1,12 +1,120 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/topbar_news"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:background="@color/topbar_bg"
+        android:paddingBottom="@dimen/topbar_vertical_padding"
+        android:paddingLeft="@dimen/topbar_horizontal_padding"
+        android:paddingRight="@dimen/topbar_horizontal_padding"
+        android:paddingTop="@dimen/topbar_vertical_padding" >
 
-</RelativeLayout>
+        <TextView
+            style="@style/TopBarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/news" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/layout_teaching_diary" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/btn_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:scaleType="centerInside"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/message" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/txt_message"
+                        style="@style/NewsMenuText"
+                        android:text="@string/message" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/message_redspot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="66dp"
+                android:layout_marginTop="115dp"
+                android:visibility="gone"
+                android:src="@drawable/redspot_mini"
+                android:contentDescription="@string/app_name" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@id/layout_teaching_diary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/btn_teaching_diary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/teaching_diary" />
+
+            <TextView
+                style="@style/NewsMenuText"
+                android:text="@string/teaching_diary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/layout_teaching_diary"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/btn_contacts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/contacts" />
+
+            <TextView
+                style="@style/NewsMenuText"
+                android:text="@string/contacts" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

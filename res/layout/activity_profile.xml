@@ -6,7 +6,7 @@
     tools:context="${relativePackage}.${activityClass}" >
 
     <RelativeLayout 
-        android:id="@+id/topbar_writing"
+        android:id="@+id/topbar_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/topbar_vertical_padding"
@@ -17,7 +17,7 @@
         
 	    <TextView
 	        style="@style/TopBarTitle"
-	        android:text="@string/writing" />
+	        android:text="@string/profile" />
         
     </RelativeLayout>
 

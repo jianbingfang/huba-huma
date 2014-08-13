@@ -2,11 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_bg"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout 
+        android:id="@+id/topbar_info"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:paddingTop="@dimen/topbar_vertical_padding"
+        android:paddingBottom="@dimen/topbar_vertical_padding"
+        android:paddingLeft="@dimen/topbar_horizontal_padding"
+        android:paddingRight="@dimen/topbar_horizontal_padding"
+        android:background="@color/topbar_bg">
+        
+	    <TextView
+	        style="@style/TopBarTitle"
+	        android:text="@string/info" />
+        
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -2,6 +2,10 @@
 <resources>
     
     <!-- 主背景色 -->
-    <color name="main_background_color">#000000</color>
+    <color name="main_bg">#3d4f65</color>
+    <color name="topbar_bg">#344357</color>
+    <color name="text_light">#ffffef</color>
+    <color name="footbar_bg">#33475d</color>
+    <color name="footbar_selected_bg">#263a51</color>
     
 </resources>

@@ -35,7 +35,7 @@
             android:label="@string/title_activity_discovery" >
         </activity>
         <activity
-            android:name=".ManagementActivity"
+            android:name=".ProfileActivity"
             android:label="@string/title_activity_management" >
         </activity>
         <activity

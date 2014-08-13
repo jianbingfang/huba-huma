@@ -1,15 +1,71 @@
 package com.hubahuma.mobile;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.ViewById;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.hubahuma.mobile.news.MessageActivity;
+
+@EActivity(R.layout.activity_news)
 public class NewsActivity extends Activity {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_news);
+	@ViewById(R.id.btn_message)
+	private ImageButton messageBtn;
+
+	@ViewById(R.id.btn_teaching_diary)
+	private ImageButton diaryBtn;
+
+	@ViewById(R.id.btn_contacts)
+	private ImageButton contactsBtn;
+
+	@ViewById(R.id.message_redspot)
+	private ImageView msgRedspot;
+
+	@AfterViews
+	private void init() {
+		msgRedspot.setVisibility(View.VISIBLE);
 	}
+
+	@Click
+	private void btn_message() {
+		Intent intent = new Intent();
+		intent.setClass(this, MessageActivity.class);
+		startActivityForResult(intent, 0);
+	}
+
+	@Click
+	private void btn_teaching_diary() {
+		// TODO
+	}
+
+	@Click
+	void btn_contacts() {
+		// TODO
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (requestCode) {
+		case 0:
+			// result from MessageActivity
+			String result = data.getStringExtra("result");
+			Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG)
+					.show();
+			break;
+
+		default:
+
+		}
+	}
+
 }
