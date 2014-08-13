@@ -29,8 +29,7 @@ public class MessageActivity extends Activity {
 	}
 	
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event){
+	public void onBackPressed(){
 		btn_back();
-		return false;
 	}
 }
