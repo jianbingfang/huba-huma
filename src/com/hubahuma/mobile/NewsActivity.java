@@ -14,36 +14,37 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.hubahuma.mobile.news.MessageActivity;
+import com.hubahuma.mobile.news.MessageActivity_;
 
 @EActivity(R.layout.activity_news)
 public class NewsActivity extends Activity {
 
 	@ViewById(R.id.btn_message)
-	private ImageButton messageBtn;
+	ImageButton messageBtn;
 
 	@ViewById(R.id.btn_teaching_diary)
-	private ImageButton diaryBtn;
+	ImageButton diaryBtn;
 
 	@ViewById(R.id.btn_contacts)
-	private ImageButton contactsBtn;
+	ImageButton contactsBtn;
 
 	@ViewById(R.id.message_redspot)
-	private ImageView msgRedspot;
+	ImageView msgRedspot;
 
 	@AfterViews
-	private void init() {
+	void init() {
 		msgRedspot.setVisibility(View.VISIBLE);
 	}
 
 	@Click
-	private void btn_message() {
+	void btn_message() {
 		Intent intent = new Intent();
-		intent.setClass(this, MessageActivity.class);
+		intent.setClass(this, MessageActivity_.class);
 		startActivityForResult(intent, 0);
 	}
 
 	@Click
-	private void btn_teaching_diary() {
+	void btn_teaching_diary() {
 		// TODO
 	}
 

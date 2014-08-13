@@ -2,6 +2,8 @@
 <resources>
     <dimen name="margin">0dp</dimen>
     <dimen name="footbar_vertical_padding">10dp</dimen>
-    <dimen name="topbar_vertical_padding">14dp</dimen>
+    
+    <dimen name="topbar_height">54dp</dimen>
+    <dimen name="topbar_vertical_padding">0dp</dimen>
     <dimen name="topbar_horizontal_padding">25dp</dimen>
 </resources>

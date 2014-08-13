@@ -152,8 +152,9 @@ int dimen dialog_fixed_width_major 0x7f080011
 int dimen dialog_fixed_width_minor 0x7f080012
 int dimen footbar_vertical_padding 0x7f080016
 int dimen margin 0x7f080015
-int dimen topbar_horizontal_padding 0x7f080018
-int dimen topbar_vertical_padding 0x7f080017
+int dimen topbar_height 0x7f080017
+int dimen topbar_horizontal_padding 0x7f080019
+int dimen topbar_vertical_padding 0x7f080018
 int drawable abc_ab_bottom_solid_dark_holo 0x7f020000
 int drawable abc_ab_bottom_solid_light_holo 0x7f020001
 int drawable abc_ab_bottom_transparent_dark_holo 0x7f020002
