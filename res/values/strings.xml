@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">hubahuma</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_news">NewsActivity</string>
+    <string name="title_activity_writing">WritingActivity</string>
+    <string name="title_activity_discovery">DiscoveryActivity</string>
+    <string name="title_activity_management">ManagementActivity</string>
+    <string name="title_activity_info">InfoActivity</string>
+
+</resources>
