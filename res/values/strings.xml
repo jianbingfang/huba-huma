@@ -8,5 +8,6 @@
     <string name="title_activity_discovery">DiscoveryActivity</string>
     <string name="title_activity_management">ManagementActivity</string>
     <string name="title_activity_info">InfoActivity</string>
+    <string name="title_activity_message">MessageActivity</string>
 
 </resources>

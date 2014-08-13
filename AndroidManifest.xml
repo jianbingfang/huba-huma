@@ -42,6 +42,10 @@
             android:name=".InfoActivity"
             android:label="@string/title_activity_info" >
         </activity>
+        <activity
+            android:name="com.hubahuma.mobile.news.MessageActivity"
+            android:label="@string/title_activity_message" >
+        </activity>
     </application>
 
 </manifest>
