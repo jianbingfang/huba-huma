@@ -48,7 +48,18 @@
             android:layout_height="wrap_content"
             android:textColor="@color/message_author_name"
             android:textSize="15sp"
-            android:text="管理员"/>
+            android:text="陈修安老师"/>
+        
+        <TextView 
+            android:id="@+id/organization_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/author_name"
+            android:layout_alignBottom="@id/author_name"
+            android:layout_marginLeft="12dp"
+            android:textColor="@color/grey"
+            android:textSize="13sp"
+            android:text="某某幼儿园"/>
         
         <ImageView 
             android:id="@+id/content_img"
@@ -69,7 +80,7 @@
             android:lineSpacingMultiplier="1.2"
             android:textColor="@android:color/black"
             android:textSize="14sp"
-            android:text="中新网8月14日电 据共同社报道，日本 15 日将迎来第 69 个战败纪念日。届时，日本政府主办的全国“战殁者追悼仪式”将在东京都举行。"/>
+            android:text="李老师，咱们是哪天给学生考试来着？"/>
         
     </RelativeLayout>
     

@@ -120,12 +120,13 @@ int bool abc_config_actionMenuItemAllCaps 0x7f060005
 int bool abc_config_allowActionMenuItemTextWithIcon 0x7f060004
 int bool abc_config_showMenuShortcutsWhenKeyboardPresent 0x7f060003
 int bool abc_split_action_bar_is_narrow 0x7f060002
-int color abc_search_url_text_holo 0x7f07000e
+int color abc_search_url_text_holo 0x7f07000f
 int color abc_search_url_text_normal 0x7f070000
 int color abc_search_url_text_pressed 0x7f070002
 int color abc_search_url_text_selected 0x7f070001
 int color footbar_bg 0x7f070006
 int color footbar_selected_bg 0x7f070007
+int color grey 0x7f07000e
 int color main_bg 0x7f070003
 int color message_author_name 0x7f07000d
 int color message_tab_bg 0x7f070008
@@ -298,8 +299,8 @@ int id btn_teaching_diary 0x7f05005a
 int id bubble 0x7f050061
 int id checkbox 0x7f05002d
 int id collapseActionView 0x7f05000d
-int id content_img 0x7f050063
-int id content_txt 0x7f050064
+int id content_img 0x7f050064
+int id content_txt 0x7f050065
 int id default_activity_button 0x7f050028
 int id dialog 0x7f05000e
 int id disableHome 0x7f050008
@@ -308,6 +309,7 @@ int id edit_query 0x7f050030
 int id end 0x7f050013
 int id expand_activities_button 0x7f050026
 int id expanded_menu 0x7f05002c
+int id group_population 0x7f050063
 int id home 0x7f050014
 int id homeAsUp 0x7f050005
 int id icon 0x7f05002a
@@ -323,13 +325,14 @@ int id main_tab_news 0x7f05003f
 int id main_tab_news_counter 0x7f050044
 int id main_tab_profile 0x7f050043
 int id main_tab_writing 0x7f050040
-int id message_date 0x7f050065
+int id message_date 0x7f050066
 int id message_redspot 0x7f050059
 int id message_tab_header 0x7f050047
 int id middle 0x7f050012
 int id never 0x7f050009
 int id none 0x7f050010
 int id normal 0x7f050000
+int id organization_name 0x7f050068
 int id portrait 0x7f050060
 int id portrait_side 0x7f05005f
 int id progress_circular 0x7f050018
@@ -339,6 +342,7 @@ int id redspot_group 0x7f050053
 int id redspot_notice 0x7f05004a
 int id redspot_parents 0x7f050050
 int id redspot_teacher 0x7f05004d
+int id relationship 0x7f050067
 int id search_badge 0x7f050032
 int id search_bar 0x7f050031
 int id search_button 0x7f050033
