@@ -2,6 +2,7 @@ package com.hubahuma.mobile.news;
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.R;
 
@@ -10,25 +11,22 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;  
 import android.view.View;  
 import android.view.ViewGroup;  
+import android.widget.ListView;
 
 @EFragment(R.layout.fragment_group)
 public class GroupFragment extends BaseFragment {
 	
     private boolean isInit; // 是否可以开始加载数据  
   
-//    @Override  
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {  
-//        isInit = true;  
-//        return inflater.inflate(R.layout.fragment_notice, container, false);  
-//    }
+    @ViewById
+	ListView list;
+    
+    @Override  
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {  
+        return null;  
+    }
   
-//    @Override  
-//    public void onViewCreated(View view, Bundle savedInstanceState) {  
-//        super.onViewCreated(view, savedInstanceState);  
-//        /* 初始化控件 */  
-//    }  
-
-    @AfterInject
+    @AfterViews
     void init(){
     	isInit = true;
     }

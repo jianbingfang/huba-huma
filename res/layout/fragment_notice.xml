@@ -4,13 +4,18 @@
     android:layout_height="match_parent"
     android:background="@color/main_bg"
     android:orientation="vertical" >
-    
-    <View 
+
+    <View
         android:id="@+id/timeline"
         android:layout_width="@dimen/timeline_width"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/timeline_top_margin"
         android:layout_marginLeft="@dimen/timeline_left_margin"
-        android:background="@color/timeline"/>
+        android:layout_marginTop="@dimen/timeline_top_margin"
+        android:background="@color/timeline" />
+
+    <ListView
+        android:id="@id/android:list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
 </FrameLayout>

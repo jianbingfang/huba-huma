@@ -5,5 +5,17 @@
     android:background="#00ff00"
     android:orientation="vertical" >
     
+    <View
+        android:id="@+id/timeline"
+        android:layout_width="@dimen/timeline_width"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/timeline_left_margin"
+        android:layout_marginTop="@dimen/timeline_top_margin"
+        android:background="@color/timeline" />
+
+    <ListView
+        android:id="@id/android:list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
