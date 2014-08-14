@@ -1,9 +1,12 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_bg"
+    android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
+
+    <!-- title -->
 
     <RelativeLayout
         android:id="@+id/topbar_message"
@@ -20,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/message" />
-        
+
         <ImageButton
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
@@ -28,10 +31,134 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/app_name"
             android:scaleType="centerInside"
-            android:src="@drawable/back"
-            android:contentDescription="@string/app_name" />
-        
+            android:src="@drawable/back" />
     </RelativeLayout>
 
-</RelativeLayout>
+    <!-- content -->
+    <LinearLayout
+        android:id="@+id/message_tab_header"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:baselineAligned="false"
+        android:background="@color/message_tab_bg" >
+
+        <RelativeLayout
+            android:id="@+id/tab_notice"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/message_tab_bg_selected"
+            android:layout_weight="1.0" >
+
+            <TextView
+                android:id="@+id/tab_txt_notice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/notice"
+                android:textColor="@color/message_tab_txt_selected"
+                android:textSize="15sp" />
+            <ImageView
+                android:id="@+id/redspot_notice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tab_txt_notice"
+                android:layout_alignTop="@id/tab_txt_notice"
+                android:visibility="gone"
+                android:src="@drawable/redspot_mini"
+                android:contentDescription="@string/app_name" />
+            
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/tab_teacher"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0" >
+
+            <TextView
+                android:id="@+id/tab_txt_teacher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/teacher"
+                android:textColor="@color/message_tab_txt"
+                android:textSize="15sp" />
+            <ImageView
+                android:id="@+id/redspot_teacher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tab_txt_teacher"
+                android:layout_alignTop="@id/tab_txt_teacher"
+                android:visibility="gone"
+                android:src="@drawable/redspot_mini"
+                android:contentDescription="@string/app_name" />
+            
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/tab_parents"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0" >
+
+            <TextView
+                android:id="@+id/tab_txt_parents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/parents"
+                android:textColor="@color/message_tab_txt"
+                android:textSize="15sp" />
+            <ImageView
+                android:id="@+id/redspot_parents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tab_txt_parents"
+                android:layout_alignTop="@id/tab_txt_parents"
+                android:visibility="gone"
+                android:src="@drawable/redspot_mini"
+                android:contentDescription="@string/app_name" />
+            
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/tab_group"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0" >
+
+            <TextView
+                android:id="@+id/tab_txt_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/group"
+                android:textColor="@color/message_tab_txt"
+                android:textSize="15sp" />
+            <ImageView
+                android:id="@+id/redspot_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tab_txt_group"
+                android:layout_alignTop="@id/tab_txt_group"
+                android:visibility="gone"
+                android:src="@drawable/redspot_mini"
+                android:contentDescription="@string/app_name" />
+            
+        </RelativeLayout>
+        
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vPager"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="1.0"
+        android:background="@color/main_bg"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation" />
+
+</LinearLayout>

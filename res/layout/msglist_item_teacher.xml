@@ -1,8 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/main_bg"
     android:orientation="vertical" >
-    
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/portrait_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical" >
+        
+        <ImageButton
+            android:id="@+id/portrait"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/default_portrait" />
+        
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:layout_marginLeft="@dimen/left_triangle_left_margin"
+            android:src="@drawable/left_triangle" />
+        
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/bubble"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/bubble_min_height"
+        android:layout_toRightOf="@id/portrait_side"
+        android:paddingLeft="@dimen/bubble_horizontal_padding"
+        android:paddingRight="@dimen/bubble_horizontal_padding"
+        android:paddingTop="@dimen/bubble_top_padding"
+        android:paddingBottom="@dimen/bubble_bottom_padding"
+        android:background="@drawable/message_bubble" >
+        
+        <TextView 
+            android:id="@+id/author_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/message_author_name"
+            android:textSize="15sp"
+            android:text="管理员"/>
+        
+        <ImageView 
+            android:id="@+id/content_img"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:scaleType="centerInside"
+            android:layout_marginTop="@dimen/bubble_bottom_padding"
+            android:layout_below="@id/author_name"
+            android:visibility="gone"
+            android:contentDescription="@string/app_name"/>
+        
+        <TextView 
+            android:id="@+id/content_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/content_img"
+            android:layout_marginTop="5dp"
+            android:lineSpacingMultiplier="1.2"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:text="中新网8月14日电 据共同社报道，日本 15 日将迎来第 69 个战败纪念日。届时，日本政府主办的全国“战殁者追悼仪式”将在东京都举行。"/>
+        
+    </RelativeLayout>
+    
+    <TextView
+        android:id="@+id/message_date"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/bubble"
+        android:layout_alignRight="@id/bubble"
+        android:layout_marginTop="@dimen/date_top_margin"
+        android:textColor="@color/text_light"
+        android:textSize="12sp"
+        android:text="今天 14:26" />
+    
+</RelativeLayout>
