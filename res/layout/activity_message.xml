@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/tab_txt_notice"
                 android:layout_alignTop="@id/tab_txt_notice"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:src="@drawable/redspot_mini"
                 android:contentDescription="@string/app_name" />
             
