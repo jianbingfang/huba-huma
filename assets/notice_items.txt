@@ -1,0 +1,9 @@
+[
+	{"portrait":"","author_name":"管理员","content_img":"","content_txt":"youhua","message_date":"今天 8:30"},
+	{"portrait":"","author_name":"管理员","content_img":"","content_txt":"youhua","message_date":"今天 8:30"},
+	{"portrait":"","author_name":"管理员","content_img":"","content_txt":"youhua","message_date":"今天 8:30"},
+	{"portrait":"","author_name":"管理员","content_img":"","content_txt":"youhua","message_date":"今天 8:30"},
+	{"portrait":"","author_name":"管理员","content_img":"","content_txt":"youhua","message_date":"今天 8:30"},
+	{"portrait":"","author_name":"管理员","content_img":"","content_txt":"youhua","message_date":"今天 8:30"},
+	{"portrait":"","author_name":"管理员","content_img":"","content_txt":"youhua","message_date":"今天 8:30"}
+]
