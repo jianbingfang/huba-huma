@@ -7,13 +7,16 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,15 +42,23 @@ public class NoticeFragment extends BaseFragment {
 
 	private boolean isInit; // 是否可以开始加载数据
 
-	private List<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
+	private List<HashMap<String, Object>> listItem = new LinkedList<HashMap<String, Object>>();
 
-	@ViewById(R.id.pull_refresh_list)
+	@ViewById(R.id.notice_msg_list)
 	PullToRefreshListView mPullRefreshListView;
 
 	@ViewById
 	ListView list;
 
-	MyAdapter adapter = null;
+	private MyAdapter adapter = null;
+
+	private class ViewHolder {
+		ImageButton portrait;
+		TextView author_name;
+		ImageView content_img;
+		TextView content_txt;
+		TextView message_date;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,60 +103,65 @@ public class NoticeFragment extends BaseFragment {
 	}
 
 	private class GetDataTask extends
-			AsyncTask<Void, Void, HashMap<String, Object>> {
+			AsyncTask<Void, Void, List<HashMap<String, Object>>> {
 
 		// 后台处理部分
 		@Override
-		protected HashMap<String, Object> doInBackground(Void... params) {
+		protected List<HashMap<String, Object>> doInBackground(Void... params) {
 			// Simulates a background job.
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			try {
 
-				map = new HashMap<String, Object>();
-				map.put("portrait", "");
-				map.put("author_name", "管理员");
-				map.put("content_img", "");
-				map.put("content_txt",
-						"中新网8月14日电 据共同社报道，日本 15 日将迎来第 69 个战败纪念日。届时，日本政府主办的全国“战殁者追悼仪式”将在东京都举行。");
-				map.put("message_date", "今天 14:26");
+			List<HashMap<String, Object>> mapList = new ArrayList<HashMap<String, Object>>();
+			int num = new Random().nextInt(3)+1;
+			try {
+				for (int i = 0; i < num; i++) {
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map = new HashMap<String, Object>();
+					map.put("portrait", "");
+					map.put("author_name", new Random().nextInt(50) + "号管理员");
+					map.put("content_img", "");
+					map.put("content_txt",
+							"中新网8月14日电 据共同社报道，日本 15 日将迎来第 69 个战败纪念日。届时，日本政府主办的全国“战殁者追悼仪式”将在东京都举行。");
+					map.put("message_date", "今天 14:26");
+					mapList.add(map);
+				}
 			} catch (Exception e) {
 				NoticeFragment.this.getActivity().setTitle("map出错了");
 				return null;
 			}
 
-			return map;
+			return mapList;
 		}
 
 		// 这里是对刷新的响应，可以利用addFirst（）和addLast()函数将新加的内容加到LISTView中
 		// 根据AsyncTask的原理，onPostExecute里的result的值就是doInBackground()的返回值
 		@Override
-		protected void onPostExecute(HashMap<String, Object> result) {
+		protected void onPostExecute(List<HashMap<String, Object>> resultList) {
 			// 在头部增加新添内容
 			try {
-				listItem.add(0, result);
-				// 通知程序数据集已经改变，如果不做通知，那么将不会刷新mListItems的集合
-				adapter.notifyDataSetChanged();
-				// Call onRefreshComplete when the list has been refreshed.
-				mPullRefreshListView.onRefreshComplete();
+				if (resultList != null && !resultList.isEmpty()) {
+					for (HashMap<String, Object> result : resultList) {
+						listItem.add(0, result);
+					}
+					// 通知程序数据集已经改变，如果不做通知，那么将不会刷新mListItems的集合
+					adapter.notifyDataSetChanged();
+					mPullRefreshListView.onRefreshComplete();
+					msgListener
+							.OnNewMessageShowed(OnNewMessageListener.NOTICE_MESSAGE);
+				}
 			} catch (Exception e) {
 				NoticeFragment.this.getActivity().setTitle(e.getMessage());
 			}
 
-			super.onPostExecute(result);
+			super.onPostExecute(resultList);
 		}
 	}
 
-	public class ViewHolder {
-		ImageButton portrait;
-		ImageView content_img;
-		TextView author_name, content_txt, message_date;
-	}
-
-	public class MyAdapter extends BaseAdapter {
+	private class MyAdapter extends BaseAdapter {
 
 		private LayoutInflater mInflater;
 
@@ -221,9 +237,6 @@ public class NoticeFragment extends BaseFragment {
 		// 判断当前fragment是否显示
 		if (getUserVisibleHint()) {
 			showData();
-			Toast.makeText(getActivity().getApplicationContext(),
-					"notice resume", Toast.LENGTH_SHORT).show();
-			;
 		}
 	}
 
@@ -256,7 +269,7 @@ public class NoticeFragment extends BaseFragment {
 		InputStream inputStream;
 		try {
 			inputStream = this.getActivity().getAssets()
-					.open("notice_items.txt");
+					.open("notice_msg_items.txt");
 			String json = readTextFile(inputStream);
 			JSONArray array = new JSONArray(json);
 			for (int i = 0; i < array.length(); i++) {
@@ -271,8 +284,7 @@ public class NoticeFragment extends BaseFragment {
 						array.getJSONObject(i).getString("content_txt"));
 				map.put("message_date",
 						array.getJSONObject(i).getString("message_date"));
-				System.out.println("Item:"+array.getJSONObject(i).toString());
-				list.add(map);
+				list.add(0, map);
 			}
 			return list;
 

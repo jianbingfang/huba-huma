@@ -1,0 +1,9 @@
+[
+	{"portrait":"","group_name":"快乐城堡英语群","group_population":"31","content_txt":"啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊","message_date":"今天 8:30"},
+	{"portrait":"","group_name":"快乐城堡英语群","group_population":"22","content_txt":"哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦哦","message_date":"今天 8:30"},
+	{"portrait":"","group_name":"快乐城堡英语群","group_population":"14","content_txt":"额额额额额额额额额额额额额额额额额额额额额额额额","message_date":"今天 8:30"},
+	{"portrait":"","group_name":"快乐城堡英语群","group_population":"64","content_txt":"咦咦咦咦咦咦咦咦咦咦咦咦咦咦咦咦咦咦咦咦咦咦咦咦","message_date":"今天 8:30"},
+	{"portrait":"","group_name":"快乐城堡英语群","group_population":"36","content_txt":"呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜呜","message_date":"今天 8:30"},
+	{"portrait":"","group_name":"快乐城堡英语群","group_population":"52","content_txt":"啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦啦","message_date":"今天 8:30"},
+	{"portrait":"","group_name":"快乐城堡英语群","group_population":"8","content_txt":"呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵呵","message_date":"今天 8:30"}
+]

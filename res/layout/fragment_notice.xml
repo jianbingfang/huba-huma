@@ -2,8 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_bg"
-    android:orientation="vertical" >
+    android:background="@color/main_bg" >
 
     <View
         android:id="@+id/timeline"
@@ -13,16 +12,12 @@
         android:layout_marginTop="@dimen/timeline_top_margin"
         android:background="@color/timeline" />
 
-    <!-- <ListView -->
-    <!-- android:id="@id/android:list" -->
-    <!-- android:layout_width="fill_parent" -->
-    <!-- android:layout_height="wrap_content" /> -->
-
     <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/pull_refresh_list"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:cacheColorHint="#00000000"
+        android:id="@+id/notice_msg_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/msglist_top_padding"
+        android:cacheColorHint="@android:color/transparent"
         android:background="@android:color/transparent"
         android:divider="@null"
         android:fadingEdge="none"

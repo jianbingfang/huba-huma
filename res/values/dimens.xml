@@ -6,13 +6,24 @@
     <dimen name="topbar_height">54dp</dimen>
     <dimen name="topbar_vertical_padding">0dp</dimen>
     <dimen name="topbar_horizontal_padding">25dp</dimen>
+    
     <dimen name="timeline_width">4dp</dimen>
     <dimen name="timeline_top_margin">10dp</dimen>
-    <dimen name="timeline_left_margin">35dp</dimen>
-    <dimen name="left_triangle_left_margin">8dp</dimen>
+    <dimen name="timeline_left_margin">33dp</dimen>
+    
+    <dimen name="left_triangle_left_margin">7dp</dimen>
+    
+    <dimen name="bubble_radius">5dp</dimen>
     <dimen name="bubble_horizontal_padding">15dp</dimen>
     <dimen name="bubble_top_padding">10dp</dimen>
     <dimen name="bubble_bottom_padding">8dp</dimen>
     <dimen name="bubble_min_height">53dp</dimen>
+    
     <dimen name="date_top_margin">5dp</dimen>
+    <dimen name="portrait_size">50dp</dimen>
+    
+    <dimen name="msglist_top_padding">10dp</dimen>
+    <dimen name="msglist_item_horizontal_padding">10dp</dimen>
+    
+    
 </resources>

@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/msglist_item_horizontal_padding"
+    android:paddingRight="@dimen/msglist_item_horizontal_padding"
     android:background="@android:color/transparent"
     android:orientation="vertical" >
 
@@ -14,8 +16,8 @@
         
         <ImageButton
             android:id="@+id/portrait"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/portrait_size"
+            android:layout_height="@dimen/portrait_size"
             android:background="@android:color/transparent"
             android:scaleType="centerInside"
             android:contentDescription="@string/app_name"
@@ -43,7 +45,7 @@
         android:background="@drawable/message_bubble" >
         
         <TextView 
-            android:id="@+id/author_name"
+            android:id="@+id/group_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/message_author_name"
@@ -55,27 +57,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_alignBottom="@id/author_name"
+            android:layout_alignBottom="@id/group_name"
             android:layout_marginLeft="12dp"
             android:textColor="@color/grey"
             android:textSize="13sp"
             android:text="34人"/>
         
-        <ImageView 
-            android:id="@+id/content_img"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:scaleType="centerInside"
-            android:layout_marginTop="@dimen/bubble_bottom_padding"
-            android:layout_below="@id/author_name"
-            android:visibility="gone"
-            android:contentDescription="@string/app_name"/>
-        
         <TextView 
             android:id="@+id/content_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/content_img"
+            android:layout_below="@id/group_name"
             android:layout_marginTop="5dp"
             android:lineSpacingMultiplier="1.2"
             android:textColor="@android:color/black"

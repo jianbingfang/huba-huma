@@ -7,7 +7,7 @@
 <!--         android:topLeftRadius="12dp"   -->
 <!--         android:topRightRadius="12dp" /> -->
     
-    <corners android:radius="10dp" />
+    <corners android:radius="@dimen/bubble_radius" />
     
     <solid android:color="@android:color/white" />
     

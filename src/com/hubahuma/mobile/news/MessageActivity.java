@@ -34,7 +34,8 @@ import android.widget.TextView;
 
 @NoTitle
 @EActivity(R.layout.activity_message)
-public class MessageActivity extends FragmentActivity {
+public class MessageActivity extends FragmentActivity implements
+		OnNewMessageListener {
 
 	private static final int TAB_NOTICE = 0;
 	private static final int TAB_TEACHER = 1;
@@ -56,15 +57,15 @@ public class MessageActivity extends FragmentActivity {
 	@ColorRes
 	int message_tab_txt, message_tab_bg, message_tab_bg_selected;
 
-	private NoticeFragment_ noticeFragment;  
-    private TeacherFragment_ teacherFragment;  
-    private ParentsFragment_ parentsFragment;
-    private GroupFragment_ groupFragment;
-	
+	private NoticeFragment_ noticeFragment;
+	private TeacherFragment_ teacherFragment;
+	private ParentsFragment_ parentsFragment;
+	private GroupFragment_ groupFragment;
+
 	private List<BaseFragment> fragments;
 	private int currIndex = 0;
-	
-	private List<View> listViews;
+
+	// private List<View> listViews;
 	private List<TextView> listTabTxt;
 	private List<View> listTab;
 
@@ -88,36 +89,38 @@ public class MessageActivity extends FragmentActivity {
 		listTab.add(tab_group);
 
 		InitViewPager();
-		
-//		vPager = (ViewPager) findViewById(R.id.vPager);
-//		LayoutInflater mInflater = getLayoutInflater();
-//		listViews = new ArrayList<View>();
-//		listViews.add(mInflater.inflate(R.layout.lay1, null));
-//		listViews.add(mInflater.inflate(R.layout.lay2, null));
-//		listViews.add(mInflater.inflate(R.layout.lay3, null));
-//		listViews.add(mInflater.inflate(R.layout.fragment_group, null));
-//		vPager.setAdapter(new MyPagerAdapter(listViews));
-//		vPager.setOnPageChangeListener(new MyOnPageChangeListener());
-//		vPager.setCurrentItem(0);
+
+		// vPager = (ViewPager) findViewById(R.id.vPager);
+		// LayoutInflater mInflater = getLayoutInflater();
+		// listViews = new ArrayList<View>();
+		// listViews.add(mInflater.inflate(R.layout.lay1, null));
+		// listViews.add(mInflater.inflate(R.layout.lay2, null));
+		// listViews.add(mInflater.inflate(R.layout.lay3, null));
+		// listViews.add(mInflater.inflate(R.layout.fragment_group, null));
+		// vPager.setAdapter(new MyPagerAdapter(listViews));
+		// vPager.setOnPageChangeListener(new MyOnPageChangeListener());
+		// vPager.setCurrentItem(0);
 	}
-	
-	private void InitViewPager() {  
-		
-        fragments = new ArrayList<BaseFragment>();  
-  
-        noticeFragment = new NoticeFragment_();  
-        teacherFragment = new TeacherFragment_();  
-        parentsFragment = new ParentsFragment_();
-        groupFragment = new GroupFragment_();
-  
-        fragments.add(noticeFragment);  
-        fragments.add(teacherFragment);  
-        fragments.add(parentsFragment);  
-        fragments.add(groupFragment);  
-  
-        vPager.setAdapter(new FmtPagerAdapter(getSupportFragmentManager(), fragments));  
-        vPager.setOnPageChangeListener(new MyOnPageChangeListener());  
-    } 
+
+	private void InitViewPager() {
+
+		fragments = new ArrayList<BaseFragment>();
+
+		noticeFragment = new NoticeFragment_();
+		teacherFragment = new TeacherFragment_();
+		parentsFragment = new ParentsFragment_();
+		groupFragment = new GroupFragment_();
+
+		fragments.add(noticeFragment);
+		fragments.add(teacherFragment);
+		fragments.add(parentsFragment);
+		fragments.add(groupFragment);
+
+		vPager.setAdapter(new FmtPagerAdapter(getSupportFragmentManager(),
+				fragments));
+		vPager.setOnPageChangeListener(new MyOnPageChangeListener());
+		vPager.setCurrentItem(0);
+	}
 
 	/**
 	 * ViewPager适配器
@@ -168,21 +171,21 @@ public class MessageActivity extends FragmentActivity {
 		}
 	}
 
-//	/**
-//	 * 头标点击监听
-//	 */
-//	public class MyOnClickListener implements View.OnClickListener {
-//		private int index = 0;
-//
-//		public MyOnClickListener(int i) {
-//			index = i;
-//		}
-//
-//		@Override
-//		public void onClick(View v) {
-//			vPager.setCurrentItem(index);
-//		}
-//	};
+	// /**
+	// * 头标点击监听
+	// */
+	// public class MyOnClickListener implements View.OnClickListener {
+	// private int index = 0;
+	//
+	// public MyOnClickListener(int i) {
+	// index = i;
+	// }
+	//
+	// @Override
+	// public void onClick(View v) {
+	// vPager.setCurrentItem(index);
+	// }
+	// };
 
 	/**
 	 * 页卡切换监听
@@ -191,22 +194,22 @@ public class MessageActivity extends FragmentActivity {
 
 		@Override
 		public void onPageSelected(int targetIndex) {
-			switch (targetIndex) {
-			case TAB_NOTICE:
-				redspot_notice.setVisibility(View.GONE);
-				break;
-			case TAB_TEACHER:
-				redspot_teacher.setVisibility(View.GONE);
-				break;
-			case TAB_PARENTS:
-				redspot_parents.setVisibility(View.GONE);
-				break;
-			case TAB_GROUP:
-				redspot_group.setVisibility(View.GONE);
-				break;
-			default:
-				break;
-			}
+			// switch (targetIndex) {
+			// case TAB_NOTICE:
+			// redspot_notice.setVisibility(View.GONE);
+			// break;
+			// case TAB_TEACHER:
+			// redspot_teacher.setVisibility(View.GONE);
+			// break;
+			// case TAB_PARENTS:
+			// redspot_parents.setVisibility(View.GONE);
+			// break;
+			// case TAB_GROUP:
+			// redspot_group.setVisibility(View.GONE);
+			// break;
+			// default:
+			// break;
+			// }
 
 			listTab.get(targetIndex)
 					.setBackgroundColor(message_tab_bg_selected);
@@ -230,23 +233,26 @@ public class MessageActivity extends FragmentActivity {
 		}
 	}
 
-	@Click  
-    void tab_notice() {  
-		vPager.setCurrentItem(0);  
-    }
-	@Click  
-    void tab_teacher() {  
-		vPager.setCurrentItem(1);  
-    }
-	@Click  
-    void tab_parents() {  
-		vPager.setCurrentItem(2);  
-    }
-	@Click  
-    void tab_group() {  
-		vPager.setCurrentItem(3);  
-    }
-	
+	@Click
+	void tab_notice() {
+		vPager.setCurrentItem(0);
+	}
+
+	@Click
+	void tab_teacher() {
+		vPager.setCurrentItem(1);
+	}
+
+	@Click
+	void tab_parents() {
+		vPager.setCurrentItem(2);
+	}
+
+	@Click
+	void tab_group() {
+		vPager.setCurrentItem(3);
+	}
+
 	@Click
 	void btn_back() {
 		Intent intent = getIntent();
@@ -258,6 +264,46 @@ public class MessageActivity extends FragmentActivity {
 	@Override
 	public void onBackPressed() {
 		btn_back();
+	}
+
+	@Override
+	public void OnNewMessageReady(int type) {
+		switch (type) {
+		case OnNewMessageListener.NOTICE_MESSAGE:
+			redspot_notice.setVisibility(View.VISIBLE);
+			break;
+		case OnNewMessageListener.TEACHER_MESSAGE:
+			redspot_teacher.setVisibility(View.VISIBLE);
+			break;
+		case OnNewMessageListener.PARENTS_MESSAGE:
+			redspot_parents.setVisibility(View.VISIBLE);
+			break;
+		case OnNewMessageListener.GROUP_MESSAGE:
+			redspot_group.setVisibility(View.VISIBLE);
+			break;
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void OnNewMessageShowed(int type) {
+		switch (type) {
+		case OnNewMessageListener.NOTICE_MESSAGE:
+			redspot_notice.setVisibility(View.GONE);
+			break;
+		case OnNewMessageListener.TEACHER_MESSAGE:
+			redspot_teacher.setVisibility(View.GONE);
+			break;
+		case OnNewMessageListener.PARENTS_MESSAGE:
+			redspot_parents.setVisibility(View.GONE);
+			break;
+		case OnNewMessageListener.GROUP_MESSAGE:
+			redspot_group.setVisibility(View.GONE);
+			break;
+		default:
+			break;
+		}
 	}
 
 }
