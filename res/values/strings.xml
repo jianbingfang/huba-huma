@@ -3,28 +3,26 @@
 
     <string name="app_name">huba-huma</string>
     <string name="hello_world">Hello world!</string>
-    
     <string name="title_activity_news">NewsActivity</string>
     <string name="title_activity_writing">WritingActivity</string>
     <string name="title_activity_discovery">DiscoveryActivity</string>
     <string name="title_activity_management">ManagementActivity</string>
     <string name="title_activity_info">InfoActivity</string>
     <string name="title_activity_message">MessageActivity</string>
-    
     <string name="news">动态</string>
     <string name="writing">写作</string>
     <string name="discovery">发现</string>
     <string name="info">资讯</string>
     <string name="profile">设置</string>
-    
     <string name="notice">通知</string>
     <string name="message">消息</string>
     <string name="teaching_diary">教学日志</string>
     <string name="contacts">通讯录</string>
-    
     <string name="teacher">教师</string>
     <string name="parents">家长</string>
     <string name="group">群</string>
-    
+    <string name="title_activity_chat">ChatActivity</string>
+    <string name="send">发送</string>
+    <string name="chat_input_hint">写评论...</string>
 
 </resources>

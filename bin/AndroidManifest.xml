@@ -12,13 +12,13 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        >
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity_"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -43,10 +43,13 @@
             android:label="@string/title_activity_info" >
         </activity>
         <activity
-            android:name="com.hubahuma.mobile.news.MessageActivity_"
+            android:name=".news.MessageActivity_"
             android:label="@string/title_activity_message" >
         </activity>
-        
+        <activity
+            android:name=".news.ChatActivity_"
+            android:label="@string/title_activity_chat" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,6 +1,5 @@
 package com.hubahuma.mobile.news;
 import android.app.Activity;
-import android.support.v4.app.Fragment;  
 import android.support.v4.app.ListFragment;
   
 public abstract class BaseFragment extends ListFragment {  

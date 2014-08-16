@@ -10,25 +10,27 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
@@ -181,6 +183,7 @@ public class GroupFragment extends BaseFragment {
 			return 0;
 		}
 
+		@SuppressLint("InflateParams")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -209,7 +212,7 @@ public class GroupFragment extends BaseFragment {
 			// TODO 判断真实头像
 			holder.portrait.setImageResource(R.drawable.default_portrait);
 
-			String name = (String) listItem.get(position).get("group_name");
+			final String name = (String) listItem.get(position).get("group_name");
 			if (name != null)
 				holder.group_name.setText(name);
 			String popu = (String) listItem.get(position).get(
@@ -223,10 +226,44 @@ public class GroupFragment extends BaseFragment {
 			if (date != null)
 				holder.message_date.setText(date);
 
+			RelativeLayout bubble = (RelativeLayout)convertView.findViewById(R.id.bubble);
+			bubble.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent();
+					intent.putExtra("name", name);
+					intent.setClass(MyAdapter.this.mInflater.getContext(), ChatActivity_.class);
+					startActivityForResult(intent, 0);
+				}
+				
+			});
+			bubble.setOnLongClickListener(new OnLongClickListener() {
+				@Override
+				public boolean onLongClick(View v) {
+					return true;
+				}
+			});
+			
 			return convertView;
 		}
 	}
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (requestCode) {
+		case 0:
+			// result from ChatActivity
+			String result = data.getStringExtra("result");
+			Toast.makeText(this.getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
+					.show();
+			break;
+
+		default:
+
+		}
+	}
+	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);

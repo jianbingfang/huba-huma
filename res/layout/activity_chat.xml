@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/main_bg" >
+
+    <!-- title -->
+
+    <RelativeLayout
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/topbar_height"
+        android:layout_alignParentTop="true"
+        android:background="@color/topbar_bg"
+        android:paddingBottom="@dimen/topbar_vertical_padding"
+        android:paddingLeft="@dimen/topbar_horizontal_padding"
+        android:paddingRight="@dimen/topbar_horizontal_padding"
+        android:paddingTop="@dimen/topbar_vertical_padding" >
+
+        <TextView
+            android:id="@+id/topbar_title"
+            style="@style/TopBarTitle"
+            android:text="陈修安老师" />
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerInside"
+            android:src="@drawable/back" />
+    </RelativeLayout>
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/chat_msg_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/topbar"
+        android:layout_above="@+id/input_area"
+        android:background="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="@dimen/msglist_divider_height"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:paddingTop="@dimen/msglist_top_padding"
+        android:smoothScrollbar="true" />
+
+    <!-- input box -->
+
+    <RelativeLayout
+        android:id="@id/input_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/topbar_bg"
+        android:paddingBottom="@dimen/input_box_vertical_padding"
+        android:paddingLeft="@dimen/input_box_horizontal_padding"
+        android:paddingRight="@dimen/input_box_horizontal_padding"
+        android:paddingTop="@dimen/input_box_vertical_padding" >
+
+        <EditText
+            android:id="@+id/msg_input_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/input_box_horizontal_padding"
+            android:layout_toLeftOf="@+id/btn_area"
+            android:background="@drawable/message_bubble"
+            android:hint="@string/chat_input_hint"
+            android:minHeight="35dp"
+            android:paddingBottom="@dimen/input_box_vertical_padding"
+            android:paddingLeft="@dimen/input_box_horizontal_padding"
+            android:paddingRight="@dimen/input_box_horizontal_padding"
+            android:paddingTop="@dimen/input_box_vertical_padding" />
+
+        <FrameLayout
+            android:id="@id/btn_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/msg_input_box"
+            android:layout_alignParentRight="true" >
+
+            <ImageButton
+                android:id="@+id/btn_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/btn_send" />
+
+            <ImageButton
+                android:id="@+id/btn_add_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/add_img_button"
+                android:visibility="gone" />
+        </FrameLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

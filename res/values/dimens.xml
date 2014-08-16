@@ -11,7 +11,7 @@
     <dimen name="timeline_top_margin">10dp</dimen>
     <dimen name="timeline_left_margin">33dp</dimen>
     
-    <dimen name="left_triangle_left_margin">7dp</dimen>
+    <dimen name="triangle_margin">7dp</dimen>
     
     <dimen name="bubble_radius">5dp</dimen>
     <dimen name="bubble_horizontal_padding">15dp</dimen>
@@ -20,10 +20,36 @@
     <dimen name="bubble_min_height">53dp</dimen>
     
     <dimen name="date_top_margin">5dp</dimen>
+    <dimen name="date_bottom_margin">5dp</dimen>
     <dimen name="portrait_size">50dp</dimen>
     
-    <dimen name="msglist_top_padding">10dp</dimen>
+    <dimen name="msglist_top_padding">0dp</dimen>
+    <dimen name="msglist_divider_height">10dp</dimen>
     <dimen name="msglist_item_horizontal_padding">10dp</dimen>
     
+    <dimen name="chat_msg_top_padding">10dp</dimen>
+    <dimen name="chat_msg_bottom_padding">6dp</dimen>
+    <dimen name="chat_msg_left_padding">10dp</dimen>
+    <dimen name="chat_msg_right_padding">10dp</dimen>
+    
+    <dimen name="chat_bubble_portrait_side_padding">10dp</dimen>
+    <dimen name="chat_bubble_content_side_padding">10dp</dimen>
+    <dimen name="chat_bubble_max_width">220dp</dimen>
+    <dimen name="chat_bubble_top_margin">7dp</dimen>
+    
+    <dimen name="chat_date_bg_radius">10dp</dimen>
+    <dimen name="chat_date_vertical_padding">2dp</dimen>
+    <dimen name="chat_date_horizontal_padding">12dp</dimen>
+    <dimen name="chat_date_top_margin">15dp</dimen>
+    <dimen name="chat_date_bottom_margin">8dp</dimen>
+
+    <dimen name="chat_msg_progress_bar_size">20dp</dimen>
+    
+    <dimen name="input_box_vertical_padding">8dp</dimen>
+    <dimen name="input_box_horizontal_padding">10dp</dimen>
+    
+    <dimen name="input_box_radius">5dp</dimen>
+    
+    <dimen name="date_txt_size">12sp</dimen>
     
 </resources>

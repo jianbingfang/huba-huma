@@ -10,13 +10,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
-
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,8 +27,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
@@ -49,23 +45,15 @@ public class NoticeFragment extends BaseFragment {
 
 	@ViewById
 	ListView list;
-
+	
 	private MyAdapter adapter = null;
-
-	private class ViewHolder {
-		ImageButton portrait;
-		TextView author_name;
-		ImageView content_img;
-		TextView content_txt;
-		TextView message_date;
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return null;
 	}
-
+	
 	@AfterViews
 	void init() {
 		isInit = true;
@@ -160,6 +148,14 @@ public class NoticeFragment extends BaseFragment {
 			super.onPostExecute(resultList);
 		}
 	}
+	
+	private class ViewHolder {
+		ImageButton portrait;
+		TextView author_name;
+		ImageView content_img;
+		TextView content_txt;
+		TextView message_date;
+	}
 
 	private class MyAdapter extends BaseAdapter {
 
@@ -184,41 +180,42 @@ public class NoticeFragment extends BaseFragment {
 			return 0;
 		}
 
+		@SuppressLint("InflateParams")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 
-			ViewHolder holder = null;
+			ViewHolder viewHolder = null;
 			if (convertView == null) {
 
 				convertView = mInflater.inflate(R.layout.msglist_item_notice,
 						null);
-				holder = new ViewHolder();
-				holder.portrait = (ImageButton) convertView
+				viewHolder = new ViewHolder();
+				viewHolder.portrait = (ImageButton) convertView
 						.findViewById(R.id.portrait);
-				holder.content_img = (ImageView) convertView
+				viewHolder.content_img = (ImageView) convertView
 						.findViewById(R.id.content_img);
-				holder.author_name = (TextView) convertView
+				viewHolder.author_name = (TextView) convertView
 						.findViewById(R.id.author_name);
-				holder.content_txt = (TextView) convertView
+				viewHolder.content_txt = (TextView) convertView
 						.findViewById(R.id.content_txt);
-				holder.message_date = (TextView) convertView
+				viewHolder.message_date = (TextView) convertView
 						.findViewById(R.id.message_date);
-				convertView.setTag(holder);
+				convertView.setTag(viewHolder);
 
 			} else {
-				holder = (ViewHolder) convertView.getTag();
+				viewHolder = (ViewHolder) convertView.getTag();
 			}
 
 			// TODO 判断真实头像
-			holder.portrait.setImageResource(R.drawable.default_portrait);
+			viewHolder.portrait.setImageResource(R.drawable.default_portrait);
 			// TODO 判断是否真的有图片
-			holder.content_img.setVisibility(View.GONE);
+			viewHolder.content_img.setVisibility(View.GONE);
 
-			holder.author_name.setText((String) listItem.get(position).get(
+			viewHolder.author_name.setText((String) listItem.get(position).get(
 					"author_name"));
-			holder.content_txt.setText((String) listItem.get(position).get(
+			viewHolder.content_txt.setText((String) listItem.get(position).get(
 					"content_txt"));
-			holder.message_date.setText((String) listItem.get(position).get(
+			viewHolder.message_date.setText((String) listItem.get(position).get(
 					"message_date"));
 
 			return convertView;
@@ -263,8 +260,8 @@ public class NoticeFragment extends BaseFragment {
 
 	}
 
-	private ArrayList<HashMap<String, Object>> getTestData() {
-		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+	private List<HashMap<String, Object>> getTestData() {
+		List<HashMap<String, Object>> list = new LinkedList<HashMap<String, Object>>();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		InputStream inputStream;
 		try {

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -37,7 +37,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_light</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">20sp</item>
     </style>
     
     <style name="NewsMenuText">
@@ -46,6 +46,27 @@
         <item name="android:textColor">@color/text_light</item>
         <item name="android:layout_marginTop">15dp</item>
         <item name="android:textSize">15sp</item>
+    </style>
+    
+    <style name="chat_text_date_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_light</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    
+    <style name="chat_bubble_text_view">
+        <item name="android:maxWidth">@dimen/chat_bubble_max_width</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/message_bubble</item>
+        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:paddingBottom">@dimen/chat_msg_bottom_padding</item>
+        <item name="android:paddingLeft">@dimen/chat_msg_left_padding</item>
+        <item name="android:paddingRight">@dimen/chat_msg_right_padding</item>
+        <item name="android:paddingTop">@dimen/chat_msg_top_padding</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
 </resources>

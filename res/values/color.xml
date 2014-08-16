@@ -14,5 +14,6 @@
     <color name="timeline">#b9b9c8</color>
     <color name="message_author_name">#577395</color>
     <color name="grey">#999</color>
+    <color name="chat_date_bg">#313f51</color>
     
 </resources>

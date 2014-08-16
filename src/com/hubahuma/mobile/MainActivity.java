@@ -1,21 +1,19 @@
 package com.hubahuma.mobile;
 
-import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.ViewById;
 
-import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+@SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_main)
 public class MainActivity extends TabActivity {

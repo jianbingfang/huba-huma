@@ -7,7 +7,6 @@
     tools:context="${relativePackage}.${activityClass}" >
 
     <!-- title -->
-
     <RelativeLayout
         android:id="@+id/topbar_message"
         android:layout_width="match_parent"
@@ -20,8 +19,6 @@
 
         <TextView
             style="@style/TopBarTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/message" />
 
         <ImageButton

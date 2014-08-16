@@ -3,7 +3,6 @@ package com.hubahuma.mobile;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 import android.app.Activity;
@@ -13,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.hubahuma.mobile.news.MessageActivity;
 import com.hubahuma.mobile.news.MessageActivity_;
 
 @EActivity(R.layout.activity_news)

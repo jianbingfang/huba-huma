@@ -27,17 +27,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/app_name"
-            android:layout_marginLeft="@dimen/left_triangle_left_margin"
+            android:layout_marginLeft="@dimen/triangle_margin"
             android:src="@drawable/left_triangle" />
         
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/bubble"
+        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/bubble_min_height"
         android:layout_toRightOf="@id/portrait_side"
+        android:minHeight="@dimen/bubble_min_height"
         android:paddingLeft="@dimen/bubble_horizontal_padding"
         android:paddingRight="@dimen/bubble_horizontal_padding"
         android:paddingTop="@dimen/bubble_top_padding"
@@ -84,7 +85,7 @@
         android:layout_alignRight="@id/bubble"
         android:layout_marginTop="@dimen/date_top_margin"
         android:textColor="@color/text_light"
-        android:textSize="12sp"
+        android:textSize="@dimen/date_txt_size"
         android:text="今天 14:26" />
     
 </RelativeLayout>

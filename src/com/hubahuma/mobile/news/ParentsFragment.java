@@ -10,32 +10,32 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-
-import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
-
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.hubahuma.mobile.R;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.hubahuma.mobile.R;
 
 @EFragment(R.layout.fragment_parents)
 public class ParentsFragment extends BaseFragment {
@@ -46,9 +46,6 @@ public class ParentsFragment extends BaseFragment {
 
 	@ViewById(R.id.parents_msg_list)
 	PullToRefreshListView mPullRefreshListView;
-
-	@ViewById
-	ListView list;
 
 	private MyAdapter adapter = null;
 
@@ -184,6 +181,7 @@ public class ParentsFragment extends BaseFragment {
 			return 0;
 		}
 
+		@SuppressLint("InflateParams")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -211,8 +209,9 @@ public class ParentsFragment extends BaseFragment {
 
 			// TODO 判断真实头像
 			holder.portrait.setImageResource(R.drawable.default_portrait);
-			holder.parents_name.setText((String) listItem.get(position).get(
-					"parents_name"));
+			final String name = (String) listItem.get(position).get(
+					"parents_name");
+			holder.parents_name.setText(name);
 			holder.relationship.setText((String) listItem.get(position).get(
 					"relationship"));
 			holder.content_txt.setText((String) listItem.get(position).get(
@@ -220,7 +219,41 @@ public class ParentsFragment extends BaseFragment {
 			holder.message_date.setText((String) listItem.get(position).get(
 					"message_date"));
 
+			RelativeLayout bubble = (RelativeLayout)convertView.findViewById(R.id.bubble);
+			bubble.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent();
+					intent.putExtra("name", name);
+					intent.setClass(MyAdapter.this.mInflater.getContext(), ChatActivity_.class);
+					startActivityForResult(intent, 0);
+				}
+				
+			});
+			bubble.setOnLongClickListener(new OnLongClickListener() {
+				@Override
+				public boolean onLongClick(View v) {
+					return true;
+				}
+			});
+			
 			return convertView;
+		}
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (requestCode) {
+		case 0:
+			// result from ChatActivity
+			String result = data.getStringExtra("result");
+			Toast.makeText(this.getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
+					.show();
+			break;
+
+		default:
+
 		}
 	}
 

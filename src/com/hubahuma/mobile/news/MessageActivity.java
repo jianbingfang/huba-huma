@@ -10,37 +10,24 @@ import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.ColorRes;
 
-import com.hubahuma.mobile.R;
-import com.hubahuma.mobile.R.layout;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hubahuma.mobile.R;
+
+@SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_message)
 public class MessageActivity extends FragmentActivity implements
 		OnNewMessageListener {
-
-	private static final int TAB_NOTICE = 0;
-	private static final int TAB_TEACHER = 1;
-	private static final int TAB_PARENTS = 2;
-	private static final int TAB_GROUP = 3;
 
 	@ViewById
 	ImageView redspot_notice, redspot_teacher, redspot_parents, redspot_group;
@@ -65,7 +52,6 @@ public class MessageActivity extends FragmentActivity implements
 	private List<BaseFragment> fragments;
 	private int currIndex = 0;
 
-	// private List<View> listViews;
 	private List<TextView> listTabTxt;
 	private List<View> listTab;
 
@@ -90,16 +76,6 @@ public class MessageActivity extends FragmentActivity implements
 
 		InitViewPager();
 
-		// vPager = (ViewPager) findViewById(R.id.vPager);
-		// LayoutInflater mInflater = getLayoutInflater();
-		// listViews = new ArrayList<View>();
-		// listViews.add(mInflater.inflate(R.layout.lay1, null));
-		// listViews.add(mInflater.inflate(R.layout.lay2, null));
-		// listViews.add(mInflater.inflate(R.layout.lay3, null));
-		// listViews.add(mInflater.inflate(R.layout.fragment_group, null));
-		// vPager.setAdapter(new MyPagerAdapter(listViews));
-		// vPager.setOnPageChangeListener(new MyOnPageChangeListener());
-		// vPager.setCurrentItem(0);
 	}
 
 	private void InitViewPager() {
@@ -171,21 +147,6 @@ public class MessageActivity extends FragmentActivity implements
 		}
 	}
 
-	// /**
-	// * 头标点击监听
-	// */
-	// public class MyOnClickListener implements View.OnClickListener {
-	// private int index = 0;
-	//
-	// public MyOnClickListener(int i) {
-	// index = i;
-	// }
-	//
-	// @Override
-	// public void onClick(View v) {
-	// vPager.setCurrentItem(index);
-	// }
-	// };
 
 	/**
 	 * 页卡切换监听
@@ -194,22 +155,6 @@ public class MessageActivity extends FragmentActivity implements
 
 		@Override
 		public void onPageSelected(int targetIndex) {
-			// switch (targetIndex) {
-			// case TAB_NOTICE:
-			// redspot_notice.setVisibility(View.GONE);
-			// break;
-			// case TAB_TEACHER:
-			// redspot_teacher.setVisibility(View.GONE);
-			// break;
-			// case TAB_PARENTS:
-			// redspot_parents.setVisibility(View.GONE);
-			// break;
-			// case TAB_GROUP:
-			// redspot_group.setVisibility(View.GONE);
-			// break;
-			// default:
-			// break;
-			// }
 
 			listTab.get(targetIndex)
 					.setBackgroundColor(message_tab_bg_selected);
