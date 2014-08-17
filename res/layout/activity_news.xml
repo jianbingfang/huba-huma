@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/layout_teaching_diary" >
+            android:layout_toLeftOf="@+id/center_area" >
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -43,8 +43,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:scaleType="centerInside"
                     android:contentDescription="@string/app_name"
+                    android:scaleType="centerInside"
                     android:src="@drawable/message" />
 
                 <RelativeLayout
@@ -64,39 +64,68 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="66dp"
                 android:layout_marginTop="115dp"
-                android:visibility="gone"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/redspot_mini"
-                android:contentDescription="@string/app_name" />
+                android:visibility="gone" />
         </FrameLayout>
 
-        <LinearLayout
-            android:id="@id/layout_teaching_diary"
+        <FrameLayout
+            android:id="@id/center_area"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center_horizontal"
-            android:orientation="vertical" >
+            android:layout_centerInParent="true" >
 
-            <ImageButton
-                android:id="@+id/btn_teaching_diary"
+            <LinearLayout
+                android:id="@+id/layout_teaching_diary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:scaleType="centerInside"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/teaching_diary" />
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone" >
 
-            <TextView
-                style="@style/NewsMenuText"
-                android:text="@string/teaching_diary" />
-        </LinearLayout>
+                <ImageButton
+                    android:id="@+id/btn_teaching_diary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/teaching_diary" />
+
+                <TextView
+                    style="@style/NewsMenuText"
+                    android:text="@string/teaching_diary" />
+            </LinearLayout>
+            
+            <LinearLayout
+                android:id="@+id/layout_manage_book"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="visible" >
+
+                <ImageButton
+                    android:id="@+id/btn_manage_book"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/manage_book" />
+
+                <TextView
+                    style="@style/NewsMenuText"
+                    android:text="@string/manage_book" />
+            </LinearLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/layout_teaching_diary"
+            android:layout_toRightOf="@id/center_area"
             android:gravity="center_horizontal"
             android:orientation="vertical" >
 
@@ -105,8 +134,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:scaleType="centerInside"
                 android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
                 android:src="@drawable/contacts" />
 
             <TextView

@@ -1,4 +1,4 @@
-package com.hubahuma.mobile.news;
+package com.hubahuma.mobile.news.message;
 import android.app.Activity;
 import android.support.v4.app.ListFragment;
   

@@ -1,4 +1,4 @@
-package com.hubahuma.mobile.news;
+package com.hubahuma.mobile.news.message;
 
 public interface OnNewMessageListener {
 

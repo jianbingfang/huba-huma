@@ -1,4 +1,4 @@
-package com.hubahuma.mobile.news;
+package com.hubahuma.mobile.news.message;
 
 import java.util.Date;
 import java.util.LinkedList;

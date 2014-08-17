@@ -1,4 +1,4 @@
-package com.hubahuma.mobile.news;
+package com.hubahuma.mobile.news.message;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,10 +10,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -31,28 +33,29 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hubahuma.mobile.R;
 
-@EFragment(R.layout.fragment_parents)
-public class ParentsFragment extends BaseFragment {
+@EFragment(R.layout.fragment_group)
+public class GroupFragment extends BaseFragment {
 
 	private boolean isInit; // 是否可以开始加载数据
 
 	private List<HashMap<String, Object>> listItem = new LinkedList<HashMap<String, Object>>();
 
-	@ViewById(R.id.parents_msg_list)
+	@ViewById(R.id.group_msg_list)
 	PullToRefreshListView mPullRefreshListView;
 
-	private MyAdapter adapter = null;
+	MyAdapter adapter = null;
 
-	private class ViewHolder {
+	public class ViewHolder {
 		ImageButton portrait;
-		TextView parents_name;
-		TextView relationship;
+		TextView group_name;
+		TextView group_population;
 		TextView content_txt;
 		TextView message_date;
 	}
@@ -73,7 +76,7 @@ public class ParentsFragment extends BaseFragment {
 					public void onRefresh(
 							PullToRefreshBase<ListView> refreshView) {
 						String label = DateUtils.formatDateTime(
-								ParentsFragment.this.getActivity()
+								GroupFragment.this.getActivity()
 										.getApplicationContext(), System
 										.currentTimeMillis(),
 								DateUtils.FORMAT_SHOW_TIME
@@ -119,14 +122,16 @@ public class ParentsFragment extends BaseFragment {
 					HashMap<String, Object> map = new HashMap<String, Object>();
 					map = new HashMap<String, Object>();
 					map.put("portrait", "");
-					map.put("parents_name", "赵安" + new Random().nextInt(10));
-					map.put("relationship", "赵某某父亲");
-					map.put("content_txt", "李老师，我儿子这两天身体有些不舒服，可能去不了学校了，需要向您请假。");
-					map.put("message_date", "今天 08:05");
+					map.put("group_name", "新的数学群");
+					map.put("group_population",
+							String.valueOf(new Random().nextInt(100)));
+					map.put("content_txt",
+							"中新网8月14日电 据共同社报道，日本 15 日将迎来第 69 个战败纪念日。届时，日本政府主办的全国“战殁者追悼仪式”将在东京都举行。");
+					map.put("message_date", "今天 14:26");
 					mapList.add(map);
 				}
 			} catch (Exception e) {
-				ParentsFragment.this.getActivity().setTitle("map出错了");
+				GroupFragment.this.getActivity().setTitle("map出错了");
 				return null;
 			}
 
@@ -148,10 +153,10 @@ public class ParentsFragment extends BaseFragment {
 					// Call onRefreshComplete when the list has been refreshed.
 					mPullRefreshListView.onRefreshComplete();
 					msgListener
-							.OnNewMessageShowed(OnNewMessageListener.PARENTS_MESSAGE);
+							.OnNewMessageShowed(OnNewMessageListener.GROUP_MESSAGE);
 				}
 			} catch (Exception e) {
-				ParentsFragment.this.getActivity().setTitle(e.getMessage());
+				GroupFragment.this.getActivity().setTitle(e.getMessage());
 			}
 
 			super.onPostExecute(resultList);
@@ -188,15 +193,15 @@ public class ParentsFragment extends BaseFragment {
 			ViewHolder holder = null;
 			if (convertView == null) {
 
-				convertView = mInflater.inflate(R.layout.msglist_item_parents,
+				convertView = mInflater.inflate(R.layout.msglist_item_group,
 						null);
 				holder = new ViewHolder();
 				holder.portrait = (ImageButton) convertView
 						.findViewById(R.id.portrait);
-				holder.parents_name = (TextView) convertView
-						.findViewById(R.id.parents_name);
-				holder.relationship = (TextView) convertView
-						.findViewById(R.id.relationship);
+				holder.group_name = (TextView) convertView
+						.findViewById(R.id.group_name);
+				holder.group_population = (TextView) convertView
+						.findViewById(R.id.group_population);
 				holder.content_txt = (TextView) convertView
 						.findViewById(R.id.content_txt);
 				holder.message_date = (TextView) convertView
@@ -209,15 +214,20 @@ public class ParentsFragment extends BaseFragment {
 
 			// TODO 判断真实头像
 			holder.portrait.setImageResource(R.drawable.default_portrait);
-			final String name = (String) listItem.get(position).get(
-					"parents_name");
-			holder.parents_name.setText(name);
-			holder.relationship.setText((String) listItem.get(position).get(
-					"relationship"));
-			holder.content_txt.setText((String) listItem.get(position).get(
-					"content_txt"));
-			holder.message_date.setText((String) listItem.get(position).get(
-					"message_date"));
+
+			final String name = (String) listItem.get(position).get("group_name");
+			if (name != null)
+				holder.group_name.setText(name);
+			String popu = (String) listItem.get(position).get(
+					"group_population");
+			if (popu != null && !popu.equals(""))
+				holder.group_population.setText(popu + "人");
+			String cont = (String) listItem.get(position).get("content_txt");
+			if (cont != null)
+				holder.content_txt.setText(cont);
+			String date = (String) listItem.get(position).get("message_date");
+			if (date != null)
+				holder.message_date.setText(date);
 
 			RelativeLayout bubble = (RelativeLayout)convertView.findViewById(R.id.bubble);
 			bubble.setOnClickListener(new OnClickListener() {
@@ -240,7 +250,7 @@ public class ParentsFragment extends BaseFragment {
 			return convertView;
 		}
 	}
-	
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -256,7 +266,7 @@ public class ParentsFragment extends BaseFragment {
 
 		}
 	}
-
+	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
@@ -269,9 +279,6 @@ public class ParentsFragment extends BaseFragment {
 		// 判断当前fragment是否显示
 		if (getUserVisibleHint()) {
 			showData();
-			Toast.makeText(getActivity().getApplicationContext(),
-					"parents resume", Toast.LENGTH_SHORT).show();
-			;
 		}
 	}
 
@@ -281,6 +288,8 @@ public class ParentsFragment extends BaseFragment {
 		// 每次切换fragment时调用的方法
 		if (isVisibleToUser) {
 			showData();
+			// Toast.makeText(getActivity().getApplicationContext(), "notice",
+			// Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -302,22 +311,22 @@ public class ParentsFragment extends BaseFragment {
 		InputStream inputStream;
 		try {
 			inputStream = this.getActivity().getAssets()
-					.open("parents_msg_items.txt");
+					.open("group_msg_items.txt");
 			String json = readTextFile(inputStream);
 			JSONArray array = new JSONArray(json);
 			for (int i = 0; i < array.length(); i++) {
 				map = new HashMap<String, Object>();
 				map.put("portrait", array.getJSONObject(i)
 						.getString("portrait"));
-				map.put("parents_name",
-						array.getJSONObject(i).getString("parents_name"));
-				map.put("relationship",
-						array.getJSONObject(i).getString("relationship"));
+				map.put("group_name",
+						array.getJSONObject(i).getString("group_name"));
+				map.put("group_population",
+						array.getJSONObject(i).getString("group_population"));
 				map.put("content_txt",
 						array.getJSONObject(i).getString("content_txt"));
 				map.put("message_date",
 						array.getJSONObject(i).getString("message_date"));
-				list.add(0, map);
+				list.add(map);
 			}
 			return list;
 

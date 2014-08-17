@@ -1,4 +1,4 @@
-package com.hubahuma.mobile.news;
+package com.hubahuma.mobile.news.message;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,53 +16,44 @@ import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hubahuma.mobile.R;
 
-@EFragment(R.layout.fragment_teacher)
-public class TeacherFragment extends BaseFragment {
+@EFragment(R.layout.fragment_notice)
+public class NoticeFragment extends BaseFragment {
 
 	private boolean isInit; // 是否可以开始加载数据
 
 	private List<HashMap<String, Object>> listItem = new LinkedList<HashMap<String, Object>>();
 
-	@ViewById(R.id.teacher_msg_list)
+	@ViewById(R.id.notice_msg_list)
 	PullToRefreshListView mPullRefreshListView;
 
+	@ViewById
+	ListView list;
+	
 	private MyAdapter adapter = null;
-
-	private class ViewHolder {
-		ImageButton portrait;
-		TextView teacher_name;
-		TextView organization_name;
-		TextView content_txt;
-		TextView message_date;
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return null;
 	}
-
+	
 	@AfterViews
 	void init() {
 		isInit = true;
@@ -73,7 +64,7 @@ public class TeacherFragment extends BaseFragment {
 					public void onRefresh(
 							PullToRefreshBase<ListView> refreshView) {
 						String label = DateUtils.formatDateTime(
-								TeacherFragment.this.getActivity()
+								NoticeFragment.this.getActivity()
 										.getApplicationContext(), System
 										.currentTimeMillis(),
 								DateUtils.FORMAT_SHOW_TIME
@@ -113,22 +104,21 @@ public class TeacherFragment extends BaseFragment {
 			}
 
 			List<HashMap<String, Object>> mapList = new ArrayList<HashMap<String, Object>>();
-			int num = new Random().nextInt(3) + 1;
+			int num = new Random().nextInt(3)+1;
 			try {
 				for (int i = 0; i < num; i++) {
 					HashMap<String, Object> map = new HashMap<String, Object>();
 					map = new HashMap<String, Object>();
 					map.put("portrait", "");
-					map.put("teacher_name", "王老师");
-					map.put("organization_name", new Random().nextInt(50)
-							+ "号幼儿园");
+					map.put("author_name", new Random().nextInt(50) + "号管理员");
+					map.put("content_img", "");
 					map.put("content_txt",
 							"中新网8月14日电 据共同社报道，日本 15 日将迎来第 69 个战败纪念日。届时，日本政府主办的全国“战殁者追悼仪式”将在东京都举行。");
 					map.put("message_date", "今天 14:26");
 					mapList.add(map);
 				}
 			} catch (Exception e) {
-				TeacherFragment.this.getActivity().setTitle("map出错了");
+				NoticeFragment.this.getActivity().setTitle("map出错了");
 				return null;
 			}
 
@@ -147,17 +137,24 @@ public class TeacherFragment extends BaseFragment {
 					}
 					// 通知程序数据集已经改变，如果不做通知，那么将不会刷新mListItems的集合
 					adapter.notifyDataSetChanged();
-					// Call onRefreshComplete when the list has been refreshed.
 					mPullRefreshListView.onRefreshComplete();
 					msgListener
-							.OnNewMessageShowed(OnNewMessageListener.TEACHER_MESSAGE);
+							.OnNewMessageShowed(OnNewMessageListener.NOTICE_MESSAGE);
 				}
 			} catch (Exception e) {
-				TeacherFragment.this.getActivity().setTitle(e.getMessage());
+				NoticeFragment.this.getActivity().setTitle(e.getMessage());
 			}
 
 			super.onPostExecute(resultList);
 		}
+	}
+	
+	private class ViewHolder {
+		ImageButton portrait;
+		TextView author_name;
+		ImageView content_img;
+		TextView content_txt;
+		TextView message_date;
 	}
 
 	private class MyAdapter extends BaseAdapter {
@@ -187,75 +184,41 @@ public class TeacherFragment extends BaseFragment {
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 
-			ViewHolder holder = null;
+			ViewHolder viewHolder = null;
 			if (convertView == null) {
 
-				convertView = mInflater.inflate(R.layout.msglist_item_teacher,
+				convertView = mInflater.inflate(R.layout.msglist_item_notice,
 						null);
-				holder = new ViewHolder();
-				holder.portrait = (ImageButton) convertView
+				viewHolder = new ViewHolder();
+				viewHolder.portrait = (ImageButton) convertView
 						.findViewById(R.id.portrait);
-				holder.teacher_name = (TextView) convertView
-						.findViewById(R.id.teacher_name);
-				holder.organization_name = (TextView) convertView
-						.findViewById(R.id.organization_name);
-				holder.content_txt = (TextView) convertView
+				viewHolder.content_img = (ImageView) convertView
+						.findViewById(R.id.content_img);
+				viewHolder.author_name = (TextView) convertView
+						.findViewById(R.id.author_name);
+				viewHolder.content_txt = (TextView) convertView
 						.findViewById(R.id.content_txt);
-				holder.message_date = (TextView) convertView
+				viewHolder.message_date = (TextView) convertView
 						.findViewById(R.id.message_date);
-				convertView.setTag(holder);
+				convertView.setTag(viewHolder);
 
 			} else {
-				holder = (ViewHolder) convertView.getTag();
+				viewHolder = (ViewHolder) convertView.getTag();
 			}
 
 			// TODO 判断真实头像
-			holder.portrait.setImageResource(R.drawable.default_portrait);
-			final String name = (String) listItem.get(position).get(
-					"teacher_name");
-			holder.teacher_name.setText(name);
-			holder.organization_name.setText((String) listItem.get(position)
-					.get("organization_name"));
-			holder.content_txt.setText((String) listItem.get(position).get(
+			viewHolder.portrait.setImageResource(R.drawable.default_portrait);
+			// TODO 判断是否真的有图片
+			viewHolder.content_img.setVisibility(View.GONE);
+
+			viewHolder.author_name.setText((String) listItem.get(position).get(
+					"author_name"));
+			viewHolder.content_txt.setText((String) listItem.get(position).get(
 					"content_txt"));
-			holder.message_date.setText((String) listItem.get(position).get(
+			viewHolder.message_date.setText((String) listItem.get(position).get(
 					"message_date"));
 
-			RelativeLayout bubble = (RelativeLayout)convertView.findViewById(R.id.bubble);
-			bubble.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent();
-					intent.putExtra("name", name);
-					intent.setClass(MyAdapter.this.mInflater.getContext(), ChatActivity_.class);
-					startActivityForResult(intent, 0);
-				}
-				
-			});
-			bubble.setOnLongClickListener(new OnLongClickListener() {
-				@Override
-				public boolean onLongClick(View v) {
-					return true;
-				}
-			});
-			
 			return convertView;
-		}
-	}
-	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		switch (requestCode) {
-		case 0:
-			// result from ChatActivity
-			String result = data.getStringExtra("result");
-			Toast.makeText(this.getActivity().getApplicationContext(), result, Toast.LENGTH_LONG)
-					.show();
-			break;
-
-		default:
-
 		}
 	}
 
@@ -280,6 +243,8 @@ public class TeacherFragment extends BaseFragment {
 		// 每次切换fragment时调用的方法
 		if (isVisibleToUser) {
 			showData();
+			// Toast.makeText(getActivity().getApplicationContext(), "notice",
+			// Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -295,23 +260,23 @@ public class TeacherFragment extends BaseFragment {
 
 	}
 
-	private ArrayList<HashMap<String, Object>> getTestData() {
-		ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+	private List<HashMap<String, Object>> getTestData() {
+		List<HashMap<String, Object>> list = new LinkedList<HashMap<String, Object>>();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		InputStream inputStream;
 		try {
 			inputStream = this.getActivity().getAssets()
-					.open("teacher_msg_items.txt");
+					.open("notice_msg_items.txt");
 			String json = readTextFile(inputStream);
 			JSONArray array = new JSONArray(json);
 			for (int i = 0; i < array.length(); i++) {
 				map = new HashMap<String, Object>();
 				map.put("portrait", array.getJSONObject(i)
 						.getString("portrait"));
-				map.put("teacher_name",
-						array.getJSONObject(i).getString("teacher_name"));
-				map.put("organization_name",
-						array.getJSONObject(i).getString("organization_name"));
+				map.put("author_name",
+						array.getJSONObject(i).getString("author_name"));
+				map.put("content_img",
+						array.getJSONObject(i).getString("content_img"));
 				map.put("content_txt",
 						array.getJSONObject(i).getString("content_txt"));
 				map.put("message_date",

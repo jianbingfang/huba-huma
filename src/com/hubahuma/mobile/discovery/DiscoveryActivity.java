@@ -1,6 +1,9 @@
-package com.hubahuma.mobile;
+package com.hubahuma.mobile.discovery;
 
 import org.androidannotations.annotations.EActivity;
+
+import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.R.layout;
 
 import android.app.Activity;
 
