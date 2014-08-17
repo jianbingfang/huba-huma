@@ -15,5 +15,9 @@
     <color name="message_author_name">#577395</color>
     <color name="grey">#999</color>
     <color name="chat_date_bg">#313f51</color>
+    <color name="white">#ffffff</color>
+    <color name="contacts_list_divider">#616c7a</color>
+    <color name="contacts_remark">#8f919d</color>
+    <color name="contacts_group_title_bg">#677586</color>
     
 </resources>

@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="11"
         android:targetSdkVersion="20" />
 
     <application
@@ -49,6 +49,10 @@
         <activity
             android:name=".news.message.ChatActivity_"
             android:label="@string/title_activity_chat" >
+        </activity>
+        <activity
+            android:name=".news.managebook.ManageBookActivity_"
+            android:label="@string/title_activity_manage_book" >
         </activity>
     </application>
 

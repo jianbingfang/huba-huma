@@ -25,5 +25,6 @@
     <string name="title_activity_chat">ChatActivity</string>
     <string name="send">发送</string>
     <string name="chat_input_hint">写评论...</string>
+    <string name="title_activity_manage_book">ManageBookActivity</string>
 
 </resources>
