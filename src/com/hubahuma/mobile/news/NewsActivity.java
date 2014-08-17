@@ -3,6 +3,7 @@ package com.hubahuma.mobile.news;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.R;
@@ -59,33 +60,26 @@ public class NewsActivity extends Activity {
 		// TODO
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
+	@OnActivityResult(ActivityCode.MESSAGE_ACTIVITY)
+	void onMessageActivityResult(int resultCode, Intent data) {
+		String result = data.getStringExtra("result");
+		Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT)
+				.show();
+	}
 
-		switch (requestCode) {
+	@OnActivityResult(ActivityCode.MANAGE_BOOK_ACTIVITY)
+	void onManageBookActivityResult(int resultCode, Intent data) {
 
-		case ActivityCode.MESSAGE_ACTIVITY:
-			String result = data.getStringExtra("result");
-			Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG)
-					.show();
-			break;
+	}
 
-		case ActivityCode.MANAGE_BOOK_ACTIVITY:
+	@OnActivityResult(ActivityCode.TEACHING_DIARY_ACTIVITY)
+	void onTeachingDiaryActivityResult(int resultCode, Intent data) {
 
-			break;
+	}
 
-		case ActivityCode.TEACHING_DIARY_ACTIVITY:
+	@OnActivityResult(ActivityCode.CONTACTS_ACTIVITY)
+	void onContactsActivityResult(int resultCode, Intent data) {
 
-			break;
-
-		case ActivityCode.CONTACTS_ACTIVITY:
-
-			break;
-
-		default:
-
-		}
 	}
 
 }

@@ -42,9 +42,6 @@ public class NoticeFragment extends BaseFragment {
 
 	@ViewById(R.id.notice_msg_list)
 	PullToRefreshListView mPullRefreshListView;
-
-	@ViewById
-	ListView list;
 	
 	private MyAdapter adapter = null;
 
