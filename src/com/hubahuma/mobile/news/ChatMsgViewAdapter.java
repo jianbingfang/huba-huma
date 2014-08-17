@@ -1,6 +1,7 @@
 package com.hubahuma.mobile.news;
 
 import java.util.List;
+import java.util.Random;
 
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.entity.ChatMsgEntity;
@@ -73,15 +74,24 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
-		
-		viewHolder.tvSendTime.setText(UtilTools.ParseDate(entity.getDate()));
+
 		// TODO 判断该条时间是否需要显示
-		viewHolder.tvSendTime.setVisibility(View.GONE);
+		Random rand = new Random();
+		viewHolder.showDate = rand.nextBoolean();
+
+		viewHolder.tvSendTime.setText(UtilTools.ParseDate(entity.getDate()));
+		if (viewHolder.showDate == true)
+			viewHolder.tvSendTime.setVisibility(View.VISIBLE);
+		else
+			viewHolder.tvSendTime.setVisibility(View.GONE);
 		// TODO 判断真实头像
 		viewHolder.portrait.setBackgroundResource(R.drawable.default_portrait);
 		viewHolder.tvContent.setText(entity.getContent());
 		viewHolder.isComMsg = entity.isComMsg();
-		viewHolder.progressBar.setVisibility(View.GONE);
+		if (entity.getState() == ChatMsgEntity.MsgState.SENDING)
+			viewHolder.progressBar.setVisibility(View.VISIBLE);
+		else
+			viewHolder.progressBar.setVisibility(View.GONE);
 
 		return convertView;
 	}
@@ -92,6 +102,7 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 		public TextView tvContent;
 		public ProgressBar progressBar;
 		public boolean isComMsg = true;
+		public boolean showDate = false;
 	}
 
 }

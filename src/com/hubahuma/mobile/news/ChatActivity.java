@@ -8,18 +8,23 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.NoTitle;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.json.JSONArray;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.text.Editable;
 import android.text.format.DateUtils;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,6 +34,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.entity.ChatMsgEntity;
+import com.hubahuma.mobile.entity.ChatMsgEntity.MsgState;
+import com.hubahuma.mobile.utils.UtilTools;
 import com.sun.codemodel.util.MS1252Encoder;
 
 @SuppressWarnings("deprecation")
@@ -47,6 +54,9 @@ public class ChatActivity extends Activity {
 
 	@ViewById(R.id.chat_msg_list)
 	PullToRefreshListView mPullRefreshListView;
+
+	@ViewById
+	EditText msg_input_box;
 
 	@AfterViews
 	void init() {
@@ -101,15 +111,19 @@ public class ChatActivity extends Activity {
 			List<ChatMsgEntity> msgList = new ArrayList<ChatMsgEntity>();
 			Random rand = new Random();
 			int num = new Random().nextInt(2) + 3;
-				for (int i = 0; i < num; i++) {
-					ChatMsgEntity msg = new ChatMsgEntity();
-					msg = new ChatMsgEntity();
-					msg.setName(name);
-					msg.setContent("你好，我是编号 #" + rand.nextInt(1000));
-					msg.setDate(new Date());
-					msg.setComMsg(rand.nextBoolean());
-					msgList.add(msg);
-				}
+			for (int i = 0; i < num; i++) {
+				ChatMsgEntity msg = new ChatMsgEntity();
+				msg = new ChatMsgEntity();
+				msg.setName(name);
+				msg.setContent("你好，我是编号 #" + rand.nextInt(1000));
+				msg.setDate(new Date());
+				msg.setComMsg(rand.nextBoolean());
+				if (msg.isComMsg())
+					msg.setState(MsgState.ARRIVED);
+				else
+					msg.setState(MsgState.SENDED);
+				msgList.add(msg);
+			}
 
 			return msgList;
 		}
@@ -137,6 +151,47 @@ public class ChatActivity extends Activity {
 	}
 
 	@Click
+	void btn_send() {
+		
+		String content = msg_input_box.getText().toString();
+		System.out.println("SEND:" + msg_input_box.getText().toString());
+		if(UtilTools.isEmpty(content))
+			return;
+		
+		ChatMsgEntity msg = new ChatMsgEntity();
+		msg = new ChatMsgEntity();
+		msg.setName(name);
+		msg.setContent(content);
+		msg.setDate(new Date());
+		msg.setComMsg(false);
+		msg.setState(MsgState.SENDING);
+		listItem.add(msg);
+		adapter.notifyDataSetChanged();
+		mPullRefreshListView.onRefreshComplete();
+		msg_input_box.setText("");
+		
+		sendMsgBackground(msg);
+	}
+
+	@Background(id = "msg_send_task", delay = 2000)
+	void sendMsgBackground(ChatMsgEntity msg) {
+		msg.setState(MsgState.SENDED);
+		updateUiThread();
+	}
+	
+	@UiThread
+	void updateUiThread() {
+		adapter.notifyDataSetChanged();
+		mPullRefreshListView.onRefreshComplete();
+	}
+
+	@AfterTextChange(R.id.msg_input_box)
+	void afterTextChangedOnHelloTextView(Editable text, TextView tv) {
+		String content = text.toString();
+		tv.setClickable(!UtilTools.isEmpty(content));
+	}
+
+	@Click
 	void btn_back() {
 		Intent intent = getIntent();
 		intent.putExtra("result", "returned from ChatActivity");
@@ -159,6 +214,10 @@ public class ChatActivity extends Activity {
 			msg.setContent("你好，我是编号 #" + new Random().nextInt(1000));
 			msg.setDate(new Date());
 			msg.setComMsg(rand.nextBoolean());
+			if (msg.isComMsg())
+				msg.setState(MsgState.ARRIVED);
+			else
+				msg.setState(MsgState.SENDED);
 			list.add(0, msg);
 		}
 		return list;

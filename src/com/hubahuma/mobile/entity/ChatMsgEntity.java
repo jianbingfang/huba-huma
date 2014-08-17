@@ -4,10 +4,19 @@ import java.util.Date;
 
 public class ChatMsgEntity {
 
+	public interface MsgState {
+		public static final int ARRIVED = 0;
+		public static final int SENDING = 1;
+		public static final int SENDED = 2;
+	}
+
 	private String name;
 	private Date date;
 	private String content;
 	private boolean isComMsg = true;// 是否为收到的消息
+	private int state = MsgState.ARRIVED;
+
+	// private boolean showDate = false;
 
 	public String getName() {
 		return name;
@@ -25,7 +34,6 @@ public class ChatMsgEntity {
 		this.date = date;
 	}
 
-
 	public String getContent() {
 		return content;
 	}
@@ -42,6 +50,22 @@ public class ChatMsgEntity {
 		this.isComMsg = isComMsg;
 	}
 
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
+	}
+
+	// public boolean isShowDate() {
+	// return showDate;
+	// }
+	//
+	// public void setShowDate(boolean showDate) {
+	// this.showDate = showDate;
+	// }
+
 	public ChatMsgEntity() {
 	}
 
@@ -50,6 +74,7 @@ public class ChatMsgEntity {
 		this.date = date;
 		this.content = text;
 		this.isComMsg = isComMsg;
+		// this.showDate = showDate;
 	}
 
 }
