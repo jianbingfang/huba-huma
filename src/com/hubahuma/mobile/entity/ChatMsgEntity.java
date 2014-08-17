@@ -13,10 +13,9 @@ public class ChatMsgEntity {
 	private String name;
 	private Date date;
 	private String content;
-	private boolean isComMsg = true;// 是否为收到的消息
-	private int state = MsgState.ARRIVED;
-
-	// private boolean showDate = false;
+	private boolean isComMsg;// 是否为收到的消息
+	private int state;
+	private boolean showDate;
 
 	public String getName() {
 		return name;
@@ -58,23 +57,24 @@ public class ChatMsgEntity {
 		this.state = state;
 	}
 
-	// public boolean isShowDate() {
-	// return showDate;
-	// }
-	//
-	// public void setShowDate(boolean showDate) {
-	// this.showDate = showDate;
-	// }
+	public boolean isShowDate() {
+		return showDate;
+	}
+
+	public void setShowDate(boolean showDate) {
+		this.showDate = showDate;
+	}
 
 	public ChatMsgEntity() {
 	}
 
-	public ChatMsgEntity(String name, Date date, String text, boolean isComMsg) {
+	public ChatMsgEntity(String name, Date date, String text, boolean isComMsg,
+			boolean showDate) {
 		this.name = name;
 		this.date = date;
 		this.content = text;
 		this.isComMsg = isComMsg;
-		// this.showDate = showDate;
+		this.showDate = showDate;
 	}
 
 }

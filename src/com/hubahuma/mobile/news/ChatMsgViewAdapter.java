@@ -1,11 +1,6 @@
 package com.hubahuma.mobile.news;
 
 import java.util.List;
-import java.util.Random;
-
-import com.hubahuma.mobile.R;
-import com.hubahuma.mobile.entity.ChatMsgEntity;
-import com.hubahuma.mobile.utils.UtilTools;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,24 +12,28 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.entity.ChatMsgEntity;
+import com.hubahuma.mobile.utils.UtilTools;
+
 public class ChatMsgViewAdapter extends BaseAdapter {
 
-	private List<ChatMsgEntity> data;
+	private List<ChatMsgEntity> dataList;
 	private LayoutInflater mInflater;
 
 	public ChatMsgViewAdapter(Context context, List<ChatMsgEntity> data) {
-		this.data = data;
+		this.dataList = data;
 		mInflater = LayoutInflater.from(context);
 	}
 
 	// 获取ListView的项个数
 	public int getCount() {
-		return data.size();
+		return dataList.size();
 	}
 
 	// 获取项
 	public Object getItem(int position) {
-		return data.get(position);
+		return dataList.get(position);
 	}
 
 	// 获取项的ID
@@ -46,39 +45,33 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 	@SuppressLint("InflateParams")
 	public View getView(int position, View convertView, ViewGroup parent) {
 
-		ChatMsgEntity entity = data.get(position);
+		ChatMsgEntity entity = dataList.get(position);
 
 		ViewHolder viewHolder = null;
-		if (convertView == null) {
-			if (entity.isComMsg()) {
-				// 如果是对方发来的消息，则显示的是左气泡
-				convertView = mInflater.inflate(R.layout.chat_msg_item_left,
-						null);
-			} else {
-				// 如果是自己发出的消息，则显示的是右气泡
-				convertView = mInflater.inflate(R.layout.chat_msg_item_right,
-						null);
-			}
-
-			viewHolder = new ViewHolder();
-			viewHolder.tvSendTime = (TextView) convertView
-					.findViewById(R.id.date);
-			viewHolder.portrait = (ImageButton) convertView
-					.findViewById(R.id.portrait);
-			viewHolder.tvContent = (TextView) convertView
-					.findViewById(R.id.content);
-			viewHolder.progressBar = (ProgressBar) convertView
-					.findViewById(R.id.progress_bar);
-
-			convertView.setTag(viewHolder);
+		// if (convertView == null ) {
+		if (entity.isComMsg() == true) {
+			// 如果是对方发来的消息，则显示的是左气泡
+			convertView = mInflater.inflate(R.layout.chat_msg_item_left, null);
 		} else {
-			viewHolder = (ViewHolder) convertView.getTag();
+			// 如果是自己发出的消息，则显示的是右气泡
+			convertView = mInflater.inflate(R.layout.chat_msg_item_right, null);
 		}
 
-		// TODO 判断该条时间是否需要显示
-		Random rand = new Random();
-		viewHolder.showDate = rand.nextBoolean();
+		viewHolder = new ViewHolder();
+		viewHolder.tvSendTime = (TextView) convertView.findViewById(R.id.date);
+		viewHolder.portrait = (ImageButton) convertView
+				.findViewById(R.id.portrait);
+		viewHolder.tvContent = (TextView) convertView
+				.findViewById(R.id.content);
+		viewHolder.progressBar = (ProgressBar) convertView
+				.findViewById(R.id.progress_bar);
 
+		// convertView.setTag(viewHolder);
+		// } else {
+		// viewHolder = (ViewHolder) convertView.getTag();
+		// }
+
+		viewHolder.showDate = entity.isShowDate();
 		viewHolder.tvSendTime.setText(UtilTools.ParseDate(entity.getDate()));
 		if (viewHolder.showDate == true)
 			viewHolder.tvSendTime.setVisibility(View.VISIBLE);

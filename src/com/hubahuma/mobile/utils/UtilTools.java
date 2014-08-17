@@ -2,6 +2,8 @@ package com.hubahuma.mobile.utils;
 
 import java.util.Date;
 
+import android.text.format.DateUtils;
+
 public class UtilTools {
 
 	public static String ParseDate(Date date) {

@@ -74,7 +74,6 @@
             android:background="@drawable/message_bubble"
             android:hint="@string/chat_input_hint"
             android:minHeight="35dp"
-            android:stackFromBottom="true"
             android:transcriptMode="alwaysScroll"
             android:paddingBottom="@dimen/input_box_vertical_padding"
             android:paddingLeft="@dimen/input_box_horizontal_padding"
