@@ -5,6 +5,8 @@ import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,14 +26,17 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 
 	private LayoutInflater mInflater;
 
+	private PhoneOperationListener phoneOperListener;
+
 	public ManageBookViewAdapter(Context context,
 			List<Map<String, Object>> groupData,
-			List<List<Map<String, Object>>> childData) {
+			List<List<Map<String, Object>>> childData,
+			PhoneOperationListener phoneOperListener) {
 
 		this.groupData = groupData;
 		this.childData = childData;
-		mInflater = LayoutInflater.from(context);
-
+		this.mInflater = LayoutInflater.from(context);
+		this.phoneOperListener = phoneOperListener;
 	}
 
 	// 必须实现 得到子数据
@@ -140,6 +145,8 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 		holder.sendMsg.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				// TODO 写入真实号码
+				phoneOperListener.sendSMS("10086", "hello");
 				Log.d("debug", "send message to " + username);
 			}
 		});
@@ -147,6 +154,8 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 		holder.giveCall.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				// TODO 写入真实号码
+				phoneOperListener.phoneCall("10086");
 				Log.d("debug", "make call to " + username);
 			}
 		});
@@ -167,6 +176,12 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 		TextView remark;
 		ImageButton sendMsg;
 		ImageButton giveCall;
+	}
+
+	public interface PhoneOperationListener {
+		public void sendSMS(String phoneNum, String smsContent);
+
+		public void phoneCall(String phoneNum);
 	}
 
 }

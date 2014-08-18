@@ -12,22 +12,30 @@ import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.ViewById;
 
 import android.app.ExpandableListActivity;
-import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup.MarginLayoutParams;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.FrameLayout;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.news.managebook.ManageBookViewAdapter.PhoneOperationListener;
 
 @SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_manage_book)
-public class ManageBookActivity extends ExpandableListActivity {
+public class ManageBookActivity extends ExpandableListActivity implements
+		PhoneOperationListener {
 
 	private ManageBookViewAdapter adapter;
 
@@ -43,13 +51,12 @@ public class ManageBookActivity extends ExpandableListActivity {
 	@AfterViews
 	void init() {
 
-		closeInputMethod();
-		
 		groupList = new ArrayList<Map<String, Object>>();
 		childList = new ArrayList<List<Map<String, Object>>>();
 
 		adapter = new ManageBookViewAdapter(getApplicationContext(), groupList,
-				childList);
+				childList, this);
+
 		setListAdapter(adapter);
 
 		setTestData();
@@ -57,7 +64,7 @@ public class ManageBookActivity extends ExpandableListActivity {
 		for (int i = 0; i < adapter.getGroupCount(); i++) {
 			list.expandGroup(i, true);
 		}
-		list.setSelection(0);
+		list.setSelection(1);
 
 		// 设置监听器
 		list.setOnChildClickListener(new OnChildClickListener() {
@@ -69,6 +76,12 @@ public class ManageBookActivity extends ExpandableListActivity {
 				return false;
 			}
 		});
+
+		final ListViewSwipeGesture touchListener = new ListViewSwipeGesture(
+				list, swipeListener, this);
+		touchListener.SwipeType = ListViewSwipeGesture.Double;
+
+		list.setOnTouchListener(touchListener);
 
 	}
 
@@ -98,6 +111,55 @@ public class ManageBookActivity extends ExpandableListActivity {
 		childList.add(child2);
 	}
 
+	ListViewSwipeGesture.TouchCallbacks swipeListener = new ListViewSwipeGesture.TouchCallbacks() {
+
+		@Override
+		public void OnClickFirstItem(int position) {
+			// TODO Auto-generated method stub
+			long pos = list.getExpandableListPosition(position);
+			int childPos = ExpandableListView.getPackedPositionChild(pos);// 获取第一行child的id
+			int groupPos = ExpandableListView.getPackedPositionGroup(pos);// 获取第一行group的id
+			Toast.makeText(getApplicationContext(),
+					"Delete: g" + groupPos + "c" + childPos, Toast.LENGTH_SHORT)
+					.show();
+		}
+
+		@Override
+		public void OnClickSecondItem(int position) {
+			// TODO Auto-generated method stub
+			long pos = list.getExpandableListPosition(position);
+			int childPos = ExpandableListView.getPackedPositionChild(pos);// 获取第一行child的id
+			int groupPos = ExpandableListView.getPackedPositionGroup(pos);// 获取第一行group的id
+			Toast.makeText(getApplicationContext(),
+					"Manage: g" + groupPos + "c" + childPos, Toast.LENGTH_SHORT)
+					.show();
+		}
+
+		@Override
+		public void LoadDataForScroll(int count) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+			// TODO Auto-generated method stub
+			Toast.makeText(getApplicationContext(), "Delete",
+					Toast.LENGTH_SHORT).show();
+			for (int i : reverseSortedPositions) {
+				Log.d("debug", "ATENTION:" + i);
+				// childList.remove(i);
+				adapter.notifyDataSetChanged();
+			}
+		}
+
+		@Override
+		public void OnClickListView(int position) {
+			// TODO Auto-generated method stub
+		}
+
+	};
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		return false;
@@ -121,12 +183,19 @@ public class ManageBookActivity extends ExpandableListActivity {
 		btn_back();
 	}
 
-	private void closeInputMethod() {
-	    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-	    boolean isOpen = imm.isActive();
-	    if (isOpen) {
-	        // imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//没有显示则显示
-	        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-	    }
+	@Override
+	public void sendSMS(String phoneNum, String smsContent) {
+		Uri smsToUri = Uri.parse("smsto:" + phoneNum);
+		Intent intent = new Intent(Intent.ACTION_SENDTO, smsToUri);
+		intent.putExtra("sms_body", smsContent);
+		startActivity(intent);
 	}
+
+	@Override
+	public void phoneCall(String phoneNum) {
+		Uri callToUri = Uri.parse("tel:" + phoneNum);
+		Intent intent = new Intent(Intent.ACTION_CALL, callToUri);
+		startActivity(intent);
+	}
+
 }

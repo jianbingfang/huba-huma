@@ -19,5 +19,6 @@
     <color name="contacts_list_divider">#616c7a</color>
     <color name="contacts_remark">#8f919d</color>
     <color name="contacts_group_title_bg">#677586</color>
-    
+    <color name="light_red">#EB2D3F</color>
+    <color name="dark_bg">#222E3E</color>
 </resources>
