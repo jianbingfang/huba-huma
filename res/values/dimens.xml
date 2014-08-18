@@ -54,7 +54,7 @@
     <dimen name="search_box_vertical_padding">8dp</dimen>
     <dimen name="search_box_horizontal_padding">10dp</dimen>
     
-    <dimen name="contacts_item_height">70dp</dimen>
-    <dimen name="contacts_tree_title_height">30dp</dimen>
+    <dimen name="group_tree_item_vertical_padding">10dp</dimen>
+    <dimen name="group_tree_title_vertical_padding">3dp</dimen>
     
 </resources>

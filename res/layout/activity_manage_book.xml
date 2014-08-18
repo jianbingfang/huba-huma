@@ -6,6 +6,16 @@
     android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
+    <!-- hidden area for focus -->
+
+    <LinearLayout
+        android:id="@+id/linearLayout_focus"
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal" />
+
     <!-- title -->
 
     <RelativeLayout
@@ -67,7 +77,7 @@
             android:background="@drawable/edit_text_bg"
             android:drawableLeft="@drawable/search_icon"
             android:drawablePadding="8dp"
-            android:hint="搜索名字或虎爸虎妈ID"
+            android:hint="@string/search_input_hint"
             android:padding="3dp"
             android:singleLine="true" />
     </RelativeLayout>
@@ -85,7 +95,6 @@
         android:dividerHeight="1dp"
         android:groupIndicator="@null"
         android:scrollbarAlwaysDrawHorizontalTrack="true" >
-        
     </ExpandableListView>
 
 </LinearLayout>

@@ -5,8 +5,10 @@ import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageButton;
@@ -26,8 +28,8 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 			List<Map<String, Object>> groupData,
 			List<List<Map<String, Object>>> childData) {
 
-		this.childData = childData;
 		this.groupData = groupData;
+		this.childData = childData;
 		mInflater = LayoutInflater.from(context);
 
 	}
@@ -75,20 +77,30 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 
 	@SuppressLint("InflateParams")
 	@Override
-	public View getGroupView(int groupPosition, boolean flag, View convertView,
-			ViewGroup viewgroup) {
+	public View getGroupView(int groupPosition, boolean isExpanded,
+			View convertView, ViewGroup viewgroup) {
 		ExpandableGroupHolder holder = null; // 清空临时变量holder
 		if (convertView == null) { // 判断view（即view是否已构建好）是否为空
 
 			convertView = mInflater.inflate(R.layout.group_tree_title, null);
 			holder = new ExpandableGroupHolder();
 			holder.title = (TextView) convertView.findViewById(R.id.group_name);
+			holder.indicator = (ImageView) convertView
+					.findViewById(R.id.indicator);
 			convertView.setTag(holder);
 		} else { // 若view不为空，直接从view的tag属性中获得各子视图的引用
 			holder = (ExpandableGroupHolder) convertView.getTag();
 		}
-		String title = (String) this.groupData.get(groupPosition).get("class");
+		String title = (String) groupData.get(groupPosition).get("title");
 		holder.title.setText(title);
+
+		if (isExpanded) {
+			holder.indicator
+					.setBackgroundResource(R.drawable.down_seletor_triangle);
+		} else {
+			holder.indicator
+					.setBackgroundResource(R.drawable.right_seletor_triangle);
+		}
 		// notifyDataSetChanged();
 		return convertView;
 	}
@@ -101,11 +113,10 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.contacts_item_parents,
 					null);
-
 			holder = new ExpandableListHolder();
 			holder.name = (TextView) convertView.findViewById(R.id.name);
 			holder.portrait = (ImageView) convertView
-					.findViewById(R.id.portrait);
+					.findViewById(R.id.head_portrait);
 			holder.remark = (TextView) convertView.findViewById(R.id.remark);
 			holder.sendMsg = (ImageButton) convertView
 					.findViewById(R.id.btn_send_message);
@@ -119,22 +130,38 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 				childPosition);
 		// TODO 判断真实头像
 		holder.portrait.setImageResource(R.drawable.default_portrait);
-		holder.name.setText((String) unitData.get("name"));
+		final String username = (String) unitData.get("name");
+		holder.name.setText(username);
 		holder.remark.setText((String) unitData.get("remark"));
 		// TODO 记录该用户ID
 		holder.sendMsg.setTag(holder.name);
 		holder.giveCall.setTag(holder.name);
 
+		holder.sendMsg.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.d("debug", "send message to " + username);
+			}
+		});
+
+		holder.giveCall.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.d("debug", "make call to " + username);
+			}
+		});
+
 		return convertView;
 	}
 
 	// 父单元
-	class ExpandableGroupHolder {
+	static class ExpandableGroupHolder {
+		ImageView indicator;
 		TextView title;
 	}
 
 	// 子单元
-	class ExpandableListHolder {
+	static class ExpandableListHolder {
 		ImageView portrait;
 		TextView name;
 		TextView remark;

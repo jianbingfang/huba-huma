@@ -9,6 +9,7 @@ import org.androidannotations.annotations.ViewById;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.id;
 import com.hubahuma.mobile.R.layout;
+import com.hubahuma.mobile.news.managebook.ManageBookActivity_;
 import com.hubahuma.mobile.news.message.MessageActivity_;
 
 import android.app.Activity;
@@ -46,7 +47,7 @@ public class NewsActivity extends Activity {
 	@Click
 	void btn_manage_book() {
 		Intent intent = new Intent();
-		intent.setClass(this, MessageActivity_.class);
+		intent.setClass(this, ManageBookActivity_.class);
 		startActivityForResult(intent, ActivityCode.MANAGE_BOOK_ACTIVITY);
 	}
 

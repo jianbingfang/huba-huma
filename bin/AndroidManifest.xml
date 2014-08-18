@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="14"
         android:targetSdkVersion="20" />
 
     <application
@@ -23,32 +23,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NewsActivity_"
+            android:name=".news.NewsActivity_"
             android:label="@string/title_activity_news" >
         </activity>
         <activity
-            android:name=".WritingActivity_"
+            android:name=".writing.WritingActivity_"
             android:label="@string/title_activity_writing" >
         </activity>
         <activity
-            android:name=".DiscoveryActivity_"
+            android:name=".discovery.DiscoveryActivity_"
             android:label="@string/title_activity_discovery" >
         </activity>
         <activity
-            android:name=".ProfileActivity_"
+            android:name=".profile.ProfileActivity_"
             android:label="@string/title_activity_management" >
         </activity>
         <activity
-            android:name=".InfoActivity_"
+            android:name=".info.InfoActivity_"
             android:label="@string/title_activity_info" >
         </activity>
         <activity
-            android:name=".news.MessageActivity_"
+            android:name=".news.message.MessageActivity_"
             android:label="@string/title_activity_message" >
         </activity>
         <activity
-            android:name=".news.ChatActivity_"
+            android:name=".news.message.ChatActivity_"
             android:label="@string/title_activity_chat" >
+        </activity>
+        <activity
+            android:name=".news.managebook.ManageBookActivity_"
+            android:label="@string/title_activity_manage_book" >
         </activity>
     </application>
 
