@@ -25,6 +25,10 @@ import com.hubahuma.mobile.utils.DisplayUtil;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
 public class ListViewSwipeGesture implements View.OnTouchListener {
+
+	private final static int BUTTON_DELETE = 1;
+	private final static int BUTTON_MANAGE = 2;
+
 	Activity activity;
 
 	// Cached ViewConfiguration and system-wide constant values
@@ -34,7 +38,7 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 	private long mAnimationTime;
 
 	// Fixed properties
-	private ListView mListView;
+	private ExpandableListView mListView;
 
 	// private DismissCallbacks mCallbacks;
 	private int mViewWidth = 1; // 1 and not 0 to prevent dividing by zero
@@ -61,16 +65,16 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 
 	// Intermediate Usages
 	String TextColor = "#FFFFFF"; // #FF4444
-	String RangeOneColor = "#222E3E"; // "#FFD060"
-	String RangeTwoColor = "#EB2D3F";
-	String singleColor = "#EB2D3F";
+	String normalColor = "#222E3E"; // deep blue
+	String redColor = "#EB2D3F"; // red
+	// String singleColor = "#EB2D3F";
 
 	public float textSizeInSp = 14;
 	public float itemHeightInDp = 14;
-	
+
 	// Functional Usages
-	public String HalfColor; // Green
-	public String FullColor; // Orange
+	public String HalfColor;
+	public String FullColor;
 	public String HalfText;
 	public String FullText;
 	public String HalfTextFinal;
@@ -79,13 +83,14 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 	public Drawable FullDrawable;
 
 	// Swipe Types
-	public int SwipeType;
-	public static int Single = 1;
-	public static int Double = 2;
-	public static int Dismiss = 3;
+	public int itemNum;
 
-	public ListViewSwipeGesture(ListView listView, TouchCallbacks Callbacks,
-			Activity context) {
+	// public static int Single = 1;
+	// public static int Double = 2;
+	// public static int Dismiss = 3;
+
+	public ListViewSwipeGesture(ExpandableListView listView, TouchCallbacks Callbacks,
+			Activity context, int itemNum) {
 		ViewConfiguration vc = ViewConfiguration.get(listView.getContext());
 		mSlop = vc.getScaledTouchSlop();
 		mMinFlingVelocity = vc.getScaledMinimumFlingVelocity() * 16;
@@ -93,7 +98,7 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 		mListView = listView;
 		activity = context;
 		tcallbacks = Callbacks;
-		SwipeType = Double;
+		this.itemNum = itemNum;
 		GetResourcesValues();
 
 		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -107,13 +112,13 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 
 			}
 		});
-		
+
 	}
 
 	public interface TouchCallbacks { // Callback functions
-		void OnClickFirstItem(int position);
+		void OnClickDelete(int position);
 
-		void OnClickSecondItem(int position);
+		void OnClickManageGroup(int position);
 
 		void OnClickListView(int position);
 
@@ -124,8 +129,8 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 
 	private void GetResourcesValues() {
 		mAnimationTime = 200;
-		HalfColor = RangeTwoColor;
-		FullColor = RangeOneColor;
+		HalfColor = redColor;
+		FullColor = normalColor;
 		HalfText = activity.getResources().getString(R.string.delete);
 		HalfTextFinal = activity.getResources().getString(R.string.delete);
 		FullText = activity.getResources().getString(R.string.group_manage);
@@ -208,7 +213,7 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 		}
 
 		int tempwidth = 0;
-		if (SwipeType == 1)
+		if (itemNum == 1)
 			tempwidth = smallWidth;
 		else
 			tempwidth = textwidth2;
@@ -234,8 +239,8 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 							.findViewById(R.id.list_item_view_container);
 					if (mDownView_parent.getChildCount() == 1) {
 						textheight = mDownView_parent.getHeight();
-						if (SwipeType == Dismiss) {
-							HalfColor = singleColor;
+						if (itemNum == 2) {
+							HalfColor = redColor;
 							HalfDrawable = activity.getResources().getDrawable(
 									R.drawable.delete_icon);
 						}
@@ -298,7 +303,7 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 
 				if (swipe && !swipeRight && deltaX <= -tempwidth) {
 					FullSwipeTrigger();
-				} else if (deltaX >= -textwidth && SwipeType == Double) {
+				} else if (deltaX >= -textwidth && itemNum == 2) {
 					ResetListItem(mDownView);
 				} else {
 					ResetListItem(mDownView);
@@ -340,7 +345,7 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 			if (mSwiping && deltaX < 0) {
 
 				int width;
-				if (SwipeType == 1) {
+				if (itemNum == 1) {
 					width = textwidth;
 				} else {
 					width = largewidth;
@@ -367,7 +372,7 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 				LayoutParams.WRAP_CONTENT,
 				android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
 		lp1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-		mDownView_parent_txt1.setId(111111);
+		mDownView_parent_txt1.setId(BUTTON_DELETE);
 		mDownView_parent_txt1.setLayoutParams(lp1);
 		mDownView_parent_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
 		mDownView_parent_txt1.setText(HalfText);
@@ -381,10 +386,10 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 				HalfDrawable, null, null);
 		mDownView_parent.addView(mDownView_parent_txt1, 0);
 
-		if (SwipeType == Double) {
+		if (itemNum == 2) {
 			mDownView_parent_txt2 = new TextView(
 					activity.getApplicationContext());
-			mDownView_parent_txt2.setId(222222);
+			mDownView_parent_txt2.setId(BUTTON_MANAGE);
 			RelativeLayout.LayoutParams lp2 = new RelativeLayout.LayoutParams(
 					LayoutParams.WRAP_CONTENT,
 					android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -406,7 +411,7 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 	}
 
 	private void ResetListItem(View tempView) {
-//		Log.d("Shortlist reset call", "Works");
+		// Log.d("Shortlist reset call", "Works");
 		tempView.animate().translationX(0).alpha(1f)
 				.setListener(new AnimatorListenerAdapter() {
 					@Override
@@ -428,15 +433,16 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 	}
 
 	private void FullSwipeTrigger() {
-//		Log.d("FUll Swipe trigger call", "Works**********************"
-//				+ mDismissAnimationRefCount);
+		Log.d("FUll Swipe trigger call", "Works**********************"
+				+ mDismissAnimationRefCount);
 		old_mDownView = mDownView;
 		int width;
-		if (SwipeType == Single || SwipeType == Dismiss) {
+		if (itemNum == 1) {
 			width = textwidth;
-			if (SwipeType == Dismiss)
-				++mDismissAnimationRefCount;
+			++mDismissAnimationRefCount;
 		} else {
+			if (itemNum == 2)
+				++mDismissAnimationRefCount;
 			width = largewidth;
 		}
 		mDownView.animate().translationX(-width).setDuration(300)
@@ -448,7 +454,7 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 						stagged_position = temp_position;
 						mDownView_parent_txt1
 								.setOnTouchListener(new touchClass());
-						if (SwipeType == Double)
+						if (itemNum == 2)
 							mDownView_parent_txt2
 									.setOnTouchListener(new touchClass());
 
@@ -489,23 +495,25 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 		final ViewGroup.LayoutParams lp = dismissView.getLayoutParams();
 		final int originalHeight = dismissView.getHeight();
 
-		((ViewGroup) dismissView).getChildAt(1).animate().translationX(0)
+		((ViewGroup) dismissView).getChildAt(0).animate().translationX(0)
 				.alpha(1f).setListener(new AnimatorListenerAdapter() {
 
 					@Override
 					public void onAnimationEnd(Animator animation) {
 						super.onAnimationEnd(animation);
 						((ViewGroup) dismissView).removeViewAt(0);
-//						Log.d("Selected view", dismissView.getClass() + "..."
-//								+ dismissView.getId()
-//								+ mDismissAnimationRefCount);
+						// Log.d("Selected view", dismissView.getClass() + "..."
+						// + dismissView.getId()
+						// + mDismissAnimationRefCount);
 						ValueAnimator animator = ValueAnimator.ofInt(
 								originalHeight, 0).setDuration(mAnimationTime);
 						animator.addListener(new AnimatorListenerAdapter() {
 							@Override
 							public void onAnimationEnd(Animator animation) {
 								--mDismissAnimationRefCount;
-								if (mDismissAnimationRefCount == 0) {
+								System.out.println("mDismissAnimationRefCount:"
+										+ mDismissAnimationRefCount);
+								if (mDismissAnimationRefCount > -100) {
 									// No active animations, process all pending
 									// dismisses.
 									// Sort by descending position
@@ -516,9 +524,10 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 									for (int i = mPendingDismisses.size() - 1; i >= 0; i--) {
 										dismissPositions[i] = mPendingDismisses
 												.get(i).position;
-//										Log.d("Dismiss positions....",
-//												dismissPositions[i] + "");
+										Log.d("Dismiss positions....",
+												dismissPositions[i] + "");
 									}
+									System.out.println("Begin Dismiss!!!!!!");
 									tcallbacks.onDismiss(mListView,
 											dismissPositions);
 									// ViewGroup.LayoutParams lp;
@@ -564,15 +573,16 @@ public class ListViewSwipeGesture implements View.OnTouchListener {
 			case MotionEvent.ACTION_DOWN: {
 				if (opened_position == stagged_position && moptionsDisplay) {
 					switch (v.getId()) {
-					case 111111:
-						if (SwipeType == Dismiss) {
+					case BUTTON_DELETE:
+//						if (itemNum == 2) {
 							moptionsDisplay = false;
 							performDismiss(mDownView_parent, temp_position);
-						} else
-							tcallbacks.OnClickFirstItem(temp_position);
+//						} else {
+//							tcallbacks.OnClickDelete(temp_position);
+//						}
 						return true;
-					case 222222:
-						tcallbacks.OnClickSecondItem(temp_position);
+					case BUTTON_MANAGE:
+						tcallbacks.OnClickManageGroup(temp_position);
 						return true;
 					}
 				}

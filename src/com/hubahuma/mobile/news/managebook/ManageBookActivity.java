@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -14,6 +15,7 @@ import org.androidannotations.annotations.ViewById;
 import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.Editable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,9 +47,6 @@ public class ManageBookActivity extends ExpandableListActivity implements
 	@ViewById
 	ExpandableListView list;
 
-	@ViewById
-	EditText search_input;
-
 	@AfterViews
 	void init() {
 
@@ -58,13 +57,8 @@ public class ManageBookActivity extends ExpandableListActivity implements
 				childList, this);
 
 		setListAdapter(adapter);
-
 		setTestData();
-
-		for (int i = 0; i < adapter.getGroupCount(); i++) {
-			list.expandGroup(i, true);
-		}
-		list.setSelection(1);
+		expandAllGroup();
 
 		// 设置监听器
 		list.setOnChildClickListener(new OnChildClickListener() {
@@ -78,11 +72,45 @@ public class ManageBookActivity extends ExpandableListActivity implements
 		});
 
 		final ListViewSwipeGesture touchListener = new ListViewSwipeGesture(
-				list, swipeListener, this);
-		touchListener.SwipeType = ListViewSwipeGesture.Double;
+				list, swipeListener, this, 2);
+		touchListener.itemNum = 2;
 
 		list.setOnTouchListener(touchListener);
 
+	}
+
+	@AfterTextChange(R.id.search_input)
+	void afterTextChangedOnHelloTextView(Editable text) {
+		String word = text.toString().trim();
+
+		ArrayList<Map<String, Object>> tempGroupList = new ArrayList<Map<String, Object>>();
+		ArrayList<List<Map<String, Object>>> tempChildList = new ArrayList<List<Map<String, Object>>>();
+
+		for (int i = 0; i < childList.size(); i++) {
+			List<Map<String, Object>> groupi = childList.get(i);
+			List<Map<String, Object>> tempGroupi = new ArrayList<Map<String, Object>>();
+			boolean hasValidChild = false;
+			for (int j = 0; j < groupi.size(); j++) {
+				Map<String, Object> child = groupi.get(j);
+				String tName = (String) child.get("name");
+				String tRemark = (String) child.get("remark");
+				if (tName.contains(word) || tRemark.contains(word)) {
+					tempGroupi.add(child);
+					hasValidChild = true;
+				}
+			}
+			if (hasValidChild == true) {
+				tempChildList.add(tempGroupi);
+				tempGroupList.add(groupList.get(i));
+			}
+			
+		}
+
+		adapter = new ManageBookViewAdapter(getApplicationContext(),
+				tempGroupList, tempChildList, this);
+
+		setListAdapter(adapter);
+		expandAllGroup();
 	}
 
 	private void setTestData() {
@@ -114,18 +142,22 @@ public class ManageBookActivity extends ExpandableListActivity implements
 	ListViewSwipeGesture.TouchCallbacks swipeListener = new ListViewSwipeGesture.TouchCallbacks() {
 
 		@Override
-		public void OnClickFirstItem(int position) {
-			// TODO Auto-generated method stub
+		public void OnClickDelete(int position) {
+			// DO NOTHING!
 			long pos = list.getExpandableListPosition(position);
-			int childPos = ExpandableListView.getPackedPositionChild(pos);// 获取第一行child的id
-			int groupPos = ExpandableListView.getPackedPositionGroup(pos);// 获取第一行group的id
+			// 获取第一行child的id
+			int childPos = ExpandableListView.getPackedPositionChild(pos);
+			// 获取第一行group的id
+			int groupPos = ExpandableListView.getPackedPositionGroup(pos);
+			childList.get(groupPos).remove(childPos);
+			adapter.notifyDataSetChanged();
 			Toast.makeText(getApplicationContext(),
-					"Delete: g" + groupPos + "c" + childPos, Toast.LENGTH_SHORT)
-					.show();
+					"Deleted: g" + groupPos + "c" + childPos,
+					Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
-		public void OnClickSecondItem(int position) {
+		public void OnClickManageGroup(int position) {
 			// TODO Auto-generated method stub
 			long pos = list.getExpandableListPosition(position);
 			int childPos = ExpandableListView.getPackedPositionChild(pos);// 获取第一行child的id
@@ -146,9 +178,11 @@ public class ManageBookActivity extends ExpandableListActivity implements
 			// TODO Auto-generated method stub
 			Toast.makeText(getApplicationContext(), "Delete",
 					Toast.LENGTH_SHORT).show();
-			for (int i : reverseSortedPositions) {
-				Log.d("debug", "ATENTION:" + i);
-				// childList.remove(i);
+			for (int pos : reverseSortedPositions) {
+				int childPos = ExpandableListView.getPackedPositionChild(pos);// 获取第一行child的id
+				int groupPos = ExpandableListView.getPackedPositionGroup(pos);// 获取第一行group的id
+				Log.d("DELETE", "[" + groupPos + "," + childPos + "]");
+				childList.get(groupPos).remove(childPos);
 				adapter.notifyDataSetChanged();
 			}
 		}
@@ -198,4 +232,10 @@ public class ManageBookActivity extends ExpandableListActivity implements
 		startActivity(intent);
 	}
 
+	private void expandAllGroup() {
+		for (int i = 0; i < adapter.getGroupCount(); i++) {
+			list.expandGroup(i, true);
+		}
+		list.setSelection(1);
+	}
 }
