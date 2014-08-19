@@ -10,6 +10,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NoTitle;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
 import android.app.ExpandableListActivity;
@@ -31,7 +32,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.news.NewsActivity.ActivityCode;
 import com.hubahuma.mobile.news.managebook.ManageBookViewAdapter.PhoneOperationListener;
+import com.hubahuma.mobile.news.message.MessageActivity_;
 
 @SuppressWarnings("deprecation")
 @NoTitle
@@ -71,7 +74,7 @@ public class ManageBookActivity extends ExpandableListActivity implements
 			}
 		});
 
-		final ListViewSwipeGesture touchListener = new ListViewSwipeGesture(
+		final ManageBookListViewGesture touchListener = new ManageBookListViewGesture(
 				list, swipeListener, this, 2);
 		touchListener.itemNum = 2;
 
@@ -93,17 +96,22 @@ public class ManageBookActivity extends ExpandableListActivity implements
 			for (int j = 0; j < groupi.size(); j++) {
 				Map<String, Object> child = groupi.get(j);
 				String tName = (String) child.get("name");
-				String tRemark = (String) child.get("remark");
-				if (tName.contains(word) || tRemark.contains(word)) {
+				if (tName != null && tName.contains(word)) {
 					tempGroupi.add(child);
 					hasValidChild = true;
+				} else {
+					String tRemark = (String) child.get("remark");
+					if (tRemark != null && tRemark.contains(word)) {
+						tempGroupi.add(child);
+						hasValidChild = true;
+					}
 				}
 			}
 			if (hasValidChild == true) {
 				tempChildList.add(tempGroupi);
 				tempGroupList.add(groupList.get(i));
 			}
-			
+
 		}
 
 		adapter = new ManageBookViewAdapter(getApplicationContext(),
@@ -139,7 +147,7 @@ public class ManageBookActivity extends ExpandableListActivity implements
 		childList.add(child2);
 	}
 
-	ListViewSwipeGesture.TouchCallbacks swipeListener = new ListViewSwipeGesture.TouchCallbacks() {
+	ManageBookListViewGesture.TouchCallbacks swipeListener = new ManageBookListViewGesture.TouchCallbacks() {
 
 		@Override
 		public void OnClickDelete(int position) {
@@ -201,7 +209,14 @@ public class ManageBookActivity extends ExpandableListActivity implements
 
 	@Click
 	void btn_group_manage() {
-		// TODO
+		Intent intent = new Intent();
+		intent.setClass(this, GroupManageActivity_.class);
+		startActivityForResult(intent, ActivityCode.GROUP_MANAGE_ACTIVITY);
+	}
+	
+	@OnActivityResult(ActivityCode.GROUP_MANAGE_ACTIVITY)
+	void onGroupManageActivityResult(int resultCode, Intent data) {
+
 	}
 
 	@Click

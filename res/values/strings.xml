@@ -9,6 +9,9 @@
     <string name="title_activity_management">ManagementActivity</string>
     <string name="title_activity_info">InfoActivity</string>
     <string name="title_activity_message">MessageActivity</string>
+    <string name="title_activity_group_manage">GroupManageActivity</string>
+    <string name="title_activity_manage_book">ManageBookActivity</string>
+
     <string name="news">动态</string>
     <string name="writing">写作</string>
     <string name="discovery">发现</string>
@@ -25,9 +28,11 @@
     <string name="title_activity_chat">ChatActivity</string>
     <string name="send">发送</string>
     <string name="chat_input_hint">写评论&#8230;</string>
-    <string name="title_activity_manage_book">ManageBookActivity</string>
     <string name="search_input_hint">搜索名字或虎爸虎妈ID</string>
+    <string name="search_group_input_hint">搜索分组关键字</string>
     <string name="group_manage">分组管理</string>
+    <string name="group_list">分组</string>
     <string name="delete">删除</string>
+    <string name="rename">改名</string>
 
 </resources>

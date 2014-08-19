@@ -27,6 +27,7 @@ public class NewsActivity extends Activity {
 		public static final int MANAGE_BOOK_ACTIVITY = 1;
 		public static final int TEACHING_DIARY_ACTIVITY = 2;
 		public static final int CONTACTS_ACTIVITY = 3;
+		public static final int GROUP_MANAGE_ACTIVITY = 4;
 	}
 
 	@ViewById(R.id.message_redspot)

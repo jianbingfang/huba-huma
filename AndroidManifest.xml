@@ -9,7 +9,7 @@
         android:targetSdkVersion="20" />
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -55,6 +55,10 @@
         <activity
             android:name=".news.managebook.ManageBookActivity_"
             android:label="@string/title_activity_manage_book" >
+        </activity>
+        <activity
+            android:name=".news.managebook.GroupManageActivity_"
+            android:label="@string/title_activity_group_manage" >
         </activity>
     </application>
 
