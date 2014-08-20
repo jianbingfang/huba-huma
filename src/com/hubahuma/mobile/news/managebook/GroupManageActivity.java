@@ -1,10 +1,8 @@
 package com.hubahuma.mobile.news.managebook;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import org.androidannotations.annotations.AfterTextChange;
@@ -14,23 +12,15 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.ViewById;
 
-import com.hubahuma.mobile.R;
-import com.hubahuma.mobile.R.layout;
-import com.hubahuma.mobile.entity.ChatMsgEntity;
-import com.hubahuma.mobile.entity.GroupEntity;
-import com.hubahuma.mobile.entity.ChatMsgEntity.MsgState;
-import com.hubahuma.mobile.utils.UtilTools;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.entity.GroupEntity;
 
 @SuppressWarnings("deprecation")
 @NoTitle
@@ -41,6 +31,7 @@ public class GroupManageActivity extends Activity {
 	ListView list;
 
 	private List<GroupEntity> groupList;
+	private List<GroupEntity> filteredList;
 
 	private GroupManageViewAdapter adapter;
 
@@ -48,12 +39,13 @@ public class GroupManageActivity extends Activity {
 	void init() {
 
 		groupList = getTestData();
+		filteredList = new ArrayList<GroupEntity>(groupList);
 		
-		adapter = new GroupManageViewAdapter(getApplicationContext(), groupList);
+		adapter = new GroupManageViewAdapter(getApplicationContext(), filteredList);
 		list.setAdapter(adapter);
 		
 		final GroupListViewGesture touchListener = new GroupListViewGesture(
-				list, swipeListener, this, GroupListViewGesture.Dismiss);
+				list, swipeListener, this, GroupListViewGesture.Double);
 
 		list.setOnTouchListener(touchListener);
 		
@@ -64,16 +56,16 @@ public class GroupManageActivity extends Activity {
 
 		String word = text.toString().trim();
 
-		List<GroupEntity> tempList = new ArrayList<GroupEntity>();
+		filteredList.clear();;
 
 		for (GroupEntity entity : groupList) {
 			if (entity.getGroupName() != null
 					&& entity.getGroupName().contains(word)) {
-				tempList.add(entity);
+				filteredList.add(entity);
 			}
 		}
 
-		adapter = new GroupManageViewAdapter(getApplicationContext(), tempList);
+		adapter = new GroupManageViewAdapter(getApplicationContext(), filteredList);
 		list.setAdapter(adapter);
 		
 	}
@@ -84,15 +76,18 @@ public class GroupManageActivity extends Activity {
 	}
 
 	GroupListViewGesture.TouchCallbacks swipeListener = new GroupListViewGesture.TouchCallbacks() {
-
+		
 		@Override
-		public void OnClickDelete(int position) {
-			// DO NOTHING!
-			groupList.remove(position);
-			adapter.notifyDataSetChanged();
-			Toast.makeText(getApplicationContext(),
-					"Deleted:" + position,
+		public void onDeleteItem(ListView listView, int[] reverseSortedPositions) {
+			// TODO Auto-generated method stub
+			Toast.makeText(getApplicationContext(), "Delete",
 					Toast.LENGTH_SHORT).show();
+			for (int pos : reverseSortedPositions) {
+				Log.d("DELETE", "[" + pos + "]");
+				GroupEntity deletedGroup = filteredList.remove(pos);
+				adapter.notifyDataSetChanged();
+				groupList.remove(deletedGroup);
+			}
 		}
 
 		@Override
@@ -110,20 +105,9 @@ public class GroupManageActivity extends Activity {
 		}
 
 		@Override
-		public void onDismiss(ListView listView, int[] reverseSortedPositions) {
-			// TODO Auto-generated method stub
-			Toast.makeText(getApplicationContext(), "Delete",
-					Toast.LENGTH_SHORT).show();
-			for (int pos : reverseSortedPositions) {
-				Log.d("DELETE", "[" + pos + "]");
-				groupList.remove(pos);
-				adapter.notifyDataSetChanged();
-			}
-		}
-
-		@Override
 		public void OnClickListView(int position) {
 			// TODO Auto-generated method stub
+			Log.d("Clicked", "list-[" + position + "]");
 		}
 
 	};
@@ -144,11 +128,11 @@ public class GroupManageActivity extends Activity {
 	private List<GroupEntity> getTestData() {
 		List<GroupEntity> tlist = new LinkedList<GroupEntity>();
 		Random rand = new Random();
-		for (int i = 1; i <= 5; i++) {
+		for (int i = 1; i <= 10; i++) {
 			GroupEntity group = new GroupEntity();
 			group.setGroupName("师范第"+i+"小学"+rand.nextInt(10)+"班");
 			group.setPopulation(rand.nextInt(100));
-			group.setUserId(""+rand.nextInt(100000));
+			group.setGroupId(""+rand.nextInt(100000));
 			tlist.add(group);
 		}
 		return tlist;

@@ -1,17 +1,21 @@
 package com.hubahuma.mobile.entity;
 
+import java.util.List;
+
 public class GroupEntity {
 
-	private String userId;
+	private String groupId;
 	private String groupName;
+	private UserEntity admin;
+	private List<UserEntity> memberList;
 	private int population;
-
-	public String getUserId() {
-		return userId;
+	
+	public String getGroupId() {
+		return groupId;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setGroupId(String userId) {
+		this.groupId = userId;
 	}
 
 	public String getGroupName() {
@@ -22,6 +26,22 @@ public class GroupEntity {
 		this.groupName = groupName;
 	}
 
+	public List<UserEntity> getMemberList() {
+		return memberList;
+	}
+
+	public void setMemberList(List<UserEntity> memberList) {
+		this.memberList = memberList;
+	}
+	
+	public UserEntity getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(UserEntity admin) {
+		this.admin = admin;
+	}
+
 	public int getPopulation() {
 		return population;
 	}
@@ -29,5 +49,6 @@ public class GroupEntity {
 	public void setPopulation(int population) {
 		this.population = population;
 	}
+	
 
 }

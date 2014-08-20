@@ -64,12 +64,11 @@ public class ManageBookListViewGesture implements View.OnTouchListener {
 	static TouchCallbacks tcallbacks;
 
 	// Intermediate Usages
-	String TextColor = "#FFFFFF"; // #FF4444
+	String TextColor = "#FFFFFF"; 	// white
 	String normalColor = "#222E3E"; // deep blue
-	String redColor = "#EB2D3F"; // red
-	// String singleColor = "#EB2D3F";
+	String redColor = "#EB2D3F"; 	// red
 
-	public float textSizeInSp = 14;
+	public float textSizeInSp = 12;
 	public float itemHeightInDp = 14;
 
 	// Functional Usages
@@ -89,8 +88,8 @@ public class ManageBookListViewGesture implements View.OnTouchListener {
 	// public static int Double = 2;
 	// public static int Dismiss = 3;
 
-	public ManageBookListViewGesture(ExpandableListView listView, TouchCallbacks Callbacks,
-			Activity context, int itemNum) {
+	public ManageBookListViewGesture(ExpandableListView listView,
+			TouchCallbacks Callbacks, Activity context, int itemNum) {
 		ViewConfiguration vc = ViewConfiguration.get(listView.getContext());
 		mSlop = vc.getScaledTouchSlop();
 		mMinFlingVelocity = vc.getScaledMinimumFlingVelocity() * 16;
@@ -207,7 +206,7 @@ public class ManageBookListViewGesture implements View.OnTouchListener {
 		if (mViewWidth < 2) {
 			mViewWidth = mListView.getWidth();
 			smallWidth = mViewWidth / 7;
-			textwidth2 = mViewWidth / 4;
+			textwidth2 = mViewWidth / 5;
 			textwidth = textwidth2;
 			largewidth = textwidth + textwidth2;
 		}
@@ -495,7 +494,7 @@ public class ManageBookListViewGesture implements View.OnTouchListener {
 		final ViewGroup.LayoutParams lp = dismissView.getLayoutParams();
 		final int originalHeight = dismissView.getHeight();
 
-		((ViewGroup) dismissView).getChildAt(0).animate().translationX(0)
+		((ViewGroup) dismissView).getChildAt(itemNum).animate().translationX(0)
 				.alpha(1f).setListener(new AnimatorListenerAdapter() {
 
 					@Override
@@ -513,7 +512,7 @@ public class ManageBookListViewGesture implements View.OnTouchListener {
 								--mDismissAnimationRefCount;
 								System.out.println("mDismissAnimationRefCount:"
 										+ mDismissAnimationRefCount);
-								if (mDismissAnimationRefCount > -100) {
+								if (mDismissAnimationRefCount == 0) {
 									// No active animations, process all pending
 									// dismisses.
 									// Sort by descending position
@@ -574,12 +573,8 @@ public class ManageBookListViewGesture implements View.OnTouchListener {
 				if (opened_position == stagged_position && moptionsDisplay) {
 					switch (v.getId()) {
 					case BUTTON_DELETE:
-//						if (itemNum == 2) {
-							moptionsDisplay = false;
-							performDismiss(mDownView_parent, temp_position);
-//						} else {
-//							tcallbacks.OnClickDelete(temp_position);
-//						}
+						moptionsDisplay = false;
+						performDismiss(mDownView_parent, temp_position);
 						return true;
 					case BUTTON_MANAGE:
 						tcallbacks.OnClickManageGroup(temp_position);

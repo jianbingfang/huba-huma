@@ -26,8 +26,8 @@ import com.hubahuma.mobile.utils.DisplayUtil;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
 public class GroupListViewGesture implements View.OnTouchListener {
 
-	private final static int BUTTON_DELETE = 1;
-	private final static int BUTTON_MANAGE = 2;
+	private final static int BUTTON_DELETE = 111111;
+	private final static int BUTTON_MANAGE = 222222;
 
 	Activity activity;
 
@@ -87,7 +87,6 @@ public class GroupListViewGesture implements View.OnTouchListener {
 
 	public static int Single = 1;
 	public static int Double = 2;
-	public static int Dismiss = 3;
 
 	public GroupListViewGesture(ListView listView, TouchCallbacks Callbacks,
 			Activity context, int itemNum) {
@@ -102,29 +101,25 @@ public class GroupListViewGesture implements View.OnTouchListener {
 		GetResourcesValues();
 
 		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) { // Invokes OnClick Functionality
 				if (!moptionsDisplay) {
 					tcallbacks.OnClickListView(temp_position);
 				}
-
 			}
 		});
 
 	}
 
 	public interface TouchCallbacks { // Callback functions
-		void OnClickDelete(int position);
-
 		void OnClickRename(int position);
 
 		void OnClickListView(int position);
 
 		void LoadDataForScroll(int count);
 
-		void onDismiss(ListView listView, int[] reverseSortedPositions);
+		void onDeleteItem(ListView listView, int[] reverseSortedPositions);
 	}
 
 	private void GetResourcesValues() {
@@ -199,20 +194,20 @@ public class GroupListViewGesture implements View.OnTouchListener {
 		}
 	}
 
-	@SuppressLint("ResourceAsColor")
+	@SuppressLint({ "ResourceAsColor", "ClickableViewAccessibility" })
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
 	@Override
 	public boolean onTouch(final View view, MotionEvent event) {
 		if (mViewWidth < 2) {
 			mViewWidth = mListView.getWidth();
 			smallWidth = mViewWidth / 7;
-			textwidth2 = mViewWidth / 4;
+			textwidth2 = mViewWidth / 5;
 			textwidth = textwidth2;
 			largewidth = textwidth + textwidth2;
 		}
 
 		int tempwidth = 0;
-		if (itemNum == 1 || itemNum == Dismiss)
+		if (itemNum == 1)
 			tempwidth = smallWidth;
 		else
 			tempwidth = textwidth2;
@@ -410,7 +405,7 @@ public class GroupListViewGesture implements View.OnTouchListener {
 	}
 
 	private void ResetListItem(View tempView) {
-		// Log.d("Shortlist reset call", "Works");
+		Log.d("Shortlist reset call", "Works");
 		tempView.animate().translationX(0).alpha(1f)
 				.setListener(new AnimatorListenerAdapter() {
 					@Override
@@ -419,7 +414,8 @@ public class GroupListViewGesture implements View.OnTouchListener {
 						int count = mDownView_parent.getChildCount() - 1;
 						for (int i = 0; i < count; i++) {
 							View V = mDownView_parent.getChildAt(i);
-							Log.d("removing child class", "" + V.getClass());
+							Log.d("removing child class", "" + V.getClass()
+									+ "," + V.getId());
 							mDownView_parent.removeViewAt(0);
 						}
 						moptionsDisplay = false;
@@ -482,8 +478,7 @@ public class GroupListViewGesture implements View.OnTouchListener {
 		}
 	}
 
-	private void performDismiss(final View dismissView,
-			final int dismissPosition) {
+	private void performDelete(final View dismissView, final int dismissPosition) {
 		// Animate the dismissed list item to zero-height and fire the dismiss
 		// callback when
 		// all dismissed list item animations have completed. This triggers
@@ -494,16 +489,16 @@ public class GroupListViewGesture implements View.OnTouchListener {
 		final ViewGroup.LayoutParams lp = dismissView.getLayoutParams();
 		final int originalHeight = dismissView.getHeight();
 
-		((ViewGroup) dismissView).getChildAt(0).animate().translationX(0)
+		((ViewGroup) dismissView).getChildAt(itemNum).animate().translationX(0)
 				.alpha(1f).setListener(new AnimatorListenerAdapter() {
 
 					@Override
 					public void onAnimationEnd(Animator animation) {
 						super.onAnimationEnd(animation);
 						((ViewGroup) dismissView).removeViewAt(0);
-						// Log.d("Selected view", dismissView.getClass() + "..."
-						// + dismissView.getId()
-						// + mDismissAnimationRefCount);
+						Log.d("Selected view", dismissView.getClass() + "..."
+								+ dismissView.getId() + " , "
+								+ mDismissAnimationRefCount);
 						ValueAnimator animator = ValueAnimator.ofInt(
 								originalHeight, 0).setDuration(mAnimationTime);
 						animator.addListener(new AnimatorListenerAdapter() {
@@ -512,7 +507,7 @@ public class GroupListViewGesture implements View.OnTouchListener {
 								--mDismissAnimationRefCount;
 								System.out.println("mDismissAnimationRefCount:"
 										+ mDismissAnimationRefCount);
-								if (mDismissAnimationRefCount > -100) {
+								if (mDismissAnimationRefCount == 0) {
 									// No active animations, process all pending
 									// dismisses.
 									// Sort by descending position
@@ -523,11 +518,10 @@ public class GroupListViewGesture implements View.OnTouchListener {
 									for (int i = mPendingDismisses.size() - 1; i >= 0; i--) {
 										dismissPositions[i] = mPendingDismisses
 												.get(i).position;
-										Log.d("Dismiss positions....",
+										Log.d("Dismiss positions...",
 												dismissPositions[i] + "");
 									}
-									System.out.println("Begin Dismiss!!!!!!");
-									tcallbacks.onDismiss(mListView,
+									tcallbacks.onDeleteItem(mListView,
 											dismissPositions);
 									// ViewGroup.LayoutParams lp;
 									// for (PendingDismissData pendingDismiss :
@@ -573,12 +567,8 @@ public class GroupListViewGesture implements View.OnTouchListener {
 				if (opened_position == stagged_position && moptionsDisplay) {
 					switch (v.getId()) {
 					case BUTTON_DELETE:
-						if (itemNum == Dismiss) {
-							moptionsDisplay = false;
-							performDismiss(mDownView_parent, temp_position);
-						} else {
-							tcallbacks.OnClickDelete(temp_position);
-						}
+						moptionsDisplay = false;
+						performDelete(mDownView_parent, temp_position);
 						return true;
 					case BUTTON_MANAGE:
 						tcallbacks.OnClickRename(temp_position);
