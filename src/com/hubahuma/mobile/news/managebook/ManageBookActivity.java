@@ -16,6 +16,8 @@ import org.androidannotations.annotations.ViewById;
 import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.util.Log;
 import android.view.MenuItem;
@@ -35,6 +37,7 @@ import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.entity.GroupEntity;
 import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.news.NewsActivity.ActivityCode;
+import com.hubahuma.mobile.news.managebook.ChangeGroupDialog.EditNameDialogListener;
 import com.hubahuma.mobile.news.managebook.ManageBookViewAdapter.PhoneOperationListener;
 import com.hubahuma.mobile.news.message.MessageActivity_;
 import com.hubahuma.mobile.utils.UtilTools;
@@ -42,8 +45,8 @@ import com.hubahuma.mobile.utils.UtilTools;
 @SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_manage_book)
-public class ManageBookActivity extends ExpandableListActivity implements
-		PhoneOperationListener {
+public class ManageBookActivity extends FragmentActivity implements
+		PhoneOperationListener, EditNameDialogListener {
 
 	private ManageBookViewAdapter adapter;
 
@@ -65,7 +68,7 @@ public class ManageBookActivity extends ExpandableListActivity implements
 		adapter = new ManageBookViewAdapter(getApplicationContext(),
 				filteredGroupList, this);
 
-		setListAdapter(adapter);
+		list.setAdapter(adapter);
 		list.expandGroup(0);
 
 		// 设置监听器
@@ -157,9 +160,11 @@ public class ManageBookActivity extends ExpandableListActivity implements
 			long pos = list.getExpandableListPosition(position);
 			int childPos = ExpandableListView.getPackedPositionChild(pos);// 获取第一行child的id
 			int groupPos = ExpandableListView.getPackedPositionGroup(pos);// 获取第一行group的id
-			Toast.makeText(getApplicationContext(),
-					"Manage: g" + groupPos + "c" + childPos, Toast.LENGTH_SHORT)
-					.show();
+			Log.d("Change group","Manage: g" + groupPos + "c" + childPos);
+			
+			FragmentManager fm = getSupportFragmentManager();  
+			ChangeGroupDialog_ changeGroupDialog = new ChangeGroupDialog_();  
+	        changeGroupDialog.show(fm, "dialog_change_group");
 		}
 
 		@Override
@@ -174,8 +179,8 @@ public class ManageBookActivity extends ExpandableListActivity implements
 			Toast.makeText(getApplicationContext(), "Delete",
 					Toast.LENGTH_SHORT).show();
 			for (int pos : reverseSortedPositions) {
-				int childPos = ExpandableListView.getPackedPositionChild(pos);// 获取第一行child的id
-				int groupPos = ExpandableListView.getPackedPositionGroup(pos);// 获取第一行group的id
+				int childPos = list.getPackedPositionChild(pos);// 获取第一行child的id
+				int groupPos = list.getPackedPositionGroup(pos);// 获取第一行group的id
 				Log.d("DELETE", "pos="+pos+" -> [" + groupPos + "," + childPos + "]");
 				UserEntity deletedUser = filteredGroupList.get(groupPos)
 						.getMemberList().remove(childPos);
@@ -251,6 +256,11 @@ public class ManageBookActivity extends ExpandableListActivity implements
 			list.expandGroup(i, true);
 		}
 		list.setSelection(0);
+	}
+
+	@Override
+	public void onFinishEditDialog(String inputText) {
+		Toast.makeText(getApplicationContext(), "move to: "+inputText, Toast.LENGTH_SHORT).show();
 	}
 
 }

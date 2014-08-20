@@ -84,7 +84,7 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 	public View getGroupView(int groupPosition, boolean isExpanded,
 			View convertView, ViewGroup viewgroup) {
 		ExpandableGroupHolder holder = null; // 清空临时变量holder
-		if (convertView == null) { // 判断view（即view是否已构建好）是否为空
+		if (true) { // 判断view（即view是否已构建好）是否为空
 
 			convertView = mInflater.inflate(R.layout.group_tree_title, null);
 			holder = new ExpandableGroupHolder();

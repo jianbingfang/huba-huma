@@ -60,6 +60,10 @@
             android:name=".news.managebook.GroupManageActivity_"
             android:label="@string/title_activity_group_manage" >
         </activity>
+        <activity
+            android:name="com.hubahuma.mobile.news.managebook.GroupRenameDialog_"
+            android:label="@string/title_activity_group_rename_dialog" >
+        </activity>
     </application>
 
 </manifest>
