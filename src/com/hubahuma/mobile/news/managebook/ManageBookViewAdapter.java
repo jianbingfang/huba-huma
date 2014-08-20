@@ -1,5 +1,6 @@
 package com.hubahuma.mobile.news.managebook;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,23 +19,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.entity.GroupEntity;
+import com.hubahuma.mobile.entity.UserEntity;
 
 public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 
-	private List<Map<String, Object>> groupData;// 组显示
-	private List<List<Map<String, Object>>> childData;// 子列表
+	private List<GroupEntity> groupData;// 组显示
 
 	private LayoutInflater mInflater;
 
 	private PhoneOperationListener phoneOperListener;
 
-	public ManageBookViewAdapter(Context context,
-			List<Map<String, Object>> groupData,
-			List<List<Map<String, Object>>> childData,
+	public ManageBookViewAdapter(Context context, List<GroupEntity> groupData,
 			PhoneOperationListener phoneOperListener) {
 
 		this.groupData = groupData;
-		this.childData = childData;
 		this.mInflater = LayoutInflater.from(context);
 		this.phoneOperListener = phoneOperListener;
 	}
@@ -42,7 +41,7 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 	// 必须实现 得到子数据
 	@Override
 	public Object getChild(int groupPosition, int j) {
-		return childData.get(groupPosition).get(j);
+		return groupData.get(groupPosition).getMemberList().get(j);
 	}
 
 	@Override
@@ -51,8 +50,8 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public int getChildrenCount(int i) {
-		return childData.get(i).size();
+	public int getChildrenCount(int groupPosition) {
+		return groupData.get(groupPosition).getPopulation();
 	}
 
 	@Override
@@ -96,7 +95,7 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 		} else { // 若view不为空，直接从view的tag属性中获得各子视图的引用
 			holder = (ExpandableGroupHolder) convertView.getTag();
 		}
-		String title = (String) groupData.get(groupPosition).get("title");
+		String title = (String) groupData.get(groupPosition).getGroupName();
 		holder.title.setText(title);
 
 		if (isExpanded) {
@@ -131,13 +130,13 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 		} else {// 若行已初始化，直接从tag属性获得子视图的引用
 			holder = (ExpandableListHolder) convertView.getTag();
 		}
-		Map<String, Object> unitData = this.childData.get(groupPosition).get(
-				childPosition);
+		UserEntity user = groupData.get(groupPosition).getMemberList()
+				.get(childPosition);
 		// TODO 判断真实头像
 		holder.portrait.setImageResource(R.drawable.default_portrait);
-		final String username = (String) unitData.get("name");
+		final String username = user.getUsername();
 		holder.name.setText(username);
-		holder.remark.setText((String) unitData.get("remark"));
+		holder.remark.setText(user.getRemark());
 		// TODO 记录该用户ID
 		holder.sendMsg.setTag(holder.name);
 		holder.giveCall.setTag(holder.name);

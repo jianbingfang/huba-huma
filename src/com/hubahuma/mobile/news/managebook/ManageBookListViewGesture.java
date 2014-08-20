@@ -64,9 +64,9 @@ public class ManageBookListViewGesture implements View.OnTouchListener {
 	static TouchCallbacks tcallbacks;
 
 	// Intermediate Usages
-	String TextColor = "#FFFFFF"; 	// white
+	String TextColor = "#FFFFFF"; // white
 	String normalColor = "#222E3E"; // deep blue
-	String redColor = "#EB2D3F"; 	// red
+	String redColor = "#EB2D3F"; // red
 
 	public float textSizeInSp = 12;
 	public float itemHeightInDp = 14;
@@ -115,7 +115,7 @@ public class ManageBookListViewGesture implements View.OnTouchListener {
 	}
 
 	public interface TouchCallbacks { // Callback functions
-		void OnClickDelete(int position);
+		void onDelete(ListView listView, int[] reverseSortedPositions);
 
 		void OnClickManageGroup(int position);
 
@@ -123,7 +123,6 @@ public class ManageBookListViewGesture implements View.OnTouchListener {
 
 		void LoadDataForScroll(int count);
 
-		void onDismiss(ListView listView, int[] reverseSortedPositions);
 	}
 
 	private void GetResourcesValues() {
@@ -482,8 +481,7 @@ public class ManageBookListViewGesture implements View.OnTouchListener {
 		}
 	}
 
-	private void performDismiss(final View dismissView,
-			final int dismissPosition) {
+	private void performDelete(final View dismissView, final int dismissPosition) {
 		// Animate the dismissed list item to zero-height and fire the dismiss
 		// callback when
 		// all dismissed list item animations have completed. This triggers
@@ -527,7 +525,7 @@ public class ManageBookListViewGesture implements View.OnTouchListener {
 												dismissPositions[i] + "");
 									}
 									System.out.println("Begin Dismiss!!!!!!");
-									tcallbacks.onDismiss(mListView,
+									tcallbacks.onDelete(mListView,
 											dismissPositions);
 									// ViewGroup.LayoutParams lp;
 									// for (PendingDismissData pendingDismiss :
@@ -574,7 +572,7 @@ public class ManageBookListViewGesture implements View.OnTouchListener {
 					switch (v.getId()) {
 					case BUTTON_DELETE:
 						moptionsDisplay = false;
-						performDismiss(mDownView_parent, temp_position);
+						performDelete(mDownView_parent, temp_position);
 						return true;
 					case BUTTON_MANAGE:
 						tcallbacks.OnClickManageGroup(temp_position);

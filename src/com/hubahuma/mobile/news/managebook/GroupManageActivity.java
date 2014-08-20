@@ -16,11 +16,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.text.Editable;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.entity.GroupEntity;
+import com.hubahuma.mobile.utils.UtilTools;
 
 @SuppressWarnings("deprecation")
 @NoTitle
@@ -29,6 +31,8 @@ public class GroupManageActivity extends Activity {
 
 	@ViewById(R.id.group_list_view)
 	ListView list;
+	@ViewById(R.id.search_input)
+	EditText searchBox;
 
 	private List<GroupEntity> groupList;
 	private List<GroupEntity> filteredList;
@@ -40,15 +44,16 @@ public class GroupManageActivity extends Activity {
 
 		groupList = getTestData();
 		filteredList = new ArrayList<GroupEntity>(groupList);
-		
-		adapter = new GroupManageViewAdapter(getApplicationContext(), filteredList);
+
+		adapter = new GroupManageViewAdapter(getApplicationContext(),
+				filteredList);
 		list.setAdapter(adapter);
-		
+
 		final GroupListViewGesture touchListener = new GroupListViewGesture(
 				list, swipeListener, this, GroupListViewGesture.Double);
 
 		list.setOnTouchListener(touchListener);
-		
+
 	}
 
 	@AfterTextChange(R.id.search_input)
@@ -56,7 +61,7 @@ public class GroupManageActivity extends Activity {
 
 		String word = text.toString().trim();
 
-		filteredList.clear();;
+		filteredList.clear();
 
 		for (GroupEntity entity : groupList) {
 			if (entity.getGroupName() != null
@@ -65,9 +70,8 @@ public class GroupManageActivity extends Activity {
 			}
 		}
 
-		adapter = new GroupManageViewAdapter(getApplicationContext(), filteredList);
-		list.setAdapter(adapter);
-		
+		adapter.notifyDataSetChanged();
+
 	}
 
 	@Click
@@ -76,7 +80,7 @@ public class GroupManageActivity extends Activity {
 	}
 
 	GroupListViewGesture.TouchCallbacks swipeListener = new GroupListViewGesture.TouchCallbacks() {
-		
+
 		@Override
 		public void onDeleteItem(ListView listView, int[] reverseSortedPositions) {
 			// TODO Auto-generated method stub
@@ -93,9 +97,8 @@ public class GroupManageActivity extends Activity {
 		@Override
 		public void OnClickRename(int position) {
 			// TODO Auto-generated method stub
-			Toast.makeText(getApplicationContext(),
-					"Rename:" + position, Toast.LENGTH_SHORT)
-					.show();
+			Toast.makeText(getApplicationContext(), "Rename:" + position,
+					Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
@@ -111,9 +114,16 @@ public class GroupManageActivity extends Activity {
 		}
 
 	};
-	
+
 	@Click
 	void btn_back() {
+		
+		String str = searchBox.getText().toString().trim();
+		if (!UtilTools.isEmpty(str)) {
+			searchBox.getText().clear();
+			return ;
+		}
+
 		Intent intent = getIntent();
 		intent.putExtra("result", "returned from GroupManageActivity");
 		this.setResult(0, intent);
@@ -124,15 +134,14 @@ public class GroupManageActivity extends Activity {
 	public void onBackPressed() {
 		btn_back();
 	}
-	
+
 	private List<GroupEntity> getTestData() {
 		List<GroupEntity> tlist = new LinkedList<GroupEntity>();
 		Random rand = new Random();
 		for (int i = 1; i <= 10; i++) {
 			GroupEntity group = new GroupEntity();
-			group.setGroupName("师范第"+i+"小学"+rand.nextInt(10)+"班");
-			group.setPopulation(rand.nextInt(100));
-			group.setGroupId(""+rand.nextInt(100000));
+			group.setGroupName("师范第" + i + "小学" + rand.nextInt(10) + "班");
+			group.setGroupId("" + rand.nextInt(100000));
 			tlist.add(group);
 		}
 		return tlist;

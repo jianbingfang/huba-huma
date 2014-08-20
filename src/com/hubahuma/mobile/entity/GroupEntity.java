@@ -1,5 +1,6 @@
 package com.hubahuma.mobile.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupEntity {
@@ -9,7 +10,18 @@ public class GroupEntity {
 	private UserEntity admin;
 	private List<UserEntity> memberList;
 	private int population;
-	
+
+	public GroupEntity() {
+	}
+
+	public GroupEntity(GroupEntity group) {
+		this.groupId = group.getGroupId();
+		this.groupName = group.getGroupName();
+		this.admin = group.getAdmin();
+		this.memberList = new ArrayList<UserEntity>(group.getMemberList());
+		// this.population = group.getPopulation();
+	}
+
 	public String getGroupId() {
 		return groupId;
 	}
@@ -33,7 +45,7 @@ public class GroupEntity {
 	public void setMemberList(List<UserEntity> memberList) {
 		this.memberList = memberList;
 	}
-	
+
 	public UserEntity getAdmin() {
 		return admin;
 	}
@@ -43,12 +55,10 @@ public class GroupEntity {
 	}
 
 	public int getPopulation() {
-		return population;
+		if (memberList == null)
+			return 0;
+		else
+			return memberList.size();
 	}
-
-	public void setPopulation(int population) {
-		this.population = population;
-	}
-	
 
 }

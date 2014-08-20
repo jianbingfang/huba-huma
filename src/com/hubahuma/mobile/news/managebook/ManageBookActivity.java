@@ -32,9 +32,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.entity.GroupEntity;
+import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.news.NewsActivity.ActivityCode;
 import com.hubahuma.mobile.news.managebook.ManageBookViewAdapter.PhoneOperationListener;
 import com.hubahuma.mobile.news.message.MessageActivity_;
+import com.hubahuma.mobile.utils.UtilTools;
 
 @SuppressWarnings("deprecation")
 @NoTitle
@@ -44,24 +47,26 @@ public class ManageBookActivity extends ExpandableListActivity implements
 
 	private ManageBookViewAdapter adapter;
 
-	private List<Map<String, Object>> groupList;
-	private List<List<Map<String, Object>>> childList;
+	private List<GroupEntity> groupList;
+	private List<GroupEntity> filteredGroupList;
 
 	@ViewById
 	ExpandableListView list;
+	@ViewById(R.id.search_input)
+	EditText searchBox;
 
 	@AfterViews
 	void init() {
 
-		groupList = new ArrayList<Map<String, Object>>();
-		childList = new ArrayList<List<Map<String, Object>>>();
+		groupList = new ArrayList<GroupEntity>();
+		setTestData();
+		filteredGroupList = new ArrayList<GroupEntity>(groupList);
 
-		adapter = new ManageBookViewAdapter(getApplicationContext(), groupList,
-				childList, this);
+		adapter = new ManageBookViewAdapter(getApplicationContext(),
+				filteredGroupList, this);
 
 		setListAdapter(adapter);
-		setTestData();
-		expandAllGroup();
+		list.expandGroup(0);
 
 		// 设置监听器
 		list.setOnChildClickListener(new OnChildClickListener() {
@@ -84,85 +89,67 @@ public class ManageBookActivity extends ExpandableListActivity implements
 
 	@AfterTextChange(R.id.search_input)
 	void afterTextChangedOnHelloTextView(Editable text) {
+
 		String word = text.toString().trim();
+		filteredGroupList.clear();
 
-		ArrayList<Map<String, Object>> tempGroupList = new ArrayList<Map<String, Object>>();
-		ArrayList<List<Map<String, Object>>> tempChildList = new ArrayList<List<Map<String, Object>>>();
-
-		for (int i = 0; i < childList.size(); i++) {
-			List<Map<String, Object>> groupi = childList.get(i);
-			List<Map<String, Object>> tempGroupi = new ArrayList<Map<String, Object>>();
-			boolean hasValidChild = false;
-			for (int j = 0; j < groupi.size(); j++) {
-				Map<String, Object> child = groupi.get(j);
-				String tName = (String) child.get("name");
-				if (tName != null && tName.contains(word)) {
-					tempGroupi.add(child);
-					hasValidChild = true;
-				} else {
-					String tRemark = (String) child.get("remark");
-					if (tRemark != null && tRemark.contains(word)) {
-						tempGroupi.add(child);
-						hasValidChild = true;
-					}
+		for (GroupEntity group : groupList) {
+			GroupEntity tempGroup = new GroupEntity(group);
+			tempGroup.getMemberList().clear();
+			List<UserEntity> userList = new ArrayList<UserEntity>();
+			for (UserEntity user : group.getMemberList()) {
+				if (user.getUsername() != null
+						&& user.getUsername().contains(word)) {
+					userList.add(user);
+				} else if (user.getRemark() != null
+						&& user.getRemark().contains(word)) {
+					userList.add(user);
 				}
 			}
-			if (hasValidChild == true) {
-				tempChildList.add(tempGroupi);
-				tempGroupList.add(groupList.get(i));
+
+			if (!userList.isEmpty()) {
+				tempGroup.setMemberList(userList);
+				filteredGroupList.add(tempGroup);
 			}
 
 		}
 
-		adapter = new ManageBookViewAdapter(getApplicationContext(),
-				tempGroupList, tempChildList, this);
+		adapter.notifyDataSetChanged();
 
-		setListAdapter(adapter);
 		expandAllGroup();
 	}
 
 	private void setTestData() {
-		Map<String, Object> group1 = new HashMap<String, Object>();
-		group1.put("title", "师范小学11级二年一班");
-		groupList.add(group1);
-		List<Map<String, Object>> child1 = new ArrayList<Map<String, Object>>();
+		GroupEntity group1 = new GroupEntity();
+		group1.setGroupName("师范小学11级二年一班");
+		List<UserEntity> childList1 = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 4; i++) {
-			Map<String, Object> child1Data = new HashMap<String, Object>();
-			child1Data.put("name", "王萍" + i);
-			child1Data.put("remark", "赵林母亲" + i);
-			child1.add(child1Data);
+			UserEntity child1Data = new UserEntity();
+			child1Data.setId("user#" + i);
+			child1Data.setType(0);
+			child1Data.setUsername("王萍" + i);
+			child1Data.setRemark("赵林母亲" + i);
+			childList1.add(child1Data);
 		}
-		childList.add(child1);
+		group1.setMemberList(childList1);
+		groupList.add(group1);
 
-		Map<String, Object> group2 = new HashMap<String, Object>();
-		group2.put("title", "快乐城堡幼儿班09级");
-		groupList.add(group2);
-		List<Map<String, Object>> child2 = new ArrayList<Map<String, Object>>();
+		GroupEntity group2 = new GroupEntity();
+		group2.setGroupName("快乐城堡幼儿班09级");
+		List<UserEntity> childList2 = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 6; i++) {
-			Map<String, Object> child2Data = new HashMap<String, Object>();
-			child2Data.put("name", "李国成" + i);
-			child2Data.put("remark", "李小丽父亲" + i);
-			child2.add(child2Data);
+			UserEntity child2Data = new UserEntity();
+			child2Data.setId("user#" + i * 10);
+			child2Data.setType(0);
+			child2Data.setUsername("李国成" + i);
+			child2Data.setRemark("李小丽父亲" + i);
+			childList2.add(child2Data);
 		}
-		childList.add(child2);
+		group2.setMemberList(childList2);
+		groupList.add(group2);
 	}
 
 	ManageBookListViewGesture.TouchCallbacks swipeListener = new ManageBookListViewGesture.TouchCallbacks() {
-
-		@Override
-		public void OnClickDelete(int position) {
-			// DO NOTHING!
-			long pos = list.getExpandableListPosition(position);
-			// 获取第一行child的id
-			int childPos = ExpandableListView.getPackedPositionChild(pos);
-			// 获取第一行group的id
-			int groupPos = ExpandableListView.getPackedPositionGroup(pos);
-			childList.get(groupPos).remove(childPos);
-			adapter.notifyDataSetChanged();
-			Toast.makeText(getApplicationContext(),
-					"Deleted: g" + groupPos + "c" + childPos,
-					Toast.LENGTH_SHORT).show();
-		}
 
 		@Override
 		public void OnClickManageGroup(int position) {
@@ -182,17 +169,22 @@ public class ManageBookActivity extends ExpandableListActivity implements
 		}
 
 		@Override
-		public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+		public void onDelete(ListView listView, int[] reverseSortedPositions) {
 			// TODO Auto-generated method stub
 			Toast.makeText(getApplicationContext(), "Delete",
 					Toast.LENGTH_SHORT).show();
 			for (int pos : reverseSortedPositions) {
 				int childPos = ExpandableListView.getPackedPositionChild(pos);// 获取第一行child的id
 				int groupPos = ExpandableListView.getPackedPositionGroup(pos);// 获取第一行group的id
-				Log.d("DELETE", "[" + groupPos + "," + childPos + "]");
-				childList.get(groupPos).remove(childPos);
-				adapter.notifyDataSetChanged();
+				Log.d("DELETE", "pos="+pos+" -> [" + groupPos + "," + childPos + "]");
+				UserEntity deletedUser = filteredGroupList.get(groupPos)
+						.getMemberList().remove(childPos);
+				for (GroupEntity group : groupList) {
+					if (group.getMemberList().remove(deletedUser))
+						break;
+				}
 			}
+			adapter.notifyDataSetChanged();
 		}
 
 		@Override
@@ -213,7 +205,7 @@ public class ManageBookActivity extends ExpandableListActivity implements
 		intent.setClass(this, GroupManageActivity_.class);
 		startActivityForResult(intent, ActivityCode.GROUP_MANAGE_ACTIVITY);
 	}
-	
+
 	@OnActivityResult(ActivityCode.GROUP_MANAGE_ACTIVITY)
 	void onGroupManageActivityResult(int resultCode, Intent data) {
 
@@ -221,6 +213,13 @@ public class ManageBookActivity extends ExpandableListActivity implements
 
 	@Click
 	void btn_back() {
+
+		String str = searchBox.getText().toString().trim();
+		if (!UtilTools.isEmpty(str)) {
+			searchBox.getText().clear();
+			return;
+		}
+
 		Intent intent = getIntent();
 		intent.putExtra("result", "returned from ManageBookActivity");
 		this.setResult(0, intent);
@@ -251,6 +250,7 @@ public class ManageBookActivity extends ExpandableListActivity implements
 		for (int i = 0; i < adapter.getGroupCount(); i++) {
 			list.expandGroup(i, true);
 		}
-		list.setSelection(1);
+		list.setSelection(0);
 	}
+
 }
