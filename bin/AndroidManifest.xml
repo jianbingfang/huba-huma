@@ -61,16 +61,20 @@
             android:label="@string/title_activity_group_manage" >
         </activity>
         <activity
-            android:name="com.hubahuma.mobile.news.managebook.GroupRenameDialog_"
+            android:name=".news.managebook.GroupRenameDialog_"
             android:label="@string/title_activity_group_rename_dialog" >
         </activity>
         <activity
-            android:name="com.hubahuma.mobile.news.managebook.ChangeGroupDialog_"
+            android:name=".news.managebook.ChangeGroupDialog_"
             android:label="@string/title_activity_change_group_dialog" >
         </activity>
         <activity
-            android:name="com.hubahuma.mobile.news.managebook.AddNewGroupDialog_"
+            android:name=".news.managebook.AddNewGroupDialog_"
             android:label="@string/title_activity_add_group_dialog" >
+        </activity>
+        <activity
+            android:name="com.hubahuma.mobile.news.contacts.ContactsActivity_"
+            android:label="@string/title_activity_contacts" >
         </activity>
     </application>
 

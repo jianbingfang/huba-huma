@@ -46,6 +46,6 @@
     <string name="group_rename_dialog_subtitle">请输入新的分组名称</string>
     <string name="add_new_group_title">新建分组</string>
     <string name="add_new_group_subtitle">支持汉子、英文字母或数字</string>
-    
+    <string name="title_activity_contacts">ContactsActivity</string>
 
 </resources>

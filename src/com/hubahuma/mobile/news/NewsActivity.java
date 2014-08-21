@@ -9,6 +9,7 @@ import org.androidannotations.annotations.ViewById;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.id;
 import com.hubahuma.mobile.R.layout;
+import com.hubahuma.mobile.news.contacts.ContactsActivity_;
 import com.hubahuma.mobile.news.managebook.ManageBookActivity_;
 import com.hubahuma.mobile.news.message.MessageActivity_;
 
@@ -59,7 +60,10 @@ public class NewsActivity extends Activity {
 
 	@Click
 	void btn_contacts() {
-		// TODO
+		Intent intent = new Intent();
+		intent.setClass(this, ContactsActivity_.class);
+		startActivityForResult(intent, ActivityCode.CONTACTS_ACTIVITY);
+	
 	}
 
 	@OnActivityResult(ActivityCode.MESSAGE_ACTIVITY)
