@@ -117,7 +117,7 @@ public class ManageBookListViewGesture implements View.OnTouchListener {
 	public interface TouchCallbacks { // Callback functions
 		void onDelete(ListView listView, int[] reverseSortedPositions);
 
-		void OnClickManageGroup(int position);
+		void OnClickChangeGroup(int position);
 
 		void OnClickListView(int position);
 
@@ -575,7 +575,7 @@ public class ManageBookListViewGesture implements View.OnTouchListener {
 						performDelete(mDownView_parent, temp_position);
 						return true;
 					case BUTTON_MANAGE:
-						tcallbacks.OnClickManageGroup(temp_position);
+						tcallbacks.OnClickChangeGroup(temp_position);
 						return true;
 					}
 				}

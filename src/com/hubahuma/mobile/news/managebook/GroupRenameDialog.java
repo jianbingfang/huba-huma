@@ -16,10 +16,10 @@ import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.utils.UtilTools;
 
 @EFragment(R.layout.diaglog_one_input)
-public class ChangeGroupDialog extends DialogFragment {
+public class GroupRenameDialog extends DialogFragment {
 
-	public interface EditNameDialogListener {
-		void onFinishChangeGroupDialog(String inputText);
+	public interface GroupRenameDialogListener {
+		void onFinishGroupRenameDialog(String inputText);
 	}
 	
 	@ViewById
@@ -35,8 +35,8 @@ public class ChangeGroupDialog extends DialogFragment {
 	void init() {
 		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getDialog().setCanceledOnTouchOutside(false);
-		dialog_title.setText(getResources().getString(R.string.change_group_dialog_title));
-		dialog_subtitle.setText(getResources().getString(R.string.change_group_dialog_subtitle));
+		dialog_title.setText(getResources().getString(R.string.group_rename_dialog_title));
+		dialog_subtitle.setText(getResources().getString(R.string.group_rename_dialog_subtitle));
 		btn_confirm.setText(getResources().getString(R.string.save));
 	}
 
@@ -59,8 +59,8 @@ public class ChangeGroupDialog extends DialogFragment {
 	@Click
 	void btn_confirm() {
 		String name = input_box.getText().toString().trim();
-		EditNameDialogListener activity = (EditNameDialogListener) getActivity();
-		activity.onFinishChangeGroupDialog(name);
+		GroupRenameDialogListener activity = (GroupRenameDialogListener) getActivity();
+		activity.onFinishGroupRenameDialog(name);
 		this.dismiss();
 	}
 }

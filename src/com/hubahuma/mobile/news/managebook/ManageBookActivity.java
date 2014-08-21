@@ -52,6 +52,8 @@ public class ManageBookActivity extends FragmentActivity implements
 
 	private List<GroupEntity> groupList;
 	private List<GroupEntity> filteredGroupList;
+	private int targetGroupPos = -1;
+	private int targetChildPos = -1;
 
 	@ViewById
 	ExpandableListView list;
@@ -124,7 +126,7 @@ public class ManageBookActivity extends FragmentActivity implements
 
 	private void setTestData() {
 		GroupEntity group1 = new GroupEntity();
-		group1.setGroupName("师范小学11级二年一班");
+		group1.setGroupName("一班");
 		List<UserEntity> childList1 = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 4; i++) {
 			UserEntity child1Data = new UserEntity();
@@ -138,7 +140,7 @@ public class ManageBookActivity extends FragmentActivity implements
 		groupList.add(group1);
 
 		GroupEntity group2 = new GroupEntity();
-		group2.setGroupName("快乐城堡幼儿班09级");
+		group2.setGroupName("09");
 		List<UserEntity> childList2 = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 6; i++) {
 			UserEntity child2Data = new UserEntity();
@@ -155,16 +157,19 @@ public class ManageBookActivity extends FragmentActivity implements
 	ManageBookListViewGesture.TouchCallbacks swipeListener = new ManageBookListViewGesture.TouchCallbacks() {
 
 		@Override
-		public void OnClickManageGroup(int position) {
+		public void OnClickChangeGroup(int position) {
 			// TODO Auto-generated method stub
 			long pos = list.getExpandableListPosition(position);
 			int childPos = ExpandableListView.getPackedPositionChild(pos);// 获取第一行child的id
 			int groupPos = ExpandableListView.getPackedPositionGroup(pos);// 获取第一行group的id
-			Log.d("Change group","Manage: g" + groupPos + "c" + childPos);
-			
-			FragmentManager fm = getSupportFragmentManager();  
-			ChangeGroupDialog_ changeGroupDialog = new ChangeGroupDialog_();  
-	        changeGroupDialog.show(fm, "dialog_change_group");
+			Log.d("Change group", "target: g" + groupPos + "c" + childPos);
+
+			targetGroupPos = groupPos;
+			targetChildPos = childPos;
+
+			FragmentManager fm = getSupportFragmentManager();
+			ChangeGroupDialog_ changeGroupDialog = new ChangeGroupDialog_();
+			changeGroupDialog.show(fm, "dialog_change_group");
 		}
 
 		@Override
@@ -181,7 +186,8 @@ public class ManageBookActivity extends FragmentActivity implements
 			for (int pos : reverseSortedPositions) {
 				int childPos = list.getPackedPositionChild(pos);// 获取第一行child的id
 				int groupPos = list.getPackedPositionGroup(pos);// 获取第一行group的id
-				Log.d("DELETE", "pos="+pos+" -> [" + groupPos + "," + childPos + "]");
+				Log.d("DELETE", "pos=" + pos + " -> [" + groupPos + ","
+						+ childPos + "]");
 				UserEntity deletedUser = filteredGroupList.get(groupPos)
 						.getMemberList().remove(childPos);
 				for (GroupEntity group : groupList) {
@@ -259,8 +265,41 @@ public class ManageBookActivity extends FragmentActivity implements
 	}
 
 	@Override
-	public void onFinishEditDialog(String inputText) {
-		Toast.makeText(getApplicationContext(), "move to: "+inputText, Toast.LENGTH_SHORT).show();
-	}
+	public void onFinishChangeGroupDialog(String text) {
 
+		String groupName = text.trim();
+		
+		int pos = 0;
+		for (; pos < filteredGroupList.size(); pos++) {
+			if (filteredGroupList.get(pos).getGroupName().equals(groupName))
+				break;
+		}
+
+		if (pos >= filteredGroupList.size()) {
+			Toast.makeText(getApplicationContext(),
+					"不存在此分组，请确认分组名称正确" + groupName, Toast.LENGTH_LONG).show();
+			return;
+		} else {
+			if (pos == targetGroupPos) {
+				Toast.makeText(getApplicationContext(), "分组与之前一致" + groupName,
+						Toast.LENGTH_LONG).show();
+				return;
+			} else {
+				UserEntity user = filteredGroupList.get(targetGroupPos)
+						.getMemberList().remove(targetChildPos);
+				filteredGroupList.get(pos).getMemberList().add(user);
+				for (GroupEntity group : groupList) {
+					if (group.getMemberList().contains(user)) {
+						group.getMemberList().remove(user);
+					} else if (group.getGroupName().equals(groupName)) {
+						group.getMemberList().add(user);
+					}
+				}
+				adapter.notifyDataSetChanged();
+				Toast.makeText(getApplicationContext(), "分组更改成功",
+						Toast.LENGTH_SHORT).show();
+			}
+		}
+
+	}
 }
