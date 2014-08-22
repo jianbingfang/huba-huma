@@ -7,6 +7,7 @@ import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
@@ -31,14 +32,14 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 
+@SuppressWarnings("deprecation")
+@NoTitle
 @EActivity(R.layout.activity_contacts)
 public class ContactsActivity extends FragmentActivity {
 
 	private List<String> groupList;
 	private List<List<UserEntity>> childList;
 	private List<List<UserEntity>> filteredChildList;
-	private int targetGroupPos = -1;
-	private int targetChildPos = -1;
 
 	private ContactsViewAdapter adapter;
 
@@ -156,9 +157,15 @@ public class ContactsActivity extends FragmentActivity {
 	
 	@Click
 	void btn_add(){
-		
+		Intent intent = new Intent();
+		intent.setClass(this, AddContactActivity_.class);
+		startActivityForResult(intent, ActivityCode.ADD_CONTACT_ACTIVITY);
 	}
 
+	@OnActivityResult(ActivityCode.ADD_CONTACT_ACTIVITY)
+	void onTeachingDiaryActivityResult(int resultCode, Intent data) {
+
+	}
 	
 	@Click
 	void btn_back() {

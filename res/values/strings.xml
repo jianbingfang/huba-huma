@@ -35,9 +35,15 @@
     <string name="send">发送</string>
     <string name="chat_input_hint">写评论&#8230;</string>
     <string name="search_input_hint">搜索名字或虎爸虎妈ID</string>
+    <string name="add_contact">添加用户到通讯录</string>
+    <string name="search_result">已搜索到：</string>
+    <string name="add_contact_input_hint">输入虎爸虎妈ID/手机号</string>
+    <string name="search_group">查找群</string>
+    <string name="new_group">新建群</string>
     <string name="search_group_input_hint">搜索分组关键字</string>
     <string name="group_manage">分组管理</string>
     <string name="group_list">分组</string>
+    <string name="add">添加</string>
     <string name="delete">删除</string>
     <string name="rename">改名</string>
     <string name="change_group_dialog_title">修改当前用户分组</string>
@@ -47,5 +53,7 @@
     <string name="add_new_group_title">新建分组</string>
     <string name="add_new_group_subtitle">支持汉子、英文字母或数字</string>
     <string name="title_activity_contacts">ContactsActivity</string>
+    <string name="title_activity_add_contact">AddContactActivity</string>
+    <string name="title_activity_search_result_fragment">SearchResultFragment</string>
 
 </resources>

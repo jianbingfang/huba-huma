@@ -6,19 +6,16 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
-import com.hubahuma.mobile.R;
-import com.hubahuma.mobile.R.id;
-import com.hubahuma.mobile.R.layout;
-import com.hubahuma.mobile.news.contacts.ContactsActivity_;
-import com.hubahuma.mobile.news.managebook.ManageBookActivity_;
-import com.hubahuma.mobile.news.message.MessageActivity_;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.news.contacts.ContactsActivity_;
+import com.hubahuma.mobile.news.managebook.ManageBookActivity_;
+import com.hubahuma.mobile.news.message.MessageActivity_;
 
 @EActivity(R.layout.activity_news)
 public class NewsActivity extends Activity {
@@ -29,6 +26,7 @@ public class NewsActivity extends Activity {
 		public static final int TEACHING_DIARY_ACTIVITY = 2;
 		public static final int CONTACTS_ACTIVITY = 3;
 		public static final int GROUP_MANAGE_ACTIVITY = 4;
+		public static final int ADD_CONTACT_ACTIVITY = 5;
 	}
 
 	@ViewById(R.id.message_redspot)

@@ -73,8 +73,16 @@
             android:label="@string/title_activity_add_group_dialog" >
         </activity>
         <activity
-            android:name="com.hubahuma.mobile.news.contacts.ContactsActivity_"
+            android:name=".news.contacts.ContactsActivity_"
             android:label="@string/title_activity_contacts" >
+        </activity>
+        <activity
+            android:name=".news.contacts.AddContactActivity_"
+            android:label="@string/title_activity_add_contact" >
+        </activity>
+        <activity
+            android:name="com.hubahuma.mobile.news.contacts.SearchResultFragment_"
+            android:label="@string/title_activity_search_result_fragment" >
         </activity>
     </application>
 
