@@ -20,14 +20,20 @@ import com.hubahuma.mobile.entity.UserEntity;
 
 public class SearchResultViewAdapter extends BaseAdapter {
 
+	public interface onFollowListener {
+		public void onFollowClicked(UserEntity user);
+	}
+
 	private List<UserEntity> dataList;
 
 	private LayoutInflater mInflater;
+	
+	private onFollowListener listener;
 
-	public SearchResultViewAdapter(Context context, List<UserEntity> data) {
-
+	public SearchResultViewAdapter(Context context, List<UserEntity> data, onFollowListener listener) {
 		this.dataList = data;
 		this.mInflater = LayoutInflater.from(context);
+		this.listener = listener;
 	}
 
 	@Override
@@ -78,11 +84,8 @@ public class SearchResultViewAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				((ImageButton) v).setImageResource(R.drawable.followed);
-				// ((ImageButton) v).setBackgroundResource(R.drawable.followed);
 				UserEntity user = (UserEntity) v.getTag();
-				Toast.makeText(mInflater.getContext(),
-						"成功关注 " + user.getUsername(), Toast.LENGTH_SHORT)
-						.show();
+				listener.onFollowClicked(user);
 			}
 		});
 

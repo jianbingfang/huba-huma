@@ -14,6 +14,7 @@ import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.entity.GroupEntity;
 import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.news.contacts.SearchResultViewAdapter.onFollowListener;
 import com.hubahuma.mobile.news.managebook.GroupManageViewAdapter;
 import com.hubahuma.mobile.utils.UtilTools;
 
@@ -25,11 +26,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_search_result)
-public class SearchResultActivity extends Activity {
+public class SearchResultActivity extends Activity implements onFollowListener {
 
 	private SearchResultViewAdapter adapter;
 
@@ -41,7 +43,8 @@ public class SearchResultActivity extends Activity {
 	@AfterViews
 	void init() {
 		userList = getTestData();
-		adapter = new SearchResultViewAdapter(getApplicationContext(), userList);
+		adapter = new SearchResultViewAdapter(getApplicationContext(),
+				userList, this);
 		search_result_list.setAdapter(adapter);
 	}
 
@@ -60,7 +63,6 @@ public class SearchResultActivity extends Activity {
 
 	@Click
 	void btn_back() {
-
 		Intent intent = getIntent();
 		intent.putExtra("result", "returned from SearchResultActivity");
 		this.setResult(0, intent);
@@ -70,6 +72,14 @@ public class SearchResultActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		btn_back();
+	}
+
+	@Override
+	public void onFollowClicked(UserEntity user) {
+		// TODO 做后台真实处理
+		Toast.makeText(getApplicationContext(), "成功关注 " + user.getUsername(),
+				Toast.LENGTH_SHORT).show();
+		// btn_back();
 	}
 
 }

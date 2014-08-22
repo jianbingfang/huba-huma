@@ -27,6 +27,8 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
@@ -35,7 +37,7 @@ import android.widget.Toast;
 public class AddContactActivity extends FragmentActivity {
 
 	private volatile boolean searchResultShowed = false;
-	
+
 	@ViewById(R.id.search_input)
 	EditText searchBox;
 
@@ -49,14 +51,11 @@ public class AddContactActivity extends FragmentActivity {
 
 					String text = ((EditText) v).getText().toString().trim();
 
-					if("".equals(text) || searchResultShowed == true)
+					if ("".equals(text) || searchResultShowed == true)
 						return false;
 					searchResultShowed = true;
-					
-					System.out.println("SEARCH:"+text);
-					
-//					Toast.makeText(getApplicationContext(), "SEARCH" + text,
-//							Toast.LENGTH_SHORT).show();
+
+					System.out.println("SEARCH:" + text);
 
 					Intent intent = new Intent();
 					intent.setClass(AddContactActivity.this,
