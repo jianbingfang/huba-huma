@@ -62,6 +62,7 @@ public class SearchResultViewAdapter extends BaseAdapter {
 					.findViewById(R.id.remark);
 			viewHolder.follow = (ImageButton) convertView
 					.findViewById(R.id.follow);
+			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
@@ -76,9 +77,12 @@ public class SearchResultViewAdapter extends BaseAdapter {
 		viewHolder.follow.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((ImageButton) v).setBackgroundResource(R.drawable.followed);
-				Toast.makeText(mInflater.getContext(), "关注成功",
-						Toast.LENGTH_SHORT).show();
+				((ImageButton) v).setImageResource(R.drawable.followed);
+				// ((ImageButton) v).setBackgroundResource(R.drawable.followed);
+				UserEntity user = (UserEntity) v.getTag();
+				Toast.makeText(mInflater.getContext(),
+						"成功关注 " + user.getUsername(), Toast.LENGTH_SHORT)
+						.show();
 			}
 		});
 

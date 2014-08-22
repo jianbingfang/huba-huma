@@ -36,122 +36,115 @@
             android:src="@drawable/back" />
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <!-- search bar -->
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/search_box_vertical_padding"
+        android:paddingLeft="@dimen/search_box_horizontal_padding"
+        android:paddingRight="@dimen/search_box_horizontal_padding"
+        android:paddingTop="@dimen/search_box_vertical_padding" >
 
-        <!-- search bar -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/add_contact"
+            android:textColor="@color/grey_hint"
+            android:textSize="14sp" />
 
-        <LinearLayout
+        <EditText
+            android:id="@+id/search_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/search_box_vertical_padding"
-            android:paddingLeft="@dimen/search_box_horizontal_padding"
-            android:paddingRight="@dimen/search_box_horizontal_padding"
-            android:paddingTop="@dimen/search_box_vertical_padding" >
+            android:background="@drawable/edit_text_bg"
+            android:drawablePadding="8dp"
+            android:hint="@string/add_contact_input_hint"
+            android:imeOptions="actionSearch"
+            android:padding="8dp"
+            android:singleLine="true" />
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:text="@string/add_contact"
-                android:textColor="@color/grey_hint"
-                android:textSize="14sp" />
+    <RelativeLayout
+        android:id="@+id/search_group_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/add_bar_bg"
+        android:padding="12dp" >
 
-            <EditText
-                android:id="@+id/search_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edit_text_bg"
-                android:drawablePadding="8dp"
-                android:hint="@string/add_contact_input_hint"
-                android:imeOptions="actionSearch"
-                android:padding="8dp"
-                android:singleLine="true" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/search_group_btn"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/search_group_icon"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="120dp"
-            android:background="@color/add_bar_bg"
-            android:padding="12dp" >
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerInside"
+            android:src="@drawable/search_group" />
 
-            <ImageView
-                android:id="@+id/search_group_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerInside"
-                android:src="@drawable/search_group" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/search_group_icon"
-                android:text="@string/search_group"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerInside"
-                android:src="@drawable/circle_arrow" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/new_group_btn"
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="175dp"
-            android:layout_marginBottom="5dp"
-            android:background="@color/add_bar_bg"
-            android:padding="12dp" >
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/search_group_icon"
+            android:text="@string/search_group"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
 
-            <ImageView
-                android:id="@+id/new_group_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerInside"
-                android:src="@drawable/new_group" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerInside"
+            android:src="@drawable/circle_arrow" />
+    </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/new_group_icon"
-                android:text="@string/new_group"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+    <RelativeLayout
+        android:id="@+id/new_group_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/add_bar_bg"
+        android:padding="12dp" >
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerInside"
-                android:src="@drawable/circle_arrow" />
-        </RelativeLayout>
+        <ImageView
+            android:id="@+id/new_group_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerInside"
+            android:src="@drawable/new_group" />
 
-    </FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/new_group_icon"
+            android:text="@string/new_group"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerInside"
+            android:src="@drawable/circle_arrow" />
+    </RelativeLayout>
 
 </LinearLayout>

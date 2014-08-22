@@ -81,7 +81,7 @@
             android:label="@string/title_activity_add_contact" >
         </activity>
         <activity
-            android:name="com.hubahuma.mobile.news.contacts.SearchResultFragment_"
+            android:name="com.hubahuma.mobile.news.contacts.SearchResultActivity_"
             android:label="@string/title_activity_search_result_fragment" >
         </activity>
     </application>

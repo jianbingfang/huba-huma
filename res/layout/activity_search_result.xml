@@ -33,7 +33,7 @@
             android:scaleType="centerInside"
             android:src="@drawable/back" />
     </RelativeLayout>
-
+    
     <!-- content -->
 
     <TextView
@@ -53,7 +53,7 @@
         android:background="@null"
         android:cacheColorHint="@null"
         android:divider="@color/contacts_list_divider"
-        android:dividerHeight="1dp"
+        android:dividerHeight="0.5dp"
         android:fadingEdge="none"
         android:fastScrollEnabled="false"
         android:headerDividersEnabled="true"

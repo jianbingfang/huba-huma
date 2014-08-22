@@ -70,7 +70,7 @@
             android:drawableLeft="@drawable/search_icon"
             android:drawablePadding="8dp"
             android:hint="@string/search_input_hint"
-            android:padding="3dp"
+            android:padding="7dp"
             android:singleLine="true" />
     </RelativeLayout>
 

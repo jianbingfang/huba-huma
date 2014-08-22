@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.R;
@@ -22,21 +24,24 @@ import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
 
-@EFragment(R.layout.fragment_search_result)
-public class SearchResultFragment extends Fragment {
+@SuppressWarnings("deprecation")
+@NoTitle
+@EActivity(R.layout.activity_search_result)
+public class SearchResultActivity extends Activity {
 
 	private SearchResultViewAdapter adapter;
 
 	private List<UserEntity> userList;
 
 	@ViewById
-	ExpandableListView search_result_list;
+	ListView search_result_list;
 
 	@AfterViews
 	void init() {
 		userList = getTestData();
-		adapter = new SearchResultViewAdapter(getActivity(), userList);
+		adapter = new SearchResultViewAdapter(getApplicationContext(), userList);
 		search_result_list.setAdapter(adapter);
 	}
 
@@ -55,7 +60,16 @@ public class SearchResultFragment extends Fragment {
 
 	@Click
 	void btn_back() {
-		this.getActivity().onBackPressed();
+
+		Intent intent = getIntent();
+		intent.putExtra("result", "returned from SearchResultActivity");
+		this.setResult(0, intent);
+		this.finish();
+	}
+
+	@Override
+	public void onBackPressed() {
+		btn_back();
 	}
 
 }
