@@ -139,10 +139,6 @@ public class InviteViewAdapter extends BaseExpandableListAdapter {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				CheckableUserEntity u = (CheckableUserEntity)buttonView.getTag();
 				u.setChecked(isChecked);
-//				InviteViewAdapter.this.notifyDataSetChanged();
-				
-				for(CheckableUserEntity i : childData.get(0))
-					System.out.println(i.isChecked()+", ");
 			}
 		});
 

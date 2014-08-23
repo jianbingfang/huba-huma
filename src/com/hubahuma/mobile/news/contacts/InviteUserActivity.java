@@ -4,24 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.NoTitle;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
-
-import com.hubahuma.mobile.R;
-import com.hubahuma.mobile.R.layout;
-import com.hubahuma.mobile.entity.UserEntity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.Toast;
+
+import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.news.NewsActivity.ActivityCode;
+import com.hubahuma.mobile.news.message.ChatActivity_;
 
 @SuppressWarnings("deprecation")
 @NoTitle
@@ -45,8 +48,14 @@ public class InviteUserActivity extends Activity {
 	private List<List<CheckableUserEntity>> childList;
 	private InviteViewAdapter adapter;
 
+	@Extra
+	String groupName;
+
 	@ViewById
 	ExpandableListView list;
+
+	@ViewById
+	Button btn_confirm;
 
 	@AfterViews
 	void init() {
@@ -91,13 +100,46 @@ public class InviteUserActivity extends Activity {
 	@Click
 	void btn_confirm() {
 
+		List<UserEntity> invitedList = new ArrayList<UserEntity>();
+
+		for (List<CheckableUserEntity> subList : childList) {
+			for (CheckableUserEntity user : subList) {
+				if (user.isChecked())
+					invitedList.add(user);
+			}
+		}
+
+		if (invitedList.isEmpty()) {
+			Toast.makeText(getApplicationContext(), "您还未选择被邀请用户",
+					Toast.LENGTH_SHORT);
+			return;
+		} else {
+			handleAddCharGroupMember(groupName, invitedList);
+		}
+	}
+
+	@Background
+	void handleAddCharGroupMember(String groupName, List<UserEntity> invitedList) {
+		// TODO 与后台做实际通信
+		Intent intent = new Intent();
+		intent.putExtra("name", groupName);
+		intent.setClass(this, ChatActivity_.class);
+		startActivityForResult(intent, ActivityCode.CHAT_ACTIVITY);
+	}
+
+	@OnActivityResult(ActivityCode.CHAT_ACTIVITY)
+	void onInviteUerActivityResult(int resultCode, Intent data) {
+		Intent intent = getIntent();
+		intent.putExtra("result", "returned from InviteUserActivity");
+		this.setResult(0, intent);
+		this.finish();
+		Log.d("Return", "return from ChatActivity");
 	}
 
 	@Click
 	void btn_back() {
-
 		Intent intent = getIntent();
-		intent.putExtra("result", "returned from ContactsActivity");
+		intent.putExtra("result", "returned from InviteUserActivity");
 		this.setResult(0, intent);
 		this.finish();
 	}

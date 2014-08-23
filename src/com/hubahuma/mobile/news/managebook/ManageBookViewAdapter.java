@@ -76,7 +76,7 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {// 行是否可选
-		return false;
+		return true;
 	}
 
 	@SuppressLint("InflateParams")

@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -46,6 +47,9 @@ public class AddChatGroupActivity extends FragmentActivity {
 	@ViewById
 	TextView prompt_info;
 
+	@ViewById
+	Button btn_add_chat_group;
+	
 	private PromptDialog_ dialog;
 
 	@AfterViews
@@ -64,17 +68,18 @@ public class AddChatGroupActivity extends FragmentActivity {
 			return;
 		}
 
+		showProgressBar();
 		handleAddGroup(text);
 	}
 
-	@Background
+	@Background(delay = 1000)
 	void handleAddGroup(String groupName) {
-		showProgressBar();
 		boolean result = createChatGroup(groupName, null);
 		hideProgressBar();
 		if (result) {
 			Intent intent = new Intent();
 			intent.setClass(this, InviteUserActivity_.class);
+			intent.putExtra("groupName", groupName);
 			startActivityForResult(intent, ActivityCode.INVITE_USER_ACTIVITY);
 		} else {
 			showPrompt("创建失败，该名称已存在", null);
@@ -85,7 +90,7 @@ public class AddChatGroupActivity extends FragmentActivity {
 	void onInviteUerActivityResult(int resultCode, Intent data) {
 		searchBox.setText("");
 		Intent intent = getIntent();
-		intent.putExtra("result", "returned from ContactsActivity");
+		intent.putExtra("result", "returned from AddChatGroupActivity");
 		this.setResult(0, intent);
 		this.finish();
 		Log.d("Return", "return from InviteUserActivity");
@@ -93,23 +98,19 @@ public class AddChatGroupActivity extends FragmentActivity {
 
 	boolean createChatGroup(String groupName, UserEntity admin) {
 		// TODO 与后台通信
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return true;
 	}
 
 	@UiThread
 	void showProgressBar() {
+		btn_add_chat_group.setEnabled(false);
 		progress_bar.setVisibility(View.VISIBLE);
 	}
 
 	@UiThread
 	void hideProgressBar() {
 		progress_bar.setVisibility(View.GONE);
+		btn_add_chat_group.setEnabled(true);
 	}
 
 	@UiThread

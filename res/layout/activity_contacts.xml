@@ -17,7 +17,7 @@
         android:background="@color/topbar_bg"
         android:paddingBottom="@dimen/topbar_vertical_padding"
         android:paddingLeft="@dimen/topbar_horizontal_padding"
-        android:paddingRight="@dimen/topbar_horizontal_padding"
+        android:paddingRight="0dp"
         android:paddingTop="@dimen/topbar_vertical_padding" >
 
         <TextView
@@ -30,6 +30,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/app_name"
             android:scaleType="centerInside"
@@ -41,6 +43,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:background="@android:color/transparent"
             android:contentDescription="@string/app_name"
             android:scaleType="centerInside"

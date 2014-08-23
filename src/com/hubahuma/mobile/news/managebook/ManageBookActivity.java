@@ -183,9 +183,10 @@ public class ManageBookActivity extends FragmentActivity implements
 			// TODO Auto-generated method stub
 			Toast.makeText(getApplicationContext(), "Delete",
 					Toast.LENGTH_SHORT).show();
-			for (int pos : reverseSortedPositions) {
-				int childPos = list.getPackedPositionChild(pos);// 获取第一行child的id
-				int groupPos = list.getPackedPositionGroup(pos);// 获取第一行group的id
+			for (int position : reverseSortedPositions) {
+				long pos = list.getExpandableListPosition(position);
+				int childPos = ExpandableListView.getPackedPositionChild(pos);// 获取第一行child的id
+				int groupPos = ExpandableListView.getPackedPositionGroup(pos);// 获取第一行group的id
 				Log.d("DELETE", "pos=" + pos + " -> [" + groupPos + ","
 						+ childPos + "]");
 				UserEntity deletedUser = filteredGroupList.get(groupPos)
