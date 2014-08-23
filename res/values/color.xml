@@ -22,6 +22,8 @@
     <color name="contacts_remark">#8f919d</color>
     <color name="contacts_group_title_bg">#677586</color>
     <color name="light_red">#EB2D3F</color>
+    <color name="btn_red">#E74342</color>
     <color name="dark_bg">#222E3E</color>
     <color name="add_bar_bg">#516276</color>
+    <color name="invite_bottom_bar_bg">#334256</color>
 </resources>

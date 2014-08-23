@@ -81,8 +81,20 @@
             android:label="@string/title_activity_add_contact" >
         </activity>
         <activity
-            android:name="com.hubahuma.mobile.news.contacts.SearchResultActivity_"
+            android:name=".news.contacts.SearchResultActivity_"
             android:label="@string/title_activity_search_result_fragment" >
+        </activity>
+        <activity
+            android:name=".news.contacts.AddChatGroupActivity_"
+            android:label="@string/title_activity_add_chat_group" >
+        </activity>
+        <activity
+            android:name=".PromptDialog_"
+            android:label="@string/title_activity_prompt_dialog" >
+        </activity>
+        <activity
+            android:name="com.hubahuma.mobile.news.contacts.InviteUserActivity_"
+            android:label="@string/title_activity_invite_user" >
         </activity>
     </application>
 

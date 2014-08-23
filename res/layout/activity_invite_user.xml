@@ -1,0 +1,92 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="${relativePackage}.${activityClass}" >
+
+        <!-- title -->
+
+        <RelativeLayout
+            android:id="@+id/topbar_message"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/topbar_height"
+            android:background="@color/topbar_bg"
+            android:paddingBottom="@dimen/topbar_vertical_padding"
+            android:paddingLeft="@dimen/topbar_horizontal_padding"
+            android:paddingRight="@dimen/topbar_horizontal_padding"
+            android:paddingTop="@dimen/topbar_vertical_padding" >
+
+            <TextView
+                style="@style/TopBarTitle"
+                android:text="@string/invite_user" />
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
+                android:src="@drawable/back" />
+        </RelativeLayout>
+
+        <!-- content -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/choose_user_to_invite"
+            android:textColor="@color/grey_hint"
+            android:textSize="14sp" />
+
+        <ExpandableListView
+            android:id="@id/android:list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@null"
+            android:childDivider="@color/contacts_list_divider"
+            android:childIndicatorLeft="0dp"
+            android:clickable="true"
+            android:divider="@null"
+            android:groupIndicator="@null" >
+        </ExpandableListView>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/invite_bottom_bar_bg"
+        android:padding="10dp" >
+
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/btn_add_chat_group_bg"
+            android:text="@string/confirm"
+            android:textColor="@color/text_light"
+            android:textSize="16sp" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/btn_confirm" />
+    </RelativeLayout>
+
+</RelativeLayout>

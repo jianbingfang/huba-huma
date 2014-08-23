@@ -45,6 +45,7 @@ public class ContactsActivity extends FragmentActivity {
 
 	@ViewById
 	ExpandableListView list;
+	
 	@ViewById(R.id.search_input)
 	EditText searchBox;
 
@@ -164,7 +165,7 @@ public class ContactsActivity extends FragmentActivity {
 
 	@OnActivityResult(ActivityCode.ADD_CONTACT_ACTIVITY)
 	void onTeachingDiaryActivityResult(int resultCode, Intent data) {
-
+		searchBox.setText("");
 	}
 	
 	@Click

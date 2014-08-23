@@ -18,6 +18,7 @@
     <string name="login">登录</string>
     <string name="cancel">取消</string>
     <string name="save">保存</string>
+    <string name="confirm">确定</string>
     <string name="next">下一步</string>
     <string name="news">动态</string>
     <string name="writing">写作</string>
@@ -36,6 +37,10 @@
     <string name="chat_input_hint">写评论&#8230;</string>
     <string name="search_input_hint">搜索名字或虎爸虎妈ID</string>
     <string name="add_contact">添加用户到通讯录</string>
+    <string name="input_group_name">输入群名称</string>
+    <string name="add_group_and_invite">创建并邀请好友</string>
+    <string name="invite_user">邀请用户</string>
+    <string name="choose_user_to_invite">选择您要邀请到群的成员</string>
     <string name="search_result">已搜索到：</string>
     <string name="add_contact_input_hint">输入虎爸虎妈ID/手机号</string>
     <string name="search_group">查找群</string>
@@ -55,5 +60,8 @@
     <string name="title_activity_contacts">ContactsActivity</string>
     <string name="title_activity_add_contact">AddContactActivity</string>
     <string name="title_activity_search_result_fragment">SearchResultFragment</string>
+    <string name="title_activity_add_chat_group">AddChatGroupActivity</string>
+    <string name="title_activity_prompt_dialog">PromptDialog</string>
+    <string name="title_activity_invite_user">InviteUserActivity</string>
 
 </resources>

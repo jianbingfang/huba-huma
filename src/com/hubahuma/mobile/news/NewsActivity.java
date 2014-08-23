@@ -28,6 +28,8 @@ public class NewsActivity extends Activity {
 		public static final int GROUP_MANAGE_ACTIVITY = 4;
 		public static final int ADD_CONTACT_ACTIVITY = 5;
 		public static final int SEARCH_RESULT_ACTIVITY = 6;
+		public static final int ADD_CHAT_GROUP_ACTIVITY = 7;
+		public static final int INVITE_USER_ACTIVITY = 7;
 	}
 
 	@ViewById(R.id.message_redspot)

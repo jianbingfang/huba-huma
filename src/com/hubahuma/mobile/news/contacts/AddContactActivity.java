@@ -72,6 +72,7 @@ public class AddContactActivity extends FragmentActivity {
 
 	@OnActivityResult(ActivityCode.SEARCH_RESULT_ACTIVITY)
 	void onSearchResultActivityResult(int resultCode, Intent data) {
+		searchBox.setText("");
 		searchResultShowed = false;
 	}
 
@@ -82,9 +83,16 @@ public class AddContactActivity extends FragmentActivity {
 
 	@Click
 	void new_group_btn() {
-		System.out.println("new_group_btn");
+		Intent intent = new Intent();
+		intent.setClass(this, AddChatGroupActivity_.class);
+		startActivityForResult(intent, ActivityCode.ADD_CHAT_GROUP_ACTIVITY);
 	}
 
+	@OnActivityResult(ActivityCode.ADD_CHAT_GROUP_ACTIVITY)
+	void onAddChatGroupActivityResult(int resultCode, Intent data) {
+		Log.d("Return", "return from AddChatGroupActivity");
+	}
+	
 	@Click
 	void btn_back() {
 
