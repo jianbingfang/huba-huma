@@ -15,6 +15,7 @@
     <color name="timeline">#b9b9c8</color>
     <color name="message_author_name">#577395</color>
     <color name="grey">#999</color>
+    <color name="light_grey">#aaa</color>
     <color name="grey_hint">#ccc</color>
     <color name="chat_date_bg">#313f51</color>
     <color name="white">#ffffff</color>
@@ -27,4 +28,7 @@
     <color name="add_bar_bg">#516276</color>
     <color name="invite_bottom_bar_bg">#334256</color>
     <color name="transparent">#00000000</color>
+    <color name="diary_bg">#f2f2f2</color>
+    <color name="diary_bottom_bg">#DFE3EC</color>
+    <color name="diary_bottom_text">#9BACC1</color>
 </resources>

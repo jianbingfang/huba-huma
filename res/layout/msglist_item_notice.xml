@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/msglist_item_horizontal_padding"
     android:paddingRight="@dimen/msglist_item_horizontal_padding"
-    android:background="@android:color/transparent"
+    android:background="@null"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -18,7 +18,7 @@
             android:id="@+id/portrait"
             android:layout_width="@dimen/portrait_size"
             android:layout_height="@dimen/portrait_size"
-            android:background="@android:color/transparent"
+            android:background="@null"
             android:scaleType="centerInside"
             android:contentDescription="@string/app_name"
             android:src="@drawable/default_portrait" />

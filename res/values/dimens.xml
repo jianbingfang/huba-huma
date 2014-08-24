@@ -29,6 +29,8 @@
     <dimen name="date_bottom_margin">5dp</dimen>
     <dimen name="portrait_size">50dp</dimen>
     
+    <dimen name="diary_portrait_size">40dp</dimen>
+    
     <dimen name="msglist_top_padding">0dp</dimen>
     <dimen name="msglist_divider_height">10dp</dimen>
     <dimen name="msglist_item_horizontal_padding">10dp</dimen>
@@ -62,5 +64,8 @@
     
     <dimen name="group_tree_item_vertical_padding">10dp</dimen>
     <dimen name="group_tree_title_vertical_padding">3dp</dimen>
+    
+    <dimen name="diary_box_horizontal_margin">8dp</dimen>
+    <dimen name="diary_icon_size">30dp</dimen>
     
 </resources>
