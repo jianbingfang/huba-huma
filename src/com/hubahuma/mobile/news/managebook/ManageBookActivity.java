@@ -72,6 +72,8 @@ public class ManageBookActivity extends FragmentActivity implements
 
 		list.setAdapter(adapter);
 		list.expandGroup(0);
+		expandAllGroup();
+		
 
 		// 设置监听器
 		list.setOnChildClickListener(new OnChildClickListener() {
@@ -262,7 +264,8 @@ public class ManageBookActivity extends FragmentActivity implements
 		for (int i = 0; i < adapter.getGroupCount(); i++) {
 			list.expandGroup(i, true);
 		}
-		list.setSelection(0);
+		
+		list.setSelectedChild(0, 0, true);
 	}
 
 	@Override

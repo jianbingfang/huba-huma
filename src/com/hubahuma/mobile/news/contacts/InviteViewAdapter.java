@@ -15,20 +15,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hubahuma.mobile.R;
-import com.hubahuma.mobile.news.contacts.InviteUserActivity.CheckableUserEntity;
+import com.hubahuma.mobile.entity.UserEntity;
 
 public class InviteViewAdapter extends BaseExpandableListAdapter {
 
+	public interface OnUserCheckedListener {
+		void onUserCheckedChanged(UserEntity user, boolean isChecked);
+	}
+
 	private List<String> groupData;
-	private List<List<CheckableUserEntity>> childData;// 组显示
+	private List<List<UserEntity>> childData;// 组显示
 
 	private LayoutInflater mInflater;
 
+	private OnUserCheckedListener listener;
+
 	public InviteViewAdapter(Context context, List<String> groupData,
-			List<List<CheckableUserEntity>> childData) {
+			List<List<UserEntity>> childData,
+			OnUserCheckedListener listener) {
 		this.groupData = groupData;
 		this.childData = childData;
 		this.mInflater = LayoutInflater.from(context);
+		this.listener = listener;
 	}
 
 	// 必须实现 得到子数据
@@ -89,7 +97,8 @@ public class InviteViewAdapter extends BaseExpandableListAdapter {
 			holder = (ExpandableGroupHolder) convertView.getTag();
 		}
 		String title = groupData.get(groupPosition);
-		holder.title.setText(title + "(" + this.getChildrenCount(groupPosition) + ")");
+		holder.title.setText(title + "(" + this.getChildrenCount(groupPosition)
+				+ ")");
 
 		if (isExpanded) {
 			holder.indicator
@@ -108,8 +117,7 @@ public class InviteViewAdapter extends BaseExpandableListAdapter {
 			boolean isLastChild, View convertView, ViewGroup viewgroup) {
 		ExpandableListHolder holder = null;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.invite_user_item,
-					null);
+			convertView = mInflater.inflate(R.layout.invite_user_item, null);
 			holder = new ExpandableListHolder();
 			holder.checkBox = (CheckBox) convertView
 					.findViewById(R.id.invite_check_box);
@@ -121,10 +129,10 @@ public class InviteViewAdapter extends BaseExpandableListAdapter {
 		} else {// 若行已初始化，直接从tag属性获得子视图的引用
 			holder = (ExpandableListHolder) convertView.getTag();
 		}
-		CheckableUserEntity user = childData.get(groupPosition).get(childPosition);
+		UserEntity user = childData.get(groupPosition).get(
+				childPosition);
 		// TODO 判断真实头像
 		holder.portrait.setImageResource(R.drawable.default_portrait);
-		holder.checkBox.setChecked(user.isChecked());
 		holder.checkBox.setTag(user);
 		holder.name.setText(user.getUsername());
 		if ("".equals(user.getRemark())) {
@@ -133,14 +141,17 @@ public class InviteViewAdapter extends BaseExpandableListAdapter {
 			holder.remark.setVisibility(View.VISIBLE);
 			holder.remark.setText(user.getRemark());
 		}
-		
-		holder.checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				CheckableUserEntity u = (CheckableUserEntity)buttonView.getTag();
-				u.setChecked(isChecked);
-			}
-		});
+
+		holder.checkBox
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						UserEntity u = (UserEntity) buttonView
+								.getTag();
+						listener.onUserCheckedChanged(u, isChecked);
+					}
+				});
 
 		return convertView;
 	}
@@ -158,5 +169,5 @@ public class InviteViewAdapter extends BaseExpandableListAdapter {
 		TextView name;
 		TextView remark;
 	}
-	
+
 }

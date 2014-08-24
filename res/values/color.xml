@@ -26,4 +26,5 @@
     <color name="dark_bg">#222E3E</color>
     <color name="add_bar_bg">#516276</color>
     <color name="invite_bottom_bar_bg">#334256</color>
+    <color name="transparent">#00000000</color>
 </resources>

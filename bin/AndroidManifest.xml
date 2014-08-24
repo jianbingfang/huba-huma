@@ -93,8 +93,12 @@
             android:label="@string/title_activity_prompt_dialog" >
         </activity>
         <activity
-            android:name="com.hubahuma.mobile.news.contacts.InviteUserActivity_"
+            android:name=".news.contacts.InviteUserActivity_"
             android:label="@string/title_activity_invite_user" >
+        </activity>
+        <activity
+            android:name="com.hubahuma.mobile.news.teachingdiary.TeachingDiaryActivity_"
+            android:label="@string/title_activity_teaching_diary" >
         </activity>
     </application>
 

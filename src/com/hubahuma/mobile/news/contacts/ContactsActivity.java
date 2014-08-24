@@ -64,7 +64,6 @@ public class ContactsActivity extends FragmentActivity {
 				filteredChildList);
 
 		list.setAdapter(adapter);
-		list.expandGroup(0);
 		expandAllGroup();
 
 		list.setOnChildClickListener(new OnChildClickListener() {
@@ -192,6 +191,6 @@ public class ContactsActivity extends FragmentActivity {
 		for (int i = 0; i < adapter.getGroupCount(); i++) {
 			list.expandGroup(i, true);
 		}
-		list.setSelection(0);
+		list.setSelectedChild(0, 0, true);
 	}
 }

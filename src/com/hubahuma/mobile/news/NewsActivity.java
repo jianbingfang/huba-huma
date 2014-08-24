@@ -3,6 +3,7 @@ package com.hubahuma.mobile.news;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
@@ -10,12 +11,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.news.contacts.ContactsActivity_;
 import com.hubahuma.mobile.news.managebook.ManageBookActivity_;
 import com.hubahuma.mobile.news.message.MessageActivity_;
+import com.hubahuma.mobile.news.teachingdiary.TeachingDiaryActivity_;
 
 @EActivity(R.layout.activity_news)
 public class NewsActivity extends Activity {
@@ -36,9 +39,14 @@ public class NewsActivity extends Activity {
 	@ViewById(R.id.message_redspot)
 	ImageView msgRedspot;
 
+	@ViewById
+	LinearLayout layout_teaching_diary, layout_manage_book;
+
 	@AfterViews
 	void init() {
 		msgRedspot.setVisibility(View.VISIBLE);
+		layout_teaching_diary.setVisibility(View.VISIBLE);
+		// layout_manage_book.setVisibility(View.VISIBLE);
 	}
 
 	@Click
@@ -57,7 +65,9 @@ public class NewsActivity extends Activity {
 
 	@Click
 	void btn_teaching_diary() {
-		// TODO
+		Intent intent = new Intent();
+		intent.setClass(this, TeachingDiaryActivity_.class);
+		startActivityForResult(intent, ActivityCode.TEACHING_DIARY_ACTIVITY);
 	}
 
 	@Click
@@ -65,7 +75,7 @@ public class NewsActivity extends Activity {
 		Intent intent = new Intent();
 		intent.setClass(this, ContactsActivity_.class);
 		startActivityForResult(intent, ActivityCode.CONTACTS_ACTIVITY);
-	
+
 	}
 
 	@OnActivityResult(ActivityCode.MESSAGE_ACTIVITY)
@@ -77,17 +87,23 @@ public class NewsActivity extends Activity {
 
 	@OnActivityResult(ActivityCode.MANAGE_BOOK_ACTIVITY)
 	void onManageBookActivityResult(int resultCode, Intent data) {
-
+		String result = data.getStringExtra("result");
+		Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT)
+				.show();
 	}
 
 	@OnActivityResult(ActivityCode.TEACHING_DIARY_ACTIVITY)
 	void onTeachingDiaryActivityResult(int resultCode, Intent data) {
-
+		String result = data.getStringExtra("result");
+		Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT)
+				.show();
 	}
 
 	@OnActivityResult(ActivityCode.CONTACTS_ACTIVITY)
 	void onContactsActivityResult(int resultCode, Intent data) {
-
+		String result = data.getStringExtra("result");
+		Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT)
+				.show();
 	}
 
 }
