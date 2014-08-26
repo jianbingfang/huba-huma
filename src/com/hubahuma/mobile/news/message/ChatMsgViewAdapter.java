@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
@@ -79,12 +80,20 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 			viewHolder.tvSendTime.setVisibility(View.GONE);
 		// TODO 判断真实头像
 		viewHolder.portrait.setBackgroundResource(R.drawable.default_portrait);
+		viewHolder.portrait.setTag(entity);
 		viewHolder.tvContent.setText(entity.getContent());
 		viewHolder.isComMsg = entity.isComMsg();
 		if (entity.getState() == ChatMsgEntity.MsgState.SENDING)
 			viewHolder.progressBar.setVisibility(View.VISIBLE);
 		else
 			viewHolder.progressBar.setVisibility(View.GONE);
+		
+		viewHolder.portrait.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				//TODO 
+			}
+		});
 
 		return convertView;
 	}

@@ -31,4 +31,5 @@
     <color name="diary_bg">#f2f2f2</color>
     <color name="diary_bottom_bg">#DFE3EC</color>
     <color name="diary_bottom_text">#9BACC1</color>
+    <color name="profile_item_bar">#506276</color>
 </resources>

@@ -64,5 +64,6 @@
     <string name="title_activity_prompt_dialog">PromptDialog</string>
     <string name="title_activity_invite_user">InviteUserActivity</string>
     <string name="title_activity_teaching_diary">TeachingDiaryActivity</string>
-
+    <string name="title_activity_profile_teacher">ProfileTeacherActivity</string>
+	<string name="qualification">资质认证</string>
 </resources>

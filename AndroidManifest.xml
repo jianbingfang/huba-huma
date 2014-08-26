@@ -97,8 +97,12 @@
             android:label="@string/title_activity_invite_user" >
         </activity>
         <activity
-            android:name="com.hubahuma.mobile.news.teachingdiary.TeachingDiaryActivity_"
+            android:name=".news.teachingdiary.TeachingDiaryActivity_"
             android:label="@string/title_activity_teaching_diary" >
+        </activity>
+        <activity
+            android:name="com.hubahuma.mobile.profile.ProfileTeacherActivity_"
+            android:label="@string/title_activity_profile_teacher" >
         </activity>
     </application>
 
