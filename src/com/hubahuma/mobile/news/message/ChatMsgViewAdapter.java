@@ -19,12 +19,19 @@ import com.hubahuma.mobile.utils.UtilTools;
 
 public class ChatMsgViewAdapter extends BaseAdapter {
 
+	public interface ChatMsgViewListener{
+		public void onPortraitClick(String id);
+	}
+	
 	private List<ChatMsgEntity> dataList;
 	private LayoutInflater mInflater;
+	
+	private ChatMsgViewListener listener;
 
-	public ChatMsgViewAdapter(Context context, List<ChatMsgEntity> data) {
+	public ChatMsgViewAdapter(Context context, List<ChatMsgEntity> data, ChatMsgViewListener listener) {
 		this.dataList = data;
-		mInflater = LayoutInflater.from(context);
+		this.mInflater = LayoutInflater.from(context);
+		this.listener = listener;
 	}
 
 	// 获取ListView的项个数
@@ -88,10 +95,12 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 		else
 			viewHolder.progressBar.setVisibility(View.GONE);
 		
+		final String name = entity.getName();
 		viewHolder.portrait.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				//TODO 
+				listener.onPortraitClick(name);
 			}
 		});
 

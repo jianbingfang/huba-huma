@@ -29,15 +29,19 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.entity.ChatMsgEntity;
 import com.hubahuma.mobile.entity.ChatMsgEntity.MsgState;
+import com.hubahuma.mobile.news.managebook.ManageBookActivity_;
+import com.hubahuma.mobile.news.message.ChatMsgViewAdapter.ChatMsgViewListener;
+import com.hubahuma.mobile.profile.ProfileTeacherActivity_;
 import com.hubahuma.mobile.utils.UtilTools;
 
 @SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_chat)
-public class ChatActivity extends Activity {
+public class ChatActivity extends Activity implements ChatMsgViewListener{
 
 	@Extra
 	String name;
@@ -84,7 +88,7 @@ public class ChatActivity extends Activity {
 		mPullRefreshListView.setMode(Mode.PULL_FROM_START);// 设置底部下拉刷新模式
 
 		listItem = getTestData();// 获取list数据
-		adapter = new ChatMsgViewAdapter(getApplicationContext(), listItem);
+		adapter = new ChatMsgViewAdapter(getApplicationContext(), listItem, this);
 
 		// 设置适配器
 		ListView actualListView = mPullRefreshListView.getRefreshableView();
@@ -202,5 +206,14 @@ public class ChatActivity extends Activity {
 			list.add(msg);
 		}
 		return list;
+	}
+
+	@Override
+	public void onPortraitClick(String id) {
+		// TODO Auto-generated method stub
+		Intent intent = new Intent();
+		intent.putExtra("id", id);
+		intent.setClass(this, ProfileTeacherActivity_.class);
+		startActivityForResult(intent, ActivityCode.PROFILE_TEACHER_ACTIVITY);
 	}
 }

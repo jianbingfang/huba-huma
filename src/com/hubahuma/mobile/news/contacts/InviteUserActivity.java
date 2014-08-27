@@ -24,9 +24,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.entity.UserEntity;
-import com.hubahuma.mobile.news.NewsActivity.ActivityCode;
 import com.hubahuma.mobile.news.contacts.InviteViewAdapter.OnUserCheckedListener;
 import com.hubahuma.mobile.news.message.ChatActivity_;
 

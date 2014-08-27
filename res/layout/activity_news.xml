@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:visibility="gone" >
+                android:visibility="invisible" >
 
                 <ImageButton
                     android:id="@+id/btn_teaching_diary"
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:visibility="gone" >
+                android:visibility="invisible" >
 
                 <ImageButton
                     android:id="@+id/btn_manage_book"

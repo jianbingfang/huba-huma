@@ -7,9 +7,9 @@ import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
+import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.layout;
-import com.hubahuma.mobile.news.NewsActivity.ActivityCode;
 import com.hubahuma.mobile.news.managebook.ManageBookActivity_;
 import com.hubahuma.mobile.utils.UtilTools;
 

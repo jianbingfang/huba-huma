@@ -101,8 +101,12 @@
             android:label="@string/title_activity_teaching_diary" >
         </activity>
         <activity
-            android:name="com.hubahuma.mobile.profile.ProfileTeacherActivity_"
+            android:name=".profile.ProfileTeacherActivity_"
             android:label="@string/title_activity_profile_teacher" >
+        </activity>
+        <activity
+            android:name="com.hubahuma.mobile.profile.PublishedArticleActivity_"
+            android:label="@string/title_activity_published_article" >
         </activity>
     </application>
 

@@ -145,7 +145,7 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO 写入真实号码
-				phoneOperListener.sendSMS("10086", "hello");
+				phoneOperListener.sendSMS("10086", "");
 				Log.d("debug", "send message to " + username);
 			}
 		});

@@ -6,7 +6,10 @@ import org.androidannotations.annotations.NoTitle;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 
+import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
 
 @SuppressWarnings("deprecation")
@@ -15,6 +18,25 @@ import com.hubahuma.mobile.R;
 public class ProfileTeacherActivity extends Activity {
 
 	
+	@Click
+	void latest_article_panel(){
+		Intent intent = new Intent(this, PublishedArticleActivity_.class);
+		startActivityForResult(intent, ActivityCode.PUBLISHED_ARTICLE_ACTIVITY);
+	}
+	
+	@Click
+	void btn_phone() {
+		phone_panel();
+	}
+
+	@Click
+	void phone_panel() {
+		// TODO 加入真实号码
+		Uri callToUri = Uri.parse("tel:" + "10086");
+		Intent intent = new Intent(Intent.ACTION_CALL, callToUri);
+		startActivity(intent);
+	}
+
 	@Click
 	void btn_back() {
 		Intent intent = getIntent();

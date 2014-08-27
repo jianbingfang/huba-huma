@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/diary_box_horizontal_margin"
+    android:paddingRight="@dimen/diary_box_horizontal_margin"
+    android:paddingTop="10dp" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/diary_box_horizontal_margin"
+        android:layout_marginRight="@dimen/diary_box_horizontal_margin"
+        android:background="@drawable/diary_top_area"
+        android:padding="8dp" >
+
+        <ImageView
+            android:id="@+id/portrait"
+            android:layout_width="@dimen/diary_portrait_size"
+            android:layout_height="@dimen/diary_portrait_size"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerInside"
+            android:src="@drawable/default_portrait" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/portrait" >
+
+            <TextView
+                android:id="@+id/author_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="90dp"
+                android:singleLine="true"
+                android:text="姚燕芬老师"
+                android:textColor="@color/message_author_name"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/remark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/author_name"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/author_name"
+                android:maxWidth="130dp"
+                android:singleLine="true"
+                android:text="北京市第二幼儿园"
+                android:textColor="@color/contacts_remark"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/author_name"
+                android:singleLine="true"
+                android:text="5月18日  16:35"
+                android:textColor="@color/light_grey"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/btn_follow"
+            android:layout_width="@dimen/diary_icon_size"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerInside"
+            android:src="@drawable/followed_diary" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/article_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerCrop"
+        android:src="@drawable/teaching_diary_img" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/diary_box_horizontal_margin"
+        android:layout_marginRight="@dimen/diary_box_horizontal_margin"
+        android:background="@color/diary_bg"
+        android:orientation="vertical"
+        android:paddingBottom="7dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="10dp" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="10dp"
+            android:lineSpacingMultiplier="1.1"
+            android:text="英孚青少儿英语建理想校园：校风师德受期待"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+        
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="1.2"
+            android:maxLines="3"
+            android:text="英孚教育联手某知名门户网站针对展开调研，英孚教育联手某知名门户网站针对展开调研，英孚教育联手某知名门户网站针对展开调研，英孚教育联手某知名门户网站针对展开调研，"
+            android:textColor="#666"
+            android:textSize="14sp" />
+        
+        <ImageButton
+            android:id="@+id/btn_read_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@null"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/read_more" />
+        
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/diary_box_horizontal_margin"
+        android:layout_marginRight="@dimen/diary_box_horizontal_margin"
+        android:background="@drawable/diary_bottom_area"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp" >
+
+        <ImageButton
+            android:id="@+id/icon_collect"
+            android:layout_width="@dimen/diary_icon_size"
+            android:layout_height="@dimen/diary_icon_size"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerInside"
+            android:src="@drawable/collect" />
+
+        <TextView
+            android:id="@+id/popularity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/icon_collect"
+            android:text="105"
+            android:textColor="@color/diary_bottom_text"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/icon_comment"
+                android:layout_width="@dimen/diary_icon_size"
+                android:layout_height="@dimen/diary_icon_size"
+                android:background="@null"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
+                android:src="@drawable/comment" />
+
+            <TextView
+                android:id="@+id/comment_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="22"
+                android:textColor="@color/diary_bottom_text"
+                android:textSize="13sp" />
+
+            <ImageButton
+                android:id="@+id/icon_share"
+                android:layout_width="@dimen/diary_icon_size"
+                android:layout_height="@dimen/diary_icon_size"
+                android:layout_marginLeft="20dp"
+                android:background="@null"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
+                android:src="@drawable/share" />
+
+            <CheckBox
+                android:id="@+id/icon_like"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="5dp"
+                android:button="@null"
+                android:background="@drawable/checkbox_like"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -9,12 +9,12 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
+import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.PromptDialog;
 import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.entity.UserEntity;
-import com.hubahuma.mobile.news.NewsActivity.ActivityCode;
 import com.hubahuma.mobile.utils.UtilTools;
 
 import android.annotation.SuppressLint;

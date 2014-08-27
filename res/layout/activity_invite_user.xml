@@ -78,7 +78,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
-            android:background="@drawable/btn_add_chat_group_bg"
+            android:background="@drawable/btn_red_bg"
             android:text="@string/confirm"
             android:textColor="@color/text_light"
             android:textSize="16sp" />

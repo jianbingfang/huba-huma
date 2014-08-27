@@ -33,10 +33,10 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.entity.GroupEntity;
 import com.hubahuma.mobile.entity.UserEntity;
-import com.hubahuma.mobile.news.NewsActivity.ActivityCode;
 import com.hubahuma.mobile.news.managebook.ChangeGroupDialog.EditNameDialogListener;
 import com.hubahuma.mobile.news.managebook.ManageBookViewAdapter.PhoneOperationListener;
 import com.hubahuma.mobile.news.message.MessageActivity_;
