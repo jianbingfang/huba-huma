@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="10dp"
     android:background="@color/main_bg"
     android:orientation="vertical"
     android:paddingLeft="@dimen/diary_box_horizontal_margin"
@@ -102,13 +103,13 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="0dp"
             android:lineSpacingMultiplier="1.1"
             android:text="英孚青少儿英语建理想校园：校风师德受期待"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
-        
+
         <TextView
             android:id="@+id/content"
             android:layout_width="match_parent"
@@ -118,17 +119,16 @@
             android:text="英孚教育联手某知名门户网站针对展开调研，英孚教育联手某知名门户网站针对展开调研，英孚教育联手某知名门户网站针对展开调研，英孚教育联手某知名门户网站针对展开调研，"
             android:textColor="#666"
             android:textSize="14sp" />
-        
+
         <ImageButton
             android:id="@+id/btn_read_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@null"
-            android:paddingTop="10dp"
             android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:src="@drawable/read_more" />
-        
     </LinearLayout>
 
     <RelativeLayout
@@ -203,8 +203,8 @@
                 android:layout_height="25dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
-                android:button="@null"
                 android:background="@drawable/checkbox_like"
+                android:button="@null"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerInside" />
         </LinearLayout>

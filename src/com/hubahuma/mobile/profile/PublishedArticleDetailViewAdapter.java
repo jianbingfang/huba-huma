@@ -20,13 +20,13 @@ import com.hubahuma.mobile.entity.DiaryEntity;
 import com.hubahuma.mobile.entity.GroupEntity;
 import com.hubahuma.mobile.utils.UtilTools;
 
-public class PublishedArticleViewAdapter extends BaseAdapter {
+public class PublishedArticleDetailViewAdapter extends BaseAdapter {
 
 	private List<ArticleEntity> dataList;
 
 	private LayoutInflater mInflater;
 
-	public PublishedArticleViewAdapter(Context context, List<ArticleEntity> data) {
+	public PublishedArticleDetailViewAdapter(Context context, List<ArticleEntity> data) {
 		this.mInflater = LayoutInflater.from(context);
 		this.dataList = data;
 	}
@@ -54,7 +54,7 @@ public class PublishedArticleViewAdapter extends BaseAdapter {
 
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.teaching_diary_item, null);
+			convertView = mInflater.inflate(R.layout.article_detail_item, null);
 			viewHolder = new ViewHolder();
 			viewHolder.portrait = (ImageView) convertView.findViewById(R.id.portrait);
 			viewHolder.authorName = (TextView) convertView.findViewById(R.id.author_name);

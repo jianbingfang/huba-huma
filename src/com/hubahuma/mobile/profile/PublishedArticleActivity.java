@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
@@ -16,15 +17,21 @@ import org.androidannotations.annotations.ViewById;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.entity.ArticleEntity;
+import com.hubahuma.mobile.entity.GroupEntity;
 import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.news.teachingdiary.TeachingDiaryViewAdapter;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -39,19 +46,65 @@ public class PublishedArticleActivity extends Activity {
 	@ViewById
 	ProgressBar progress_bar;
 
-	private List<ArticleEntity> dataList = new ArrayList<ArticleEntity>();
+	@ViewById
+	CheckBox btn_layout_switch;
 
-	private PublishedArticleViewAdapter adapter;
+	@ViewById
+	EditText search_input;
+	
+	private List<ArticleEntity> dataList = new ArrayList<ArticleEntity>();
+	private List<ArticleEntity> filteredList;
+
+	private PublishedArticleDetailViewAdapter detailAdapter;
+
+	private PublishedArticleOutlineViewAdapter outlineAdapter;
 
 	@AfterViews
 	void init() {
 		loadData();
+		btn_layout_switch
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView,
+							boolean isChecked) {
+						if (isChecked) {
+							article_list.setAdapter(detailAdapter);
+							detailAdapter.notifyDataSetChanged();
+						} else {
+							article_list.setAdapter(outlineAdapter);
+							outlineAdapter.notifyDataSetChanged();
+						}
+						search_input.setText("");
+					}
+				});
+	}
+
+	@AfterTextChange(R.id.search_input)
+	void afterTextChangedOnHelloTextView(Editable text) {
+
+		String word = text.toString().trim();
+
+		filteredList.clear();
+
+		for (ArticleEntity entity : dataList) {
+			if (entity.getTitle() != null && entity.getTitle().contains(word)) {
+				filteredList.add(entity);
+			}
+		}
+
+		if (btn_layout_switch.isChecked()) {
+			detailAdapter.notifyDataSetChanged();
+		} else {
+			outlineAdapter.notifyDataSetChanged();
+		}
+
 	}
 
 	@Background(delay = 2000)
 	void loadData() {
 		showProgressBar();
 		dataList = getTestData();
+		filteredList = new ArrayList<ArticleEntity>(dataList);
 		hideProgressBar();
 	}
 
@@ -62,11 +115,12 @@ public class PublishedArticleActivity extends Activity {
 
 	@UiThread
 	void hideProgressBar() {
-		adapter = new PublishedArticleViewAdapter(getApplicationContext(),
-				dataList);
-		article_list.setAdapter(adapter);
+		detailAdapter = new PublishedArticleDetailViewAdapter(
+				getApplicationContext(), filteredList);
+		outlineAdapter = new PublishedArticleOutlineViewAdapter(
+				getApplicationContext(), filteredList);
+		article_list.setAdapter(detailAdapter);
 		progress_bar.setVisibility(View.GONE);
-		// adapter.notifyDataSetChanged();
 
 	}
 
