@@ -109,8 +109,12 @@
             android:label="@string/title_activity_published_article" >
         </activity>
         <activity
-            android:name="com.hubahuma.mobile.profile.CommentsActivity_"
+            android:name=".profile.CommentsActivity_"
             android:label="@string/title_activity_comments" >
+        </activity>
+        <activity
+            android:name="com.hubahuma.mobile.profile.WriteTeacherCommentActivity_"
+            android:label="@string/title_activity_write_comment" >
         </activity>
     </application>
 
