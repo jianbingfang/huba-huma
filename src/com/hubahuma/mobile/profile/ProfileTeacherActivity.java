@@ -19,6 +19,27 @@ public class ProfileTeacherActivity extends Activity {
 
 	
 	@Click
+	void btn_comment(){
+		Intent intent = new Intent(this, CommentsActivity_.class);
+		startActivityForResult(intent, ActivityCode.COMMENTS_ACTIVITY);
+	}
+
+	@Click
+	void comment_panel(){
+		btn_comment();
+	}
+	
+	@Click
+	void btn_add_to_managebook(){
+		
+	}
+	
+	@Click
+	void btn_follow(){
+		
+	}
+	
+	@Click
 	void latest_article_panel(){
 		Intent intent = new Intent(this, PublishedArticleActivity_.class);
 		startActivityForResult(intent, ActivityCode.PUBLISHED_ARTICLE_ACTIVITY);

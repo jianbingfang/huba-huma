@@ -26,7 +26,8 @@ public class PublishedArticleDetailViewAdapter extends BaseAdapter {
 
 	private LayoutInflater mInflater;
 
-	public PublishedArticleDetailViewAdapter(Context context, List<ArticleEntity> data) {
+	public PublishedArticleDetailViewAdapter(Context context,
+			List<ArticleEntity> data) {
 		this.mInflater = LayoutInflater.from(context);
 		this.dataList = data;
 	}
@@ -56,46 +57,62 @@ public class PublishedArticleDetailViewAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.article_detail_item, null);
 			viewHolder = new ViewHolder();
-			viewHolder.portrait = (ImageView) convertView.findViewById(R.id.portrait);
-			viewHolder.authorName = (TextView) convertView.findViewById(R.id.author_name);
-			viewHolder.remark = (TextView) convertView.findViewById(R.id.remark);
+			viewHolder.portrait = (ImageView) convertView
+					.findViewById(R.id.portrait);
+			viewHolder.authorName = (TextView) convertView
+					.findViewById(R.id.author_name);
+			viewHolder.remark = (TextView) convertView
+					.findViewById(R.id.remark);
 			viewHolder.date = (TextView) convertView.findViewById(R.id.date);
-			viewHolder.isFollowed = (ImageView) convertView.findViewById(R.id.btn_follow);
-			viewHolder.articleImg = (ImageView) convertView.findViewById(R.id.article_img);
+			viewHolder.isFollowed = (ImageView) convertView
+					.findViewById(R.id.btn_follow);
+			viewHolder.articleImg = (ImageView) convertView
+					.findViewById(R.id.article_img);
 			viewHolder.title = (TextView) convertView.findViewById(R.id.title);
-			viewHolder.content = (TextView) convertView.findViewById(R.id.content);
-			viewHolder.readMoreBtn = (ImageButton) convertView.findViewById(R.id.btn_read_more);
-			viewHolder.collectBtn = (ImageButton) convertView.findViewById(R.id.icon_collect);
-			viewHolder.popularity = (TextView) convertView.findViewById(R.id.popularity);
-			viewHolder.commentBtn = (ImageButton) convertView.findViewById(R.id.icon_comment);
-			viewHolder.commentNum = (TextView) convertView.findViewById(R.id.comment_num);
-			viewHolder.shareBtn = (ImageButton) convertView.findViewById(R.id.icon_share);
-			viewHolder.likeCheckBox = (CheckBox) convertView.findViewById(R.id.icon_like);
+			viewHolder.content = (TextView) convertView
+					.findViewById(R.id.content);
+			viewHolder.readMoreBtn = (ImageButton) convertView
+					.findViewById(R.id.btn_read_more);
+			viewHolder.collectBtn = (ImageButton) convertView
+					.findViewById(R.id.icon_collect);
+			viewHolder.popularity = (TextView) convertView
+					.findViewById(R.id.popularity);
+			viewHolder.commentBtn = (ImageButton) convertView
+					.findViewById(R.id.icon_comment);
+			viewHolder.commentNum = (TextView) convertView
+					.findViewById(R.id.comment_num);
+			viewHolder.shareBtn = (ImageButton) convertView
+					.findViewById(R.id.icon_share);
+			viewHolder.likeCheckBox = (CheckBox) convertView
+					.findViewById(R.id.icon_like);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		viewHolder.portrait.setBackgroundResource(R.drawable.default_portrait);;
+		viewHolder.portrait.setBackgroundResource(R.drawable.default_portrait);
 		viewHolder.authorName.setText(item.getAuthor().getUsername());
 		viewHolder.remark.setText(item.getAuthor().getRemark());
 		viewHolder.date.setText(UtilTools.ParseDate(item.getDate()));
 		// TODO 判断真实图片
-		viewHolder.articleImg.setBackgroundResource(R.drawable.teaching_diary_img);
+		viewHolder.articleImg
+				.setBackgroundResource(R.drawable.teaching_diary_img);
 		viewHolder.title.setText(item.getTitle());
 		viewHolder.content.setText(item.getContent());
 		viewHolder.popularity.setText(String.valueOf(item.getCollectNum()));
 		viewHolder.commentNum.setText(String.valueOf(item.getCommentNum()));
 		viewHolder.likeCheckBox.setChecked(item.isLiked());
-		
-		final TextView cont = viewHolder.content;
+		viewHolder.readMoreBtn.setTag(viewHolder.content);
+
 		viewHolder.readMoreBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				TextView cont = (TextView) v.getTag();
 				cont.setMaxLines(cont.getLineCount());
+				v.setVisibility(View.GONE);
 			}
 		});
-		
+
 		// TODO 待定事项
 		// viewHolder.isFollowed;
 		// viewHolder.shareBtn;

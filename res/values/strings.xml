@@ -67,5 +67,6 @@
     <string name="title_activity_profile_teacher">ProfileTeacherActivity</string>
     <string name="qualification">资质认证</string>
     <string name="title_activity_published_article">PublishedArticleActivity</string>
+    <string name="title_activity_comments">CommentsActivity</string>
 
 </resources>
