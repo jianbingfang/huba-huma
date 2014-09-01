@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.hubahuma.mobile.R;
@@ -62,7 +63,7 @@ public class CommentViewAdapter extends BaseAdapter {
 			viewHolder.remark = (TextView) convertView.findViewById(R.id.remark);
 			viewHolder.content = (TextView) convertView.findViewById(R.id.content);
 			viewHolder.date = (TextView) convertView.findViewById(R.id.date);
-			viewHolder.scoreBar = (LinearLayout) convertView.findViewById(R.id.score_bar);
+			viewHolder.scoreBar = (RatingBar) convertView.findViewById(R.id.score_bar);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -74,10 +75,7 @@ public class CommentViewAdapter extends BaseAdapter {
 		viewHolder.remark.setText(item.getUser().getRemark());
 		viewHolder.date.setText(UtilTools.ParseDate(item.getDate()));
 		viewHolder.content.setText(item.getContent());
-		for(int i = 0; i < item.getScore(); i++){
-			ImageView star = (ImageView)viewHolder.scoreBar.getChildAt(i);
-			star.setImageResource(R.drawable.star_red);
-		}
+		viewHolder.scoreBar.setRating(item.getScore());
 		
 		return convertView;
 	}
@@ -88,7 +86,7 @@ public class CommentViewAdapter extends BaseAdapter {
 		public TextView remark;
 		public TextView content;
 		public TextView date;
-		public LinearLayout scoreBar;
+		public RatingBar scoreBar;
 	}
 
 }

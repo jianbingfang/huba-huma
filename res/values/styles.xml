@@ -69,4 +69,11 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="rating_bar_style" parent="@android:style/Widget.RatingBar">  
+       <item name="android:progressDrawable">@drawable/rating_bar_selector</item>  
+       <item name="android:numStars">5</item>  
+       <item name="android:minHeight">@dimen/rating_bar_height</item>  
+       <item name="android:maxHeight">@dimen/rating_bar_height</item>  
+   </style>
+    
 </resources>

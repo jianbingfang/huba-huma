@@ -5,7 +5,7 @@ import java.util.Date;
 public class CommentEntity {
 	
 	private UserEntity user;
-	private double score;
+	private float score;
 	private String content;
 	private Date date;
 
@@ -17,11 +17,11 @@ public class CommentEntity {
 		this.user = user;
 	}
 
-	public double getScore() {
+	public float getScore() {
 		return score;
 	}
 
-	public void setScore(double score) {
+	public void setScore(float score) {
 		this.score = score;
 	}
 

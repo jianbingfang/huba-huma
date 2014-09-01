@@ -14,4 +14,5 @@ public interface ActivityCode {
 	public static final int PROFILE_TEACHER_ACTIVITY = 10;
 	public static final int PUBLISHED_ARTICLE_ACTIVITY = 11;
 	public static final int COMMENTS_ACTIVITY = 12;
+	public static final int WRITE_TEACHER_COMMENT_ACTIVITY = 13;
 }

@@ -1,7 +1,11 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
     <!-- title -->
@@ -16,6 +20,8 @@
 
         <TextView
             style="@style/TopBarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="写点评" />
 
         <ImageButton
@@ -43,4 +49,157 @@
             android:src="@drawable/confirm" />
     </RelativeLayout>
 
-</RelativeLayout>
+    <!-- content -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="给教师打分"
+                    android:textColor="@color/grey" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/score_bar_bg"
+                    android:padding="12dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="教学方法"
+                        android:textColor="@color/grey"
+                        android:textSize="16sp" />
+
+                    <RatingBar
+                        android:id="@+id/rating_bar_method"
+                        style="@style/rating_bar_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:rating="0" />
+                </RelativeLayout>
+
+                <!-- 品行态度 -->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/score_bar_bg"
+                    android:padding="12dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="品行态度"
+                        android:textColor="@color/grey"
+                        android:textSize="16sp" />
+
+                    <RatingBar
+                        android:id="@+id/rating_bar_attitude"
+                        style="@style/rating_bar_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:rating="0" />
+                </RelativeLayout>
+
+                <!-- 教学效果 -->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/score_bar_bg"
+                    android:padding="12dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="教学效果"
+                        android:textColor="@color/grey"
+                        android:textSize="16sp" />
+
+                    <RatingBar
+                        android:id="@+id/rating_bar_effect"
+                        style="@style/rating_bar_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:rating="0" />
+                </RelativeLayout>
+
+                <!-- 教学内容 -->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/score_bar_bg"
+                    android:padding="12dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="教学内容"
+                        android:textColor="@color/grey"
+                        android:textSize="16sp" />
+
+                    <RatingBar
+                        android:id="@+id/rating_bar_content"
+                        style="@style/rating_bar_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:rating="0" />
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/score_bar_bg"
+                    android:gravity="top|left"
+                    android:hint="在这里发表您的点评..."
+                    android:lineSpacingMultiplier="1.2"
+                    android:maxLength="200"
+                    android:padding="15dp"
+                    android:textAlignment="gravity"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="5dp"
+                    android:text="限200字以内"
+                    android:textColor="@color/grey" />
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+        </FrameLayout>
+    </ScrollView>
+
+</LinearLayout>

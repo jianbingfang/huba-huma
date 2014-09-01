@@ -14,6 +14,7 @@ import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
+import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.entity.ArticleEntity;
@@ -71,6 +72,12 @@ public class CommentsActivity extends Activity {
 		comment_list.setAdapter(adapter);
 		progress_bar.setVisibility(View.GONE);
 
+	}
+
+	@Click
+	void btn_write_comment(){
+		Intent intent = new Intent(this, WriteTeacherCommentActivity_.class);
+		startActivityForResult(intent, ActivityCode.WRITE_TEACHER_COMMENT_ACTIVITY);
 	}
 	
 	@Click

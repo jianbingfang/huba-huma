@@ -20,13 +20,14 @@ public class ProfileTeacherActivity extends Activity {
 	
 	@Click
 	void btn_comment(){
-		Intent intent = new Intent(this, CommentsActivity_.class);
-		startActivityForResult(intent, ActivityCode.COMMENTS_ACTIVITY);
+		Intent intent = new Intent(this, WriteTeacherCommentActivity_.class);
+		startActivityForResult(intent, ActivityCode.WRITE_TEACHER_COMMENT_ACTIVITY);
 	}
 
 	@Click
 	void comment_panel(){
-		btn_comment();
+		Intent intent = new Intent(this, CommentsActivity_.class);
+		startActivityForResult(intent, ActivityCode.COMMENTS_ACTIVITY);
 	}
 	
 	@Click

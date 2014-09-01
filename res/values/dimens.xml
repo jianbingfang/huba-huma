@@ -68,4 +68,6 @@
     <dimen name="diary_box_horizontal_margin">8dp</dimen>
     <dimen name="diary_icon_size">30dp</dimen>
     
+    <dimen name="rating_bar_height">17dp</dimen>
+    
 </resources>

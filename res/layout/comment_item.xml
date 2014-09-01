@@ -20,8 +20,9 @@
 
         <ImageView
             android:id="@+id/portrait"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/portrait_size"
+            android:layout_height="@dimen/portrait_size"
+            android:scaleType="centerInside"
             android:layout_marginLeft="0dp"
             android:src="@drawable/default_portrait" />
 
@@ -65,63 +66,23 @@
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_below="@id/content"
             android:layout_alignParentRight="true"
+            android:layout_below="@id/content"
+            android:layout_marginTop="4dp"
             android:singleLine="true"
             android:text="5月18日  16:35"
             android:textColor="@color/contacts_remark"
             android:textSize="14sp" />
-        
-        <LinearLayout
+
+        <RatingBar
             android:id="@+id/score_bar"
+            style="@style/rating_bar_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/comment_user_name"
+            android:layout_alignBottom="@id/name"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="8dp"
-            android:orientation="horizontal" >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerInside"
-                android:src="@drawable/star_grey" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerInside"
-                android:src="@drawable/star_grey" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerInside"
-                android:src="@drawable/star_grey" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerInside"
-                android:src="@drawable/star_grey" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerInside"
-                android:src="@drawable/star_grey" />
-        </LinearLayout>
+            android:rating="3.5" />
     </RelativeLayout>
 
 </RelativeLayout>
