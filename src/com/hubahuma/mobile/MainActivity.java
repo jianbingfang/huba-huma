@@ -9,6 +9,8 @@ import com.hubahuma.mobile.discovery.DiscoveryActivity_;
 import com.hubahuma.mobile.info.InfoActivity_;
 import com.hubahuma.mobile.news.NewsActivity_;
 import com.hubahuma.mobile.profile.ProfileActivity_;
+import com.hubahuma.mobile.profile.ProfileOrganizationActivity;
+import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
 import com.hubahuma.mobile.writing.WritingActivity_;
 
 import android.app.TabActivity;

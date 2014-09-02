@@ -7,6 +7,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -27,26 +28,55 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 @NoTitle
-@EActivity(R.layout.activity_write_teacher_comment)
-public class WriteTeacherCommentActivity extends Activity {
+@EActivity(R.layout.activity_write_comment)
+public class WriteCommentActivity extends Activity {
+
+	public interface CommentType{
+		final static int TEACHER_COMMENT = 0;
+		final static int ORGANIZATION_COMMENT = 1;
+	}
+	
+	@ViewById
+	TextView target_hint, score_hint_1, score_hint_2, score_hint_3, score_hint_4;
 
 	@ViewById
-	RatingBar rating_bar_method, rating_bar_attitude, rating_bar_content,
-			rating_bar_effect;
+	RatingBar rating_bar_1, rating_bar_2, rating_bar_3, rating_bar_4;
 
 	@ViewById
 	EditText comment;
 
 	@ViewById
 	ProgressBar progress_bar;
+	
+	@Extra
+	int type;
 
 	@AfterViews
 	void init() {
-
+		
+		switch(type){
+		case CommentType.TEACHER_COMMENT:
+			target_hint.setText("给教师打分");
+			score_hint_1.setText("教学方法");
+			score_hint_2.setText("品行态度");
+			score_hint_3.setText("教学效果");
+			score_hint_4.setText("教学内容");
+			break;
+			
+		case CommentType.ORGANIZATION_COMMENT:
+			target_hint.setText("给该学校/机构打分");
+			score_hint_1.setText("教育水平");
+			score_hint_2.setText("校园环境");
+			score_hint_3.setText("生源质量");
+			score_hint_4.setText("课程费用");
+			break;
+		}
+		
 	}
 
 	@Click
@@ -56,10 +86,8 @@ public class WriteTeacherCommentActivity extends Activity {
 		if (UtilTools.isEmpty(content))
 			return;
 
-		float score = (rating_bar_method.getRating()
-				+ rating_bar_attitude.getRating()
-				+ rating_bar_content.getRating() + rating_bar_effect
-				.getRating()) / 4;
+		float score = (rating_bar_1.getRating() + rating_bar_2.getRating()
+				+ rating_bar_3.getRating() + rating_bar_4.getRating()) / 4;
 
 		CommentEntity cmt = new CommentEntity();
 		cmt.setContent(content);
@@ -91,20 +119,20 @@ public class WriteTeacherCommentActivity extends Activity {
 	void disableUI() {
 		progress_bar.setVisibility(View.VISIBLE);
 		comment.setEnabled(false);
-		rating_bar_method.setEnabled(false);
-		rating_bar_attitude.setEnabled(false);
-		rating_bar_content.setEnabled(false);
-		rating_bar_effect.setEnabled(false);
+		rating_bar_1.setEnabled(false);
+		rating_bar_2.setEnabled(false);
+		rating_bar_3.setEnabled(false);
+		rating_bar_4.setEnabled(false);
 	}
 
 	@UiThread
 	void enableUI() {
 		progress_bar.setVisibility(View.GONE);
 		comment.setEnabled(true);
-		rating_bar_method.setEnabled(true);
-		rating_bar_attitude.setEnabled(true);
-		rating_bar_content.setEnabled(true);
-		rating_bar_effect.setEnabled(true);
+		rating_bar_1.setEnabled(true);
+		rating_bar_2.setEnabled(true);
+		rating_bar_3.setEnabled(true);
+		rating_bar_4.setEnabled(true);
 	}
 
 	@UiThread
@@ -132,7 +160,7 @@ public class WriteTeacherCommentActivity extends Activity {
 	@Click
 	void btn_back() {
 		Intent intent = getIntent();
-		intent.putExtra("result", "returned from TeachingDiaryActivity");
+		intent.putExtra("result", "returned from WriteCommentActivity");
 		this.setResult(0, intent);
 		this.finish();
 	}

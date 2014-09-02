@@ -15,20 +15,22 @@ import android.widget.TextView;
 
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.entity.ChatMsgEntity;
+import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.utils.UtilTools;
 
 public class ChatMsgViewAdapter extends BaseAdapter {
 
-	public interface ChatMsgViewListener{
-		public void onPortraitClick(String id);
+	public interface ChatMsgViewListener {
+		public void onPortraitClick(UserEntity user);
 	}
-	
+
 	private List<ChatMsgEntity> dataList;
 	private LayoutInflater mInflater;
-	
+
 	private ChatMsgViewListener listener;
 
-	public ChatMsgViewAdapter(Context context, List<ChatMsgEntity> data, ChatMsgViewListener listener) {
+	public ChatMsgViewAdapter(Context context, List<ChatMsgEntity> data,
+			ChatMsgViewListener listener) {
 		this.dataList = data;
 		this.mInflater = LayoutInflater.from(context);
 		this.listener = listener;
@@ -87,20 +89,19 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 			viewHolder.tvSendTime.setVisibility(View.GONE);
 		// TODO 判断真实头像
 		viewHolder.portrait.setBackgroundResource(R.drawable.default_portrait);
-		viewHolder.portrait.setTag(entity);
+		viewHolder.portrait.setTag(entity.getUser());
 		viewHolder.tvContent.setText(entity.getContent());
 		viewHolder.isComMsg = entity.isComMsg();
 		if (entity.getState() == ChatMsgEntity.MsgState.SENDING)
 			viewHolder.progressBar.setVisibility(View.VISIBLE);
 		else
 			viewHolder.progressBar.setVisibility(View.GONE);
-		
-		final String name = entity.getName();
+
 		viewHolder.portrait.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//TODO 
-				listener.onPortraitClick(name);
+				UserEntity user = (UserEntity) v.getTag();
+				listener.onPortraitClick(user);
 			}
 		});
 

@@ -33,6 +33,7 @@ import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.entity.ChatMsgEntity;
 import com.hubahuma.mobile.entity.ChatMsgEntity.MsgState;
+import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.news.managebook.ManageBookActivity_;
 import com.hubahuma.mobile.news.message.ChatMsgViewAdapter.ChatMsgViewListener;
 import com.hubahuma.mobile.profile.ProfileTeacherActivity_;
@@ -46,6 +47,9 @@ public class ChatActivity extends Activity implements ChatMsgViewListener{
 	@Extra
 	String name;
 
+	@Extra
+	UserEntity user;
+	
 	private List<ChatMsgEntity> listItem = new LinkedList<ChatMsgEntity>();
 	private ChatMsgViewAdapter adapter = null;
 
@@ -108,7 +112,7 @@ public class ChatActivity extends Activity implements ChatMsgViewListener{
 		for (int i = 0; i < num; i++) {
 			ChatMsgEntity msg = new ChatMsgEntity();
 			msg = new ChatMsgEntity();
-			msg.setName(name);
+			msg.setUser(user);
 			msg.setContent("你好，我是编号 #" + rand.nextInt(1000));
 			msg.setDate(new Date());
 			msg.setComMsg(rand.nextBoolean());
@@ -138,7 +142,7 @@ public class ChatActivity extends Activity implements ChatMsgViewListener{
 
 		ChatMsgEntity msg = new ChatMsgEntity();
 		msg = new ChatMsgEntity();
-		msg.setName(name);
+		msg.setUser(user);
 		msg.setContent(content);
 		msg.setDate(new Date());
 		msg.setComMsg(false);
@@ -193,7 +197,7 @@ public class ChatActivity extends Activity implements ChatMsgViewListener{
 		for (int i = 0; i < 5; i++) {
 			msg = new ChatMsgEntity();
 
-			msg.setName(name);
+			msg.setUser(user);
 			msg.setContent("你好，我是编号 #" + new Random().nextInt(1000));
 			msg.setDate(new Date());
 			msg.setComMsg(rand.nextBoolean());
@@ -209,10 +213,10 @@ public class ChatActivity extends Activity implements ChatMsgViewListener{
 	}
 
 	@Override
-	public void onPortraitClick(String id) {
+	public void onPortraitClick(UserEntity user) {
 		// TODO Auto-generated method stub
 		Intent intent = new Intent();
-		intent.putExtra("id", id);
+		intent.putExtra("user", user);
 		intent.setClass(this, ProfileTeacherActivity_.class);
 		startActivityForResult(intent, ActivityCode.PROFILE_TEACHER_ACTIVITY);
 	}

@@ -1,6 +1,8 @@
 package com.hubahuma.mobile.entity;
 
-public class UserEntity {
+import java.io.Serializable;
+
+public class UserEntity implements Serializable{
 
 	private String id;
 	private String username;

@@ -13,10 +13,15 @@ import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.entity.GroupEntity;
 import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.news.contacts.ContactsViewAdapter.ContactsViewListener;
 import com.hubahuma.mobile.news.managebook.ManageBookViewAdapter;
+import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
+import com.hubahuma.mobile.profile.ProfileParentsActivity_;
+import com.hubahuma.mobile.profile.ProfileTeacherActivity_;
 import com.hubahuma.mobile.utils.UtilTools;
 
 import android.app.Activity;
@@ -35,7 +40,8 @@ import android.widget.ExpandableListView.OnChildClickListener;
 @SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_contacts)
-public class ContactsActivity extends FragmentActivity {
+public class ContactsActivity extends FragmentActivity implements
+		ContactsViewListener {
 
 	private List<String> groupList;
 	private List<List<UserEntity>> childList;
@@ -45,7 +51,7 @@ public class ContactsActivity extends FragmentActivity {
 
 	@ViewById
 	ExpandableListView list;
-	
+
 	@ViewById(R.id.search_input)
 	EditText searchBox;
 
@@ -61,7 +67,7 @@ public class ContactsActivity extends FragmentActivity {
 		filteredChildList = new ArrayList<List<UserEntity>>(childList);
 
 		adapter = new ContactsViewAdapter(getApplicationContext(), groupList,
-				filteredChildList);
+				filteredChildList, this);
 
 		list.setAdapter(adapter);
 		expandAllGroup();
@@ -104,14 +110,14 @@ public class ContactsActivity extends FragmentActivity {
 	private List<List<UserEntity>> getTestData() {
 		List<List<UserEntity>> result = new ArrayList<List<UserEntity>>();
 
-		//群
+		// 群
 		List<UserEntity> childList1 = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 4; i++) {
 			UserEntity child1Data = new UserEntity();
 			child1Data.setId("group#" + i);
-			child1Data.setType(0);
-			child1Data.setUsername("快乐城堡儿童英语群" + i);
-			child1Data.setRemark(i*10+"人");
+			child1Data.setType(-1);
+			child1Data.setUsername("快乐城堡儿童英语第" + i + "群");
+			child1Data.setRemark(i * 10 + "人");
 			childList1.add(child1Data);
 		}
 		result.add(childList1);
@@ -121,42 +127,42 @@ public class ContactsActivity extends FragmentActivity {
 		for (int i = 1; i <= 1; i++) {
 			UserEntity child1Data = new UserEntity();
 			child1Data.setId("school#" + i);
-			child1Data.setType(1);
+			child1Data.setType(UserType.ORGANIZTION);
 			child1Data.setUsername("快乐城堡儿童英语");
 			child1Data.setRemark("");
 			childList2.add(child1Data);
 		}
 		result.add(childList2);
-		
+
 		// 教师
 		List<UserEntity> childList3 = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 4; i++) {
 			UserEntity child1Data = new UserEntity();
 			child1Data.setId("teacher#" + i);
-			child1Data.setType(2);
+			child1Data.setType(UserType.TEACHER);
 			child1Data.setUsername("王萍" + i);
 			child1Data.setRemark("北京市第" + i + "中学");
 			childList3.add(child1Data);
 		}
 		result.add(childList3);
-		
+
 		// 家长
 		List<UserEntity> childList4 = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 6; i++) {
 			UserEntity child1Data = new UserEntity();
 			child1Data.setId("user#" + i);
-			child1Data.setType(3);
+			child1Data.setType(UserType.PARENTS);
 			child1Data.setUsername("李国成" + i);
 			child1Data.setRemark("李小丽父亲" + i);
 			childList4.add(child1Data);
 		}
 		result.add(childList4);
-		
+
 		return result;
 	}
-	
+
 	@Click
-	void btn_add(){
+	void btn_add() {
 		Intent intent = new Intent();
 		intent.setClass(this, AddContactActivity_.class);
 		startActivityForResult(intent, ActivityCode.ADD_CONTACT_ACTIVITY);
@@ -166,7 +172,7 @@ public class ContactsActivity extends FragmentActivity {
 	void onTeachingDiaryActivityResult(int resultCode, Intent data) {
 		searchBox.setText("");
 	}
-	
+
 	@Click
 	void btn_back() {
 
@@ -192,5 +198,33 @@ public class ContactsActivity extends FragmentActivity {
 			list.expandGroup(i, true);
 		}
 		list.setSelectedChild(0, 0, true);
+	}
+
+	@Override
+	public void onPortraitClick(UserEntity user) {
+		// TODO Auto-generated method stub
+		Intent intent = new Intent();
+		intent.putExtra("user", user);
+
+		switch (user.getType()) {
+		case UserType.ORGANIZTION:
+			intent.setClass(this, ProfileOrganizationActivity_.class);
+			startActivityForResult(intent,
+					ActivityCode.PROFILE_ORGANIZATION_ACTIVITY);
+			break;
+
+		case UserType.TEACHER:
+			intent.setClass(this, ProfileTeacherActivity_.class);
+			startActivityForResult(intent,
+					ActivityCode.PROFILE_TEACHER_ACTIVITY);
+			break;
+
+		case UserType.PARENTS:
+			intent.setClass(this, ProfileParentsActivity_.class);
+			startActivityForResult(intent,
+					ActivityCode.PROFILE_PARENTS_ACTIVITY);
+			break;
+
+		}
 	}
 }

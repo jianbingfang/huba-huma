@@ -17,24 +17,11 @@ import com.hubahuma.mobile.profile.WriteCommentActivity.CommentType;
 
 @SuppressWarnings("deprecation")
 @NoTitle
-@EActivity(R.layout.activity_profile_teacher)
-public class ProfileTeacherActivity extends Activity {
+@EActivity(R.layout.activity_profile_parents)
+public class ProfileParentsActivity extends Activity {
 
 	@ViewById
 	TextView phone_number;
-	
-	@Click
-	void btn_comment(){
-		Intent intent = new Intent(this, WriteCommentActivity_.class);
-		intent.putExtra("type", CommentType.TEACHER_COMMENT);
-		startActivityForResult(intent, ActivityCode.WRITE_COMMENT_ACTIVITY);
-	}
-
-	@Click
-	void comment_panel(){
-		Intent intent = new Intent(this, CommentsActivity_.class);
-		startActivityForResult(intent, ActivityCode.COMMENTS_ACTIVITY);
-	}
 	
 	@Click
 	void btn_add_to_managebook(){

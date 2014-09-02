@@ -66,6 +66,7 @@
                 android:padding="15dp" >
 
                 <TextView
+                    android:id="@+id/target_hint"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -79,6 +80,7 @@
                     android:padding="12dp" >
 
                     <TextView
+                        android:id="@+id/score_hint_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="教学方法"
@@ -86,7 +88,7 @@
                         android:textSize="16sp" />
 
                     <RatingBar
-                        android:id="@+id/rating_bar_method"
+                        android:id="@+id/rating_bar_1"
                         style="@style/rating_bar_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -95,8 +97,6 @@
                         android:rating="0" />
                 </RelativeLayout>
 
-                <!-- 品行态度 -->
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -104,6 +104,7 @@
                     android:padding="12dp" >
 
                     <TextView
+                        android:id="@+id/score_hint_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="品行态度"
@@ -111,7 +112,7 @@
                         android:textSize="16sp" />
 
                     <RatingBar
-                        android:id="@+id/rating_bar_attitude"
+                        android:id="@+id/rating_bar_2"
                         style="@style/rating_bar_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -120,8 +121,6 @@
                         android:rating="0" />
                 </RelativeLayout>
 
-                <!-- 教学效果 -->
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -129,6 +128,7 @@
                     android:padding="12dp" >
 
                     <TextView
+                        android:id="@+id/score_hint_3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="教学效果"
@@ -136,7 +136,7 @@
                         android:textSize="16sp" />
 
                     <RatingBar
-                        android:id="@+id/rating_bar_effect"
+                        android:id="@+id/rating_bar_3"
                         style="@style/rating_bar_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -145,8 +145,6 @@
                         android:rating="0" />
                 </RelativeLayout>
 
-                <!-- 教学内容 -->
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -154,6 +152,7 @@
                     android:padding="12dp" >
 
                     <TextView
+                        android:id="@+id/score_hint_4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="教学内容"
@@ -161,7 +160,7 @@
                         android:textSize="16sp" />
 
                     <RatingBar
-                        android:id="@+id/rating_bar_content"
+                        android:id="@+id/rating_bar_4"
                         style="@style/rating_bar_style"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

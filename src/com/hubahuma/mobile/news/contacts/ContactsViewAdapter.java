@@ -24,16 +24,23 @@ import com.hubahuma.mobile.entity.UserEntity;
 
 public class ContactsViewAdapter extends BaseExpandableListAdapter {
 
+	public interface ContactsViewListener{
+		public void onPortraitClick(UserEntity user);
+	}
+	
 	private List<String> groupData;
 	private List<List<UserEntity>> childData;// 组显示
 
 	private LayoutInflater mInflater;
+	
+	private ContactsViewListener listener;
 
 	public ContactsViewAdapter(Context context, List<String> groupData,
-			List<List<UserEntity>> childData) {
+			List<List<UserEntity>> childData, ContactsViewListener listener) {
 		this.groupData = groupData;
 		this.childData = childData;
 		this.mInflater = LayoutInflater.from(context);
+		this.listener = listener;
 	}
 
 	// 必须实现 得到子数据
@@ -131,6 +138,15 @@ public class ContactsViewAdapter extends BaseExpandableListAdapter {
 		UserEntity user = childData.get(groupPosition).get(childPosition);
 		// TODO 判断真实头像
 		holder.portrait.setImageResource(R.drawable.default_portrait);
+		holder.portrait.setTag(user);
+		holder.portrait.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				UserEntity user = (UserEntity) v.getTag();
+				listener.onPortraitClick(user);
+			}
+		});
+		
 		holder.name.setText(user.getUsername());
 		if ("".equals(user.getRemark())) {
 			holder.remark.setVisibility(View.GONE);

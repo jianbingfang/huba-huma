@@ -76,8 +76,8 @@ public class CommentsActivity extends Activity {
 
 	@Click
 	void btn_write_comment(){
-		Intent intent = new Intent(this, WriteTeacherCommentActivity_.class);
-		startActivityForResult(intent, ActivityCode.WRITE_TEACHER_COMMENT_ACTIVITY);
+		Intent intent = new Intent(this, WriteCommentActivity_.class);
+		startActivityForResult(intent, ActivityCode.WRITE_COMMENT_ACTIVITY);
 	}
 	
 	@Click

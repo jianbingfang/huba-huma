@@ -82,7 +82,7 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
+                    android:layout_height="200dp"
                     android:background="@android:color/black" >
 
                     <ImageView
@@ -121,29 +121,15 @@
                             android:shadowColor="@android:color/black"
                             android:shadowDx="1"
                             android:shadowDy="3"
-                            android:text="张燕玲老师"
+                            android:text="朗训少儿英语北京校区"
                             android:textColor="@color/white"
                             android:textSize="20sp" />
-
-                        <TextView
-                            android:id="@+id/remark"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/name"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="0dp"
-                            android:shadowColor="@android:color/black"
-                            android:shadowDx="1"
-                            android:shadowDy="3"
-                            android:text="快乐城堡儿童英语学校"
-                            android:textColor="@color/white"
-                            android:textSize="18sp" />
 
                         <TextView
                             android:id="@+id/qualification"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/remark"
+                            android:layout_below="@id/name"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="8dp"
                             android:background="@drawable/qualification_bg"
@@ -220,6 +206,37 @@
                         android:layout_toRightOf="@id/score"
                         android:isIndicator="true"
                         android:rating="3.5" />
+                </RelativeLayout>
+
+                <!-- 查看教师 -->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="查看教师"
+                        android:textColor="@color/light_grey"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow" />
                 </RelativeLayout>
 
                 <!-- 地址 -->
@@ -300,7 +317,7 @@
                         android:layout_toRightOf="@id/phone_hint"
                         android:maxWidth="150dp"
                         android:singleLine="true"
-                        android:text="13058967226"
+                        android:text="010-66812299"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
 
@@ -381,6 +398,54 @@
                         android:textSize="15sp" />
                 </LinearLayout>
 
+                <!-- 校区环境 -->
+
+                <RelativeLayout
+                    android:id="@+id/environment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="10dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:id="@+id/environment_hint"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="0dp"
+                        android:text="校区环境"
+                        android:textColor="@color/light_grey"
+                        android:textSize="15sp" />
+
+                    <LinearLayout
+                        android:id="@+id/environment_img_list"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@+id/environment_more"
+                        android:layout_toRightOf="@id/environment_hint"
+                        android:gravity="left"
+                        android:orientation="horizontal" >
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@id/environment_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow" />
+                </RelativeLayout>
+
                 <!-- 最新发表 -->
 
                 <RelativeLayout
@@ -425,8 +490,8 @@
                         android:layout_marginLeft="10dp"
                         android:layout_toLeftOf="@+id/latest_article_more"
                         android:layout_toRightOf="@id/latest_article_img"
-                        android:lineSpacingMultiplier="1.2"
                         android:maxLines="2"
+                        android:lineSpacingMultiplier="1.2"
                         android:text="朗讯少儿英语建理想校园校风师德受期待"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
@@ -499,7 +564,7 @@
                         android:layout_below="@id/comment_user_name"
                         android:layout_marginTop="10dp"
                         android:layout_toLeftOf="@+id/more_comment_hint"
-                        android:text="张老师真是个好老师，张老师真是个好老师，张老师真是个好老师，张老师真是个好老师，"
+                        android:text="学校的环境真不错，特别喜欢孩子的老师张老师，他的教学质量很高"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
 
@@ -538,37 +603,6 @@
                     android:text="屏蔽该用户"
                     android:textColor="@color/white"
                     android:textSize="15dp" />
-
-                <!-- 查看教师 -->
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:background="@color/profile_item_bar"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="15dp"
-                    android:visibility="gone" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="查看教师"
-                        android:textColor="@color/light_grey"
-                        android:textSize="15sp" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:contentDescription="@string/app_name"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/circle_arrow" />
-                </RelativeLayout>
             </LinearLayout>
         </ScrollView>
 
@@ -578,8 +612,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/footbar_bg"
-            android:padding="4dp" >
+            android:padding="4dp"
+            android:background="@color/footbar_bg" >
 
             <Button
                 android:layout_width="wrap_content"

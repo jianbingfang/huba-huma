@@ -4,17 +4,42 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true" />
+
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="20" />
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="unXbiSLL0ntDYhCvvdEPbchu" />
+
         <activity
             android:name=".MainActivity_"
             android:label="@string/app_name" >
@@ -37,8 +62,8 @@
             android:label="@string/title_activity_discovery" >
         </activity>
         <activity
-            android:name=".profile.ProfileActivity_"
-            android:label="@string/title_activity_management" >
+            android:name=".profile.ProfileOrganizationActivity_"
+            android:label="@string/title_activity_organization" >
         </activity>
         <activity
             android:name=".info.InfoActivity_"
@@ -105,6 +130,10 @@
             android:label="@string/title_activity_profile_teacher" >
         </activity>
         <activity
+            android:name=".profile.ProfileParentsActivity_"
+            android:label="@string/title_activity_profile_parents" >
+        </activity>
+        <activity
             android:name=".profile.PublishedArticleActivity_"
             android:label="@string/title_activity_published_article" >
         </activity>
@@ -113,8 +142,16 @@
             android:label="@string/title_activity_comments" >
         </activity>
         <activity
-            android:name="com.hubahuma.mobile.profile.WriteTeacherCommentActivity_"
+            android:name=".profile.WriteCommentActivity_"
             android:label="@string/title_activity_write_comment" >
+        </activity>
+        <activity
+            android:name=".profile.ProfileActivity_"
+            android:label="@string/title_activity_profile" >
+        </activity>
+        <activity
+            android:name="com.hubahuma.mobile.profile.LocationActivity_"
+            android:label="@string/title_activity_location" >
         </activity>
     </application>
 

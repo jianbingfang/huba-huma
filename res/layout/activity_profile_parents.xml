@@ -82,7 +82,7 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="220dp"
+                    android:layout_height="200dp"
                     android:background="@android:color/black" >
 
                     <ImageView
@@ -121,7 +121,7 @@
                             android:shadowColor="@android:color/black"
                             android:shadowDx="1"
                             android:shadowDy="3"
-                            android:text="张燕玲老师"
+                            android:text="刘春玲"
                             android:textColor="@color/white"
                             android:textSize="20sp" />
 
@@ -135,26 +135,9 @@
                             android:shadowColor="@android:color/black"
                             android:shadowDx="1"
                             android:shadowDy="3"
-                            android:text="快乐城堡儿童英语学校"
+                            android:text="陈灿灿母亲"
                             android:textColor="@color/white"
                             android:textSize="18sp" />
-
-                        <TextView
-                            android:id="@+id/qualification"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/remark"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="8dp"
-                            android:background="@drawable/qualification_bg"
-                            android:paddingBottom="4dp"
-                            android:paddingLeft="8dp"
-                            android:paddingRight="8dp"
-                            android:paddingTop="4dp"
-                            android:text="@string/qualification"
-                            android:textColor="@color/white"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/id"
@@ -169,58 +152,6 @@
                             android:textSize="14sp" />
                     </RelativeLayout>
                 </FrameLayout>
-
-                <!-- 综合评分 -->
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/profile_item_bar"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="15dp"
-                    android:visibility="visible" >
-
-                    <TextView
-                        android:id="@+id/score_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="综合评分"
-                        android:textColor="@color/light_grey"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/score"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_toRightOf="@id/score_title"
-                        android:text="4.8"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/circle_arrow"
-                        android:visibility="gone" />
-
-                    <RatingBar
-                        android:id="@+id/rating_bar_score"
-                        style="@style/rating_bar_style"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="8dp"
-                        android:layout_toRightOf="@id/score"
-                        android:isIndicator="true"
-                        android:rating="3.5" />
-                </RelativeLayout>
 
                 <!-- 地址 -->
 
@@ -348,45 +279,13 @@
                         android:textSize="15sp" />
                 </LinearLayout>
 
-                <!-- 介绍 -->
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="@color/profile_item_bar"
-                    android:clickable="true"
-                    android:gravity="top"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="15dp"
-                    android:visibility="visible" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="0dp"
-                        android:text="介绍"
-                        android:textColor="@color/light_grey"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/introduce"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:text="我从事英语教育工作已二十余年，我从事英语教育工作已二十余年，我从事英语教育工作已二十余年，我从事英语教育工作已二十余年，我从事英语教育工作已二十余年，"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <!-- 最新发表 -->
+                <!-- 博客 -->
 
                 <RelativeLayout
                     android:id="@+id/latest_article_panel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="90dp"
                     android:layout_marginTop="20dp"
                     android:background="@color/profile_item_bar"
                     android:clickable="true"
@@ -402,12 +301,12 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="0dp"
-                        android:text="最新发表"
+                        android:text="博客"
                         android:textColor="@color/light_grey"
                         android:textSize="15sp" />
 
                     <ImageView
-                        android:id="@+id/latest_article_img"
+                        android:id="@+id/latest_blog_img"
                         android:layout_width="70dp"
                         android:layout_height="50dp"
                         android:layout_centerVertical="true"
@@ -418,109 +317,25 @@
                         android:src="@drawable/teaching_diary_img" />
 
                     <TextView
-                        android:id="@+id/latest_article_title"
+                        android:id="@+id/latest_blog_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
-                        android:layout_toLeftOf="@+id/latest_article_more"
-                        android:layout_toRightOf="@id/latest_article_img"
+                        android:layout_toLeftOf="@+id/latest_blog_more"
+                        android:layout_toRightOf="@id/latest_blog_img"
                         android:lineSpacingMultiplier="1.2"
                         android:maxLines="2"
-                        android:text="朗讯少儿英语建理想校园校风师德受期待"
+                        android:text="哟，你真的长大了！孩子本是既怕热又怕累，本来他也是这样的"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
 
                     <ImageView
-                        android:id="@id/latest_article_more"
+                        android:id="@id/latest_blog_more"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/circle_arrow" />
-                </RelativeLayout>
-
-                <!-- 点评 -->
-
-                <RelativeLayout
-                    android:id="@+id/comment_panel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@color/profile_item_bar"
-                    android:clickable="true"
-                    android:gravity="top"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="15dp"
-                    android:visibility="visible" >
-
-                    <TextView
-                        android:id="@+id/comment_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="0dp"
-                        android:text="点评"
-                        android:textColor="@color/light_grey"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/comment_user_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/comment_title"
-                        android:layout_marginLeft="20dp"
-                        android:layout_toRightOf="@id/comment_title"
-                        android:singleLine="true"
-                        android:text="李晓龙"
-                        android:textColor="@color/grey_hint"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/comment_user_remark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/comment_user_name"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@id/comment_user_name"
-                        android:maxWidth="150dp"
-                        android:singleLine="true"
-                        android:text="李一贤父亲"
-                        android:textColor="@color/grey_hint"
-                        android:textSize="13sp" />
-
-                    <TextView
-                        android:id="@+id/comment_content"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@id/comment_user_name"
-                        android:layout_below="@id/comment_user_name"
-                        android:layout_marginTop="10dp"
-                        android:layout_toLeftOf="@+id/more_comment_hint"
-                        android:text="张老师真是个好老师，张老师真是个好老师，张老师真是个好老师，张老师真是个好老师，"
-                        android:textColor="@color/white"
-                        android:textSize="15sp" />
-
-                    <RatingBar
-                        android:id="@+id/score_bar_comment"
-                        style="@style/rating_bar_style"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/comment_user_name"
-                        android:layout_alignRight="@id/comment_content"
-                        android:layout_toLeftOf="@id/more_comment_hint"
-                        android:isIndicator="true"
-                        android:rating="3.5" />
-
-                    <ImageView
-                        android:id="@id/more_comment_hint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/circle_arrow" />
                 </RelativeLayout>
@@ -537,72 +352,34 @@
                     android:background="@drawable/btn_red_bg"
                     android:text="屏蔽该用户"
                     android:textColor="@color/white"
-                    android:textSize="15dp" />
-
-                <!-- 查看教师 -->
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:background="@color/profile_item_bar"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="15dp"
-                    android:visibility="gone" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="查看教师"
-                        android:textColor="@color/light_grey"
-                        android:textSize="15sp" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:contentDescription="@string/app_name"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/circle_arrow" />
-                </RelativeLayout>
+                    android:textSize="15dp"
+                    android:visibility="gone" />
             </LinearLayout>
         </ScrollView>
 
         <!-- footbar -->
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/footbar_bg"
+            android:gravity="center"
             android:padding="4dp" >
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
+                android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:background="@null"
                 android:drawableLeft="@drawable/chat"
                 android:drawablePadding="4dp"
+                android:gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:text="私信"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <Button
-                android:id="@+id/btn_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@null"
-                android:drawableLeft="@drawable/icon_write_comment"
-                android:drawablePadding="0dp"
-                android:text="写点评"
+                android:textAlignment="gravity"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
@@ -610,16 +387,18 @@
                 android:id="@+id/btn_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:background="@null"
                 android:drawableLeft="@drawable/icon_make_call"
-                android:drawablePadding="-6dp"
+                android:drawablePadding="-4dp"
+                android:gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:text="拨打电话"
+                android:textAlignment="gravity"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
-        </RelativeLayout>
+        </LinearLayout>
     </RelativeLayout>
 
     <ProgressBar

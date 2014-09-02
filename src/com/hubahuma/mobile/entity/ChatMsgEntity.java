@@ -1,8 +1,9 @@
 package com.hubahuma.mobile.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ChatMsgEntity {
+public class ChatMsgEntity implements Serializable {
 
 	public interface MsgState {
 		public static final int ARRIVED = 0;
@@ -10,19 +11,19 @@ public class ChatMsgEntity {
 		public static final int SENDED = 2;
 	}
 
-	private String name;
+	private UserEntity user;
 	private Date date;
 	private String content;
 	private boolean isComMsg;// 是否为收到的消息
 	private int state;
 	private boolean showDate;
 
-	public String getName() {
-		return name;
+	public UserEntity getUser() {
+		return user;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUser(UserEntity user) {
+		this.user = user;
 	}
 
 	public Date getDate() {
@@ -68,9 +69,9 @@ public class ChatMsgEntity {
 	public ChatMsgEntity() {
 	}
 
-	public ChatMsgEntity(String name, Date date, String text, boolean isComMsg,
+	public ChatMsgEntity(UserEntity user, Date date, String text, boolean isComMsg,
 			boolean showDate) {
-		this.name = name;
+		this.user = user;
 		this.date = date;
 		this.content = text;
 		this.isComMsg = isComMsg;
