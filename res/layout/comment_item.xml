@@ -82,6 +82,7 @@
             android:layout_alignBottom="@id/name"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="8dp"
+            android:isIndicator="true"
             android:rating="3.5" />
     </RelativeLayout>
 

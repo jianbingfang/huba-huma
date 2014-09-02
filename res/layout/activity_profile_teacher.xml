@@ -207,7 +207,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:scaleType="centerInside"
-                        android:src="@drawable/circle_arrow" />
+                        android:src="@drawable/circle_arrow"
+                        android:visibility="gone" />
 
                     <RatingBar
                         android:id="@+id/rating_bar_score"
@@ -223,13 +224,12 @@
 
                 <!-- 地址 -->
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:background="@color/profile_item_bar"
                     android:clickable="true"
-                    android:gravity="center_vertical"
                     android:paddingBottom="15dp"
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
@@ -237,8 +237,10 @@
                     android:visibility="visible" >
 
                     <ImageView
+                        android:id="@+id/address_hint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:contentDescription="@string/app_name"
                         android:scaleType="centerInside"
                         android:src="@drawable/icon_location" />
@@ -247,24 +249,33 @@
                         android:id="@+id/address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/address_hint"
                         android:maxWidth="300dp"
                         android:singleLine="true"
                         android:text="朝阳区建外大街295号A座10层"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
-                </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow" />
+                </RelativeLayout>
 
                 <!-- 电话 -->
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/phone_panel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:background="@color/profile_item_bar"
                     android:clickable="true"
-                    android:gravity="center_vertical"
                     android:paddingBottom="15dp"
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
@@ -272,8 +283,10 @@
                     android:visibility="visible" >
 
                     <ImageView
+                        android:id="@+id/phone_hint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:contentDescription="@string/app_name"
                         android:scaleType="centerInside"
                         android:src="@drawable/icon_phone" />
@@ -282,13 +295,23 @@
                         android:id="@+id/phone_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/phone_hint"
                         android:maxWidth="150dp"
                         android:singleLine="true"
                         android:text="13058967226"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
-                </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow" />
+                </RelativeLayout>
 
                 <!-- 标签 -->
 
@@ -473,6 +496,7 @@
                         android:layout_alignLeft="@id/comment_user_name"
                         android:layout_below="@id/comment_user_name"
                         android:layout_marginTop="10dp"
+                        android:layout_toLeftOf="@+id/more_comment_hint"
                         android:text="张老师真是个好老师，张老师真是个好老师，张老师真是个好老师，张老师真是个好老师，"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
@@ -483,10 +507,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@id/comment_user_name"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginLeft="8dp"
+                        android:layout_alignRight="@id/comment_content"
+                        android:layout_toLeftOf="@id/more_comment_hint"
                         android:isIndicator="true"
                         android:rating="3.5" />
+
+                    <ImageView
+                        android:id="@id/more_comment_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow" />
                 </RelativeLayout>
 
                 <!-- 屏蔽该用户 -->

@@ -2,29 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/group_tree_title_vertical_padding"
-    android:paddingBottom="@dimen/group_tree_title_vertical_padding"
     android:background="@color/contacts_group_title_bg"
-    android:orientation="horizontal" >
-    
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/group_tree_title_vertical_padding"
+    android:paddingTop="@dimen/group_tree_title_vertical_padding" >
+
     <ImageView
         android:id="@+id/indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="14dp"
-        android:src="@null"
+        android:contentDescription="@string/app_name"
         android:scaleType="centerInside"
-        android:contentDescription="@string/app_name"/>
+        android:src="@null" />
 
-    <TextView 
+    <TextView
         android:id="@+id/group_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="9dp"
-        android:textSize="18sp"
+        android:text="标题"
         android:textColor="@color/white"
-        android:text="群"/>
-    
+        android:textSize="18sp" />
+
 </LinearLayout>
