@@ -72,5 +72,7 @@
     <string name="title_activity_write_comment">WriteCommentActivity</string>
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="title_activity_location">LocationActivity</string>
+    <string name="title_activity_train">TrainActivity</string>
+    <string name="no_data">没有找到符合条件的信息</string>
 
 </resources>

@@ -13,9 +13,11 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.ActivityCode;
+import com.hubahuma.mobile.MainActivity_;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.entity.CommentEntity;
+import com.hubahuma.mobile.utils.ModelUtil;
 import com.hubahuma.mobile.utils.UtilTools;
 
 import android.app.Activity;
@@ -36,13 +38,14 @@ import android.widget.Toast;
 @EActivity(R.layout.activity_write_comment)
 public class WriteCommentActivity extends Activity {
 
-	public interface CommentType{
+	public interface CommentType {
 		final static int TEACHER_COMMENT = 0;
 		final static int ORGANIZATION_COMMENT = 1;
 	}
-	
+
 	@ViewById
-	TextView target_hint, score_hint_1, score_hint_2, score_hint_3, score_hint_4;
+	TextView target_hint, score_hint_1, score_hint_2, score_hint_3,
+			score_hint_4;
 
 	@ViewById
 	RatingBar rating_bar_1, rating_bar_2, rating_bar_3, rating_bar_4;
@@ -52,31 +55,33 @@ public class WriteCommentActivity extends Activity {
 
 	@ViewById
 	ProgressBar progress_bar;
-	
+
 	@Extra
 	int type;
 
 	@AfterViews
 	void init() {
-		
-		switch(type){
-		case CommentType.TEACHER_COMMENT:
-			target_hint.setText("给教师打分");
-			score_hint_1.setText("教学方法");
-			score_hint_2.setText("品行态度");
-			score_hint_3.setText("教学效果");
-			score_hint_4.setText("教学内容");
-			break;
-			
-		case CommentType.ORGANIZATION_COMMENT:
-			target_hint.setText("给该学校/机构打分");
-			score_hint_1.setText("教育水平");
-			score_hint_2.setText("校园环境");
-			score_hint_3.setText("生源质量");
-			score_hint_4.setText("课程费用");
-			break;
+
+		if (ModelUtil.getCurrentUser() != null) {
+			switch (ModelUtil.getCurrentUser().getType()) {
+			case CommentType.TEACHER_COMMENT:
+				target_hint.setText("给教师打分");
+				score_hint_1.setText("教学方法");
+				score_hint_2.setText("品行态度");
+				score_hint_3.setText("教学效果");
+				score_hint_4.setText("教学内容");
+				break;
+
+			case CommentType.ORGANIZATION_COMMENT:
+				target_hint.setText("给该学校/机构打分");
+				score_hint_1.setText("教育水平");
+				score_hint_2.setText("校园环境");
+				score_hint_3.setText("生源质量");
+				score_hint_4.setText("课程费用");
+				break;
+			}
 		}
-		
+
 	}
 
 	@Click

@@ -48,7 +48,7 @@ public class GroupManageViewAdapter extends BaseAdapter {
 
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.group_list_item, null);
+			convertView = mInflater.inflate(R.layout.item_group_list, null);
 			viewHolder = new ViewHolder();
 			viewHolder.name = (TextView) convertView.findViewById(R.id.name);
 			convertView.setTag(viewHolder);

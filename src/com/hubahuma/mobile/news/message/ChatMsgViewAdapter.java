@@ -61,10 +61,10 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 		// if (convertView == null ) {
 		if (entity.isComMsg() == true) {
 			// 如果是对方发来的消息，则显示的是左气泡
-			convertView = mInflater.inflate(R.layout.chat_msg_item_left, null);
+			convertView = mInflater.inflate(R.layout.item_chat_msg_left, null);
 		} else {
 			// 如果是自己发出的消息，则显示的是右气泡
-			convertView = mInflater.inflate(R.layout.chat_msg_item_right, null);
+			convertView = mInflater.inflate(R.layout.item_chat_msg_right, null);
 		}
 
 		viewHolder = new ViewHolder();

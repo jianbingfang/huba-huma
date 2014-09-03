@@ -7,6 +7,7 @@ import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
@@ -49,6 +50,9 @@ public class ContactsActivity extends FragmentActivity implements
 
 	private ContactsViewAdapter adapter;
 
+	@Extra
+	UserEntity curUser;
+	
 	@ViewById
 	ExpandableListView list;
 
@@ -165,6 +169,7 @@ public class ContactsActivity extends FragmentActivity implements
 	void btn_add() {
 		Intent intent = new Intent();
 		intent.setClass(this, AddContactActivity_.class);
+		intent.putExtra("curUser", curUser);
 		startActivityForResult(intent, ActivityCode.ADD_CONTACT_ACTIVITY);
 	}
 
@@ -202,7 +207,6 @@ public class ContactsActivity extends FragmentActivity implements
 
 	@Override
 	public void onPortraitClick(UserEntity user) {
-		// TODO Auto-generated method stub
 		Intent intent = new Intent();
 		intent.putExtra("user", user);
 

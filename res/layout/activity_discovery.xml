@@ -1,24 +1,254 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_bg"
+    android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <RelativeLayout 
-        android:id="@+id/topbar_discovery"
+    <!-- title -->
+
+    <RelativeLayout
+        android:id="@+id/topbar_message"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
-        android:paddingTop="@dimen/topbar_vertical_padding"
+        android:background="@color/topbar_bg"
         android:paddingBottom="@dimen/topbar_vertical_padding"
-        android:paddingLeft="@dimen/topbar_horizontal_padding"
-        android:paddingRight="@dimen/topbar_horizontal_padding"
-        android:background="@color/topbar_bg">
-        
-	    <TextView
-	        style="@style/TopBarTitle"
-	        android:text="@string/discovery" />
-        
+        android:paddingTop="@dimen/topbar_vertical_padding" >
+
+        <TextView
+            style="@style/TopBarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/discovery" />
+
+        <ImageButton
+            android:id="@+id/btn_locate"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:contentDescription="@string/app_name"
+            android:paddingLeft="0dp"
+            android:paddingRight="@dimen/topbar_horizontal_padding"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_locator" />
     </RelativeLayout>
 
-</RelativeLayout>
+    <!-- divide line -->
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        layout="@layout/topbar_search_divider" />
+
+    <!-- search bar -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/topbar_bg"
+        android:paddingBottom="@dimen/search_box_vertical_padding"
+        android:paddingLeft="@dimen/search_box_horizontal_padding"
+        android:paddingRight="@dimen/search_box_horizontal_padding"
+        android:paddingTop="@dimen/search_box_vertical_padding" >
+
+        <EditText
+            android:id="@+id/search_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_bg"
+            android:drawableLeft="@drawable/search_icon"
+            android:drawablePadding="8dp"
+            android:hint="搜索关键字"
+            android:padding="8dp"
+            android:singleLine="true" />
+    </RelativeLayout>
+
+    <!-- 周边 -->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/contacts_group_title_bg"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="周边"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:columnCount="3"
+                android:rowCount="2"
+                android:useDefaultMargins="true" >
+
+                <Button
+                    android:id="@+id/btn_train"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/circle_btn_1"
+                    android:text="培训"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/btn_english"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/circle_btn_2"
+                    android:text="英语"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/btn_interest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/circle_btn_3"
+                    android:text="兴趣"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/btn_org"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/circle_btn_4"
+                    android:text="教育机构"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/btn_parents_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/circle_btn_5"
+                    android:text="家长群"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/btn_happy_weekend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/circle_btn_6"
+                    android:text="欢乐周末"
+                    android:textColor="@color/white" />
+            </GridLayout>
+
+            <!-- 排行榜 -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/contacts_group_title_bg"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="排行榜"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <GridLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:columnCount="4"
+                android:rowCount="1"
+                android:useDefaultMargins="true" >
+
+                <Button
+                    android:id="@+id/btn_rank_teacher"
+                    android:layout_width="@dimen/btn_circle_mini_size"
+                    android:layout_height="@dimen/btn_circle_mini_size"
+                    android:background="@drawable/circle_btn_mini"
+                    android:layout_gravity="center_vertical"
+                    android:text="教师"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btn_rank_org"
+                    android:layout_width="@dimen/btn_circle_mini_size"
+                    android:layout_height="@dimen/btn_circle_mini_size"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/circle_btn_mini"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:text="教育机构"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btn_rank_train"
+                    android:layout_width="@dimen/btn_circle_mini_size"
+                    android:layout_height="@dimen/btn_circle_mini_size"
+                    android:background="@drawable/circle_btn_mini"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="教育辅导"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btn_rank_group"
+                    android:layout_width="@dimen/btn_circle_mini_size"
+                    android:layout_height="@dimen/btn_circle_mini_size"
+                    android:background="@drawable/circle_btn_mini"
+                    android:layout_gravity="center_vertical"
+                    android:text="最热群"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </GridLayout>
+
+            <!-- 热门推荐 -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/contacts_group_title_bg"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:text="热门推荐"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

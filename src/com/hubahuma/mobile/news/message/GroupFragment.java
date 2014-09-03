@@ -193,7 +193,7 @@ public class GroupFragment extends BaseFragment {
 			ViewHolder holder = null;
 			if (convertView == null) {
 
-				convertView = mInflater.inflate(R.layout.msglist_item_group,
+				convertView = mInflater.inflate(R.layout.item_msglist_group,
 						null);
 				holder = new ViewHolder();
 				holder.portrait = (ImageButton) convertView

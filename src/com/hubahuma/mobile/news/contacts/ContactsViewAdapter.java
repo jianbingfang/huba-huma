@@ -91,7 +91,7 @@ public class ContactsViewAdapter extends BaseExpandableListAdapter {
 		ExpandableGroupHolder holder = null; // 清空临时变量holder
 		if (convertView == null) { // 判断view（即view是否已构建好）是否为空
 
-			convertView = mInflater.inflate(R.layout.group_tree_title, null);
+			convertView = mInflater.inflate(R.layout.item_group_tree_title, null);
 			holder = new ExpandableGroupHolder();
 			holder.title = (TextView) convertView.findViewById(R.id.group_name);
 			holder.indicator = (ImageView) convertView
@@ -120,7 +120,7 @@ public class ContactsViewAdapter extends BaseExpandableListAdapter {
 			boolean isLastChild, View convertView, ViewGroup viewgroup) {
 		ExpandableListHolder holder = null;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.contacts_item_parents,
+			convertView = mInflater.inflate(R.layout.item_contacts_parents,
 					null);
 			holder = new ExpandableListHolder();
 			holder.name = (TextView) convertView.findViewById(R.id.name);

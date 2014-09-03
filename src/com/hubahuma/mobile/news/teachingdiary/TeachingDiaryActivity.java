@@ -19,14 +19,21 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.entity.DiaryEntity;
 import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.news.teachingdiary.TeachingDiaryViewAdapter.TeachingDiaryViewListener;
+import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
+import com.hubahuma.mobile.profile.ProfileParentsActivity_;
+import com.hubahuma.mobile.profile.ProfileTeacherActivity_;
 
 @SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_teaching_diary)
-public class TeachingDiaryActivity extends Activity {
+public class TeachingDiaryActivity extends Activity implements
+		TeachingDiaryViewListener {
 
 	@ViewById
 	ListView diary_list;
@@ -40,16 +47,16 @@ public class TeachingDiaryActivity extends Activity {
 
 	@AfterViews
 	void init() {
+		showProgressBar();
 		loadData();
 	}
 
 	@Background(delay = 2000)
 	void loadData() {
-		showProgressBar();
 		dataList = getTestData();
 		hideProgressBar();
 	}
-	
+
 	@UiThread
 	void showProgressBar() {
 		progress_bar.setVisibility(View.VISIBLE);
@@ -58,11 +65,11 @@ public class TeachingDiaryActivity extends Activity {
 	@UiThread
 	void hideProgressBar() {
 		adapter = new TeachingDiaryViewAdapter(getApplicationContext(),
-				dataList);
+				dataList, this);
 		diary_list.setAdapter(adapter);
 		progress_bar.setVisibility(View.GONE);
-//		adapter.notifyDataSetChanged();
-		
+		// adapter.notifyDataSetChanged();
+
 	}
 
 	@Click
@@ -85,7 +92,7 @@ public class TeachingDiaryActivity extends Activity {
 
 		UserEntity user = new UserEntity();
 		user.setId("#0001");
-		user.setType(1);
+		user.setType(UserType.TEACHER);
 		user.setUsername("姚燕芬老师");
 		user.setRemark("北京市第二幼儿园");
 
@@ -102,5 +109,32 @@ public class TeachingDiaryActivity extends Activity {
 		}
 
 		return dairyList;
+	}
+
+	@Override
+	public void onAuthorClick(UserEntity user) {
+		Intent intent = new Intent();
+		intent.putExtra("user", user);
+
+		switch (user.getType()) {
+		case UserType.ORGANIZTION:
+			intent.setClass(this, ProfileOrganizationActivity_.class);
+			startActivityForResult(intent,
+					ActivityCode.PROFILE_ORGANIZATION_ACTIVITY);
+			break;
+
+		case UserType.TEACHER:
+			intent.setClass(this, ProfileTeacherActivity_.class);
+			startActivityForResult(intent,
+					ActivityCode.PROFILE_TEACHER_ACTIVITY);
+			break;
+
+		case UserType.PARENTS:
+			intent.setClass(this, ProfileParentsActivity_.class);
+			startActivityForResult(intent,
+					ActivityCode.PROFILE_PARENTS_ACTIVITY);
+			break;
+
+		}
 	}
 }

@@ -33,6 +33,7 @@
             android:background="@android:color/transparent"
             android:contentDescription="@string/app_name"
             android:paddingLeft="@dimen/topbar_horizontal_padding"
+            android:paddingRight="0dp"
             android:scaleType="centerInside"
             android:src="@drawable/back" />
 
@@ -44,6 +45,7 @@
             android:layout_centerVertical="true"
             android:background="@null"
             android:contentDescription="@string/app_name"
+            android:paddingLeft="0dp"
             android:paddingRight="@dimen/topbar_horizontal_padding"
             android:scaleType="centerInside"
             android:src="@drawable/confirm" />

@@ -55,7 +55,7 @@ public class PublishedArticleDetailViewAdapter extends BaseAdapter {
 
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.article_detail_item, null);
+			convertView = mInflater.inflate(R.layout.item_article_detail, null);
 			viewHolder = new ViewHolder();
 			viewHolder.portrait = (ImageView) convertView
 					.findViewById(R.id.portrait);

@@ -6,11 +6,13 @@ import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.discovery.DiscoveryActivity_;
+import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.info.InfoActivity_;
 import com.hubahuma.mobile.news.NewsActivity_;
 import com.hubahuma.mobile.profile.ProfileActivity_;
 import com.hubahuma.mobile.profile.ProfileOrganizationActivity;
 import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
+import com.hubahuma.mobile.utils.ModelUtil;
 import com.hubahuma.mobile.writing.WritingActivity_;
 
 import android.app.TabActivity;
@@ -26,6 +28,7 @@ import android.widget.TextView;
 @EActivity(R.layout.activity_main)
 public class MainActivity extends TabActivity {
 
+	
 	@ViewById(R.id.main_tab_news_counter)
 	TextView mainTabNewsCounter;
 
@@ -36,6 +39,18 @@ public class MainActivity extends TabActivity {
 
 	@AfterViews
 	void setValue(){
+		
+		UserEntity user = new UserEntity();
+		user.setId("#00000");
+		user.setRemark("none");
+		user.setUsername("当前用户");
+//		user.setType(UserType.ADMIN);
+//		user.setType(UserType.ORGANIZTION);
+		user.setType(UserType.TEACHER);
+//		user.setType(UserType.PARENTS);
+		
+		ModelUtil.setCurrentUser(user);
+		
 		mainTabNewsCounter.setVisibility(View.VISIBLE);
 		mainTabNewsCounter.setText("10");
 		

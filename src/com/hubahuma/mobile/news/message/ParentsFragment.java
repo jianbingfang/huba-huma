@@ -191,7 +191,7 @@ public class ParentsFragment extends BaseFragment {
 			ViewHolder holder = null;
 			if (convertView == null) {
 
-				convertView = mInflater.inflate(R.layout.msglist_item_parents,
+				convertView = mInflater.inflate(R.layout.item_msglist_parents,
 						null);
 				holder = new ViewHolder();
 				holder.portrait = (ImageButton) convertView

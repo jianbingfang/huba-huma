@@ -150,8 +150,12 @@
             android:label="@string/title_activity_profile" >
         </activity>
         <activity
-            android:name="com.hubahuma.mobile.profile.LocationActivity_"
+            android:name=".profile.LocationActivity_"
             android:label="@string/title_activity_location" >
+        </activity>
+        <activity
+            android:name="com.hubahuma.mobile.discovery.TrainActivity_"
+            android:label="@string/title_activity_train" >
         </activity>
     </application>
 

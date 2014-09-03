@@ -27,7 +27,7 @@ import android.widget.TextView;
 public class ProfileOrganizationActivity extends Activity {
 
 	@ViewById
-	TextView phone_number;
+	TextView phone_number, name, address;
 
 	@ViewById(R.id.environment_img_list)
 	LinearLayout imgListView;
@@ -40,7 +40,7 @@ public class ProfileOrganizationActivity extends Activity {
 		
 		// render the img list
 		for (int i = 0; i < 4; i++) {
-			View view = mInflater.inflate(R.layout.profile_org_img_item,
+			View view = mInflater.inflate(R.layout.item_profile_org_img,
 					imgListView, false);
 			ImageView img = (ImageView) view.findViewById(R.id.environment_img);
 			// TODO 获取真实头像
@@ -61,6 +61,15 @@ public class ProfileOrganizationActivity extends Activity {
 	void comment_panel() {
 		Intent intent = new Intent(this, CommentsActivity_.class);
 		startActivityForResult(intent, ActivityCode.COMMENTS_ACTIVITY);
+	}
+	
+	@Click
+	void location_panel(){
+		Intent intent = new Intent(this, LocationActivity_.class);
+		intent.putExtra("name", name.getText().toString());
+		intent.putExtra("address", address.getText().toString());
+		intent.putExtra("phone", phone_number.getText().toString());
+		startActivityForResult(intent, ActivityCode.LOCATION_ACTIVITY);
 	}
 
 	@Click

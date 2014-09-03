@@ -193,7 +193,7 @@ public class TeacherFragment extends BaseFragment {
 			ViewHolder holder = null;
 			if (convertView == null) {
 
-				convertView = mInflater.inflate(R.layout.msglist_item_teacher,
+				convertView = mInflater.inflate(R.layout.item_msglist_teacher,
 						null);
 				holder = new ViewHolder();
 				holder.portrait = (ImageButton) convertView

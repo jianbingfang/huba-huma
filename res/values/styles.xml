@@ -2,13 +2,13 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -31,7 +31,7 @@
         <item name="android:paddingBottom">@dimen/footbar_vertical_padding</item>
         <item name="android:paddingTop">@dimen/footbar_vertical_padding</item>
     </style>
-    
+
     <style name="TopBarTitle">
         <item name="android:layout_centerInParent">true</item>
         <item name="android:layout_width">wrap_content</item>
@@ -39,7 +39,7 @@
         <item name="android:textColor">@color/text_light</item>
         <item name="android:textSize">20sp</item>
     </style>
-    
+
     <style name="NewsMenuText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -47,14 +47,14 @@
         <item name="android:layout_marginTop">15dp</item>
         <item name="android:textSize">15sp</item>
     </style>
-    
+
     <style name="chat_text_date_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_light</item>
         <item name="android:textSize">12sp</item>
     </style>
-    
+
     <style name="chat_bubble_text_view">
         <item name="android:maxWidth">@dimen/chat_bubble_max_width</item>
         <item name="android:layout_width">wrap_content</item>
@@ -69,11 +69,16 @@
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="rating_bar_style" parent="@android:style/Widget.RatingBar">  
-       <item name="android:progressDrawable">@drawable/rating_bar_selector</item>  
-       <item name="android:numStars">5</item>  
-       <item name="android:minHeight">@dimen/rating_bar_height</item>  
-       <item name="android:maxHeight">@dimen/rating_bar_height</item>  
-   </style>
-    
+    <style name="rating_bar_style" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/rating_bar_selector</item>
+        <item name="android:numStars">5</item>
+        <item name="android:minHeight">@dimen/rating_bar_height</item>
+        <item name="android:maxHeight">@dimen/rating_bar_height</item>
+    </style>
+
+    <style name="PopupWindowAnimation">
+        <item name="android:windowEnterAnimation">@anim/popshow_anim</item>
+        <item name="android:windowExitAnimation">@anim/pophidden_anim</item>
+    </style>
+
 </resources>

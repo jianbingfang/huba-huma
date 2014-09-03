@@ -56,7 +56,7 @@ public class CommentViewAdapter extends BaseAdapter {
 
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.comment_item, null);
+			convertView = mInflater.inflate(R.layout.item_comment, null);
 			viewHolder = new ViewHolder();
 			viewHolder.portrait = (ImageView) convertView.findViewById(R.id.portrait);
 			viewHolder.name = (TextView) convertView.findViewById(R.id.name);

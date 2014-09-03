@@ -16,10 +16,12 @@ import android.widget.Toast;
 
 import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.news.contacts.ContactsActivity_;
 import com.hubahuma.mobile.news.managebook.ManageBookActivity_;
 import com.hubahuma.mobile.news.message.MessageActivity_;
 import com.hubahuma.mobile.news.teachingdiary.TeachingDiaryActivity_;
+import com.hubahuma.mobile.utils.ModelUtil;
 
 @EActivity(R.layout.activity_news)
 public class NewsActivity extends Activity {
@@ -33,8 +35,22 @@ public class NewsActivity extends Activity {
 	@AfterViews
 	void init() {
 		msgRedspot.setVisibility(View.VISIBLE);
-		layout_teaching_diary.setVisibility(View.VISIBLE);
-		// layout_manage_book.setVisibility(View.VISIBLE);
+
+		if (ModelUtil.getCurrentUser() != null) {
+			switch (ModelUtil.getCurrentUser().getType()) {
+
+			case UserType.PARENTS:
+				layout_manage_book.setVisibility(View.VISIBLE);
+				break;
+			case UserType.ORGANIZTION:
+			case UserType.TEACHER:
+				layout_teaching_diary.setVisibility(View.VISIBLE);
+				break;
+			default:
+				break;
+			}
+		}
+
 	}
 
 	@Click

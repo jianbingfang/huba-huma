@@ -59,7 +59,7 @@ public class SearchResultViewAdapter extends BaseAdapter {
 
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.search_result_item, null);
+			convertView = mInflater.inflate(R.layout.item_search_result, null);
 			viewHolder = new ViewHolder();
 			viewHolder.name = (TextView) convertView.findViewById(R.id.name);
 			viewHolder.portrait = (ImageView) convertView

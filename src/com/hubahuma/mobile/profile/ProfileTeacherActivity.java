@@ -21,7 +21,7 @@ import com.hubahuma.mobile.profile.WriteCommentActivity.CommentType;
 public class ProfileTeacherActivity extends Activity {
 
 	@ViewById
-	TextView phone_number;
+	TextView phone_number, name, address;
 	
 	@Click
 	void btn_comment(){
@@ -34,6 +34,15 @@ public class ProfileTeacherActivity extends Activity {
 	void comment_panel(){
 		Intent intent = new Intent(this, CommentsActivity_.class);
 		startActivityForResult(intent, ActivityCode.COMMENTS_ACTIVITY);
+	}
+	
+	@Click
+	void location_panel(){
+		Intent intent = new Intent(this, LocationActivity_.class);
+		intent.putExtra("name", name.getText().toString());
+		intent.putExtra("address", address.getText().toString());
+		intent.putExtra("phone", phone_number.getText().toString());
+		startActivityForResult(intent, ActivityCode.LOCATION_ACTIVITY);
 	}
 	
 	@Click

@@ -184,7 +184,7 @@ public class NoticeFragment extends BaseFragment {
 			ViewHolder viewHolder = null;
 			if (convertView == null) {
 
-				convertView = mInflater.inflate(R.layout.msglist_item_notice,
+				convertView = mInflater.inflate(R.layout.item_msglist_notice,
 						null);
 				viewHolder = new ViewHolder();
 				viewHolder.portrait = (ImageButton) convertView

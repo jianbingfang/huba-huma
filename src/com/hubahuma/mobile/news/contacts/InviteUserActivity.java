@@ -209,7 +209,7 @@ public class InviteUserActivity extends Activity implements
 	private void updateInvitedUserView() {
 		invited_list.removeAllViewsInLayout();;
 		for (UserEntity user : invitedList) {
-			View view = mInflater.inflate(R.layout.invited_user_footbar_item,
+			View view = mInflater.inflate(R.layout.item_footbar_invited_user,
 					invited_list, false);
 			ImageView img = (ImageView) view
 					.findViewById(R.id.portrait);

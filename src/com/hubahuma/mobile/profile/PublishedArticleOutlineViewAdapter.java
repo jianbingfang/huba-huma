@@ -54,7 +54,7 @@ public class PublishedArticleOutlineViewAdapter extends BaseAdapter {
 
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.article_outline_item, null);
+			convertView = mInflater.inflate(R.layout.item_article_outline, null);
 			viewHolder = new ViewHolder();
 			viewHolder.date = (TextView) convertView.findViewById(R.id.date);
 			viewHolder.articleImg = (ImageView) convertView.findViewById(R.id.article_img);

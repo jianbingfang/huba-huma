@@ -3,14 +3,19 @@ package com.hubahuma.mobile.news.contacts;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.ActivityCode;
+import com.hubahuma.mobile.MainActivity;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.layout;
+import com.hubahuma.mobile.UserType;
+import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.news.managebook.ManageBookActivity_;
+import com.hubahuma.mobile.utils.ModelUtil;
 import com.hubahuma.mobile.utils.UtilTools;
 
 import android.app.Activity;
@@ -27,6 +32,7 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
@@ -41,8 +47,18 @@ public class AddContactActivity extends FragmentActivity {
 	@ViewById(R.id.search_input)
 	EditText searchBox;
 
+	@ViewById
+	RelativeLayout search_group_btn, new_group_btn;
+
 	@AfterViews
 	void init() {
+
+		if (ModelUtil.getCurrentUser() != null
+				&& ModelUtil.getCurrentUser().getType() == UserType.PARENTS) {
+			search_group_btn.setVisibility(View.GONE);
+			new_group_btn.setVisibility(View.GONE);
+		}
+
 		searchBox.setOnKeyListener(new OnKeyListener() {
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -51,11 +67,9 @@ public class AddContactActivity extends FragmentActivity {
 
 					String text = ((EditText) v).getText().toString().trim();
 
-					if ("".equals(text) || searchResultShowed == true)
+					if (UtilTools.isEmpty(text) || searchResultShowed == true)
 						return false;
 					searchResultShowed = true;
-
-					System.out.println("SEARCH:" + text);
 
 					Intent intent = new Intent();
 					intent.setClass(AddContactActivity.this,
@@ -92,7 +106,7 @@ public class AddContactActivity extends FragmentActivity {
 	void onAddChatGroupActivityResult(int resultCode, Intent data) {
 		Log.d("Return", "return from AddChatGroupActivity");
 	}
-	
+
 	@Click
 	void btn_back() {
 
