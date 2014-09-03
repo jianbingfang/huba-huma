@@ -34,12 +34,6 @@ public class LocationActivity extends Activity {
 	@Extra
 	String name, address, phone;
 
-	@AfterInject
-	void preProc(){
-		SDKInitializer.initialize(getApplicationContext());
-	}
-	
-
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();

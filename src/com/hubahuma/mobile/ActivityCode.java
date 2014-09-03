@@ -1,6 +1,6 @@
 package com.hubahuma.mobile;
 
-public interface ActivityCode {
+public class ActivityCode {
 	public static final int MESSAGE_ACTIVITY = 0;
 	public static final int MANAGE_BOOK_ACTIVITY = 1;
 	public static final int TEACHING_DIARY_ACTIVITY = 2;

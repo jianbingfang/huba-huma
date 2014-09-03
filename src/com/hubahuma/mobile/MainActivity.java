@@ -1,10 +1,12 @@
 package com.hubahuma.mobile;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.ViewById;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.hubahuma.mobile.discovery.DiscoveryActivity_;
 import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.info.InfoActivity_;
@@ -28,32 +30,36 @@ import android.widget.TextView;
 @EActivity(R.layout.activity_main)
 public class MainActivity extends TabActivity {
 
-	
 	@ViewById(R.id.main_tab_news_counter)
 	TextView mainTabNewsCounter;
 
 	@ViewById(R.id.main_tab_group)
 	RadioGroup radioGroup;
-	
+
 	TabHost tabHost;
 
+	@AfterInject
+	void preProc() {
+		SDKInitializer.initialize(getApplicationContext());
+	}
+
 	@AfterViews
-	void setValue(){
-		
+	void setValue() {
+
 		UserEntity user = new UserEntity();
 		user.setId("#00000");
 		user.setRemark("none");
 		user.setUsername("当前用户");
-//		user.setType(UserType.ADMIN);
-//		user.setType(UserType.ORGANIZTION);
+		// user.setType(UserType.ADMIN);
+		// user.setType(UserType.ORGANIZTION);
 		user.setType(UserType.TEACHER);
-//		user.setType(UserType.PARENTS);
-		
+		// user.setType(UserType.PARENTS);
+
 		ModelUtil.setCurrentUser(user);
-		
+
 		mainTabNewsCounter.setVisibility(View.VISIBLE);
 		mainTabNewsCounter.setText("10");
-		
+
 		tabHost = this.getTabHost();
 		TabHost.TabSpec spec;
 		Intent intent;
@@ -61,7 +67,7 @@ public class MainActivity extends TabActivity {
 		spec = tabHost.newTabSpec("news").setIndicator("news")
 				.setContent(intent);
 		tabHost.addTab(spec);
-		
+
 		intent = new Intent().setClass(this, WritingActivity_.class);
 		spec = tabHost.newTabSpec("writing").setIndicator("writing")
 				.setContent(intent);
@@ -107,6 +113,6 @@ public class MainActivity extends TabActivity {
 				}
 			}
 		});
-		
+
 	}
 }

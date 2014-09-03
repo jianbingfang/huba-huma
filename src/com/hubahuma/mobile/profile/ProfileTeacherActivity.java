@@ -3,12 +3,15 @@ package com.hubahuma.mobile.profile;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NoTitle;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hubahuma.mobile.ActivityCode;
@@ -22,6 +25,9 @@ public class ProfileTeacherActivity extends Activity {
 
 	@ViewById
 	TextView phone_number, name, address;
+	
+	@ViewById
+	ProgressBar progress_bar;
 	
 	@Click
 	void btn_comment(){
@@ -38,11 +44,17 @@ public class ProfileTeacherActivity extends Activity {
 	
 	@Click
 	void location_panel(){
+		progress_bar.setVisibility(View.VISIBLE);
 		Intent intent = new Intent(this, LocationActivity_.class);
 		intent.putExtra("name", name.getText().toString());
 		intent.putExtra("address", address.getText().toString());
 		intent.putExtra("phone", phone_number.getText().toString());
 		startActivityForResult(intent, ActivityCode.LOCATION_ACTIVITY);
+	}
+	
+	@OnActivityResult(ActivityCode.LOCATION_ACTIVITY)
+	void onReturnFromLocationActivity(){
+		progress_bar.setVisibility(View.GONE);
 	}
 	
 	@Click

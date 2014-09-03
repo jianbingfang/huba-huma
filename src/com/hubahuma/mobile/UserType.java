@@ -1,6 +1,6 @@
 package com.hubahuma.mobile;
 
-public interface UserType {
+public class UserType {
 
 	public static final int PARENTS = 0;
 	

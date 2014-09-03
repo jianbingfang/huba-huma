@@ -4,6 +4,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NoTitle;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.ActivityCode;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 @SuppressWarnings("deprecation")
@@ -32,6 +34,9 @@ public class ProfileOrganizationActivity extends Activity {
 	@ViewById(R.id.environment_img_list)
 	LinearLayout imgListView;
 
+	@ViewById
+	ProgressBar progress_bar;
+	
 	private LayoutInflater mInflater;
 	
 	@AfterViews
@@ -65,11 +70,17 @@ public class ProfileOrganizationActivity extends Activity {
 	
 	@Click
 	void location_panel(){
+		progress_bar.setVisibility(View.VISIBLE);
 		Intent intent = new Intent(this, LocationActivity_.class);
 		intent.putExtra("name", name.getText().toString());
 		intent.putExtra("address", address.getText().toString());
 		intent.putExtra("phone", phone_number.getText().toString());
 		startActivityForResult(intent, ActivityCode.LOCATION_ACTIVITY);
+	}
+	
+	@OnActivityResult(ActivityCode.LOCATION_ACTIVITY)
+	void onReturnFromLocationActivity(){
+		progress_bar.setVisibility(View.GONE);
 	}
 
 	@Click
