@@ -5,20 +5,110 @@
     android:background="@color/main_bg"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <RelativeLayout 
+    <RelativeLayout
         android:id="@+id/topbar_writing"
         android:layout_width="match_parent"
         android:layout_height="@dimen/topbar_height"
-        android:paddingTop="@dimen/topbar_vertical_padding"
+        android:background="@color/topbar_bg"
         android:paddingBottom="@dimen/topbar_vertical_padding"
         android:paddingLeft="@dimen/topbar_horizontal_padding"
         android:paddingRight="@dimen/topbar_horizontal_padding"
-        android:background="@color/topbar_bg">
-        
-	    <TextView
-	        style="@style/TopBarTitle"
-	        android:text="@string/writing" />
-        
+        android:paddingTop="@dimen/topbar_vertical_padding" >
+
+        <TextView
+            style="@style/TopBarTitle"
+            android:text="@string/writing" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/center_area" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <ImageButton
+                    android:id="@+id/btn_writing_diary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/writing_diary" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/txt_message"
+                        style="@style/NewsMenuText"
+                        android:text="@string/teaching_diary" />
+                </RelativeLayout>
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@id/center_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" >
+
+            <LinearLayout
+                android:id="@+id/layout_teaching_diary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="visible" >
+
+                <ImageButton
+                    android:id="@+id/btn_writing_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/writing_notice" />
+
+                <TextView
+                    style="@style/NewsMenuText"
+                    android:text="@string/notice" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/center_area"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/btn_writing_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
+                android:src="@drawable/writing_info" />
+
+            <TextView
+                style="@style/NewsMenuText"
+                android:text="咨询" />
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>

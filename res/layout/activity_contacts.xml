@@ -16,8 +16,6 @@
         android:layout_height="@dimen/topbar_height"
         android:background="@color/topbar_bg"
         android:paddingBottom="@dimen/topbar_vertical_padding"
-        android:paddingLeft="@dimen/topbar_horizontal_padding"
-        android:paddingRight="0dp"
         android:paddingTop="@dimen/topbar_vertical_padding" >
 
         <TextView
@@ -27,22 +25,23 @@
         <ImageButton
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:background="@android:color/transparent"
+            android:background="@null"
             android:contentDescription="@string/app_name"
+            android:paddingLeft="@dimen/topbar_horizontal_padding"
+            android:paddingRight="0dp"
             android:scaleType="centerInside"
             android:src="@drawable/back" />
 
         <ImageButton
             android:id="@+id/btn_add"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:paddingLeft="0dp"
             android:paddingRight="20dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"

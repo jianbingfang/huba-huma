@@ -9,6 +9,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -16,6 +17,7 @@ import org.androidannotations.annotations.ViewById;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -39,7 +41,13 @@ public class TeachingDiaryActivity extends Activity implements
 	ListView diary_list;
 
 	@ViewById
+	Button btn_write_diary;
+
+	@ViewById
 	ProgressBar progress_bar;
+
+	@Extra
+	boolean isSelf;
 
 	private List<DiaryEntity> dataList = new ArrayList<DiaryEntity>();
 
@@ -47,6 +55,11 @@ public class TeachingDiaryActivity extends Activity implements
 
 	@AfterViews
 	void init() {
+		if (isSelf) {
+			btn_write_diary.setVisibility(View.VISIBLE);
+		}else{
+			btn_write_diary.setVisibility(View.GONE);
+		}
 		showProgressBar();
 		loadData();
 	}

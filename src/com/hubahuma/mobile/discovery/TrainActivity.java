@@ -105,12 +105,13 @@ public class TrainActivity extends Activity implements TrainOrgListViewListener 
 		adapter = new TrainOrgListViewAdapter(getApplicationContext(),
 				dataList, this);
 		list.setAdapter(adapter);
-		final TrainOrgListViewGesture touchListener = new TrainOrgListViewGesture(
-				list, swipeListener, this, TrainOrgListViewGesture.Double);
 
-		list.setOnTouchListener(touchListener);
+		/*final TrainOrgListViewGesture touchListener = new TrainOrgListViewGesture(
+				list, swipeListener, this, 4);
+		list.setOnTouchListener(touchListener);*/
+		
+		adapter.notifyDataSetChanged();
 		progress_bar.setVisibility(View.GONE);
-		// adapter.notifyDataSetChanged();
 	}
 
 	private void initView() {

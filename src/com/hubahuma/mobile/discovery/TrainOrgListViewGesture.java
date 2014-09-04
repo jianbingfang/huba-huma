@@ -26,8 +26,10 @@ import com.hubahuma.mobile.utils.DisplayUtil;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
 public class TrainOrgListViewGesture implements View.OnTouchListener {
 
-	private final static int BUTTON_DELETE = 111111;
-	private final static int BUTTON_MANAGE = 222222;
+	private final static int BUTTON_FOLLOW = 111;
+	private final static int BUTTON_IMAGE = 222;
+	private final static int BUTTON_LOCATION = 333;
+	private final static int BUTTON_CONSULT = 444;
 
 	Activity activity;
 
@@ -49,8 +51,9 @@ public class TrainOrgListViewGesture implements View.OnTouchListener {
 	private int textheight = 1;
 
 	// Transient properties
-	private List<PendingDismissData> mPendingDismisses = new ArrayList<PendingDismissData>();
-	private int mDismissAnimationRefCount = 0;
+	// private List<PendingDismissData> mPendingDismisses = new
+	// ArrayList<PendingDismissData>();
+	// private int mDismissAnimationRefCount = 0;
 	private float mDownX;
 	private boolean mSwiping;
 	private VelocityTracker mVelocityTracker;
@@ -58,35 +61,33 @@ public class TrainOrgListViewGesture implements View.OnTouchListener {
 	private int temp_position, opened_position, stagged_position;
 	private ViewGroup mDownView, old_mDownView;
 	private ViewGroup mDownView_parent;
-	private TextView mDownView_parent_txt1, mDownView_parent_txt2;
+	private TextView mDownView_parent_txt1, mDownView_parent_txt2,
+			mDownView_parent_txt3, mDownView_parent_txt4;
 	private boolean mPaused;
 	public boolean moptionsDisplay = false;
 	static TouchCallbacks tcallbacks;
 
 	// Intermediate Usages
-	String TextColor = "#FFFFFF"; // #FF4444
+	String TextColor = "#FFFFFF";
 	String normalColor = "#222E3E"; // deep blue
-	String redColor = "#EB2D3F"; // red
+	// String redColor = "#EB2D3F"; // red
 	// String singleColor = "#EB2D3F";
 
 	public float textSizeInSp = 14;
 	public float itemHeightInDp = 14;
 
 	// Functional Usages
-	public String HalfColor;
-	public String FullColor;
-	public String HalfText;
-	public String FullText;
-	public String HalfTextFinal;
-	public String FullTextFinal;
-	public Drawable HalfDrawable;
-	public Drawable FullDrawable;
+	public String rightFirstText;
+	public String rightSecondText;
+	public String rightThirdText;
+	public String rightForthText;
+	public Drawable rightFirstDrawable;
+	public Drawable rightSecondDrawable;
+	public Drawable rightThirdDrawable;
+	public Drawable rightForthDrawable;
 
 	// Swipe Types
 	public int itemNum;
-
-	public static int Single = 1;
-	public static int Double = 2;
 
 	public TrainOrgListViewGesture(ListView listView, TouchCallbacks Callbacks,
 			Activity context, int itemNum) {
@@ -123,17 +124,20 @@ public class TrainOrgListViewGesture implements View.OnTouchListener {
 	}
 
 	private void GetResourcesValues() {
-		mAnimationTime = 200;
-		HalfColor = redColor;
-		FullColor = normalColor;
-		HalfText = activity.getResources().getString(R.string.delete);
-		HalfTextFinal = activity.getResources().getString(R.string.delete);
-		FullText = activity.getResources().getString(R.string.rename);
-		FullTextFinal = activity.getResources().getString(R.string.rename);
-		HalfDrawable = activity.getResources().getDrawable(
-				R.drawable.delete_icon);
-		FullDrawable = activity.getResources().getDrawable(
-				R.drawable.group_rename);
+		mAnimationTime = 100;
+		rightFirstText = activity.getResources().getString(R.string.follow);
+		rightSecondText = activity.getResources().getString(
+				R.string.environment);
+		rightThirdText = activity.getResources().getString(R.string.location);
+		rightForthText = activity.getResources().getString(R.string.consult);
+		rightFirstDrawable = activity.getResources().getDrawable(
+				R.drawable.icon_follow);
+		rightSecondDrawable = activity.getResources().getDrawable(
+				R.drawable.icon_environment);
+		rightThirdDrawable = activity.getResources().getDrawable(
+				R.drawable.icon_locate);
+		rightForthDrawable = activity.getResources().getDrawable(
+				R.drawable.icon_consult);
 	}
 
 	public void setEnabled(boolean enabled) {
@@ -204,6 +208,7 @@ public class TrainOrgListViewGesture implements View.OnTouchListener {
 			textwidth2 = mViewWidth / 5;
 			textwidth = textwidth2;
 			largewidth = textwidth + textwidth2;
+			// largewidth = textwidth * itemNum;
 		}
 
 		int tempwidth = 0;
@@ -233,16 +238,11 @@ public class TrainOrgListViewGesture implements View.OnTouchListener {
 							.findViewById(R.id.list_item_view_container);
 					if (mDownView_parent.getChildCount() == 1) {
 						textheight = mDownView_parent.getHeight();
-						if (itemNum == 2) {
-							HalfColor = redColor;
-							HalfDrawable = activity.getResources().getDrawable(
-									R.drawable.delete_icon);
-						}
 						SetBackGroundforList();
 					}
 
 					if (old_mDownView != null && mDownView != old_mDownView) {
-						ResetListItem(old_mDownView);
+						// ResetListItem(old_mDownView);
 						old_mDownView = null;
 						return false;
 					}
@@ -272,7 +272,7 @@ public class TrainOrgListViewGesture implements View.OnTouchListener {
 			}
 			float deltaX = event.getRawX() - mDownX;
 			mVelocityTracker.addMovement(event);
-			mVelocityTracker.computeCurrentVelocity(1000); // 1000 by defaut but
+			mVelocityTracker.computeCurrentVelocity(500); // 1000 by defaut but
 			float velocityX = mVelocityTracker.getXVelocity(); // it was too
 																// much
 			float absVelocityX = Math.abs(velocityX);
@@ -360,48 +360,81 @@ public class TrainOrgListViewGesture implements View.OnTouchListener {
 	}
 
 	private void SetBackGroundforList() {
-		// TODO Auto-generated method stub
 		mDownView_parent_txt1 = new TextView(activity.getApplicationContext());
 		RelativeLayout.LayoutParams lp1 = new RelativeLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT,
 				android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
 		lp1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-		mDownView_parent_txt1.setId(BUTTON_DELETE);
+		mDownView_parent_txt1.setId(BUTTON_FOLLOW);
 		mDownView_parent_txt1.setLayoutParams(lp1);
 		mDownView_parent_txt1.setGravity(Gravity.CENTER_HORIZONTAL);
-		mDownView_parent_txt1.setText(HalfText);
+		mDownView_parent_txt1.setText(rightFirstText);
 		mDownView_parent_txt1.setWidth(textwidth2);
 		mDownView_parent_txt1.setTextSize(textSizeInSp);
 		mDownView_parent_txt1.setPadding(0, textheight / 5, 0, 0);
 		mDownView_parent_txt1.setHeight(textheight);
-		mDownView_parent_txt1.setBackgroundColor(Color.parseColor(HalfColor));
+		mDownView_parent_txt1.setBackgroundColor(Color.parseColor(normalColor));
 		mDownView_parent_txt1.setTextColor(Color.parseColor(TextColor));
 		mDownView_parent_txt1.setCompoundDrawablesWithIntrinsicBounds(null,
-				HalfDrawable, null, null);
+				rightFirstDrawable, null, null);
 		mDownView_parent.addView(mDownView_parent_txt1, 0);
 
-		if (itemNum == 2) {
-			mDownView_parent_txt2 = new TextView(
-					activity.getApplicationContext());
-			mDownView_parent_txt2.setId(BUTTON_MANAGE);
-			RelativeLayout.LayoutParams lp2 = new RelativeLayout.LayoutParams(
-					LayoutParams.WRAP_CONTENT,
-					android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
-			lp2.addRule(RelativeLayout.LEFT_OF, mDownView_parent_txt1.getId());
-			mDownView_parent_txt2.setLayoutParams(lp2);
-			mDownView_parent_txt2.setGravity(Gravity.CENTER_HORIZONTAL);
-			mDownView_parent_txt2.setText(FullText);
-			mDownView_parent_txt2.setWidth(textwidth2);
-			mDownView_parent_txt2.setTextSize(textSizeInSp);
-			mDownView_parent_txt2.setPadding(0, textheight / 5, 0, 0);
-			mDownView_parent_txt2.setHeight(textheight);
-			mDownView_parent_txt2.setBackgroundColor(Color
-					.parseColor(FullColor));
-			mDownView_parent_txt2.setTextColor(Color.parseColor(TextColor));
-			mDownView_parent_txt2.setCompoundDrawablesWithIntrinsicBounds(null,
-					FullDrawable, null, null);
-			mDownView_parent.addView(mDownView_parent_txt2, 1);
-		}
+		mDownView_parent_txt2 = new TextView(activity.getApplicationContext());
+		mDownView_parent_txt2.setId(BUTTON_IMAGE);
+		RelativeLayout.LayoutParams lp2 = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT,
+				android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
+		lp2.addRule(RelativeLayout.LEFT_OF, mDownView_parent_txt1.getId());
+		mDownView_parent_txt2.setLayoutParams(lp2);
+		mDownView_parent_txt2.setGravity(Gravity.CENTER_HORIZONTAL);
+		mDownView_parent_txt2.setText(rightSecondText);
+		mDownView_parent_txt2.setWidth(textwidth2);
+		mDownView_parent_txt2.setTextSize(textSizeInSp);
+		mDownView_parent_txt2.setPadding(0, textheight / 5, 0, 0);
+		mDownView_parent_txt2.setHeight(textheight);
+		mDownView_parent_txt2.setBackgroundColor(Color.parseColor(normalColor));
+		mDownView_parent_txt2.setTextColor(Color.parseColor(TextColor));
+		mDownView_parent_txt2.setCompoundDrawablesWithIntrinsicBounds(null,
+				rightSecondDrawable, null, null);
+		mDownView_parent.addView(mDownView_parent_txt2, 0);
+
+		mDownView_parent_txt3 = new TextView(activity.getApplicationContext());
+		mDownView_parent_txt3.setId(BUTTON_IMAGE);
+		RelativeLayout.LayoutParams lp3 = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT,
+				android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
+		lp3.addRule(RelativeLayout.LEFT_OF, mDownView_parent_txt2.getId());
+		mDownView_parent_txt3.setLayoutParams(lp3);
+		mDownView_parent_txt3.setGravity(Gravity.CENTER_HORIZONTAL);
+		mDownView_parent_txt3.setText(rightThirdText);
+		mDownView_parent_txt3.setWidth(textwidth2);
+		mDownView_parent_txt3.setTextSize(textSizeInSp);
+		mDownView_parent_txt3.setPadding(0, textheight / 5, 0, 0);
+		mDownView_parent_txt3.setHeight(textheight);
+		mDownView_parent_txt3.setBackgroundColor(Color.parseColor(normalColor));
+		mDownView_parent_txt3.setTextColor(Color.parseColor(TextColor));
+		mDownView_parent_txt3.setCompoundDrawablesWithIntrinsicBounds(null,
+				rightThirdDrawable, null, null);
+		mDownView_parent.addView(mDownView_parent_txt3, 0);
+
+		mDownView_parent_txt4 = new TextView(activity.getApplicationContext());
+		mDownView_parent_txt4.setId(BUTTON_IMAGE);
+		RelativeLayout.LayoutParams lp4 = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT,
+				android.widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
+		lp4.addRule(RelativeLayout.LEFT_OF, mDownView_parent_txt3.getId());
+		mDownView_parent_txt4.setLayoutParams(lp4);
+		mDownView_parent_txt4.setGravity(Gravity.CENTER_HORIZONTAL);
+		mDownView_parent_txt4.setText(rightForthText);
+		mDownView_parent_txt4.setWidth(textwidth2);
+		mDownView_parent_txt4.setTextSize(textSizeInSp);
+		mDownView_parent_txt4.setPadding(0, textheight / 5, 0, 0);
+		mDownView_parent_txt4.setHeight(textheight);
+		mDownView_parent_txt4.setBackgroundColor(Color.parseColor(normalColor));
+		mDownView_parent_txt4.setTextColor(Color.parseColor(TextColor));
+		mDownView_parent_txt4.setCompoundDrawablesWithIntrinsicBounds(null,
+				rightForthDrawable, null, null);
+		mDownView_parent.addView(mDownView_parent_txt4, 0);
 	}
 
 	private void ResetListItem(View tempView) {
@@ -428,16 +461,15 @@ public class TrainOrgListViewGesture implements View.OnTouchListener {
 	}
 
 	private void FullSwipeTrigger() {
-		Log.d("FUll Swipe trigger call", "Works**********************"
-				+ mDismissAnimationRefCount);
+		// Log.d("FUll Swipe trigger call", "Works**********************"
+		// + mDismissAnimationRefCount);
 		old_mDownView = mDownView;
 		int width;
 		if (itemNum == 1) {
 			width = textwidth;
-			++mDismissAnimationRefCount;
+			// ++mDismissAnimationRefCount;
 		} else {
-			if (itemNum == 2)
-				++mDismissAnimationRefCount;
+			// ++mDismissAnimationRefCount;
 			width = largewidth;
 		}
 		mDownView.animate().translationX(-width).setDuration(300)
@@ -449,9 +481,12 @@ public class TrainOrgListViewGesture implements View.OnTouchListener {
 						stagged_position = temp_position;
 						mDownView_parent_txt1
 								.setOnTouchListener(new touchClass());
-						if (itemNum == 2)
-							mDownView_parent_txt2
-									.setOnTouchListener(new touchClass());
+						mDownView_parent_txt2
+								.setOnTouchListener(new touchClass());
+						mDownView_parent_txt3
+								.setOnTouchListener(new touchClass());
+						mDownView_parent_txt4
+								.setOnTouchListener(new touchClass());
 
 					}
 
@@ -478,83 +513,6 @@ public class TrainOrgListViewGesture implements View.OnTouchListener {
 		}
 	}
 
-	private void performDelete(final View dismissView, final int dismissPosition) {
-		// Animate the dismissed list item to zero-height and fire the dismiss
-		// callback when
-		// all dismissed list item animations have completed. This triggers
-		// layout on each animation
-		// frame; in the future we may want to do something smarter and more
-		// performant.
-
-		final ViewGroup.LayoutParams lp = dismissView.getLayoutParams();
-		final int originalHeight = dismissView.getHeight();
-
-		((ViewGroup) dismissView).getChildAt(itemNum).animate().translationX(0)
-				.alpha(1f).setListener(new AnimatorListenerAdapter() {
-
-					@Override
-					public void onAnimationEnd(Animator animation) {
-						super.onAnimationEnd(animation);
-						((ViewGroup) dismissView).removeViewAt(0);
-						Log.d("Selected view", dismissView.getClass() + "..."
-								+ dismissView.getId() + " , "
-								+ mDismissAnimationRefCount);
-						ValueAnimator animator = ValueAnimator.ofInt(
-								originalHeight, 0).setDuration(mAnimationTime);
-						animator.addListener(new AnimatorListenerAdapter() {
-							@Override
-							public void onAnimationEnd(Animator animation) {
-								--mDismissAnimationRefCount;
-								System.out.println("mDismissAnimationRefCount:"
-										+ mDismissAnimationRefCount);
-								if (mDismissAnimationRefCount == 0) {
-									// No active animations, process all pending
-									// dismisses.
-									// Sort by descending position
-									Collections.sort(mPendingDismisses);
-
-									int[] dismissPositions = new int[mPendingDismisses
-											.size()];
-									for (int i = mPendingDismisses.size() - 1; i >= 0; i--) {
-										dismissPositions[i] = mPendingDismisses
-												.get(i).position;
-										Log.d("Dismiss positions...",
-												dismissPositions[i] + "");
-									}
-									tcallbacks.onDeleteItem(mListView,
-											dismissPositions);
-									// ViewGroup.LayoutParams lp;
-									// for (PendingDismissData pendingDismiss :
-									// mPendingDismisses) {
-									// // Reset view presentation
-									// lp =
-									// pendingDismiss.view.getLayoutParams();
-									// lp.height = originalHeight;
-									// pendingDismiss.view.setLayoutParams(lp);
-									// }
-									mPendingDismisses.clear();
-								}
-							}
-						});
-
-						animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-							@Override
-							public void onAnimationUpdate(
-									ValueAnimator valueAnimator) {
-								lp.height = (Integer) valueAnimator
-										.getAnimatedValue();
-								dismissView.setLayoutParams(lp);
-							}
-						});
-
-						mPendingDismisses.add(new PendingDismissData(
-								dismissPosition, dismissView));
-						animator.start();
-					}
-				});
-
-	}
-
 	class touchClass implements OnTouchListener {
 
 		@Override
@@ -566,11 +524,10 @@ public class TrainOrgListViewGesture implements View.OnTouchListener {
 			case MotionEvent.ACTION_DOWN: {
 				if (opened_position == stagged_position && moptionsDisplay) {
 					switch (v.getId()) {
-					case BUTTON_DELETE:
+					case BUTTON_FOLLOW:
 						moptionsDisplay = false;
-						performDelete(mDownView_parent, temp_position);
 						return true;
-					case BUTTON_MANAGE:
+					case BUTTON_IMAGE:
 						tcallbacks.OnClickRename(temp_position);
 						return true;
 					}

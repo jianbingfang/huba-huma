@@ -17,26 +17,27 @@
             android:layout_height="@dimen/topbar_height"
             android:background="@color/topbar_bg"
             android:paddingBottom="@dimen/topbar_vertical_padding"
-            android:paddingLeft="@dimen/topbar_horizontal_padding"
-            android:paddingRight="@dimen/topbar_horizontal_padding"
             android:paddingTop="@dimen/topbar_vertical_padding" >
 
             <ImageButton
                 android:id="@+id/btn_back"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:background="@null"
                 android:contentDescription="@string/app_name"
+                android:paddingLeft="@dimen/topbar_horizontal_padding"
+                android:paddingRight="0dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/back" />
 
             <ImageButton
                 android:id="@+id/btn_share"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/topbar_horizontal_padding"
                 android:layout_centerVertical="true"
                 android:background="@null"
                 android:contentDescription="@string/app_name"
@@ -46,7 +47,7 @@
             <ImageButton
                 android:id="@+id/btn_add_to_managebook"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
                 android:layout_toLeftOf="@id/btn_share"
@@ -58,7 +59,7 @@
             <ImageButton
                 android:id="@+id/btn_follow"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
                 android:layout_toLeftOf="@id/btn_add_to_managebook"
@@ -491,8 +492,8 @@
                         android:layout_marginLeft="10dp"
                         android:layout_toLeftOf="@+id/latest_article_more"
                         android:layout_toRightOf="@id/latest_article_img"
-                        android:maxLines="2"
                         android:lineSpacingMultiplier="1.2"
+                        android:maxLines="2"
                         android:text="朗讯少儿英语建理想校园校风师德受期待"
                         android:textColor="@color/white"
                         android:textSize="15sp" />
@@ -614,16 +615,16 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:orientation="horizontal"
-            android:background="@color/footbar_bg" >
+            android:background="@color/footbar_bg"
+            android:orientation="horizontal" >
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
+                android:layout_weight="1"
                 android:background="@null"
                 android:drawableLeft="@drawable/chat"
                 android:drawablePadding="0dp"
@@ -635,23 +636,23 @@
                 android:id="@+id/btn_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:layout_marginLeft="10dp"
                 android:layout_centerInParent="true"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1.5"
                 android:background="@null"
                 android:drawableLeft="@drawable/icon_write_comment"
                 android:drawablePadding="0dp"
                 android:text="写点评"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
-            
+
             <Button
                 android:id="@+id/btn_parents_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:layout_marginLeft="10dp"
                 android:layout_centerInParent="true"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1.5"
                 android:background="@null"
                 android:drawableLeft="@drawable/parents_group"
                 android:drawablePadding="2dp"
@@ -663,11 +664,11 @@
                 android:id="@+id/btn_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_alignParentRight="true"
-                android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_weight="1"
                 android:background="@null"
                 android:drawableLeft="@drawable/icon_make_call"
                 android:drawablePadding="-10dp"

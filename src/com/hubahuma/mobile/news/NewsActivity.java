@@ -71,6 +71,7 @@ public class NewsActivity extends Activity {
 	void btn_teaching_diary() {
 		Intent intent = new Intent();
 		intent.setClass(this, TeachingDiaryActivity_.class);
+		intent.putExtra("isSelf", false);
 		startActivityForResult(intent, ActivityCode.TEACHING_DIARY_ACTIVITY);
 	}
 

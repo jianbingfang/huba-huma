@@ -272,7 +272,7 @@ public class GroupListViewGesture implements View.OnTouchListener {
 			}
 			float deltaX = event.getRawX() - mDownX;
 			mVelocityTracker.addMovement(event);
-			mVelocityTracker.computeCurrentVelocity(1000); // 1000 by defaut but
+			mVelocityTracker.computeCurrentVelocity(500); // 1000 by defaut but
 			float velocityX = mVelocityTracker.getXVelocity(); // it was too
 																// much
 			float absVelocityX = Math.abs(velocityX);

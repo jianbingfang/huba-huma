@@ -18,4 +18,5 @@ public class ActivityCode {
 	public static final int PROFILE_ORGANIZATION_ACTIVITY = 14;
 	public static final int PROFILE_PARENTS_ACTIVITY = 15;
 	public static final int LOCATION_ACTIVITY = 16;
+	public static final int PUBLISH_NOTICE_ACTIVITY = 17;
 }

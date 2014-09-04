@@ -18,8 +18,6 @@
             android:layout_height="@dimen/topbar_height"
             android:background="@color/topbar_bg"
             android:paddingBottom="@dimen/topbar_vertical_padding"
-            android:paddingLeft="@dimen/topbar_horizontal_padding"
-            android:paddingRight="@dimen/topbar_horizontal_padding"
             android:paddingTop="@dimen/topbar_vertical_padding" >
 
             <TextView
@@ -29,11 +27,13 @@
             <ImageButton
                 android:id="@+id/btn_back"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:background="@android:color/transparent"
+                android:background="@null"
                 android:contentDescription="@string/app_name"
+                android:paddingLeft="@dimen/topbar_horizontal_padding"
+                android:paddingRight="0dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/back" />
         </RelativeLayout>
@@ -86,9 +86,9 @@
         <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
             android:layout_gravity="center_vertical"
             android:layout_toLeftOf="@id/btn_confirm"
-            android:layout_alignParentLeft="true"
             android:scrollbars="none" >
 
             <LinearLayout
@@ -100,7 +100,6 @@
                 android:layout_marginRight="0dp"
                 android:gravity="left"
                 android:orientation="horizontal" >
-
             </LinearLayout>
         </HorizontalScrollView>
     </RelativeLayout>

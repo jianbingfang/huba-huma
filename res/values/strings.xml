@@ -74,5 +74,10 @@
     <string name="title_activity_location">LocationActivity</string>
     <string name="title_activity_train">TrainActivity</string>
     <string name="no_data">没有找到符合条件的信息</string>
+    <string name="follow">关注</string>
+    <string name="environment">环境</string>
+    <string name="location">位置</string>
+    <string name="consult">咨询</string>
+    <string name="title_activity_publish_notice">PublishNoticeActivity</string>
 
 </resources>
