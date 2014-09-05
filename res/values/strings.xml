@@ -62,6 +62,7 @@
     <string name="title_activity_search_result_fragment">SearchResultFragment</string>
     <string name="title_activity_add_chat_group">AddChatGroupActivity</string>
     <string name="title_activity_prompt_dialog">PromptDialog</string>
+    <string name="title_activity_loading_dialog">LoadingDialog</string>
     <string name="title_activity_invite_user">InviteUserActivity</string>
     <string name="title_activity_teaching_diary">TeachingDiaryActivity</string>
     <string name="title_activity_profile_teacher">ProfileTeacherActivity</string>

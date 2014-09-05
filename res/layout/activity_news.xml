@@ -6,6 +6,8 @@
     android:orientation="vertical"
     tools:context="${relativePackage}.${activityClass}" >
 
+    <!-- title -->
+
     <RelativeLayout
         android:id="@+id/topbar_news"
         android:layout_width="match_parent"
@@ -96,7 +98,7 @@
                     style="@style/NewsMenuText"
                     android:text="@string/teaching_diary" />
             </LinearLayout>
-            
+
             <LinearLayout
                 android:id="@+id/layout_manage_book"
                 android:layout_width="wrap_content"

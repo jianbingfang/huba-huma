@@ -15,7 +15,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-@EFragment(R.layout.fragment_prompt_dialog)
+@EFragment(R.layout.fragment_dialog_prompt)
 public class PromptDialog extends DialogFragment {
 
 	public interface PromptDialogListener {
@@ -23,34 +23,45 @@ public class PromptDialog extends DialogFragment {
 	}
 
 	@ViewById
-	TextView dialog_title, dialog_subtitle;
+	TextView title, content;
 
 	@ViewById
 	Button btn_confirm;
 
-	public void setTitle(String text) {
-		dialog_title.setText(text);
+	PromptDialogListener listener;
+
+	@UiThread
+	void setTitle(String text) {
+		title.setText(text);
 	}
 
-	public void setSubtitle(String text) {
+	@UiThread
+	void setContent(String text) {
 		if (!UtilTools.isEmpty(text)) {
-			dialog_subtitle.setText(text);
-			dialog_subtitle.setVisibility(View.VISIBLE);
+			content.setText(text);
+			content.setVisibility(View.VISIBLE);
 		}
 	}
 
-	public void setButtonText(String text) {
+	@UiThread
+	void setButtonText(String text) {
 		btn_confirm.setText(text);
+	}
+
+	public void setDialogListener(PromptDialogListener listener) {
+		this.listener = listener;
 	}
 
 	@AfterViews
 	void init() {
 		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getDialog().setCanceledOnTouchOutside(false);
+		title.setText("提示");
+		content.setText("");
 	}
 
 	@Click
 	void btn_confirm() {
-		this.dismiss();
+		listener.onDialogConfirm();
 	}
 }

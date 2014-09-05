@@ -15,7 +15,7 @@
     
     <dimen name="dialog_radius">10dp</dimen>
     <dimen name="dialog_input_box_radius">8dp</dimen>
-    <dimen name="dialog_title_top_margin">15dp</dimen>
+    <dimen name="dialog_title_top_margin">12dp</dimen>
     <dimen name="dialog_title_bottom_margin">5dp</dimen>
     <dimen name="dialog_input_box_margin">15dp</dimen>
     

@@ -118,6 +118,10 @@
             android:label="@string/title_activity_prompt_dialog" >
         </activity>
         <activity
+            android:name=".LoadingDialog_"
+            android:label="@string/title_activity_loading_dialog" >
+        </activity>
+        <activity
             android:name=".news.contacts.InviteUserActivity_"
             android:label="@string/title_activity_invite_user" >
         </activity>
