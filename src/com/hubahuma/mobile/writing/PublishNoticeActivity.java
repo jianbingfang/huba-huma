@@ -2,6 +2,7 @@ package com.hubahuma.mobile.writing;
 
 import java.util.Date;
 
+import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
@@ -12,7 +13,10 @@ import org.androidannotations.annotations.ViewById;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,6 +25,7 @@ import com.hubahuma.mobile.LoadingDialog_;
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.entity.NoticeEntity;
 import com.hubahuma.mobile.utils.ModelUtil;
 import com.hubahuma.mobile.utils.UtilTools;
 
@@ -42,6 +47,9 @@ public class PublishNoticeActivity extends FragmentActivity implements
 	@ViewById
 	TextView name, date;
 
+	@ViewById
+	ImageButton btn_submit;
+
 	private LoadingDialog_ loadingDialog;
 
 	private PromptDialog_ promptDialog;
@@ -50,11 +58,21 @@ public class PublishNoticeActivity extends FragmentActivity implements
 
 	@AfterViews
 	void init() {
-		// loadingDialog = new LoadingDialog_();
-		// promptDialog = new PromptDialog_();
-		// promptDialog.setDialogListener(this);
+		loadingDialog = new LoadingDialog_();
+		promptDialog = new PromptDialog_();
+		promptDialog.setDialogListener(this);
+		btn_submit.setVisibility(View.GONE);
 		name.setText(ModelUtil.getCurrentUser().getUsername());
 		date.setText(UtilTools.ParseDate(new Date()));
+	}
+
+	@AfterTextChange(R.id.content)
+	void onContentTextChange(Editable text) {
+		if (UtilTools.isEmpty(text.toString())) {
+			btn_submit.setVisibility(View.GONE);
+		} else {
+			btn_submit.setVisibility(View.VISIBLE);
+		}
 	}
 
 	@Click
@@ -64,13 +82,16 @@ public class PublishNoticeActivity extends FragmentActivity implements
 
 	@Click
 	void btn_submit() {
+		NoticeEntity notice = new NoticeEntity();
+		notice.setUser(ModelUtil.getCurrentUser());
+		notice.setTitle(title.getText().toString().trim());
+		notice.setContent(content.getText().toString().trim());
 		showLoadingDialog();
-		handlePublishNotice();
+		handlePublishNotice(notice);
 	}
 
 	@UiThread
 	void showLoadingDialog() {
-		loadingDialog = new LoadingDialog_();
 		loadingDialog.show(getSupportFragmentManager(), "dialog_loading");
 	}
 
@@ -81,11 +102,9 @@ public class PublishNoticeActivity extends FragmentActivity implements
 
 	@UiThread
 	void showPromptDialog(String title, String content) {
-		promptDialog = new PromptDialog_();
-		promptDialog.setDialogListener(this);
 		promptDialog.setTitle(title);
 		promptDialog.setContent(content);
-		promptDialog.show(getSupportFragmentManager(), "dialog_loading");
+		promptDialog.show(getSupportFragmentManager(), "dialog_prompt");
 	}
 
 	@UiThread
@@ -94,8 +113,8 @@ public class PublishNoticeActivity extends FragmentActivity implements
 	}
 
 	@Background(delay = 1000)
-	void handlePublishNotice() {
-		publishSucc = publishNotice();
+	void handlePublishNotice(NoticeEntity notice) {
+		publishSucc = publishNotice(notice);
 		dismissLoadingDialog();
 		if (publishSucc) {
 			showPromptDialog("提示", "发布成功!");
@@ -104,9 +123,9 @@ public class PublishNoticeActivity extends FragmentActivity implements
 		}
 	}
 
-	boolean publishNotice() {
+	boolean publishNotice(NoticeEntity notice) {
 		// TODO 发送notice数据给后台
-		return true;
+		return false;
 	}
 
 	@Click

@@ -101,7 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:hint="标题（可填）"
+                android:hint="标题 (可填)"
                 android:maxLength="20"
                 android:padding="12dp"
                 android:singleLine="true"
@@ -142,7 +142,7 @@
                     android:drawableLeft="@drawable/icon_environment"
                     android:drawablePadding="5dp"
                     android:text="添加照片"
-                    android:textColor="@color/message_author_name"
+                    android:textColor="@drawable/add_img_btn_selector"
                     android:textSize="16sp" />
 
                 <TextView
