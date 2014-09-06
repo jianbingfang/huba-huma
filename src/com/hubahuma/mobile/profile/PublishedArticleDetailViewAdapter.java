@@ -122,7 +122,7 @@ public class PublishedArticleDetailViewAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	static class ViewHolder {
+	class ViewHolder {
 		public ImageView portrait;
 		public TextView authorName;
 		public TextView remark;

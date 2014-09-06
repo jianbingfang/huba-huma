@@ -77,4 +77,6 @@
     <dimen name="expand_tab_eara_height">380dp</dimen>
     <dimen name="head_bar_height">45dp</dimen>
     
+    <dimen name="img_grid_item_size">100dp</dimen>
+    
 </resources>

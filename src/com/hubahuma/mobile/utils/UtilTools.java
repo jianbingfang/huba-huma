@@ -18,9 +18,15 @@ public class UtilTools {
 	}
 
 	public static boolean isMobileNumber(String number) {
-		Pattern p = Pattern
-				.compile("^[1][0-9]{10}$");
+		Pattern p = Pattern.compile("^[1][0-9]{10}$");
 		Matcher m = p.matcher(number);
+		return m.matches();
+	}
+
+	public static boolean isEmail(String email) {
+		Pattern p = Pattern
+				.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
+		Matcher m = p.matcher(email);
 		return m.matches();
 	}
 }

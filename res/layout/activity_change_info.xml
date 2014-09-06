@@ -78,8 +78,8 @@
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/input"
             android:layout_alignBottom="@id/input"
-            android:layout_marginRight="6dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginBottom="9dp"
             android:background="@null"
             android:src="@drawable/clear"/>
 

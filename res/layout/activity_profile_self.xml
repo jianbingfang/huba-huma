@@ -6,6 +6,7 @@
     tools:context="${relativePackage}.${activityClass}" >
 
     <RelativeLayout
+        android:id="@+id/profile_self"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 

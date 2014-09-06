@@ -22,4 +22,5 @@ public class ActivityCode {
 	public static final int CHANGE_PHONE_ACTIVITY = 18;
 	public static final int PASSWORD_RESET_ACTIVITY = 19;
 	public static final int CHANGE_INFO_ACTIVITY = 20;
+	public static final int SCHOOL_IMG_MANAGE_ACTIVITY = 21;
 }

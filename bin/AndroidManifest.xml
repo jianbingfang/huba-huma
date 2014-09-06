@@ -185,6 +185,10 @@
             android:name=".profile.ChangeInfoActivity_"
             android:label="@string/title_activity_change_info" >
         </activity>
+        <activity
+            android:name=".profile.SchoolImgManageActivity_"
+            android:label="@string/title_activity_school_img_manage" >
+        </activity>
     </application>
 
 </manifest>

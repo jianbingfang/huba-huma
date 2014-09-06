@@ -84,5 +84,6 @@
     <string name="change_phone_hint">更换手机后，下次登录可使用新手机号登录。 当前手机号为：</string>
     <string name="title_activity_password_reset">PasswordResetActivity</string>
     <string name="title_activity_change_info">ChangeInfoActivity</string>
+    <string name="title_activity_school_img_manage">SchoolImgManageActivity</string>
 
 </resources>

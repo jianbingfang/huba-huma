@@ -1,14 +1,17 @@
 package com.hubahuma.mobile.profile;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.CheckedChange;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.LongClick;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.SelectPicPopupWindow;
 import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.profile.ChangeInfoActivity.InfoType;
@@ -19,11 +22,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,8 +51,8 @@ public class ProfileSelfActivity extends Activity {
 	ImageView portrait;
 
 	@ViewById
-	TextView remark, qualification, phone, name_title, name, name2, address, id, email,
-			tag, introduction_title, introduction, open_time;
+	TextView remark, qualification, phone, name_title, name, name2, address,
+			id, email, tag, introduction_title, introduction, open_time;
 
 	@ViewById
 	CheckBox notify_switch, search_switch;
@@ -56,6 +63,8 @@ public class ProfileSelfActivity extends Activity {
 
 	@ViewById
 	ProgressBar progress_bar;
+
+	SelectPicPopupWindow menuWindow;
 
 	@AfterViews
 	void init() {
@@ -91,10 +100,55 @@ public class ProfileSelfActivity extends Activity {
 		name2.setText(ModelUtil.getCurrentUser().getUsername());
 		remark.setText(ModelUtil.getCurrentUser().getRemark());
 		id.setText(ModelUtil.getCurrentUser().getId());
-		
+
 		notify_switch.setChecked(true);
 		search_switch.setChecked(true);
+
 	}
+
+	@CheckedChange
+	void notify_switch(CompoundButton button, boolean isChecked) {
+
+	}
+
+	@CheckedChange
+	void search_switch(CompoundButton button, boolean isChecked) {
+
+	}
+
+	@LongClick(R.id.portrait)
+	void onPortraitLongClick() {
+		menuWindow = new SelectPicPopupWindow(this, itemsOnClick);
+		menuWindow.showAtLocation(this.findViewById(R.id.profile_self),
+				Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+
+	}
+
+	@LongClick(R.id.custom_bg)
+	void onCustomBgLongClick() {
+		menuWindow = new SelectPicPopupWindow(this, itemsOnClick);
+		menuWindow.showAtLocation(this.findViewById(R.id.profile_self),
+				Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+	}
+
+	// 为弹出窗口实现监听类
+	private OnClickListener itemsOnClick = new OnClickListener() {
+		public void onClick(View v) {
+			menuWindow.dismiss();
+			switch (v.getId()) {
+			case R.id.btn_take_photo:
+				Toast.makeText(getApplicationContext(), "拍照",
+						Toast.LENGTH_SHORT).show();
+				break;
+			case R.id.btn_pick_photo:
+				Toast.makeText(getApplicationContext(), "选取照片",
+						Toast.LENGTH_SHORT).show();
+				break;
+			default:
+				break;
+			}
+		}
+	};
 
 	@OnActivityResult(ActivityCode.LOCATION_ACTIVITY)
 	void onReturnFromLocationActivity() {
@@ -134,6 +188,8 @@ public class ProfileSelfActivity extends Activity {
 
 	@Click
 	void img_manage_layout() {
+		Intent intent = new Intent(this, SchoolImgManageActivity_.class);
+		startActivityForResult(intent, ActivityCode.SCHOOL_IMG_MANAGE_ACTIVITY);
 	}
 
 	void startChangeInfoActivity(int type, String value) {

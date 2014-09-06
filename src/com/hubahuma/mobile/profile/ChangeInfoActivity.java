@@ -27,6 +27,7 @@ import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -68,11 +69,11 @@ public class ChangeInfoActivity extends FragmentActivity implements
 
 	@AfterViews
 	void init() {
-		
+
 		loadingDialog = new LoadingDialog_();
 		promptDialog = new PromptDialog_();
 		promptDialog.setDialogListener(this);
-		
+
 		switch (type) {
 		case InfoType.NAME:
 			if (ModelUtil.getCurrentUser().getType() == UserType.ORGANIZTION) {
@@ -123,30 +124,25 @@ public class ChangeInfoActivity extends FragmentActivity implements
 				return;
 			break;
 		case InfoType.EMAIL:
+			if (!checkEmail())
+				return;
 			break;
 		case InfoType.INTRODUCTION:
+			if (!checkIntroduction())
+				return;
 			break;
 		case InfoType.OPENTIME:
+			if (!checkOpentime())
+				return;
 			break;
 		case InfoType.ADDRESS:
+			if (!checkAddress())
+				return;
 			break;
 		}
 
 		showLoadingDialog();
 		handleChangeInfo();
-	}
-
-	private boolean checkName() {
-		if (UtilTools.isEmpty(input.getText().toString())) {
-			error_info.setText("输入不能为空！");
-			return false;
-		}
-		if (input.getText().toString().equals(value)) {
-			error_info.setText("输入与原值一样，请重新输入！");
-			return false;
-		}
-		error_info.setText("");
-		return true;
 	}
 
 	@UiThread
@@ -210,7 +206,6 @@ public class ChangeInfoActivity extends FragmentActivity implements
 	@Click
 	void btn_clear() {
 		input.setText("");
-		// btn_clear.setVisibility(View.GONE);
 	}
 
 	@Click
@@ -220,7 +215,7 @@ public class ChangeInfoActivity extends FragmentActivity implements
 			intent.putExtra("type", type);
 			intent.putExtra("newValue", input.getText().toString().trim());
 			this.setResult(1, intent);
-		}else{
+		} else {
 			this.setResult(0, intent);
 		}
 		this.finish();
@@ -237,5 +232,82 @@ public class ChangeInfoActivity extends FragmentActivity implements
 		if (publishSucc) {
 			btn_back();
 		}
+	}
+
+	private boolean checkName() {
+		if (UtilTools.isEmpty(input.getText().toString().trim())) {
+			error_info.setText("输入不能为空！");
+			return false;
+		}
+		if (input.getText().toString().trim().equals(value)) {
+			error_info.setText("输入与原值一样，请重新输入！");
+			return false;
+		}
+		if (input.getText().toString().trim().length() > 30) {
+			error_info.setText("长度不能超过30字符！");
+			return false;
+		}
+		error_info.setText("");
+		return true;
+	}
+
+	private boolean checkEmail() {
+		if (UtilTools.isEmpty(input.getText().toString().trim())) {
+			error_info.setText("输入不能为空！");
+			return false;
+		}
+		if (input.getText().toString().trim().equals(value)) {
+			error_info.setText("输入与原值一样，请重新输入！");
+			return false;
+		}
+		if (!UtilTools.isEmail(input.getText().toString().trim())) {
+			error_info.setText("邮箱格式错误！");
+			return false;
+		}
+		error_info.setText("");
+		return true;
+	}
+
+	private boolean checkIntroduction() {
+		if (input.getText().toString().trim().equals(value)) {
+			error_info.setText("输入与原值一样，请重新输入！");
+			return false;
+		}
+		if (input.getText().toString().trim().length() > 200) {
+			error_info.setText("长度不能超过200字符！");
+			return false;
+		}
+		error_info.setText("");
+		return true;
+	}
+
+	private boolean checkOpentime() {
+		if (input.getText().toString().trim().equals(value)) {
+			error_info.setText("输入与原值一样，请重新输入！");
+			return false;
+		}
+		if (input.getText().toString().trim().length() > 30) {
+			error_info.setText("长度不能超过30字符！");
+			return false;
+		}
+		error_info.setText("");
+		return true;
+	}
+
+	private boolean checkAddress() {
+		if (UtilTools.isEmpty(input.getText().toString().trim())) {
+			error_info.setText("输入不能为空！");
+			return false;
+		}
+		if (input.getText().toString().trim().equals(value)) {
+			error_info.setText("输入与原值一样，请重新输入！");
+			return false;
+		}
+		if (input.getText().toString().trim().length() > 30) {
+			error_info.setText("长度不能超过30字符！");
+			return false;
+		}
+		error_info.setText("");
+		return true;
 	}
 }
