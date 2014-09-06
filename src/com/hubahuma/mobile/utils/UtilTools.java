@@ -1,6 +1,8 @@
 package com.hubahuma.mobile.utils;
 
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UtilTools {
 
@@ -15,4 +17,10 @@ public class UtilTools {
 			return true;
 	}
 
+	public static boolean isMobileNumber(String number) {
+		Pattern p = Pattern
+				.compile("^[1][0-9]{10}$");
+		Matcher m = p.matcher(number);
+		return m.matches();
+	}
 }

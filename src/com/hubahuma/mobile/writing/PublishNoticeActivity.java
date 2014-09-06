@@ -125,7 +125,7 @@ public class PublishNoticeActivity extends FragmentActivity implements
 
 	boolean publishNotice(NoticeEntity notice) {
 		// TODO 发送notice数据给后台
-		return false;
+		return true;
 	}
 
 	@Click

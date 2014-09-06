@@ -1,0 +1,634 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <!-- title -->
+
+        <RelativeLayout
+            android:id="@+id/topbar_message"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/topbar_height"
+            android:background="@color/topbar_bg"
+            android:paddingBottom="@dimen/topbar_vertical_padding"
+            android:paddingTop="@dimen/topbar_vertical_padding" >
+
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:contentDescription="@string/app_name"
+                android:paddingLeft="@dimen/topbar_horizontal_padding"
+                android:paddingRight="0dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/back" />
+
+            <ImageButton
+                android:id="@+id/btn_share"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/topbar_horizontal_padding"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
+                android:src="@drawable/forward" />
+
+            <ImageButton
+                android:id="@+id/btn_add_to_managebook"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:layout_toLeftOf="@id/btn_share"
+                android:background="@null"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
+                android:src="@drawable/exist_in_managebook" />
+
+            <ImageButton
+                android:id="@+id/btn_follow"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:layout_toLeftOf="@id/btn_add_to_managebook"
+                android:background="@null"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
+                android:src="@drawable/add_follow" />
+        </RelativeLayout>
+
+        <!-- content -->
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/topbar_message" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:background="@android:color/black" >
+
+                    <ImageView
+                        android:id="@+id/custom_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.7"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/teaching_diary_img" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="1" >
+
+                        <ImageView
+                            android:id="@+id/portrait"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/profile_portrait_bg"
+                            android:contentDescription="@string/app_name"
+                            android:padding="2dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/default_portrait" />
+
+                        <TextView
+                            android:id="@+id/name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/portrait"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="8dp"
+                            android:shadowColor="@android:color/black"
+                            android:shadowDx="1"
+                            android:shadowDy="3"
+                            android:text="张燕玲老师"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/remark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/name"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="0dp"
+                            android:shadowColor="@android:color/black"
+                            android:shadowDx="1"
+                            android:shadowDy="3"
+                            android:text="快乐城堡儿童英语学校"
+                            android:textColor="@color/white"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/qualification"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/remark"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/qualification_bg"
+                            android:paddingBottom="4dp"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:paddingTop="4dp"
+                            android:text="@string/qualification"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="ID:2082786"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+                </FrameLayout>
+
+                <!-- 综合评分 -->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:id="@+id/score_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="综合评分"
+                        android:textColor="@color/light_grey"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_toRightOf="@id/score_title"
+                        android:text="4.8"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow"
+                        android:visibility="gone" />
+
+                    <RatingBar
+                        android:id="@+id/rating_bar_score"
+                        style="@style/rating_bar_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="8dp"
+                        android:layout_toRightOf="@id/score"
+                        android:isIndicator="true"
+                        android:rating="3.5" />
+                </RelativeLayout>
+
+                <!-- 地址 -->
+
+                <RelativeLayout
+                    android:id="@+id/location_panel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="visible" >
+
+                    <ImageView
+                        android:id="@+id/address_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/icon_location" />
+
+                    <TextView
+                        android:id="@+id/address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/address_hint"
+                        android:maxWidth="300dp"
+                        android:singleLine="true"
+                        android:text="朝阳区建外大街295号A座10层"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow" />
+                </RelativeLayout>
+
+                <!-- 电话 -->
+
+                <RelativeLayout
+                    android:id="@+id/phone_panel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="visible" >
+
+                    <ImageView
+                        android:id="@+id/phone_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/icon_phone" />
+
+                    <TextView
+                        android:id="@+id/phone_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/phone_hint"
+                        android:maxWidth="150dp"
+                        android:singleLine="true"
+                        android:text="13058967226"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow" />
+                </RelativeLayout>
+
+                <!-- 标签 -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:text="标签"
+                        android:textColor="@color/light_grey"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:maxWidth="300dp"
+                        android:singleLine="true"
+                        android:text="英语    少儿英语    早教"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <!-- 介绍 -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="top"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:text="介绍"
+                        android:textColor="@color/light_grey"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/introduce"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="我从事英语教育工作已二十余年，我从事英语教育工作已二十余年，我从事英语教育工作已二十余年，我从事英语教育工作已二十余年，我从事英语教育工作已二十余年，"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <!-- 最新发表 -->
+
+                <RelativeLayout
+                    android:id="@+id/latest_article_panel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:id="@+id/latest_article_hint"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="0dp"
+                        android:text="最新发表"
+                        android:textColor="@color/light_grey"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:id="@+id/latest_article_img"
+                        android:layout_width="70dp"
+                        android:layout_height="50dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/latest_article_hint"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/teaching_diary_img" />
+
+                    <TextView
+                        android:id="@+id/latest_article_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toLeftOf="@+id/latest_article_more"
+                        android:layout_toRightOf="@id/latest_article_img"
+                        android:lineSpacingMultiplier="1.2"
+                        android:maxLines="2"
+                        android:text="朗讯少儿英语建理想校园校风师德受期待"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:id="@id/latest_article_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow" />
+                </RelativeLayout>
+
+                <!-- 点评 -->
+
+                <RelativeLayout
+                    android:id="@+id/comment_panel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="top"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:id="@+id/comment_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:text="点评"
+                        android:textColor="@color/light_grey"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/comment_user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/comment_title"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/comment_title"
+                        android:singleLine="true"
+                        android:text="李晓龙"
+                        android:textColor="@color/grey_hint"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/comment_user_remark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/comment_user_name"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/comment_user_name"
+                        android:maxWidth="150dp"
+                        android:singleLine="true"
+                        android:text="李一贤父亲"
+                        android:textColor="@color/grey_hint"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/comment_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@id/comment_user_name"
+                        android:layout_below="@id/comment_user_name"
+                        android:layout_marginTop="10dp"
+                        android:layout_toLeftOf="@+id/more_comment_hint"
+                        android:text="张老师真是个好老师，张老师真是个好老师，张老师真是个好老师，张老师真是个好老师，"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <RatingBar
+                        android:id="@+id/score_bar_comment"
+                        style="@style/rating_bar_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/comment_user_name"
+                        android:layout_alignRight="@id/comment_content"
+                        android:layout_toLeftOf="@id/more_comment_hint"
+                        android:isIndicator="true"
+                        android:rating="3.5" />
+
+                    <ImageView
+                        android:id="@id/more_comment_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow" />
+                </RelativeLayout>
+
+                <!-- 屏蔽该用户 -->
+
+                <Button
+                    android:id="@+id/ignore_btn"
+                    android:layout_width="220dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="90dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/btn_red_bg"
+                    android:text="屏蔽该用户"
+                    android:textColor="@color/white"
+                    android:textSize="15dp" />
+
+                <!-- 查看教师 -->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="gone" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="查看教师"
+                        android:textColor="@color/light_grey"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow" />
+                </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- footbar -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/footbar_bg"
+            android:padding="4dp" >
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@null"
+                android:drawableLeft="@drawable/parents_group"
+                android:drawablePadding="4dp"
+                android:text="私信"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btn_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@null"
+                android:drawableLeft="@drawable/icon_write_comment"
+                android:drawablePadding="0dp"
+                android:text="写点评"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btn_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:drawableLeft="@drawable/icon_make_call"
+                android:drawablePadding="-6dp"
+                android:text="拨打电话"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+</FrameLayout>

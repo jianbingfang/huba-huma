@@ -80,5 +80,9 @@
     <string name="location">位置</string>
     <string name="consult">咨询</string>
     <string name="title_activity_publish_notice">PublishNoticeActivity</string>
+    <string name="title_activity_profile_organizaion_self">ProfileOrganizaionSelfActivity</string>
+    <string name="title_activity_change_phone">ChangePhoneActivity</string>
+    <string name="change_phone_hint">更换手机后，下次登录可使用新手机号登录。 当前手机号为：</string>
+    <string name="title_activity_password_reset">PasswordResetActivity</string>
 
 </resources>

@@ -3,5 +3,5 @@
 
     <item android:drawable="@color/footbar_bg" android:state_checked="false"/>
     <item android:drawable="@color/footbar_selected_bg" android:state_checked="true"/>
-
+    
 </selector>

@@ -134,7 +134,15 @@
             android:label="@string/title_activity_profile_teacher" >
         </activity>
         <activity
+            android:name=".profile.ProfileTeacherSelfActivity_"
+            android:label="@string/title_activity_profile_teacher" >
+        </activity>
+        <activity
             android:name=".profile.ProfileParentsActivity_"
+            android:label="@string/title_activity_profile_parents" >
+        </activity>
+        <activity
+            android:name=".profile.ProfileParentsSelfActivity_"
             android:label="@string/title_activity_profile_parents" >
         </activity>
         <activity
@@ -162,8 +170,20 @@
             android:label="@string/title_activity_train" >
         </activity>
         <activity
-            android:name="com.hubahuma.mobile.writing.PublishNoticeActivity_"
+            android:name=".writing.PublishNoticeActivity_"
             android:label="@string/title_activity_publish_notice" >
+        </activity>
+        <activity
+            android:name=".profile.ProfileOrganizaionSelfActivity_"
+            android:label="@string/title_activity_profile_organizaion_self" >
+        </activity>
+        <activity
+            android:name=".profile.ChangePhoneActivity_"
+            android:label="@string/title_activity_change_phone" >
+        </activity>
+        <activity
+            android:name=".profile.PasswordResetActivity_"
+            android:label="@string/title_activity_password_reset" >
         </activity>
     </application>
 

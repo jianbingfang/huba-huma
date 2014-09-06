@@ -12,8 +12,11 @@ import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.info.InfoActivity_;
 import com.hubahuma.mobile.news.NewsActivity_;
 import com.hubahuma.mobile.profile.ProfileActivity_;
+import com.hubahuma.mobile.profile.ProfileOrganizaionSelfActivity_;
 import com.hubahuma.mobile.profile.ProfileOrganizationActivity;
 import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
+import com.hubahuma.mobile.profile.ProfileParentsSelfActivity_;
+import com.hubahuma.mobile.profile.ProfileTeacherSelfActivity_;
 import com.hubahuma.mobile.utils.ModelUtil;
 import com.hubahuma.mobile.writing.WritingActivity_;
 
@@ -51,8 +54,8 @@ public class MainActivity extends TabActivity {
 		user.setRemark("none");
 		user.setUsername("当前用户");
 		// user.setType(UserType.ADMIN);
-		// user.setType(UserType.ORGANIZTION);
-		user.setType(UserType.TEACHER);
+		user.setType(UserType.ORGANIZTION);
+		// user.setType(UserType.TEACHER);
 		// user.setType(UserType.PARENTS);
 
 		ModelUtil.setCurrentUser(user);
@@ -83,7 +86,22 @@ public class MainActivity extends TabActivity {
 				.setContent(intent);
 		tabHost.addTab(spec);
 
-		intent = new Intent().setClass(this, ProfileActivity_.class);
+		switch (ModelUtil.getCurrentUser().getType()) {
+		case UserType.ORGANIZTION:
+			intent = new Intent().setClass(this,
+					ProfileOrganizaionSelfActivity_.class);
+			break;
+		case UserType.TEACHER:
+			intent = new Intent().setClass(this,
+					ProfileTeacherSelfActivity_.class);
+			break;
+		case UserType.PARENTS:
+			intent = new Intent().setClass(this,
+					ProfileParentsSelfActivity_.class);
+			break;
+		default:
+			break;
+		}
 		spec = tabHost.newTabSpec("profile").setIndicator("profile")
 				.setContent(intent);
 		tabHost.addTab(spec);

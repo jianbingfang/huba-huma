@@ -19,4 +19,6 @@ public class ActivityCode {
 	public static final int PROFILE_PARENTS_ACTIVITY = 15;
 	public static final int LOCATION_ACTIVITY = 16;
 	public static final int PUBLISH_NOTICE_ACTIVITY = 17;
+	public static final int CHANGE_PHONE_ACTIVITY = 18;
+	public static final int PASSWORD_RESET_ACTIVITY = 19;
 }
