@@ -141,14 +141,25 @@
                             android:textSize="18sp" />
 
                         <TextView
-                            android:id="@+id/id"
+                            android:id="@+id/id_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
                             android:layout_alignParentLeft="true"
                             android:layout_marginBottom="4dp"
                             android:layout_marginLeft="10dp"
-                            android:text="ID:2082786"
+                            android:text="ID:"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@id/id_title"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@id/id_title"
+                            android:text="2082786"
                             android:textColor="@color/white"
                             android:textSize="14sp" />
                     </RelativeLayout>

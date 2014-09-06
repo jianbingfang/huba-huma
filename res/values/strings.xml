@@ -71,7 +71,6 @@
     <string name="title_activity_published_article">PublishedArticleActivity</string>
     <string name="title_activity_comments">CommentsActivity</string>
     <string name="title_activity_write_comment">WriteCommentActivity</string>
-    <string name="title_activity_profile">ProfileActivity</string>
     <string name="title_activity_location">LocationActivity</string>
     <string name="title_activity_train">TrainActivity</string>
     <string name="no_data">没有找到符合条件的信息</string>
@@ -80,9 +79,10 @@
     <string name="location">位置</string>
     <string name="consult">咨询</string>
     <string name="title_activity_publish_notice">PublishNoticeActivity</string>
-    <string name="title_activity_profile_organizaion_self">ProfileOrganizaionSelfActivity</string>
+    <string name="title_activity_profile_self">ProfileSelfActivity</string>
     <string name="title_activity_change_phone">ChangePhoneActivity</string>
     <string name="change_phone_hint">更换手机后，下次登录可使用新手机号登录。 当前手机号为：</string>
     <string name="title_activity_password_reset">PasswordResetActivity</string>
+    <string name="title_activity_change_info">ChangeInfoActivity</string>
 
 </resources>

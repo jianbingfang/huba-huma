@@ -21,4 +21,5 @@ public class ActivityCode {
 	public static final int PUBLISH_NOTICE_ACTIVITY = 17;
 	public static final int CHANGE_PHONE_ACTIVITY = 18;
 	public static final int PASSWORD_RESET_ACTIVITY = 19;
+	public static final int CHANGE_INFO_ACTIVITY = 20;
 }

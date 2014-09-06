@@ -6,20 +6,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.ViewById;
 
-import com.baidu.mapapi.SDKInitializer;
-import com.hubahuma.mobile.discovery.DiscoveryActivity_;
-import com.hubahuma.mobile.entity.UserEntity;
-import com.hubahuma.mobile.info.InfoActivity_;
-import com.hubahuma.mobile.news.NewsActivity_;
-import com.hubahuma.mobile.profile.ProfileActivity_;
-import com.hubahuma.mobile.profile.ProfileOrganizaionSelfActivity_;
-import com.hubahuma.mobile.profile.ProfileOrganizationActivity;
-import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
-import com.hubahuma.mobile.profile.ProfileParentsSelfActivity_;
-import com.hubahuma.mobile.profile.ProfileTeacherSelfActivity_;
-import com.hubahuma.mobile.utils.ModelUtil;
-import com.hubahuma.mobile.writing.WritingActivity_;
-
 import android.app.TabActivity;
 import android.content.Intent;
 import android.view.View;
@@ -27,6 +13,15 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TabHost;
 import android.widget.TextView;
+
+import com.baidu.mapapi.SDKInitializer;
+import com.hubahuma.mobile.discovery.DiscoveryActivity_;
+import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.info.InfoActivity_;
+import com.hubahuma.mobile.news.NewsActivity_;
+import com.hubahuma.mobile.profile.ProfileSelfActivity_;
+import com.hubahuma.mobile.utils.ModelUtil;
+import com.hubahuma.mobile.writing.WritingActivity_;
 
 @SuppressWarnings("deprecation")
 @NoTitle
@@ -50,7 +45,7 @@ public class MainActivity extends TabActivity {
 	void setValue() {
 
 		UserEntity user = new UserEntity();
-		user.setId("#00000");
+		user.setId("000001");
 		user.setRemark("none");
 		user.setUsername("当前用户");
 		// user.setType(UserType.ADMIN);
@@ -86,22 +81,7 @@ public class MainActivity extends TabActivity {
 				.setContent(intent);
 		tabHost.addTab(spec);
 
-		switch (ModelUtil.getCurrentUser().getType()) {
-		case UserType.ORGANIZTION:
-			intent = new Intent().setClass(this,
-					ProfileOrganizaionSelfActivity_.class);
-			break;
-		case UserType.TEACHER:
-			intent = new Intent().setClass(this,
-					ProfileTeacherSelfActivity_.class);
-			break;
-		case UserType.PARENTS:
-			intent = new Intent().setClass(this,
-					ProfileParentsSelfActivity_.class);
-			break;
-		default:
-			break;
-		}
+		intent = new Intent().setClass(this, ProfileSelfActivity_.class);
 		spec = tabHost.newTabSpec("profile").setIndicator("profile")
 				.setContent(intent);
 		tabHost.addTab(spec);

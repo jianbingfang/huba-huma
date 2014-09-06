@@ -158,10 +158,6 @@
             android:label="@string/title_activity_write_comment" >
         </activity>
         <activity
-            android:name=".profile.ProfileActivity_"
-            android:label="@string/title_activity_profile" >
-        </activity>
-        <activity
             android:name=".profile.LocationActivity_"
             android:label="@string/title_activity_location" >
         </activity>
@@ -174,8 +170,8 @@
             android:label="@string/title_activity_publish_notice" >
         </activity>
         <activity
-            android:name=".profile.ProfileOrganizaionSelfActivity_"
-            android:label="@string/title_activity_profile_organizaion_self" >
+            android:name=".profile.ProfileSelfActivity_"
+            android:label="@string/title_activity_profile_self" >
         </activity>
         <activity
             android:name=".profile.ChangePhoneActivity_"
@@ -184,6 +180,10 @@
         <activity
             android:name=".profile.PasswordResetActivity_"
             android:label="@string/title_activity_password_reset" >
+        </activity>
+        <activity
+            android:name=".profile.ChangeInfoActivity_"
+            android:label="@string/title_activity_change_info" >
         </activity>
     </application>
 

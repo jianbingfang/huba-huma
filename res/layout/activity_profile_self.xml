@@ -1,0 +1,642 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <!-- title -->
+
+        <RelativeLayout
+            android:id="@+id/topbar_message"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/topbar_height"
+            android:background="@color/topbar_bg"
+            android:paddingBottom="@dimen/topbar_vertical_padding"
+            android:paddingTop="@dimen/topbar_vertical_padding" >
+
+            <TextView
+                android:id="@+id/top_bar_title"
+                style="@style/TopBarTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="个人管理" />
+
+            <ImageButton
+                android:id="@+id/btn_setup"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:background="@null"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
+                android:src="@drawable/setup"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <!-- content -->
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/topbar_message" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@android:color/black"
+                    android:visibility="visible" >
+
+                    <ImageView
+                        android:id="@+id/custom_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0.7"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/teaching_diary_img" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="1" >
+
+                        <ImageButton
+                            android:id="@+id/setup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@null"
+                            android:contentDescription="@string/app_name"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/setup"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:id="@+id/portrait"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/profile_portrait_bg"
+                            android:contentDescription="@string/app_name"
+                            android:padding="2dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/default_portrait" />
+
+                        <TextView
+                            android:id="@+id/name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/portrait"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="8dp"
+                            android:shadowColor="@android:color/black"
+                            android:shadowDx="1"
+                            android:shadowDy="3"
+                            android:text="快乐城堡儿童英语学校"
+                            android:textColor="@color/white"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/remark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/name"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="5dp"
+                            android:shadowColor="@android:color/black"
+                            android:shadowDx="1"
+                            android:shadowDy="3"
+                            android:text="陈灿灿母亲"
+                            android:textColor="@color/white"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/qualification"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/remark"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/qualification_bg"
+                            android:paddingBottom="4dp"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:paddingTop="4dp"
+                            android:text="@string/qualification"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/id_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="ID:"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@id/id_title"
+                            android:layout_marginLeft="5dp"
+                            android:layout_toRightOf="@id/id_title"
+                            android:text="2082786"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+                </FrameLayout>
+
+                <!-- 机构名称 -->
+
+                <RelativeLayout
+                    android:id="@+id/name_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:id="@+id/name_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="机构名称"
+                        android:textColor="@color/light_grey"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/name2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="75dp"
+                        android:text="快乐城堡儿童英语"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow"
+                        android:visibility="visible" />
+                </RelativeLayout>
+
+                <!-- email -->
+
+                <RelativeLayout
+                    android:id="@+id/email_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:id="@+id/email_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="电子邮箱"
+                        android:textColor="@color/light_grey"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="75dp"
+                        android:text="office@happyenglish.com"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow"
+                        android:visibility="visible" />
+                </RelativeLayout>
+
+                <!-- 电话号码 -->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="10dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:id="@+id/phone_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="手机号码"
+                        android:textColor="@color/light_grey"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="75dp"
+                        android:text="13655874129"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <Button
+                        android:id="@+id/btn_change_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="28dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/change_phone"
+                        android:text="更换号码"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:visibility="visible" />
+                </RelativeLayout>
+
+                <!-- 标签 -->
+
+                <RelativeLayout
+                    android:id="@+id/tag_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:id="@+id/tag_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:text="标签"
+                        android:textColor="@color/light_grey"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="75dp"
+                        android:layout_marginRight="21dp"
+                        android:maxWidth="300dp"
+                        android:singleLine="true"
+                        android:text="英语    少儿英语    早教"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow" />
+                </RelativeLayout>
+
+                <!-- 说明 -->
+
+                <RelativeLayout
+                    android:id="@+id/introduction_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="top"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:id="@+id/introduction_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:text="机构说明"
+                        android:textColor="@color/light_grey"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/introduction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="75dp"
+                        android:layout_marginRight="21dp"
+                        android:text="我校是一所面向幼儿至小学生英语教学的语言学校"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow" />
+                </RelativeLayout>
+
+                <!-- 开放时间 -->
+
+                <RelativeLayout
+                    android:id="@+id/open_time_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="top"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:id="@+id/open_time_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:text="开放时间"
+                        android:textColor="@color/light_grey"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/open_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="75dp"
+                        android:layout_marginRight="21dp"
+                        android:text="周一至周五 9:00 - 17:00"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow" />
+                </RelativeLayout>
+
+                <!-- 地址 -->
+
+                <RelativeLayout
+                    android:id="@+id/address_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="top"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:id="@+id/addr_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:text="地点"
+                        android:textColor="@color/light_grey"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="75dp"
+                        android:layout_marginRight="21dp"
+                        android:text="北京市朝阳区XXX大街XX号"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow" />
+                </RelativeLayout>
+
+                <!-- 照片管理 -->
+
+                <RelativeLayout
+                    android:id="@+id/img_manage_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="top"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="上传校区图片及管理"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow" />
+                </RelativeLayout>
+
+                <!-- 密码重置 -->
+
+                <RelativeLayout
+                    android:id="@+id/password_reset_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="top"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="15dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="密码重置"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/circle_arrow" />
+                </RelativeLayout>
+
+                <!-- 新消息通知打开 -->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="top"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="10dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="新消息通知打开"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <CheckBox
+                        android:id="@+id/notify_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_checkbox_switch"
+                        android:button="@null" />
+                </RelativeLayout>
+
+                <!-- 可通过ID/手机号搜索到我 -->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/profile_item_bar"
+                    android:clickable="true"
+                    android:gravity="top"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="10dp"
+                    android:visibility="visible" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="可通过ID/手机号搜索到我"
+                        android:textColor="@color/white"
+                        android:textSize="15sp" />
+
+                    <CheckBox
+                        android:id="@+id/search_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bg_checkbox_switch"
+                        android:button="@null" />
+                </RelativeLayout>
+
+                <!-- 退出登录 -->
+
+                <Button
+                    android:id="@+id/btn_logout"
+                    android:layout_width="220dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/btn_red_bg"
+                    android:text="退出登录"
+                    android:textColor="@color/white"
+                    android:textSize="15dp" />
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+</FrameLayout>
