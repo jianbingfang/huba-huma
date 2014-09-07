@@ -103,8 +103,24 @@ public class ProfileSelfActivity extends Activity {
 			break;
 		}
 
+		// clearFields();
+
 		preLoadData();
 		loadData();
+	}
+
+	void clearFields() {
+		remark.setVisibility(View.GONE);
+		qualification.setVisibility(View.GONE);
+		phone.setText("");
+		name.setText("");
+		name2.setText("");
+		address.setText("");
+		id.setText("");
+		email.setText("");
+		tag.setText("");
+		introduction.setText("");
+		open_time.setText("");
 	}
 
 	@Background(delay = 1000)
@@ -317,7 +333,8 @@ public class ProfileSelfActivity extends Activity {
 
 	@Click
 	void btn_logout() {
-
+		Toast.makeText(getApplicationContext(), "退出", Toast.LENGTH_SHORT)
+				.show();
 	}
 
 	@Click

@@ -108,7 +108,7 @@
 
             <TextView
                 style="@style/NewsMenuText"
-                android:text="咨询" />
+                android:text="资讯" />
         </LinearLayout>
     </RelativeLayout>
 

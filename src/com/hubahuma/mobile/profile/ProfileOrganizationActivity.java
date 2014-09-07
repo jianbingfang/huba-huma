@@ -36,13 +36,13 @@ public class ProfileOrganizationActivity extends Activity {
 
 	@ViewById
 	ProgressBar progress_bar;
-	
+
 	private LayoutInflater mInflater;
-	
+
 	@AfterViews
 	void init() {
 		mInflater = LayoutInflater.from(this);
-		
+
 		// render the img list
 		for (int i = 0; i < 4; i++) {
 			View view = mInflater.inflate(R.layout.item_profile_org_img,
@@ -58,8 +58,7 @@ public class ProfileOrganizationActivity extends Activity {
 	void btn_comment() {
 		Intent intent = new Intent(this, WriteCommentActivity_.class);
 		intent.putExtra("type", CommentType.ORGANIZATION_COMMENT);
-		startActivityForResult(intent,
-				ActivityCode.WRITE_COMMENT_ACTIVITY);
+		startActivityForResult(intent, ActivityCode.WRITE_COMMENT_ACTIVITY);
 	}
 
 	@Click
@@ -67,9 +66,9 @@ public class ProfileOrganizationActivity extends Activity {
 		Intent intent = new Intent(this, CommentsActivity_.class);
 		startActivityForResult(intent, ActivityCode.COMMENTS_ACTIVITY);
 	}
-	
+
 	@Click
-	void location_panel(){
+	void location_panel() {
 		progress_bar.setVisibility(View.VISIBLE);
 		Intent intent = new Intent(this, LocationActivity_.class);
 		intent.putExtra("name", name.getText().toString());
@@ -77,9 +76,9 @@ public class ProfileOrganizationActivity extends Activity {
 		intent.putExtra("phone", phone_number.getText().toString());
 		startActivityForResult(intent, ActivityCode.LOCATION_ACTIVITY);
 	}
-	
+
 	@OnActivityResult(ActivityCode.LOCATION_ACTIVITY)
-	void onReturnFromLocationActivity(){
+	void onReturnFromLocationActivity() {
 		progress_bar.setVisibility(View.GONE);
 	}
 
@@ -118,6 +117,12 @@ public class ProfileOrganizationActivity extends Activity {
 		intent.putExtra("result", "returned from ProfileOrganiztionActivity");
 		this.setResult(0, intent);
 		this.finish();
+	}
+
+	@Click
+	void environment() {
+		Intent intent = new Intent(this, SchoolImgManageActivity_.class);
+		startActivityForResult(intent, ActivityCode.SCHOOL_IMG_MANAGE_ACTIVITY);
 	}
 
 	@Override

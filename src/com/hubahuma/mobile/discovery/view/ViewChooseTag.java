@@ -13,8 +13,8 @@ import android.widget.Toast;
 public class ViewChooseTag extends RelativeLayout implements ViewBaseAction {
 
 	private ListView mListView;
-	private final String[] items = new String[] { "item1", "item2", "item3",
-			"item4", "item5", "item6" };// 显示字段
+	private final String[] items = new String[] { "标签1", "标签2", "标签3",
+			"标签4", "标签5", "标签6" };// 显示字段
 	private final String[] itemsVaule = new String[] { "1", "2", "3", "4", "5",
 			"6" };// 隐藏id
 	private OnSelectListener mOnSelectListener;

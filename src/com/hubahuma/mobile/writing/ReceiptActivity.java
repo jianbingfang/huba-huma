@@ -48,6 +48,7 @@ public class ReceiptActivity extends Activity {
 
 	@AfterViews
 	void init() {
+		total_info.setText("");
 		preLoadData();
 		loadData();
 	}

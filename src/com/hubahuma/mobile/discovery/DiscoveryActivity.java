@@ -60,27 +60,27 @@ public class DiscoveryActivity extends Activity {
 
 	@Click
 	void btn_english() {
-
+		btn_train();
 	}
 
 	@Click
 	void btn_interest() {
-
+		btn_train();
 	}
 
 	@Click
 	void btn_org() {
-
+		btn_train();
 	}
 
 	@Click
 	void btn_parents_group() {
-
+		btn_train();
 	}
 
 	@Click
 	void btn_happy_weekend() {
-
+		btn_train();
 	}
 
 	@Click

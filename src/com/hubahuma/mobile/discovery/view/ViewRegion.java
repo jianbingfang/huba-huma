@@ -78,10 +78,10 @@ public class ViewRegion extends LinearLayout implements ViewBaseAction {
 		// R.drawable.choosearea_bg_left));
 
 		for (int i = 0; i < 10; i++) {
-			groups.add(i + "行");
+			groups.add(i + "区");
 			LinkedList<String> tItem = new LinkedList<String>();
 			for (int j = 0; j < 15; j++) {
-				tItem.add(i + "行" + j + "列");
+				tItem.add(i + "区" + j + "街道");
 			}
 			children.put(i, tItem);
 		}

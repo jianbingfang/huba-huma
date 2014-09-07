@@ -86,29 +86,29 @@ public class NewsActivity extends Activity {
 	@OnActivityResult(ActivityCode.MESSAGE_ACTIVITY)
 	void onMessageActivityResult(int resultCode, Intent data) {
 		String result = data.getStringExtra("result");
-		Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT)
-				.show();
+		// Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT)
+		// .show();
 	}
 
 	@OnActivityResult(ActivityCode.MANAGE_BOOK_ACTIVITY)
 	void onManageBookActivityResult(int resultCode, Intent data) {
 		String result = data.getStringExtra("result");
-		Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT)
-				.show();
+		// Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT)
+		// .show();
 	}
 
 	@OnActivityResult(ActivityCode.TEACHING_DIARY_ACTIVITY)
 	void onTeachingDiaryActivityResult(int resultCode, Intent data) {
 		String result = data.getStringExtra("result");
-		Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT)
-				.show();
+		// Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT)
+		// .show();
 	}
 
 	@OnActivityResult(ActivityCode.CONTACTS_ACTIVITY)
 	void onContactsActivityResult(int resultCode, Intent data) {
 		String result = data.getStringExtra("result");
-		Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT)
-				.show();
+		// Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT)
+		// .show();
 	}
 
 }
