@@ -115,8 +115,8 @@ public class MyNoticeActivity extends Activity {
 
 	@ItemClick
 	void notice_list(int position) {
-		Toast.makeText(getApplicationContext(), "pos:" + position,
-				Toast.LENGTH_SHORT).show();
+		Intent intent = new Intent(this, ReceiptActivity_.class);
+		startActivity(intent);
 	}
 
 	@Click

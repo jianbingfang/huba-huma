@@ -205,6 +205,10 @@
             android:name=".writing.MyNoticeActivity_"
             android:label="@string/title_activity_my_notice" >
         </activity>
+        <activity
+            android:name=".writing.ReceiptActivity_"
+            android:label="@string/title_activity_receipt" >
+        </activity>
     </application>
 
 </manifest>

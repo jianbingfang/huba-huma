@@ -89,5 +89,6 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_change_tag">ChangeTagActivity</string>
     <string name="title_activity_my_notice">MyNoticeActivity</string>
+    <string name="title_activity_receipt">ReceiptActivity</string>
 
 </resources>
