@@ -1,12 +1,17 @@
 package com.hubahuma.mobile.profile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.CheckedChange;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.LongClick;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.OnActivityResult;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.ActivityCode;
@@ -64,6 +69,8 @@ public class ProfileSelfActivity extends Activity {
 	@ViewById
 	ProgressBar progress_bar;
 
+	ArrayList<String> tagList;
+
 	SelectPicPopupWindow menuWindow;
 
 	@AfterViews
@@ -96,14 +103,42 @@ public class ProfileSelfActivity extends Activity {
 			break;
 		}
 
+		preLoadData();
+		loadData();
+	}
+
+	@Background(delay = 1000)
+	void loadData() {
+		tagList = getTestData();
+		postLoadData();
+	}
+
+	private ArrayList<String> getTestData() {
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("英语");
+		list.add("早教");
+		list.add("少儿英语");
+		return list;
+	}
+
+	@UiThread
+	void preLoadData() {
+		progress_bar.setVisibility(View.VISIBLE);
+	}
+
+	@UiThread
+	void postLoadData() {
 		name.setText(ModelUtil.getCurrentUser().getUsername());
 		name2.setText(ModelUtil.getCurrentUser().getUsername());
 		remark.setText(ModelUtil.getCurrentUser().getRemark());
 		id.setText(ModelUtil.getCurrentUser().getId());
 
+		tag.setText(transTagList(tagList));
+
 		notify_switch.setChecked(true);
 		search_switch.setChecked(true);
 
+		progress_bar.setVisibility(View.GONE);
 	}
 
 	@CheckedChange
@@ -184,6 +219,32 @@ public class ProfileSelfActivity extends Activity {
 
 	@Click
 	void tag_layout() {
+		Intent intent = new Intent(this, ChangeTagActivity_.class);
+		intent.putStringArrayListExtra("tagList", tagList);
+		startActivityForResult(intent, ActivityCode.CHANGE_TAG_ACTIVITY);
+	}
+
+	@OnActivityResult(ActivityCode.CHANGE_TAG_ACTIVITY)
+	void onReturnFromChangeTagActivit(int resultCode, Intent intent) {
+		if (resultCode > 0) {
+			ArrayList<String> list = intent
+					.getStringArrayListExtra("newTagList");
+			if (list != null) {
+				tag.setText(transTagList(list));
+				tagList = list;
+			}
+		}
+	}
+
+	private String transTagList(List<String> tags) {
+		String str = "";
+		if (tags != null && tags.size() > 0) {
+			for (String t : tags) {
+				str += t + "  ";
+			}
+			str = str.substring(0, str.length() - 1);
+		}
+		return str;
 	}
 
 	@Click

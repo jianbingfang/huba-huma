@@ -172,9 +172,9 @@ public class ChangeInfoActivity extends FragmentActivity implements
 		publishSucc = changeInfo(type);
 		dismissLoadingDialog();
 		if (publishSucc) {
-			showPromptDialog("提示", "修改成功!");
+			showPromptDialog("提示", "修改成功！");
 		} else {
-			showPromptDialog("错误", "修改失败!");
+			showPromptDialog("错误", "修改失败！");
 		}
 	}
 

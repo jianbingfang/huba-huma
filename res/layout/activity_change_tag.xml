@@ -1,0 +1,162 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <!-- title -->
+
+    <RelativeLayout
+        android:id="@+id/topbar_message"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/topbar_height"
+        android:background="@color/topbar_bg"
+        android:paddingBottom="@dimen/topbar_vertical_padding"
+        android:paddingTop="@dimen/topbar_vertical_padding" >
+
+        <TextView
+            style="@style/TopBarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="感兴趣的标签" />
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:contentDescription="@string/app_name"
+            android:paddingLeft="@dimen/topbar_horizontal_padding"
+            android:paddingRight="0dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/back" />
+
+        <ImageButton
+            android:id="@+id/btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:contentDescription="@string/app_name"
+            android:paddingLeft="0dp"
+            android:paddingRight="@dimen/topbar_horizontal_padding"
+            android:scaleType="centerInside"
+            android:src="@drawable/confirm" />
+    </RelativeLayout>
+
+    <!-- divide line -->
+
+    <include layout="@layout/topbar_search_divider" />
+
+    <!-- search bar -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/topbar_bg"
+        android:paddingBottom="@dimen/search_box_vertical_padding"
+        android:paddingLeft="@dimen/search_box_horizontal_padding"
+        android:paddingRight="@dimen/search_box_horizontal_padding"
+        android:paddingTop="@dimen/search_box_vertical_padding" >
+
+        <EditText
+            android:id="@+id/search_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_bg"
+            android:drawableLeft="@drawable/search_icon"
+            android:drawablePadding="8dp"
+            android:hint="新增或搜索标签"
+            android:padding="7dp"
+            android:singleLine="true" />
+    </RelativeLayout>
+
+    <!-- content -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingTop="15dp" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="已添加的标签"
+                android:textColor="@color/grey_hint" />
+
+            <ListView
+                android:id="@+id/added_tag_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:animateLayoutChanges="true"
+                android:background="@color/main_bg"
+                android:divider="@null"
+                android:dividerHeight="5dp"
+                android:fadeScrollbars="true"
+                android:smoothScrollbar="true" >
+            </ListView>
+        </LinearLayout>
+
+        <View
+            android:layout_width="0.8dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/choose_bar_divider" />
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="热门标签"
+                    android:textColor="@color/grey_hint" />
+
+                <ListView
+                    android:id="@+id/hot_tag_list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:animateLayoutChanges="true"
+                    android:background="@color/main_bg"
+                    android:divider="@null"
+                    android:dividerHeight="5dp"
+                    android:fadeScrollbars="true"
+                    android:smoothScrollbar="true" >
+                </ListView>
+            </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>

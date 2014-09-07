@@ -64,7 +64,7 @@ public class TeachingDiaryActivity extends Activity implements
 		loadData();
 	}
 
-	@Background(delay = 2000)
+	@Background(delay = 1000)
 	void loadData() {
 		dataList = getTestData();
 		hideProgressBar();

@@ -62,56 +62,64 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
-            
-            <TextView 
+
+            <TextView
                 android:id="@+id/hint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:text="@string/change_phone_hint"
                 android:textColor="@color/grey_hint"
-                android:textSize="14sp"
-                android:text="@string/change_phone_hint"/>
-            
-            <LinearLayout 
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:id="@+id/input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_below="@id/hint"
-                android:orientation="horizontal">
-                
-                <EditText 
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal" >
+
+                <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/edit_text_bg"
-                    android:paddingTop="8dp"
+                    android:enabled="false"
+                    android:inputType="phone"
                     android:paddingBottom="8dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:inputType="phone"
-                    android:enabled="false"
-                    android:text="+86"/>
-                
-                <EditText 
+                    android:paddingTop="8dp"
+                    android:text="+86" />
+
+                <EditText
                     android:id="@+id/number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/edit_text_bg"
-                    android:paddingTop="8dp"
+                    android:hint="请填写手机号码"
+                    android:inputType="phone"
+                    android:maxLength="11"
                     android:paddingBottom="8dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:inputType="phone"
-                    android:hint="请填写手机号码"
+                    android:paddingTop="8dp"
                     android:singleLine="true"
-                    android:maxLength="11"
-                    android:text=""/>
-                
+                    android:text="" />
             </LinearLayout>
-            
-        </RelativeLayout>
 
+            <TextView
+                android:id="@+id/error_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/input_layout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:text="错误"
+                android:textColor="@color/light_red" />
+        </RelativeLayout>
     </FrameLayout>
 
 </RelativeLayout>

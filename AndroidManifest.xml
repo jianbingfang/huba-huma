@@ -41,13 +41,16 @@
             android:value="unXbiSLL0ntDYhCvvdEPbchu" />
 
         <activity
-            android:name=".MainActivity_"
-            android:label="@string/app_name" >
+            android:name=".LauncherActivity_"
+            android:label="@string/title_activity_launcher" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity_"
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name=".news.NewsActivity_"
@@ -188,6 +191,14 @@
         <activity
             android:name=".profile.SchoolImgManageActivity_"
             android:label="@string/title_activity_school_img_manage" >
+        </activity>
+        <activity
+            android:name=".LoginActivity_"
+            android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name="com.hubahuma.mobile.profile.ChangeTagActivity_"
+            android:label="@string/title_activity_change_tag" >
         </activity>
     </application>
 

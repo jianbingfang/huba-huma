@@ -32,10 +32,9 @@
     <color name="diary_bottom_bg">#DFE3EC</color>
     <color name="diary_bottom_text">#9BACC1</color>
     <color name="profile_item_bar">#506276</color>
-    
     <color name="popup_main_background">#636A73</color>
     <color name="black">#000000</color>
     <color name="area_item_selected_color">#7D8591</color>
-    
     <color name="choose_bar_divider">#5c6878</color>
+    <color name="tag_bg">#547CAC</color>
 </resources>

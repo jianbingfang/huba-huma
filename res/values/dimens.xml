@@ -79,4 +79,7 @@
     
     <dimen name="img_grid_item_size">100dp</dimen>
     
+    <dimen name="tag_height">40dp</dimen>
+    <dimen name="tag_height_half">20dp</dimen>
+    
 </resources>

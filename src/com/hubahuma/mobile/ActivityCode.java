@@ -23,4 +23,7 @@ public class ActivityCode {
 	public static final int PASSWORD_RESET_ACTIVITY = 19;
 	public static final int CHANGE_INFO_ACTIVITY = 20;
 	public static final int SCHOOL_IMG_MANAGE_ACTIVITY = 21;
+	public static final int MAIN_ACTIVITY = 22;
+	public static final int LOGIN_ACTIVITY = 23;
+	public static final int CHANGE_TAG_ACTIVITY = 24;
 }

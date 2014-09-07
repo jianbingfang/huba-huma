@@ -14,17 +14,21 @@ import org.androidannotations.annotations.ViewById;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
+import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hubahuma.mobile.LoadingDialog_;
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.SelectPicPopupWindow;
 import com.hubahuma.mobile.entity.NoticeEntity;
 import com.hubahuma.mobile.utils.ModelUtil;
 import com.hubahuma.mobile.utils.UtilTools;
@@ -56,6 +60,8 @@ public class PublishNoticeActivity extends FragmentActivity implements
 
 	private boolean publishSucc = false;
 
+	SelectPicPopupWindow menuWindow;
+
 	@AfterViews
 	void init() {
 		loadingDialog = new LoadingDialog_();
@@ -77,7 +83,9 @@ public class PublishNoticeActivity extends FragmentActivity implements
 
 	@Click
 	void btn_add_img() {
-
+		menuWindow = new SelectPicPopupWindow(this, itemsOnClick);
+		menuWindow.showAtLocation(this.findViewById(R.id.publish_notice_layout),
+				Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 	}
 
 	@Click
@@ -122,6 +130,25 @@ public class PublishNoticeActivity extends FragmentActivity implements
 			showPromptDialog("错误", "发布失败!");
 		}
 	}
+
+	// 为弹出窗口实现监听类
+	private OnClickListener itemsOnClick = new OnClickListener() {
+		public void onClick(View v) {
+			menuWindow.dismiss();
+			switch (v.getId()) {
+			case R.id.btn_take_photo:
+				Toast.makeText(getApplicationContext(), "拍照",
+						Toast.LENGTH_SHORT).show();
+				break;
+			case R.id.btn_pick_photo:
+				Toast.makeText(getApplicationContext(), "选取照片",
+						Toast.LENGTH_SHORT).show();
+				break;
+			default:
+				break;
+			}
+		}
+	};
 
 	boolean publishNotice(NoticeEntity notice) {
 		// TODO 发送notice数据给后台

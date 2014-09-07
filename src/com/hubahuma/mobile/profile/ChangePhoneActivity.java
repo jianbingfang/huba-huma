@@ -42,11 +42,11 @@ public class ChangePhoneActivity extends FragmentActivity implements
 		PromptDialogListener {
 
 	@ViewById
-	TextView hint;
+	TextView hint, error_info;
 
 	@ViewById
 	EditText number;
-	
+
 	@ViewById
 	ImageButton btn_submit;
 
@@ -65,16 +65,15 @@ public class ChangePhoneActivity extends FragmentActivity implements
 		promptDialog = new PromptDialog_();
 		promptDialog.setDialogListener(this);
 		hint.setText(hint.getText().toString() + currNumber);
-		btn_submit.setVisibility(View.GONE);
 	}
 
-	@AfterTextChange(R.id.number)
-	void onContentTextChange(Editable text) {
-		if (UtilTools.isMobileNumber(text.toString())) {
-			btn_submit.setVisibility(View.VISIBLE);
-		} else {
-			btn_submit.setVisibility(View.GONE);
+	boolean checkNumber() {
+		if (!UtilTools.isMobileNumber(number.getText().toString().trim())) {
+			error_info.setText("手机号码格式不正确，请重新输入！");
+			return false;
 		}
+		error_info.setText("");
+		return true;
 	}
 
 	@Click
@@ -84,6 +83,11 @@ public class ChangePhoneActivity extends FragmentActivity implements
 
 	@Click
 	void btn_submit() {
+
+		if (!checkNumber()) {
+			return;
+		}
+
 		showLoadingDialog();
 		handleChangePhone();
 	}
@@ -115,9 +119,9 @@ public class ChangePhoneActivity extends FragmentActivity implements
 		publishSucc = changePhone();
 		dismissLoadingDialog();
 		if (publishSucc) {
-			showPromptDialog("提示", "发布成功!");
+			showPromptDialog("提示", "修改成功！");
 		} else {
-			showPromptDialog("错误", "发布失败!");
+			showPromptDialog("错误", "修改失败！");
 		}
 	}
 

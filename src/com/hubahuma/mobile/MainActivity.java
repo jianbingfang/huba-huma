@@ -6,13 +6,16 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.ViewById;
 
+import android.app.ActivityManager;
 import android.app.TabActivity;
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.hubahuma.mobile.discovery.DiscoveryActivity_;
@@ -111,6 +114,33 @@ public class MainActivity extends TabActivity {
 				}
 			}
 		});
+	}
 
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+			if (event.getAction() == KeyEvent.ACTION_DOWN
+					&& event.getRepeatCount() == 0) {
+				this.exitApp();
+			}
+			return true;
+		}
+		return super.dispatchKeyEvent(event);
+	}
+
+	private long exitTime = 0;
+
+	/**
+	 * 退出程序
+	 */
+	private void exitApp() {
+		// 判断2次点击事件时间
+		if ((System.currentTimeMillis() - exitTime) > 2000) {
+			Toast.makeText(MainActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT)
+					.show();
+			exitTime = System.currentTimeMillis();
+		} else {
+			this.finish();
+		}
 	}
 }
