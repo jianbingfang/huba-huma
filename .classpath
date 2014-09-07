@@ -7,8 +7,9 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="compile-libs/androidannotations-3.0.1.jar"/>
 	<classpathentry kind="lib" path="libs/baidumapapi_v3_1_0.jar"/>
-	<classpathentry kind="lib" path="libs/jackson-all-1.9.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/jackson-all-1.9.0.jar"/>
 	<classpathentry kind="lib" path="libs/spring-android-rest-template-1.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="libs/org.springframework.core-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="src" path=".apt_generated">
 		<attributes>
 			<attribute name="optional" value="true"/>
