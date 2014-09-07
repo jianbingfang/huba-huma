@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/timeline_top_margin"
+    android:paddingBottom="@dimen/timeline_top_margin"
+    android:paddingLeft="@dimen/msglist_item_horizontal_padding"
+    android:paddingRight="@dimen/msglist_item_horizontal_padding" >
+
+    <LinearLayout
+        android:id="@+id/portrait_side"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/msglist_top_padding"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/date_info"
+            android:layout_width="@dimen/portrait_size"
+            android:layout_height="@dimen/portrait_size"
+            android:background="@drawable/date_circle"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="6dp"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
+                android:text="23"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="-3dp"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
+                android:text="May"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/triangle_margin"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/left_triangle" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/bubble"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/portrait_side"
+        android:background="@drawable/message_bubble"
+        android:clickable="true"
+        android:minHeight="@dimen/bubble_min_height"
+        android:paddingBottom="@dimen/bubble_bottom_padding"
+        android:paddingLeft="@dimen/bubble_horizontal_padding"
+        android:paddingRight="@dimen/bubble_horizontal_padding"
+        android:paddingTop="@dimen/bubble_top_padding" >
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="姚燕芬老师"
+            android:textColor="@color/message_author_name"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/remark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/name"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@id/name"
+            android:text="北京市第二幼儿园"
+            android:textColor="@color/grey"
+            android:textSize="13sp" />
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/teaching_diary_img" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image"
+            android:layout_marginTop="5dp"
+            android:lineSpacingMultiplier="1.2"
+            android:text="进一步做好民办教育机构的设置要严格审批权限及审批程序，各地在审批民办教育机构时，要严格执行设置标准。"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/receipt_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/bubble"
+        android:layout_below="@id/bubble"
+        android:layout_marginTop="@dimen/date_top_margin"
+        android:text="收到29条家长回执"
+        android:textColor="@color/white"
+        android:textSize="@dimen/date_txt_size" />
+
+</RelativeLayout>

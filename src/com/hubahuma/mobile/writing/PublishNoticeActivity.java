@@ -61,6 +61,8 @@ public class PublishNoticeActivity extends FragmentActivity implements
 	private boolean publishSucc = false;
 
 	SelectPicPopupWindow menuWindow;
+	
+	private NoticeEntity newNotice;
 
 	@AfterViews
 	void init() {
@@ -69,7 +71,7 @@ public class PublishNoticeActivity extends FragmentActivity implements
 		promptDialog.setDialogListener(this);
 		btn_submit.setVisibility(View.GONE);
 		name.setText(ModelUtil.getCurrentUser().getUsername());
-		date.setText(UtilTools.ParseDate(new Date()));
+		date.setText(UtilTools.parseDate(new Date()));
 	}
 
 	@AfterTextChange(R.id.content)
@@ -94,6 +96,8 @@ public class PublishNoticeActivity extends FragmentActivity implements
 		notice.setUser(ModelUtil.getCurrentUser());
 		notice.setTitle(title.getText().toString().trim());
 		notice.setContent(content.getText().toString().trim());
+		notice.setDate(new Date());
+		notice.setImage(null);
 		showLoadingDialog();
 		handlePublishNotice(notice);
 	}
@@ -126,6 +130,7 @@ public class PublishNoticeActivity extends FragmentActivity implements
 		dismissLoadingDialog();
 		if (publishSucc) {
 			showPromptDialog("提示", "发布成功!");
+			newNotice = notice;
 		} else {
 			showPromptDialog("错误", "发布失败!");
 		}
@@ -159,7 +164,12 @@ public class PublishNoticeActivity extends FragmentActivity implements
 	void btn_back() {
 		Intent intent = getIntent();
 		intent.putExtra("result", "returned from PublishNoticeActivity");
-		this.setResult(0, intent);
+		if (publishSucc) {
+			intent.putExtra("newNotice", newNotice);
+			this.setResult(1, intent);
+		}else{
+			this.setResult(0, intent);
+		}
 		this.finish();
 	}
 

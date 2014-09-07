@@ -111,7 +111,7 @@ public class TeachingDiaryViewAdapter extends BaseAdapter {
 			}
 		});
 		viewHolder.remark.setText(item.getAuthor().getRemark());
-		viewHolder.date.setText(UtilTools.ParseDate(item.getDate()));
+		viewHolder.date.setText(UtilTools.parseDate(item.getDate()));
 		// TODO 判断真实图片
 		viewHolder.diaryImg
 				.setBackgroundResource(R.drawable.teaching_diary_img);

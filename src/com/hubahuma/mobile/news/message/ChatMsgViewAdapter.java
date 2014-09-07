@@ -82,7 +82,7 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 		// }
 
 		viewHolder.showDate = entity.isShowDate();
-		viewHolder.tvSendTime.setText(UtilTools.ParseDate(entity.getDate()));
+		viewHolder.tvSendTime.setText(UtilTools.parseDate(entity.getDate()));
 		if (viewHolder.showDate == true)
 			viewHolder.tvSendTime.setVisibility(View.VISIBLE);
 		else

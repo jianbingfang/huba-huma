@@ -37,4 +37,5 @@
     <color name="area_item_selected_color">#7D8591</color>
     <color name="choose_bar_divider">#5c6878</color>
     <color name="tag_bg">#547CAC</color>
+    <color name="date_circle">#9797A6</color>
 </resources>

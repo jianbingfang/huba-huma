@@ -41,7 +41,7 @@ public class TeachingDiaryActivity extends Activity implements
 	ListView diary_list;
 
 	@ViewById
-	Button btn_write_diary;
+	Button btn_publish;
 
 	@ViewById
 	ProgressBar progress_bar;
@@ -56,9 +56,9 @@ public class TeachingDiaryActivity extends Activity implements
 	@AfterViews
 	void init() {
 		if (isSelf) {
-			btn_write_diary.setVisibility(View.VISIBLE);
+			btn_publish.setVisibility(View.VISIBLE);
 		}else{
-			btn_write_diary.setVisibility(View.GONE);
+			btn_publish.setVisibility(View.GONE);
 		}
 		showProgressBar();
 		loadData();

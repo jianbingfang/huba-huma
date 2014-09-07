@@ -31,8 +31,8 @@ public class WritingActivity extends Activity {
 	@Click
 	void btn_writing_notice() {
 		Intent intent = new Intent();
-		intent.setClass(this, PublishNoticeActivity_.class);
-		startActivityForResult(intent, ActivityCode.PUBLISH_NOTICE_ACTIVITY);
+		intent.setClass(this, MyNoticeActivity_.class);
+		startActivityForResult(intent, ActivityCode.MY_NOTICE_ACTIVITY);
 	}
 
 	@Click

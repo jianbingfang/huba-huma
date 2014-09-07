@@ -1,8 +1,9 @@
 package com.hubahuma.mobile.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class NoticeEntity {
+public class NoticeEntity implements Serializable{
 
 	private UserEntity user;
 	
@@ -11,6 +12,8 @@ public class NoticeEntity {
 	private String content;
 	
 	private Date date;
+	
+	private String image;
 
 	public UserEntity getUser() {
 		return user;
@@ -42,6 +45,14 @@ public class NoticeEntity {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 	

@@ -1,6 +1,8 @@
 package com.hubahuma.mobile.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,8 +13,18 @@ import android.util.Log;
 
 public class UtilTools {
 
-	public static String ParseDate(Date date) {
+	public static String parseDate(Date date) {
 		return date.toLocaleString();
+	}
+
+	public static String getDate(Date date) {
+		SimpleDateFormat format = new SimpleDateFormat("dd", Locale.ENGLISH);
+		return format.format(date);
+	}
+
+	public static String getMonth(Date date) {
+		SimpleDateFormat format = new SimpleDateFormat("MMM", Locale.ENGLISH);
+		return format.format(date);
 	}
 
 	public static boolean isEmpty(String str) {

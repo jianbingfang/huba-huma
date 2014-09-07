@@ -73,7 +73,7 @@ public class CommentViewAdapter extends BaseAdapter {
 		viewHolder.portrait.setImageResource(R.drawable.default_portrait);
 		viewHolder.name.setText(item.getUser().getUsername());
 		viewHolder.remark.setText(item.getUser().getRemark());
-		viewHolder.date.setText(UtilTools.ParseDate(item.getDate()));
+		viewHolder.date.setText(UtilTools.parseDate(item.getDate()));
 		viewHolder.content.setText(item.getContent());
 		viewHolder.scoreBar.setRating(item.getScore());
 		

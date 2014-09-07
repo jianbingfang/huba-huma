@@ -64,7 +64,7 @@ public class PublishedArticleOutlineViewAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		viewHolder.date.setText(UtilTools.ParseDate(item.getDate()));
+		viewHolder.date.setText(UtilTools.parseDate(item.getDate()));
 		// TODO 判断真实图片
 		viewHolder.articleImg.setBackgroundResource(R.drawable.teaching_diary_img);
 		viewHolder.title.setText(item.getTitle());
