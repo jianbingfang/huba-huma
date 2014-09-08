@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
@@ -36,6 +37,12 @@ public class SplashActivity extends Activity {
 
 	@AfterViews
 	void init() {
+		
+		System.out.println("username:"+prefs.username().get());
+		System.out.println("password:"+prefs.password().get());
+		System.out.println("token:"+prefs.token().get());
+		System.out.println("time:"+prefs.lastTokenUpdated().get());
+		
 		preProc();
 	}
 
@@ -45,27 +52,33 @@ public class SplashActivity extends Activity {
 		if (!UtilTools.isNetConnected(getApplicationContext())) {
 			showToast("无法访问网络", Toast.LENGTH_LONG);
 		} else {
-			// SharedPreferences authInfo = getSharedPreferences("authInfo",
-			// Context.MODE_PRIVATE);
-			// String token = authInfo.getString("token", "");
-			String username = prefs.username().get();
-			String password = prefs.password().get();
-			long timestamp = prefs.lastTokenUpdated().get();
-			long duration = System.currentTimeMillis() - timestamp;
-			long oneMonth = 30 * 24 * 60 * 60 * 1000;
-			if (duration < oneMonth && prefs.token().exists()
-					&& !UtilTools.isEmpty(prefs.token().get())) {
-				startLoginActivity();
-			} else {
-				AuthResp resp = userService.login(username, password);
-				if (resp.isResult()) {
-					GlobalVar.token = resp.getToken();
-					prefs.edit().token().put(resp.getToken())
-							.lastTokenUpdated().put(System.currentTimeMillis());
-					startMainActivity();
+			if (prefs.token().exists() && prefs.lastTokenUpdated().exists()) {
+				long timestamp = prefs.lastTokenUpdated().get();
+				long duration = System.currentTimeMillis() - timestamp;
+				long oneMonth = 30 * 24 * 60 * 60 * 1000;
+				if (duration < oneMonth
+						&& !UtilTools.isEmpty(prefs.token().get())) {
+					startLoginActivity();
 				} else {
+					if (prefs.username().exists() && prefs.password().exists()) {
+						Log.d("debug", "attempt to login - "+prefs.username().get() + ":" + prefs.password().get());
+						AuthResp resp = userService.login(prefs.username()
+								.get(), prefs.password().get());
+						if (resp.isResult()) {
+							Log.d("debug","attempt login succ");
+							GlobalVar.token = resp.getToken();
+							prefs.edit().token().put(resp.getToken())
+									.lastTokenUpdated()
+									.put(System.currentTimeMillis());
+							startMainActivity();
+							return;
+						}
+					}
 					startLoginActivity();
 				}
+
+			} else {
+				startLoginActivity();
 			}
 		}
 	}

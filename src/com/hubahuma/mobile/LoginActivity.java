@@ -59,6 +59,15 @@ public class LoginActivity extends FragmentActivity implements
 	@AfterViews
 	void init() {
 		error_info.setText("");
+
+		System.out.println("username:"+prefs.username().get());
+		System.out.println("password:"+prefs.password().get());
+		System.out.println("token:"+prefs.token().get());
+		System.out.println("time:"+prefs.lastTokenUpdated().get());
+		if (prefs.username().exists()) {
+			username.setText(prefs.username().get());
+		}
+
 		loadingDialog = new LoadingDialog_();
 		promptDialog = new PromptDialog_();
 		promptDialog.setDialogListener(this);

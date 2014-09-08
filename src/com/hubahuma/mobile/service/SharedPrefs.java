@@ -4,7 +4,7 @@ import org.androidannotations.annotations.sharedpreferences.DefaultLong;
 import org.androidannotations.annotations.sharedpreferences.DefaultString;
 import org.androidannotations.annotations.sharedpreferences.SharedPref;
 
-@SharedPref
+@SharedPref(value = SharedPref.Scope.UNIQUE)
 public interface SharedPrefs {
 
 	@DefaultString("")

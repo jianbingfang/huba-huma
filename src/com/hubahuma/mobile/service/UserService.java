@@ -11,7 +11,7 @@ import org.springframework.http.converter.json.MappingJacksonHttpMessageConverte
 import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.entity.resp.AuthResp;
 
-@Rest(rootUrl = "http://101.5.103.183:8080/server/", converters = { MappingJacksonHttpMessageConverter.class })
+@Rest(rootUrl = "http://192.168.2.103:8080/server/", converters = { MappingJacksonHttpMessageConverter.class })
 public interface UserService {
 
 	@Get("/authenticate?username={username}&password={password}")
