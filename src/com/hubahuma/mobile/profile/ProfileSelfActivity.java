@@ -21,7 +21,7 @@ import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.profile.ChangeInfoActivity.InfoType;
 import com.hubahuma.mobile.profile.WriteCommentActivity.CommentType;
-import com.hubahuma.mobile.utils.ModelUtil;
+import com.hubahuma.mobile.utils.GlobalVariable;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -76,7 +76,7 @@ public class ProfileSelfActivity extends Activity {
 	@AfterViews
 	void init() {
 
-		switch (ModelUtil.getCurrentUser().getType()) {
+		switch (GlobalVariable.getCurrentUser().getType()) {
 		case UserType.PARENTS:
 			qualification.setVisibility(View.GONE);
 			introduction_layout.setVisibility(View.GONE);
@@ -144,10 +144,10 @@ public class ProfileSelfActivity extends Activity {
 
 	@UiThread
 	void postLoadData() {
-		name.setText(ModelUtil.getCurrentUser().getUsername());
-		name2.setText(ModelUtil.getCurrentUser().getUsername());
-		remark.setText(ModelUtil.getCurrentUser().getRemark());
-		id.setText(ModelUtil.getCurrentUser().getId());
+		name.setText(GlobalVariable.getCurrentUser().getUsername());
+		name2.setText(GlobalVariable.getCurrentUser().getUsername());
+		remark.setText(GlobalVariable.getCurrentUser().getRemark());
+		id.setText(GlobalVariable.getCurrentUser().getId());
 
 		tag.setText(transTagList(tagList));
 

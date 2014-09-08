@@ -30,7 +30,7 @@ import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.SelectPicPopupWindow;
 import com.hubahuma.mobile.entity.NoticeEntity;
-import com.hubahuma.mobile.utils.ModelUtil;
+import com.hubahuma.mobile.utils.GlobalVariable;
 import com.hubahuma.mobile.utils.UtilTools;
 
 @SuppressWarnings("deprecation")
@@ -70,7 +70,7 @@ public class PublishNoticeActivity extends FragmentActivity implements
 		promptDialog = new PromptDialog_();
 		promptDialog.setDialogListener(this);
 		btn_submit.setVisibility(View.GONE);
-		name.setText(ModelUtil.getCurrentUser().getUsername());
+		name.setText(GlobalVariable.getCurrentUser().getUsername());
 		date.setText(UtilTools.parseDate(new Date()));
 	}
 
@@ -93,7 +93,7 @@ public class PublishNoticeActivity extends FragmentActivity implements
 	@Click
 	void btn_submit() {
 		NoticeEntity notice = new NoticeEntity();
-		notice.setUser(ModelUtil.getCurrentUser());
+		notice.setUser(GlobalVariable.getCurrentUser());
 		notice.setTitle(title.getText().toString().trim());
 		notice.setContent(content.getText().toString().trim());
 		notice.setDate(new Date());

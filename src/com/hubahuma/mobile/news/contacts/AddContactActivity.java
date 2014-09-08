@@ -15,7 +15,7 @@ import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.news.managebook.ManageBookActivity_;
-import com.hubahuma.mobile.utils.ModelUtil;
+import com.hubahuma.mobile.utils.GlobalVariable;
 import com.hubahuma.mobile.utils.UtilTools;
 
 import android.app.Activity;
@@ -53,8 +53,8 @@ public class AddContactActivity extends FragmentActivity {
 	@AfterViews
 	void init() {
 
-		if (ModelUtil.getCurrentUser() != null
-				&& ModelUtil.getCurrentUser().getType() == UserType.PARENTS) {
+		if (GlobalVariable.getCurrentUser() != null
+				&& GlobalVariable.getCurrentUser().getType() == UserType.PARENTS) {
 			search_group_btn.setVisibility(View.GONE);
 			new_group_btn.setVisibility(View.GONE);
 		}

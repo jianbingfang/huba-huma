@@ -21,7 +21,7 @@ import com.hubahuma.mobile.news.contacts.ContactsActivity_;
 import com.hubahuma.mobile.news.managebook.ManageBookActivity_;
 import com.hubahuma.mobile.news.message.MessageActivity_;
 import com.hubahuma.mobile.news.teachingdiary.TeachingDiaryActivity_;
-import com.hubahuma.mobile.utils.ModelUtil;
+import com.hubahuma.mobile.utils.GlobalVariable;
 
 @EActivity(R.layout.activity_news)
 public class NewsActivity extends Activity {
@@ -36,8 +36,8 @@ public class NewsActivity extends Activity {
 	void init() {
 		msgRedspot.setVisibility(View.VISIBLE);
 
-		if (ModelUtil.getCurrentUser() != null) {
-			switch (ModelUtil.getCurrentUser().getType()) {
+		if (GlobalVariable.getCurrentUser() != null) {
+			switch (GlobalVariable.getCurrentUser().getType()) {
 
 			case UserType.PARENTS:
 				layout_manage_book.setVisibility(View.VISIBLE);

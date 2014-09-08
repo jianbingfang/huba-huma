@@ -23,7 +23,7 @@ import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.info.InfoActivity_;
 import com.hubahuma.mobile.news.NewsActivity_;
 import com.hubahuma.mobile.profile.ProfileSelfActivity_;
-import com.hubahuma.mobile.utils.ModelUtil;
+import com.hubahuma.mobile.utils.GlobalVariable;
 import com.hubahuma.mobile.writing.WritingActivity_;
 
 @SuppressWarnings("deprecation")
@@ -56,7 +56,7 @@ public class MainActivity extends TabActivity {
 		// user.setType(UserType.TEACHER);
 		// user.setType(UserType.PARENTS);
 
-		ModelUtil.setCurrentUser(user);
+		GlobalVariable.setCurrentUser(user);
 
 		mainTabNewsCounter.setVisibility(View.VISIBLE);
 		mainTabNewsCounter.setText("10");

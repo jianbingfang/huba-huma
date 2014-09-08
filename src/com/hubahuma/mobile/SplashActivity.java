@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 @NoTitle
-@EActivity(R.layout.activity_launcher)
-public class LauncherActivity extends Activity {
+@EActivity(R.layout.activity_splash)
+public class SplashActivity extends Activity {
 
 	@AfterViews
 	void init() {

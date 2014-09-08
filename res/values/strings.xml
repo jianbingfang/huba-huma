@@ -85,7 +85,7 @@
     <string name="title_activity_password_reset">PasswordResetActivity</string>
     <string name="title_activity_change_info">ChangeInfoActivity</string>
     <string name="title_activity_school_img_manage">SchoolImgManageActivity</string>
-    <string name="title_activity_launcher">LauncherActivity</string>
+    <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_change_tag">ChangeTagActivity</string>
     <string name="title_activity_my_notice">MyNoticeActivity</string>

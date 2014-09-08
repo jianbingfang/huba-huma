@@ -18,7 +18,7 @@ import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.entity.NoticeEntity;
-import com.hubahuma.mobile.utils.ModelUtil;
+import com.hubahuma.mobile.utils.GlobalVariable;
 import com.hubahuma.mobile.utils.UtilTools;
 
 import android.app.Activity;

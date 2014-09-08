@@ -17,7 +17,7 @@ import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.entity.NoticeEntity;
 import com.hubahuma.mobile.entity.UserEntity;
-import com.hubahuma.mobile.utils.ModelUtil;
+import com.hubahuma.mobile.utils.GlobalVariable;
 
 import android.app.Activity;
 import android.content.Intent;

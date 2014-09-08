@@ -2,7 +2,7 @@ package com.hubahuma.mobile.utils;
 
 import com.hubahuma.mobile.entity.UserEntity;
 
-public class ModelUtil {
+public class GlobalVariable {
 
 	private static UserEntity curUser = null;
 	
