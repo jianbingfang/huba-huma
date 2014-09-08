@@ -28,9 +28,9 @@ import com.hubahuma.mobile.LoadingDialog_;
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
-import com.hubahuma.mobile.SelectPicPopupWindow;
+import com.hubahuma.mobile.SelectImgPopupWindow;
 import com.hubahuma.mobile.entity.NoticeEntity;
-import com.hubahuma.mobile.utils.GlobalVariable;
+import com.hubahuma.mobile.utils.GlobalVar;
 import com.hubahuma.mobile.utils.UtilTools;
 
 @SuppressWarnings("deprecation")
@@ -60,7 +60,7 @@ public class PublishNoticeActivity extends FragmentActivity implements
 
 	private boolean publishSucc = false;
 
-	SelectPicPopupWindow menuWindow;
+	SelectImgPopupWindow menuWindow;
 	
 	private NoticeEntity newNotice;
 
@@ -70,7 +70,7 @@ public class PublishNoticeActivity extends FragmentActivity implements
 		promptDialog = new PromptDialog_();
 		promptDialog.setDialogListener(this);
 		btn_submit.setVisibility(View.GONE);
-		name.setText(GlobalVariable.getCurrentUser().getUsername());
+		name.setText(GlobalVar.getCurrentUser().getUsername());
 		date.setText(UtilTools.parseDate(new Date()));
 	}
 
@@ -85,7 +85,7 @@ public class PublishNoticeActivity extends FragmentActivity implements
 
 	@Click
 	void btn_add_img() {
-		menuWindow = new SelectPicPopupWindow(this, itemsOnClick);
+		menuWindow = new SelectImgPopupWindow(this, itemsOnClick);
 		menuWindow.showAtLocation(this.findViewById(R.id.publish_notice_layout),
 				Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 	}
@@ -93,7 +93,7 @@ public class PublishNoticeActivity extends FragmentActivity implements
 	@Click
 	void btn_submit() {
 		NoticeEntity notice = new NoticeEntity();
-		notice.setUser(GlobalVariable.getCurrentUser());
+		notice.setUser(GlobalVar.getCurrentUser());
 		notice.setTitle(title.getText().toString().trim());
 		notice.setContent(content.getText().toString().trim());
 		notice.setDate(new Date());

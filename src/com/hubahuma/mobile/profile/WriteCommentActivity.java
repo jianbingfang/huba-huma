@@ -17,7 +17,7 @@ import com.hubahuma.mobile.MainActivity_;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.entity.CommentEntity;
-import com.hubahuma.mobile.utils.GlobalVariable;
+import com.hubahuma.mobile.utils.GlobalVar;
 import com.hubahuma.mobile.utils.UtilTools;
 
 import android.app.Activity;
@@ -62,8 +62,8 @@ public class WriteCommentActivity extends Activity {
 	@AfterViews
 	void init() {
 
-		if (GlobalVariable.getCurrentUser() != null) {
-			switch (GlobalVariable.getCurrentUser().getType()) {
+		if (GlobalVar.getCurrentUser() != null) {
+			switch (GlobalVar.getCurrentUser().getType()) {
 			case CommentType.TEACHER_COMMENT:
 				target_hint.setText("给教师打分");
 				score_hint_1.setText("教学方法");

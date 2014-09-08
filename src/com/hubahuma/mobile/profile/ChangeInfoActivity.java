@@ -16,7 +16,7 @@ import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.UserType;
-import com.hubahuma.mobile.utils.GlobalVariable;
+import com.hubahuma.mobile.utils.GlobalVar;
 import com.hubahuma.mobile.utils.UtilTools;
 
 import android.app.Activity;
@@ -76,7 +76,7 @@ public class ChangeInfoActivity extends FragmentActivity implements
 
 		switch (type) {
 		case InfoType.NAME:
-			if (GlobalVariable.getCurrentUser().getType() == UserType.ORGANIZTION) {
+			if (GlobalVar.getCurrentUser().getType() == UserType.ORGANIZTION) {
 				title.setText("编辑机构名称");
 				hint.setText("4-30个字符，支持中英文、数字");
 			} else {
@@ -89,7 +89,7 @@ public class ChangeInfoActivity extends FragmentActivity implements
 			hint.setText("");
 			break;
 		case InfoType.INTRODUCTION:
-			if (GlobalVariable.getCurrentUser().getType() == UserType.ORGANIZTION) {
+			if (GlobalVar.getCurrentUser().getType() == UserType.ORGANIZTION) {
 				title.setText("编辑机构说明");
 				hint.setText("4-30个字符，支持中英文、数字");
 			} else {

@@ -19,7 +19,7 @@ import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.entity.NoticeEntity;
 import com.hubahuma.mobile.profile.TagListViewAdapter;
-import com.hubahuma.mobile.utils.GlobalVariable;
+import com.hubahuma.mobile.utils.GlobalVar;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -66,7 +66,7 @@ public class MyNoticeActivity extends Activity {
 		List<NoticeEntity> testData = new ArrayList<NoticeEntity>();
 		for (int i = 1; i <= 5; i++) {
 			NoticeEntity item = new NoticeEntity();
-			item.setUser(GlobalVariable.getCurrentUser());
+			item.setUser(GlobalVar.getCurrentUser());
 			item.setDate(new Date());
 			item.setContent("进一步做好民办教育机构的设置要严格审批权限及审批程序，各地在审批民办教育机构时，要严格执行设置标准。");
 			item.setTitle("title");

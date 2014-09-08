@@ -16,12 +16,12 @@ import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
-import com.hubahuma.mobile.SelectPicPopupWindow;
+import com.hubahuma.mobile.SelectImgPopupWindow;
 import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.profile.ChangeInfoActivity.InfoType;
 import com.hubahuma.mobile.profile.WriteCommentActivity.CommentType;
-import com.hubahuma.mobile.utils.GlobalVariable;
+import com.hubahuma.mobile.utils.GlobalVar;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -71,12 +71,12 @@ public class ProfileSelfActivity extends Activity {
 
 	ArrayList<String> tagList;
 
-	SelectPicPopupWindow menuWindow;
+	SelectImgPopupWindow menuWindow;
 
 	@AfterViews
 	void init() {
 
-		switch (GlobalVariable.getCurrentUser().getType()) {
+		switch (GlobalVar.getCurrentUser().getType()) {
 		case UserType.PARENTS:
 			qualification.setVisibility(View.GONE);
 			introduction_layout.setVisibility(View.GONE);
@@ -144,10 +144,10 @@ public class ProfileSelfActivity extends Activity {
 
 	@UiThread
 	void postLoadData() {
-		name.setText(GlobalVariable.getCurrentUser().getUsername());
-		name2.setText(GlobalVariable.getCurrentUser().getUsername());
-		remark.setText(GlobalVariable.getCurrentUser().getRemark());
-		id.setText(GlobalVariable.getCurrentUser().getId());
+		name.setText(GlobalVar.getCurrentUser().getUsername());
+		name2.setText(GlobalVar.getCurrentUser().getUsername());
+		remark.setText(GlobalVar.getCurrentUser().getRemark());
+		id.setText(GlobalVar.getCurrentUser().getId());
 
 		tag.setText(transTagList(tagList));
 
@@ -169,7 +169,7 @@ public class ProfileSelfActivity extends Activity {
 
 	@LongClick(R.id.portrait)
 	void onPortraitLongClick() {
-		menuWindow = new SelectPicPopupWindow(this, itemsOnClick);
+		menuWindow = new SelectImgPopupWindow(this, itemsOnClick);
 		menuWindow.showAtLocation(this.findViewById(R.id.profile_self),
 				Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 
@@ -177,7 +177,7 @@ public class ProfileSelfActivity extends Activity {
 
 	@LongClick(R.id.custom_bg)
 	void onCustomBgLongClick() {
-		menuWindow = new SelectPicPopupWindow(this, itemsOnClick);
+		menuWindow = new SelectImgPopupWindow(this, itemsOnClick);
 		menuWindow.showAtLocation(this.findViewById(R.id.profile_self),
 				Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 	}

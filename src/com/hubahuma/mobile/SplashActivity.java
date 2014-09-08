@@ -28,6 +28,8 @@ public class SplashActivity extends Activity {
 		// 检查网络状况
 		if (!UtilTools.isNetConnected(getApplicationContext())) {
 			showToast("无法访问网络", Toast.LENGTH_LONG);
+		}else{
+			showToast("网络访问正常", Toast.LENGTH_SHORT);
 		}
 		startLoginActivity();
 	}
@@ -38,7 +40,8 @@ public class SplashActivity extends Activity {
 	}
 
 	void startLoginActivity() {
-		Intent intent = new Intent(this, MainActivity_.class);
+//		Intent intent = new Intent(this, MainActivity_.class);
+		Intent intent = new Intent(this, LoginActivity_.class);
 		startActivityForResult(intent, ActivityCode.MAIN_ACTIVITY);
 	}
 
