@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.news.contacts.InviteViewAdapter.OnUserCheckedListener;
 import com.hubahuma.mobile.news.message.ChatActivity_;
@@ -172,7 +173,7 @@ public class InviteUserActivity extends Activity implements
 		for (int i = 1; i <= 4; i++) {
 			UserEntity child1Data = new UserEntity();
 			child1Data.setId("teacher#" + i);
-			child1Data.setType(2);
+			child1Data.setType(UserType.TEACHER);
 			child1Data.setUsername("王萍" + i);
 			child1Data.setRemark("北京市第" + i + "中学");
 			// child1Data.setChecked(false);
@@ -185,7 +186,7 @@ public class InviteUserActivity extends Activity implements
 		for (int i = 1; i <= 6; i++) {
 			UserEntity child1Data = new UserEntity();
 			child1Data.setId("user#" + i);
-			child1Data.setType(3);
+			child1Data.setType(UserType.PARENTS);
 			child1Data.setUsername("李国成" + i);
 			child1Data.setRemark("李小丽父亲" + i);
 			// child1Data.setChecked(false);

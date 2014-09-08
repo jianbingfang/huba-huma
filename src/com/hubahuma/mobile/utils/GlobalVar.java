@@ -6,6 +6,8 @@ public class GlobalVar {
 
 	public static final String API_SERVER_DOMAIN = "";
 	
+	public static String token = null;
+	
 	public static UserEntity curUser = null;
 	
 	public static UserEntity getCurrentUser(){

@@ -62,24 +62,31 @@ public class WriteCommentActivity extends Activity {
 	@AfterViews
 	void init() {
 
-		if (GlobalVar.getCurrentUser() != null) {
-			switch (GlobalVar.getCurrentUser().getType()) {
-			case CommentType.TEACHER_COMMENT:
-				target_hint.setText("给教师打分");
-				score_hint_1.setText("教学方法");
-				score_hint_2.setText("品行态度");
-				score_hint_3.setText("教学效果");
-				score_hint_4.setText("教学内容");
-				break;
+		switch (type) {
+		case CommentType.TEACHER_COMMENT:
+			target_hint.setText("给教师打分");
+			score_hint_1.setText("教学方法");
+			score_hint_2.setText("品行态度");
+			score_hint_3.setText("教学效果");
+			score_hint_4.setText("教学内容");
+			break;
 
-			case CommentType.ORGANIZATION_COMMENT:
-				target_hint.setText("给该学校/机构打分");
-				score_hint_1.setText("教育水平");
-				score_hint_2.setText("校园环境");
-				score_hint_3.setText("生源质量");
-				score_hint_4.setText("课程费用");
-				break;
-			}
+		case CommentType.ORGANIZATION_COMMENT:
+			target_hint.setText("给该学校/机构打分");
+			score_hint_1.setText("教育水平");
+			score_hint_2.setText("校园环境");
+			score_hint_3.setText("生源质量");
+			score_hint_4.setText("课程费用");
+			break;
+		default:
+			Toast.makeText(getApplicationContext(), "评论类型错误", Toast.LENGTH_LONG)
+					.show();
+			target_hint.setText("");
+			score_hint_1.setText("");
+			score_hint_2.setText("");
+			score_hint_3.setText("");
+			score_hint_4.setText("");
+			break;
 		}
 
 	}

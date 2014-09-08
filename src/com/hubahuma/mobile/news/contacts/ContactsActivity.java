@@ -119,7 +119,6 @@ public class ContactsActivity extends FragmentActivity implements
 		for (int i = 1; i <= 4; i++) {
 			UserEntity child1Data = new UserEntity();
 			child1Data.setId("group#" + i);
-			child1Data.setType(-1);
 			child1Data.setUsername("快乐城堡儿童英语第" + i + "群");
 			child1Data.setRemark(i * 10 + "人");
 			childList1.add(child1Data);

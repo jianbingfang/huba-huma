@@ -16,6 +16,7 @@ import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.entity.ArticleEntity;
 import com.hubahuma.mobile.entity.CommentEntity;
@@ -99,7 +100,7 @@ public class CommentsActivity extends Activity {
 
 		UserEntity user = new UserEntity();
 		user.setId("#0001");
-		user.setType(1);
+		user.setType(UserType.PARENTS);
 		user.setUsername("李晓龙");
 		user.setRemark("李一贤家长");
 

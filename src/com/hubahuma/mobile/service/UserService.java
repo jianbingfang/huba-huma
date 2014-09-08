@@ -8,8 +8,8 @@ import org.androidannotations.annotations.rest.SetsCookie;
 import org.androidannotations.api.rest.MediaType;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 
-import com.hubahuma.mobile.entity.AuthResp;
 import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.entity.resp.AuthResp;
 
 @Rest(rootUrl = "http://101.5.103.183:8080/server/", converters = { MappingJacksonHttpMessageConverter.class })
 public interface UserService {

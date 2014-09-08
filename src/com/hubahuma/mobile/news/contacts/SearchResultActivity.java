@@ -11,6 +11,7 @@ import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.entity.GroupEntity;
 import com.hubahuma.mobile.entity.UserEntity;
@@ -53,7 +54,7 @@ public class SearchResultActivity extends Activity implements onFollowListener {
 		for (int i = 1; i <= 4; i++) {
 			UserEntity user = new UserEntity();
 			user.setId("teacher#" + i);
-			user.setType(2);
+			user.setType(UserType.TEACHER);
 			user.setUsername("王萍" + i);
 			user.setRemark("北京市第" + i + "中学");
 			list.add(user);

@@ -7,7 +7,7 @@ public class UserEntity implements Serializable{
 	private String id;
 	private String username;
 	private String remark;
-	private int type;
+	private String type;
 
 	public String getId() {
 		return id;
@@ -33,11 +33,11 @@ public class UserEntity implements Serializable{
 		this.remark = remark;
 	}
 
-	public int getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 

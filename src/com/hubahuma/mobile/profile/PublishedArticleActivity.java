@@ -15,6 +15,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.entity.ArticleEntity;
 import com.hubahuma.mobile.entity.GroupEntity;
@@ -144,7 +145,7 @@ public class PublishedArticleActivity extends Activity {
 
 		UserEntity user = new UserEntity();
 		user.setId("#0001");
-		user.setType(1);
+		user.setType(UserType.TEACHER);
 		user.setUsername("姚燕芬老师");
 		user.setRemark("北京市第二幼儿园");
 

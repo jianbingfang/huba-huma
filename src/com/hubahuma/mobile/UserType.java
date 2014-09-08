@@ -2,12 +2,12 @@ package com.hubahuma.mobile;
 
 public class UserType {
 
-	public static final int PARENTS = 0;
+	public static final String PARENTS = "Parent";
 	
-	public static final int TEACHER = 1;
+	public static final String TEACHER = "Teacher";
 	
-	public static final int ORGANIZTION = 2;
+	public static final String ORGANIZTION = "Organization";
 	
-	public static final int ADMIN = 3;
+	public static final String ADMIN = "Administrator";
 	
 }

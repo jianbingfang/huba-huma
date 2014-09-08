@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.entity.GroupEntity;
 import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.news.managebook.ChangeGroupDialog.EditNameDialogListener;
@@ -133,7 +134,7 @@ public class ManageBookActivity extends FragmentActivity implements
 		for (int i = 1; i <= 4; i++) {
 			UserEntity child1Data = new UserEntity();
 			child1Data.setId("user#" + i);
-			child1Data.setType(0);
+			child1Data.setType(UserType.PARENTS);
 			child1Data.setUsername("王萍" + i);
 			child1Data.setRemark("赵林母亲" + i);
 			childList1.add(child1Data);
@@ -147,7 +148,7 @@ public class ManageBookActivity extends FragmentActivity implements
 		for (int i = 1; i <= 6; i++) {
 			UserEntity child2Data = new UserEntity();
 			child2Data.setId("user#" + i * 10);
-			child2Data.setType(0);
+			child2Data.setType(UserType.PARENTS);
 			child2Data.setUsername("李国成" + i);
 			child2Data.setRemark("李小丽父亲" + i);
 			childList2.add(child2Data);
