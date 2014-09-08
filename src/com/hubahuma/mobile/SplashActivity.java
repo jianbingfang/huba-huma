@@ -3,12 +3,17 @@ package com.hubahuma.mobile;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.rest.RestService;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
+import com.hubahuma.mobile.entity.resp.AuthResp;
+import com.hubahuma.mobile.service.SharedPrefs_;
 import com.hubahuma.mobile.service.UserService;
+import com.hubahuma.mobile.utils.GlobalVar;
 import com.hubahuma.mobile.utils.UtilTools;
 
 import android.app.Activity;
@@ -19,35 +24,49 @@ import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 @NoTitle
+@Fullscreen
 @EActivity(R.layout.activity_splash)
 public class SplashActivity extends Activity {
 
 	@RestService
 	UserService userService;
 
+	@Pref
+	SharedPrefs_ prefs;
+
 	@AfterViews
 	void init() {
-		checkPhoneState();
+		preProc();
 	}
 
 	@Background(delay = 2000)
-	void checkPhoneState() {
+	void preProc() {
 		// 检查网络状况
 		if (!UtilTools.isNetConnected(getApplicationContext())) {
 			showToast("无法访问网络", Toast.LENGTH_LONG);
 		} else {
-			showToast("网络访问正常", Toast.LENGTH_SHORT);
-		}
-		SharedPreferences authInfo = getSharedPreferences("authInfo",
-				Context.MODE_PRIVATE);
-		String token = authInfo.getString("token", "");
-		long timestamp = authInfo.getLong("timestamp", Long.MAX_VALUE);
-		long duration = System.currentTimeMillis() - timestamp;
-		long oneMonth = 30 * 24 * 60 * 60 * 1000;
-		if (duration > oneMonth || UtilTools.isEmpty(token)) {
-			startLoginActivity();
-		} else {
-			startMainActivity();
+			// SharedPreferences authInfo = getSharedPreferences("authInfo",
+			// Context.MODE_PRIVATE);
+			// String token = authInfo.getString("token", "");
+			String username = prefs.username().get();
+			String password = prefs.password().get();
+			long timestamp = prefs.lastTokenUpdated().get();
+			long duration = System.currentTimeMillis() - timestamp;
+			long oneMonth = 30 * 24 * 60 * 60 * 1000;
+			if (duration < oneMonth && prefs.token().exists()
+					&& !UtilTools.isEmpty(prefs.token().get())) {
+				startLoginActivity();
+			} else {
+				AuthResp resp = userService.login(username, password);
+				if (resp.isResult()) {
+					GlobalVar.token = resp.getToken();
+					prefs.edit().token().put(resp.getToken())
+							.lastTokenUpdated().put(System.currentTimeMillis());
+					startMainActivity();
+				} else {
+					startLoginActivity();
+				}
+			}
 		}
 	}
 

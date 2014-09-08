@@ -9,9 +9,11 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.entity.resp.AuthResp;
+import com.hubahuma.mobile.service.SharedPrefs_;
 import com.hubahuma.mobile.service.UserService;
 import com.hubahuma.mobile.utils.GlobalVar;
 import com.hubahuma.mobile.utils.UtilTools;
@@ -44,6 +46,9 @@ public class LoginActivity extends FragmentActivity implements
 
 	@RestService
 	UserService userService;
+
+	@Pref
+	SharedPrefs_ prefs;
 
 	private LoadingDialog_ loadingDialog;
 
@@ -111,10 +116,20 @@ public class LoginActivity extends FragmentActivity implements
 			GlobalVar.token = resp.getToken();
 			Intent intent = new Intent(this, MainActivity_.class);
 			startActivityForResult(intent, ActivityCode.MAIN_ACTIVITY);
-			SharedPreferences authInfo = getSharedPreferences("authInfo", 0);
-			authInfo.edit().putString("token", resp.getToken()).commit();
-			authInfo.edit().putLong("timestamp", System.currentTimeMillis())
-					.commit();
+
+			// SharedPreferences authInfo = getSharedPreferences("authInfo", 0);
+			// authInfo.edit().putString("username",
+			// username.getText().toString()).commit();
+			// authInfo.edit().putString("password",
+			// password.getText().toString()).commit();
+			// authInfo.edit().putString("token", resp.getToken()).commit();
+			// authInfo.edit().putLong("timestamp", System.currentTimeMillis())
+			// .commit();
+
+			prefs.username().put(username.getText().toString());
+			prefs.password().put(password.getText().toString());
+			prefs.token().put(resp.getToken());
+			prefs.lastTokenUpdated().put(System.currentTimeMillis());
 		} else {
 			showPromptDialog("错误", "用户名或密码错误");
 		}
