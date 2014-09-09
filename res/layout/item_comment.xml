@@ -18,13 +18,15 @@
         android:paddingTop="15dp"
         android:visibility="visible" >
 
-        <ImageView
+        <com.hubahuma.mobile.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/portrait"
             android:layout_width="@dimen/portrait_size"
             android:layout_height="@dimen/portrait_size"
-            android:scaleType="centerInside"
-            android:layout_marginLeft="0dp"
-            android:src="@drawable/default_portrait" />
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/default_portrait"
+            app:border_color="@color/transparent"
+            app:border_width="0dp" />
 
         <TextView
             android:id="@+id/name"

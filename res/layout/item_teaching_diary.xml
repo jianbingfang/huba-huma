@@ -16,14 +16,15 @@
         android:background="@drawable/diary_top_area"
         android:padding="8dp" >
 
-        <ImageView
+        <com.hubahuma.mobile.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/portrait"
             android:layout_width="@dimen/diary_portrait_size"
             android:layout_height="@dimen/diary_portrait_size"
             android:layout_centerVertical="true"
-            android:contentDescription="@string/app_name"
-            android:scaleType="centerInside"
-            android:src="@drawable/default_portrait" />
+            android:src="@drawable/default_portrait"
+            app:border_color="@color/transparent"
+            app:border_width="0dp" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -179,8 +180,8 @@
                 android:layout_height="25dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp"
-                android:button="@null"
                 android:background="@drawable/checkbox_like"
+                android:button="@null"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerInside" />
         </LinearLayout>

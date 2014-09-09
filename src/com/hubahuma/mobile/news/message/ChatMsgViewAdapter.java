@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -69,7 +70,7 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 
 		viewHolder = new ViewHolder();
 		viewHolder.tvSendTime = (TextView) convertView.findViewById(R.id.date);
-		viewHolder.portrait = (ImageButton) convertView
+		viewHolder.portrait = (ImageView) convertView
 				.findViewById(R.id.portrait);
 		viewHolder.tvContent = (TextView) convertView
 				.findViewById(R.id.content);
@@ -88,7 +89,7 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 		else
 			viewHolder.tvSendTime.setVisibility(View.GONE);
 		// TODO 判断真实头像
-		viewHolder.portrait.setBackgroundResource(R.drawable.default_portrait);
+		viewHolder.portrait.setImageResource(R.drawable.default_portrait);
 		viewHolder.portrait.setTag(entity.getUser());
 		viewHolder.tvContent.setText(entity.getContent());
 		viewHolder.isComMsg = entity.isComMsg();
@@ -110,7 +111,7 @@ public class ChatMsgViewAdapter extends BaseAdapter {
 
 	static class ViewHolder {
 		public TextView tvSendTime;
-		public ImageButton portrait;
+		public ImageView portrait;
 		public TextView tvContent;
 		public ProgressBar progressBar;
 		public boolean isComMsg = true;

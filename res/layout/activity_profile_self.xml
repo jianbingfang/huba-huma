@@ -88,17 +88,16 @@
                             android:src="@drawable/setup"
                             android:visibility="visible" />
 
-                        <ImageView
+                        <com.hubahuma.mobile.CircleImageView
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
                             android:id="@+id/portrait"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="20dp"
-                            android:background="@drawable/profile_portrait_bg"
-                            android:contentDescription="@string/app_name"
-                            android:padding="2dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/teaching_diary_img" />
+                            android:src="@drawable/default_portrait"
+                            app:border_color="@color/white"
+                            app:border_width="2dp" />
 
                         <TextView
                             android:id="@+id/name"

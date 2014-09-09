@@ -37,8 +37,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/topbar_horizontal_padding"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/topbar_horizontal_padding"
                 android:background="@null"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerInside"
@@ -100,17 +100,16 @@
                         android:layout_height="match_parent"
                         android:alpha="1" >
 
-                        <ImageView
+                        <com.hubahuma.mobile.CircleImageView
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
                             android:id="@+id/portrait"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="20dp"
-                            android:background="@drawable/profile_portrait_bg"
-                            android:contentDescription="@string/app_name"
-                            android:padding="2dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/default_portrait" />
+                            android:src="@drawable/default_portrait"
+                            app:border_color="@color/white"
+                            app:border_width="2dp" />
 
                         <TextView
                             android:id="@+id/name"

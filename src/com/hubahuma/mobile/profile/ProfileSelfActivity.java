@@ -265,10 +265,10 @@ public class ProfileSelfActivity extends Activity {
 			intent.putExtra("aspectX", 1);
 			intent.putExtra("aspectY", 1);
 			// outputX,outputY 是剪裁图片的宽高
-			intent.putExtra("outputX", 100);
-			intent.putExtra("outputY", 100);
+			intent.putExtra("outputX", 80);
+			intent.putExtra("outputY", 80);
 		}
-		intent.putExtra("scale", false);
+		intent.putExtra("scale", true);
 		intent.putExtra("noFaceDetection", true);
 //		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
 //		intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
@@ -282,7 +282,7 @@ public class ProfileSelfActivity extends Activity {
 		Bundle bundle = picdata.getExtras();
 		if (bundle != null) {
 			photo = bundle.getParcelable("data");
-			targetImgView.setImageBitmap(photo);
+			targetImgView.setImageBitmap(photo);//(drawable);
 		}
 	}
 

@@ -68,15 +68,15 @@
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/right_triangle" />
 
-            <ImageButton
-                android:id="@+id/portrait"
-                android:layout_width="@dimen/portrait_size"
-                android:layout_height="@dimen/portrait_size"
-                android:background="@android:color/transparent"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerInside"
-                android:src="@drawable/default_portrait" />
-            
+            <com.hubahuma.mobile.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/portrait"
+                    android:layout_width="@dimen/portrait_size"
+                    android:layout_height="@dimen/portrait_size"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/default_portrait"
+                    app:border_color="@color/transparent"
+                    app:border_width="0dp" />
         </LinearLayout>
     </LinearLayout>
 

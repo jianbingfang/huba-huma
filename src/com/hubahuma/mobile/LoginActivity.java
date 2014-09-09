@@ -119,21 +119,15 @@ public class LoginActivity extends FragmentActivity implements
 		showLoadingDialog();
 		AuthResp resp = userService.login(username.getText().toString(),
 				password.getText().toString());
+		resp.setResult(true);
+		resp.setToken("asfsdfsadfsaf");
+		resp.setType(UserType.TEACHER);
 		dismissLoadingDialog();
 		requestSucc = resp.isResult();
 		if (requestSucc == true) {
 			GlobalVar.token = resp.getToken();
 			Intent intent = new Intent(this, MainActivity_.class);
 			startActivityForResult(intent, ActivityCode.MAIN_ACTIVITY);
-
-			// SharedPreferences authInfo = getSharedPreferences("authInfo", 0);
-			// authInfo.edit().putString("username",
-			// username.getText().toString()).commit();
-			// authInfo.edit().putString("password",
-			// password.getText().toString()).commit();
-			// authInfo.edit().putString("token", resp.getToken()).commit();
-			// authInfo.edit().putLong("timestamp", System.currentTimeMillis())
-			// .commit();
 
 			prefs.username().put(username.getText().toString());
 			prefs.password().put(password.getText().toString());

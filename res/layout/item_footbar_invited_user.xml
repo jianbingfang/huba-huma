@@ -2,19 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="0dp"
-    android:paddingRight="5dp"
     android:background="@null"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingLeft="0dp"
+    android:paddingRight="5dp" >
 
-    <ImageView
+    <com.hubahuma.mobile.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/portrait"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginRight="5dp"
-        android:scaleType="centerInside"
-        android:contentDescription="@string/app_name"
-        android:background="@null"
-        android:src="@drawable/default_portrait" />
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/default_portrait"
+        app:border_color="@color/transparent"
+        app:border_width="0dp" />
 
 </RelativeLayout>

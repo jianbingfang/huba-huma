@@ -47,6 +47,12 @@ public class SplashActivity extends Activity {
 
 	@Background(delay = 2000)
 	void preProc() {
+		
+		if(GlobalVar.testMode){
+			startMainActivity();
+			return;
+		}
+		
 		// 检查网络状况
 		if (!UtilTools.isNetConnected(getApplicationContext())) {
 			showToast("无法访问网络", Toast.LENGTH_LONG);

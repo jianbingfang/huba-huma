@@ -46,6 +46,8 @@ int attr activityChooserViewStyle 0x7f01007f
 int attr background 0x7f010042
 int attr backgroundSplit 0x7f010044
 int attr backgroundStacked 0x7f010043
+int attr border_color 0x7f010082
+int attr border_width 0x7f010081
 int attr buttonBarButtonStyle 0x7f01002b
 int attr buttonBarStyle 0x7f01002a
 int attr customNavigationLayout 0x7f010045
@@ -1209,6 +1211,9 @@ int styleable ActionMode_titleTextStyle 1
 int[] styleable ActivityChooserView { 0x7f01007d, 0x7f01007e }
 int styleable ActivityChooserView_expandActivityOverflowButtonDrawable 1
 int styleable ActivityChooserView_initialActivityCount 0
+int[] styleable CircleImageView { 0x7f010081, 0x7f010082 }
+int styleable CircleImageView_border_color 1
+int styleable CircleImageView_border_width 0
 int[] styleable CompatTextView { 0x7f010080 }
 int styleable CompatTextView_textAllCaps 0
 int[] styleable LinearLayoutICS { 0x7f010041, 0x7f010068, 0x7f010069 }

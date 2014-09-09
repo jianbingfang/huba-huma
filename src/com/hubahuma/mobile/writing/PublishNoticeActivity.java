@@ -225,9 +225,9 @@ public class PublishNoticeActivity extends FragmentActivity implements
 		intent.putExtra("aspectX", 4);
 		intent.putExtra("aspectY", 3);
 		// outputX,outputY 是剪裁图片的宽高
-		intent.putExtra("outputX", 600);
-		intent.putExtra("outputY", 450);
-		intent.putExtra("scale", false);
+		intent.putExtra("outputX", 400);
+		intent.putExtra("outputY", 300);
+		intent.putExtra("scale", true);
 		intent.putExtra("return-data", true);
 		intent.putExtra("noFaceDetection", true);
 

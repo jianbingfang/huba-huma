@@ -2,91 +2,89 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/msglist_item_horizontal_padding"
-    android:paddingRight="@dimen/msglist_item_horizontal_padding"
     android:background="@android:color/transparent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/msglist_item_horizontal_padding"
+    android:paddingRight="@dimen/msglist_item_horizontal_padding" >
 
     <LinearLayout
         android:id="@+id/portrait_side"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical" >
-        
-        <ImageButton
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <com.hubahuma.mobile.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/portrait"
             android:layout_width="@dimen/portrait_size"
             android:layout_height="@dimen/portrait_size"
-            android:background="@android:color/transparent"
-            android:scaleType="centerInside"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/default_portrait" />
-        
+            android:src="@drawable/default_portrait"
+            app:border_color="@color/transparent"
+            app:border_width="0dp" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/app_name"
             android:layout_marginLeft="@dimen/triangle_margin"
+            android:contentDescription="@string/app_name"
             android:src="@drawable/left_triangle" />
-        
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/bubble"
-        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/bubble_min_height"
         android:layout_toRightOf="@id/portrait_side"
+        android:background="@drawable/message_bubble"
+        android:clickable="true"
+        android:minHeight="@dimen/bubble_min_height"
+        android:paddingBottom="@dimen/bubble_bottom_padding"
         android:paddingLeft="@dimen/bubble_horizontal_padding"
         android:paddingRight="@dimen/bubble_horizontal_padding"
-        android:paddingTop="@dimen/bubble_top_padding"
-        android:paddingBottom="@dimen/bubble_bottom_padding"
-        android:background="@drawable/message_bubble" >
-        
-        <TextView 
+        android:paddingTop="@dimen/bubble_top_padding" >
+
+        <TextView
             android:id="@+id/group_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="快乐城堡英语群"
             android:textColor="@color/message_author_name"
-            android:textSize="15sp"
-            android:text="快乐城堡英语群"/>
-        
-        <TextView 
+            android:textSize="15sp" />
+
+        <TextView
             android:id="@+id/group_population"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_alignBottom="@id/group_name"
+            android:layout_alignParentRight="true"
             android:layout_marginLeft="12dp"
+            android:text="34人"
             android:textColor="@color/grey"
-            android:textSize="13sp"
-            android:text="34人"/>
-        
-        <TextView 
+            android:textSize="13sp" />
+
+        <TextView
             android:id="@+id/content_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/group_name"
             android:layout_marginTop="5dp"
             android:lineSpacingMultiplier="1.2"
+            android:singleLine="true"
+            android:text="李老师：下周一下午2点开家长会，请家长们"
             android:textColor="@android:color/black"
-	        android:singleLine="true"
-            android:textSize="14sp"
-            android:text="李老师：下周一下午2点开家长会，请家长们"/>
-        
+            android:textSize="14sp" />
     </RelativeLayout>
-    
+
     <TextView
         android:id="@+id/message_date"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:layout_below="@id/bubble"
+        android:layout_height="wrap_content"
         android:layout_alignRight="@id/bubble"
+        android:layout_below="@id/bubble"
         android:layout_marginTop="@dimen/date_top_margin"
+        android:text="今天 08:05"
         android:textColor="@color/text_light"
-        android:textSize="@dimen/date_txt_size"
-        android:text="今天 08:05" />
-    
+        android:textSize="@dimen/date_txt_size" />
+
 </RelativeLayout>

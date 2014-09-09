@@ -5,15 +5,16 @@
     android:background="@color/main_bg"
     android:padding="@dimen/group_tree_item_vertical_padding" >
 
-    <ImageView
+    <com.hubahuma.mobile.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/portrait"
         android:layout_width="@dimen/portrait_size"
         android:layout_height="@dimen/portrait_size"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:contentDescription="@string/app_name"
-        android:scaleType="centerInside"
-        android:src="@drawable/default_portrait" />
+        android:src="@drawable/default_portrait"
+        app:border_color="@color/transparent"
+        app:border_width="0dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -45,16 +46,16 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-    <TextView 
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
         android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/receipt_hint_bg"
         android:gravity="center"
         android:text="已读"
-        android:textSize="16sp"
         android:textColor="@color/white"
-        android:background="@drawable/receipt_hint_bg"/>
+        android:textSize="16sp" />
 
 </RelativeLayout>
