@@ -42,7 +42,7 @@ public class SelectImgPopupWindow extends PopupWindow {
 		// 设置SelectPicPopupWindow弹出窗体的高
 		this.setHeight(LayoutParams.WRAP_CONTENT);
 		// 设置SelectPicPopupWindow弹出窗体可点击
-		this.setFocusable(true);
+		this.setFocusable(false);
 		// 设置SelectPicPopupWindow弹出窗体动画效果
 		this.setAnimationStyle(R.style.AnimBottom);
 		// 实例化一个ColorDrawable颜色为半透明
@@ -56,8 +56,7 @@ public class SelectImgPopupWindow extends PopupWindow {
 				int y = (int) event.getY();
 				if (event.getAction() == MotionEvent.ACTION_UP) {
 					if (y < height) {
-						// 设置为不可销毁
-						// dismiss();
+						dismiss();
 					}
 				}
 				return true;

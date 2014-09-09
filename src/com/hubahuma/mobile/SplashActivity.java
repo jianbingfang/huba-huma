@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 @NoTitle
-@Fullscreen
 @EActivity(R.layout.activity_splash)
 public class SplashActivity extends Activity {
 

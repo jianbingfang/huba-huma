@@ -1,6 +1,9 @@
 package com.hubahuma.mobile.profile;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.androidannotations.annotations.AfterViews;
@@ -25,8 +28,13 @@ import com.hubahuma.mobile.utils.GlobalVar;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -53,7 +61,7 @@ public class ProfileSelfActivity extends Activity {
 	ImageButton btn_setup, setup;
 
 	@ViewById
-	ImageView portrait;
+	ImageView portrait, custom_bg;
 
 	@ViewById
 	TextView remark, qualification, phone, name_title, name, name2, address,
@@ -69,9 +77,13 @@ public class ProfileSelfActivity extends Activity {
 	@ViewById
 	ProgressBar progress_bar;
 
-	ArrayList<String> tagList;
+	private ArrayList<String> tagList;
 
-	SelectImgPopupWindow menuWindow;
+	private SelectImgPopupWindow menuWindow;
+
+	private ImageView targetImgView = null;
+
+	private Bitmap photo;
 
 	@AfterViews
 	void init() {
@@ -172,6 +184,7 @@ public class ProfileSelfActivity extends Activity {
 		menuWindow = new SelectImgPopupWindow(this, itemsOnClick);
 		menuWindow.showAtLocation(this.findViewById(R.id.profile_self),
 				Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+		targetImgView = portrait;
 
 	}
 
@@ -180,26 +193,106 @@ public class ProfileSelfActivity extends Activity {
 		menuWindow = new SelectImgPopupWindow(this, itemsOnClick);
 		menuWindow.showAtLocation(this.findViewById(R.id.profile_self),
 				Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+		targetImgView = custom_bg;
 	}
+
+	private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// 拍照
+	private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
+	private static final int PHOTO_REQUEST_CUT = 3;// 结果
+	// 创建一个以当前时间为名称的文件
+	File tempFile = new File(Environment.getExternalStorageDirectory(),
+			getPhotoFileName());
 
 	// 为弹出窗口实现监听类
 	private OnClickListener itemsOnClick = new OnClickListener() {
 		public void onClick(View v) {
 			menuWindow.dismiss();
+			Intent intent = null;
 			switch (v.getId()) {
 			case R.id.btn_take_photo:
-				Toast.makeText(getApplicationContext(), "拍照",
-						Toast.LENGTH_SHORT).show();
+				// 调用系统的拍照功能
+				intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				// 指定调用相机拍照后照片的储存路径
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
+				startActivityForResult(intent, PHOTO_REQUEST_TAKEPHOTO);
 				break;
 			case R.id.btn_pick_photo:
-				Toast.makeText(getApplicationContext(), "选取照片",
-						Toast.LENGTH_SHORT).show();
+				intent = new Intent(Intent.ACTION_PICK, null);
+				intent.setDataAndType(
+						MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+				startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
 				break;
 			default:
 				break;
 			}
 		}
 	};
+
+	@OnActivityResult(PHOTO_REQUEST_TAKEPHOTO)
+	void onReturnFromTakePhoto(Intent data) {
+		startPhotoZoom(Uri.fromFile(tempFile));
+	}
+
+	@OnActivityResult(PHOTO_REQUEST_GALLERY)
+	void onReturnFromGallery(Intent data) {
+		if (data != null)
+			startPhotoZoom(data.getData());
+	}
+
+	@OnActivityResult(PHOTO_REQUEST_CUT)
+	void onReturnFromCuttedImage(Intent data) {
+		if (data != null)
+			setPicToView(data);
+	}
+
+	private void startPhotoZoom(Uri uri) {
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(uri, "image/*");
+		// crop为true是设置在开启的intent中设置显示的view可以剪裁
+		intent.putExtra("crop", "true");
+
+		int dw = getWindowManager().getDefaultDisplay().getWidth();
+		if (targetImgView.getId() == custom_bg.getId()) {
+			// aspectX aspectY 是宽高的比例
+			intent.putExtra("aspectX", 4);
+			intent.putExtra("aspectY", 3);
+			// outputX,outputY 是剪裁图片的宽高
+			intent.putExtra("outputX", 400);
+			intent.putExtra("outputY", 300);
+
+		} else {
+			// aspectX aspectY 是宽高的比例
+			intent.putExtra("aspectX", 1);
+			intent.putExtra("aspectY", 1);
+			// outputX,outputY 是剪裁图片的宽高
+			intent.putExtra("outputX", 100);
+			intent.putExtra("outputY", 100);
+		}
+		intent.putExtra("scale", false);
+		intent.putExtra("noFaceDetection", true);
+//		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+//		intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+		intent.putExtra("return-data", true);
+
+		startActivityForResult(intent, PHOTO_REQUEST_CUT);
+	}
+
+	// 将进行剪裁后的图片显示到UI界面上
+	private void setPicToView(Intent picdata) {
+		Bundle bundle = picdata.getExtras();
+		if (bundle != null) {
+			photo = bundle.getParcelable("data");
+			targetImgView.setImageBitmap(photo);
+		}
+	}
+
+	// 使用系统当前日期加以调整作为照片的名称
+	private String getPhotoFileName() {
+		Date date = new Date(System.currentTimeMillis());
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"'IMG'_yyyyMMdd_HHmmss");
+		return dateFormat.format(date) + ".jpg";
+	}
 
 	@OnActivityResult(ActivityCode.LOCATION_ACTIVITY)
 	void onReturnFromLocationActivity() {

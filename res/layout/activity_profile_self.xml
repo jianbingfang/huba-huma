@@ -98,7 +98,7 @@
                             android:contentDescription="@string/app_name"
                             android:padding="2dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/default_portrait" />
+                            android:src="@drawable/teaching_diary_img" />
 
                         <TextView
                             android:id="@+id/name"
