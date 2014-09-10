@@ -1,7 +1,9 @@
 package com.hubahuma.mobile;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Fullscreen;
 import org.androidannotations.annotations.NoTitle;
@@ -9,8 +11,10 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.rest.RestService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.springframework.web.client.RestClientException;
 
 import com.hubahuma.mobile.entity.resp.AuthResp;
+import com.hubahuma.mobile.service.MyErrorHandler;
 import com.hubahuma.mobile.service.SharedPrefs_;
 import com.hubahuma.mobile.service.UserService;
 import com.hubahuma.mobile.utils.GlobalVar;
@@ -34,25 +38,33 @@ public class SplashActivity extends Activity {
 	@Pref
 	SharedPrefs_ prefs;
 
+	@Bean
+	MyErrorHandler myErrorHandler;
+
+	@AfterInject
+	void afterInject() {
+		userService.setRestErrorHandler(myErrorHandler);
+	}
+
 	@AfterViews
 	void init() {
-		
-		System.out.println("username:"+prefs.username().get());
-		System.out.println("password:"+prefs.password().get());
-		System.out.println("token:"+prefs.token().get());
-		System.out.println("time:"+prefs.lastTokenUpdated().get());
-		
+
+		System.out.println("username:" + prefs.username().get());
+		System.out.println("password:" + prefs.password().get());
+		System.out.println("token:" + prefs.token().get());
+		System.out.println("time:" + prefs.lastTokenUpdated().get());
+
 		preProc();
 	}
 
 	@Background(delay = 2000)
 	void preProc() {
-		
-		if(GlobalVar.testMode){
-			startMainActivity();
-			return;
-		}
-		
+
+		// if(GlobalVar.testMode){
+		// startMainActivity();
+		// return;
+		// }
+
 		// 检查网络状况
 		if (!UtilTools.isNetConnected(getApplicationContext())) {
 			showToast("无法访问网络", Toast.LENGTH_LONG);
@@ -66,11 +78,21 @@ public class SplashActivity extends Activity {
 					startLoginActivity();
 				} else {
 					if (prefs.username().exists() && prefs.password().exists()) {
-						Log.d("debug", "attempt to login - "+prefs.username().get() + ":" + prefs.password().get());
-						AuthResp resp = userService.login(prefs.username()
-								.get(), prefs.password().get());
-						if (resp.isResult()) {
-							Log.d("debug","attempt login succ");
+						Log.d("debug", "attempt to login - "
+								+ prefs.username().get() + ":"
+								+ prefs.password().get());
+						AuthResp resp = null;
+						try {
+							resp = userService.login(prefs.username().get(),
+									prefs.password().get());
+						} catch (RestClientException e) {
+							showToast("服务器验证错误", Toast.LENGTH_LONG);
+							Log.e("Rest Error", e.getMessage());
+							startLoginActivity();
+							return;
+						}
+						if (resp != null && resp.isResult()) {
+							Log.d("debug", "attempt login succ");
 							GlobalVar.token = resp.getToken();
 							prefs.edit().token().put(resp.getToken())
 									.lastTokenUpdated()

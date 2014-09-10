@@ -29,6 +29,7 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -53,7 +54,7 @@ public class ParentsFragment extends BaseFragment {
 	private MyAdapter adapter = null;
 
 	private class ViewHolder {
-		ImageButton portrait;
+		ImageView portrait;
 		TextView parents_name;
 		TextView relationship;
 		TextView content_txt;
@@ -194,7 +195,7 @@ public class ParentsFragment extends BaseFragment {
 				convertView = mInflater.inflate(R.layout.item_msglist_parents,
 						null);
 				holder = new ViewHolder();
-				holder.portrait = (ImageButton) convertView
+				holder.portrait = (ImageView) convertView
 						.findViewById(R.id.portrait);
 				holder.parents_name = (TextView) convertView
 						.findViewById(R.id.parents_name);

@@ -1,12 +1,12 @@
 package com.hubahuma.mobile.entity.resp;
 
-import java.io.Serializable;
 
 public class AuthResp {
 
 	private boolean result;
 	private String token;
 	private String type;
+	
 	public boolean isResult() {
 		return result;
 	}

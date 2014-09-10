@@ -29,6 +29,7 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -53,7 +54,7 @@ public class TeacherFragment extends BaseFragment {
 	private MyAdapter adapter = null;
 
 	private class ViewHolder {
-		ImageButton portrait;
+		ImageView portrait;
 		TextView teacher_name;
 		TextView organization_name;
 		TextView content_txt;
@@ -196,7 +197,7 @@ public class TeacherFragment extends BaseFragment {
 				convertView = mInflater.inflate(R.layout.item_msglist_teacher,
 						null);
 				holder = new ViewHolder();
-				holder.portrait = (ImageButton) convertView
+				holder.portrait = (ImageView) convertView
 						.findViewById(R.id.portrait);
 				holder.teacher_name = (TextView) convertView
 						.findViewById(R.id.teacher_name);

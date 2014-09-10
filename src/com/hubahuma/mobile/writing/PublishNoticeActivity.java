@@ -1,6 +1,8 @@
 package com.hubahuma.mobile.writing;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -16,6 +18,7 @@ import org.androidannotations.annotations.ViewById;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -190,11 +193,15 @@ public class PublishNoticeActivity extends FragmentActivity implements
 	private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
 	private static final int PHOTO_REQUEST_CUT = 3;// 结果
 	// 创建一个以当前时间为名称的文件
+	// private final String IMAGE_FILE_LOCATION = getPhotoFileName();
 	File tempFile = new File(Environment.getExternalStorageDirectory(),
 			getPhotoFileName());
 
+	// Uri imageUri = Uri.parse(IMAGE_FILE_LOCATION);
+
 	boolean publishNotice(NoticeEntity notice) {
 		// TODO 发送notice数据给后台
+
 		return true;
 	}
 
@@ -213,6 +220,24 @@ public class PublishNoticeActivity extends FragmentActivity implements
 	void onReturnFromCuttedImage(Intent data) {
 		if (data != null)
 			setPicToView(data);
+		// if (imageUri != null) {
+		// Bitmap bitmap = decodeUriAsBitmap(imageUri);// decode bitmap
+		// image.setImageBitmap(bitmap);
+		// imgAdded = true;
+		// btn_add_img.setText("删除图片");
+		// }
+	}
+
+	private Bitmap decodeUriAsBitmap(Uri uri) {
+		Bitmap bitmap = null;
+		try {
+			bitmap = BitmapFactory.decodeStream(getContentResolver()
+					.openInputStream(uri));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return bitmap;
 	}
 
 	private void startPhotoZoom(Uri uri) {
@@ -229,6 +254,8 @@ public class PublishNoticeActivity extends FragmentActivity implements
 		intent.putExtra("outputY", 300);
 		intent.putExtra("scale", true);
 		intent.putExtra("return-data", true);
+//		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+//		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
 		intent.putExtra("noFaceDetection", true);
 
 		startActivityForResult(intent, PHOTO_REQUEST_CUT);
@@ -249,7 +276,7 @@ public class PublishNoticeActivity extends FragmentActivity implements
 	private String getPhotoFileName() {
 		Date date = new Date(System.currentTimeMillis());
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
-				"'IMG'_yyyyMMdd_HHmmss");
+				"'file:///sdcard/hubahuma/IMG'_yyyyMMdd_HHmmss");
 		return dateFormat.format(date) + ".jpg";
 	}
 

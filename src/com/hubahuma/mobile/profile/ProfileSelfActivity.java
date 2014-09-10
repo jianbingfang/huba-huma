@@ -179,6 +179,18 @@ public class ProfileSelfActivity extends Activity {
 
 	}
 
+	@Click(R.id.portrait)
+	void onPortraitClick() {
+		Toast.makeText(getApplicationContext(), "长按此处可修改头像", Toast.LENGTH_SHORT)
+				.show();
+	}
+
+	@Click(R.id.custom_bg)
+	void onCustomBgClick() {
+		Toast.makeText(getApplicationContext(), "长按此处可修改背景", Toast.LENGTH_SHORT)
+				.show();
+	}
+
 	@LongClick(R.id.portrait)
 	void onPortraitLongClick() {
 		menuWindow = new SelectImgPopupWindow(this, itemsOnClick);
@@ -267,11 +279,13 @@ public class ProfileSelfActivity extends Activity {
 			// outputX,outputY 是剪裁图片的宽高
 			intent.putExtra("outputX", 80);
 			intent.putExtra("outputY", 80);
+			intent.putExtra("circleCrop", "true");
 		}
 		intent.putExtra("scale", true);
 		intent.putExtra("noFaceDetection", true);
-//		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-//		intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+		// intent.putExtra("outputFormat",
+		// Bitmap.CompressFormat.JPEG.toString());
+		// intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 		intent.putExtra("return-data", true);
 
 		startActivityForResult(intent, PHOTO_REQUEST_CUT);
@@ -282,7 +296,7 @@ public class ProfileSelfActivity extends Activity {
 		Bundle bundle = picdata.getExtras();
 		if (bundle != null) {
 			photo = bundle.getParcelable("data");
-			targetImgView.setImageBitmap(photo);//(drawable);
+			targetImgView.setImageBitmap(photo);// (drawable);
 		}
 	}
 

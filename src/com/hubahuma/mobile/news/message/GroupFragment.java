@@ -29,6 +29,7 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -53,7 +54,7 @@ public class GroupFragment extends BaseFragment {
 	MyAdapter adapter = null;
 
 	public class ViewHolder {
-		ImageButton portrait;
+		ImageView portrait;
 		TextView group_name;
 		TextView group_population;
 		TextView content_txt;
@@ -196,7 +197,7 @@ public class GroupFragment extends BaseFragment {
 				convertView = mInflater.inflate(R.layout.item_msglist_group,
 						null);
 				holder = new ViewHolder();
-				holder.portrait = (ImageButton) convertView
+				holder.portrait = (ImageView) convertView
 						.findViewById(R.id.portrait);
 				holder.group_name = (TextView) convertView
 						.findViewById(R.id.group_name);

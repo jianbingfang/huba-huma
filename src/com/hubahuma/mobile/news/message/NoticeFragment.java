@@ -147,7 +147,7 @@ public class NoticeFragment extends BaseFragment {
 	}
 	
 	private class ViewHolder {
-		ImageButton portrait;
+		ImageView portrait;
 		TextView author_name;
 		ImageView content_img;
 		TextView content_txt;
@@ -187,7 +187,7 @@ public class NoticeFragment extends BaseFragment {
 				convertView = mInflater.inflate(R.layout.item_msglist_notice,
 						null);
 				viewHolder = new ViewHolder();
-				viewHolder.portrait = (ImageButton) convertView
+				viewHolder.portrait = (ImageView) convertView
 						.findViewById(R.id.portrait);
 				viewHolder.content_img = (ImageView) convertView
 						.findViewById(R.id.content_img);

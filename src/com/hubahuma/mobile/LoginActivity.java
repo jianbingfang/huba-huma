@@ -10,6 +10,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.springframework.web.client.RestClientException;
 
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.entity.resp.AuthResp;
@@ -23,11 +24,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 @NoTitle
@@ -60,10 +63,10 @@ public class LoginActivity extends FragmentActivity implements
 	void init() {
 		error_info.setText("");
 
-		System.out.println("username:"+prefs.username().get());
-		System.out.println("password:"+prefs.password().get());
-		System.out.println("token:"+prefs.token().get());
-		System.out.println("time:"+prefs.lastTokenUpdated().get());
+		System.out.println("username:" + prefs.username().get());
+		System.out.println("password:" + prefs.password().get());
+		System.out.println("token:" + prefs.token().get());
+		System.out.println("time:" + prefs.lastTokenUpdated().get());
 		if (prefs.username().exists()) {
 			username.setText(prefs.username().get());
 		}
@@ -117,8 +120,16 @@ public class LoginActivity extends FragmentActivity implements
 	@Background
 	void handleLogin() {
 		showLoadingDialog();
-		AuthResp resp = userService.login(username.getText().toString(),
-				password.getText().toString());
+		AuthResp resp = null;
+		try {
+			resp = userService.login(username.getText().toString(), password
+					.getText().toString());
+		} catch (RestClientException e) {
+			showToast("服务器验证错误", Toast.LENGTH_LONG);
+			dismissLoadingDialog();
+			Log.e("Rest Error", e.getMessage());
+			return;
+		}
 		resp.setResult(true);
 		resp.setToken("asfsdfsadfsaf");
 		resp.setType(UserType.TEACHER);
@@ -134,7 +145,7 @@ public class LoginActivity extends FragmentActivity implements
 			prefs.token().put(resp.getToken());
 			prefs.lastTokenUpdated().put(System.currentTimeMillis());
 		} else {
-			showPromptDialog("错误", "用户名或密码错误");
+			showPromptDialog("提示", "用户名或密码不正确");
 		}
 	}
 
@@ -146,5 +157,10 @@ public class LoginActivity extends FragmentActivity implements
 	@Override
 	public void onDialogConfirm() {
 		dismissPromptDialog();
+	}
+	
+	@UiThread
+	void showToast(String info, int time) {
+		Toast.makeText(getApplicationContext(), info, time).show();
 	}
 }
