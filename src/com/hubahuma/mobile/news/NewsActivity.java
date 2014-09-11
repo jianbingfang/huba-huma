@@ -1,6 +1,7 @@
 package com.hubahuma.mobile.news;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.hubahuma.mobile.ActivityCode;
+import com.hubahuma.mobile.MyApplication;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.news.contacts.ContactsActivity_;
@@ -32,12 +34,16 @@ public class NewsActivity extends Activity {
 	@ViewById
 	LinearLayout layout_teaching_diary, layout_manage_book;
 
+	@App
+	MyApplication myApp;
+	
 	@AfterViews
 	void init() {
 		msgRedspot.setVisibility(View.VISIBLE);
 
-		if (GlobalVar.getCurrentUser() != null) {
-			switch (GlobalVar.getCurrentUser().getType()) {
+		System.out.println("News of "+ myApp.getCurrentUser().getType());
+		if (myApp.getCurrentUser() != null) {
+			switch (myApp.getCurrentUser().getType()) {
 
 			case UserType.PARENTS:
 				layout_manage_book.setVisibility(View.VISIBLE);

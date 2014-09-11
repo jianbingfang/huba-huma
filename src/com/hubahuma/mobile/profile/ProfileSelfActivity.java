@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.CheckedChange;
 import org.androidannotations.annotations.Click;
@@ -16,14 +17,18 @@ import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import com.hubahuma.mobile.ActivityCode;
+import com.hubahuma.mobile.LoginActivity_;
+import com.hubahuma.mobile.MyApplication;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.SelectImgPopupWindow;
 import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.profile.ChangeInfoActivity.InfoType;
 import com.hubahuma.mobile.profile.WriteCommentActivity.CommentType;
+import com.hubahuma.mobile.service.SharedPrefs_;
 import com.hubahuma.mobile.utils.GlobalVar;
 
 import android.app.Activity;
@@ -57,6 +62,12 @@ import android.widget.Toast;
 @EActivity(R.layout.activity_profile_self)
 public class ProfileSelfActivity extends Activity {
 
+	@App
+	MyApplication myApp;
+	
+	@Pref
+	SharedPrefs_ prefs;
+	
 	@ViewById
 	ImageButton btn_setup, setup;
 
@@ -88,7 +99,7 @@ public class ProfileSelfActivity extends Activity {
 	@AfterViews
 	void init() {
 
-		switch (GlobalVar.getCurrentUser().getType()) {
+		switch (myApp.getCurrentUser().getType()) {
 		case UserType.PARENTS:
 			qualification.setVisibility(View.GONE);
 			introduction_layout.setVisibility(View.GONE);
@@ -156,10 +167,10 @@ public class ProfileSelfActivity extends Activity {
 
 	@UiThread
 	void postLoadData() {
-		name.setText(GlobalVar.getCurrentUser().getUsername());
-		name2.setText(GlobalVar.getCurrentUser().getUsername());
-		remark.setText(GlobalVar.getCurrentUser().getRemark());
-		id.setText(GlobalVar.getCurrentUser().getId());
+		name.setText(myApp.getCurrentUser().getUsername());
+		name2.setText(myApp.getCurrentUser().getUsername());
+		remark.setText(myApp.getCurrentUser().getRemark());
+		id.setText(myApp.getCurrentUser().getId());
 
 		tag.setText(transTagList(tagList));
 
@@ -440,8 +451,18 @@ public class ProfileSelfActivity extends Activity {
 
 	@Click
 	void btn_logout() {
-		Toast.makeText(getApplicationContext(), "退出", Toast.LENGTH_SHORT)
-				.show();
+		// Toast.makeText(getApplicationContext(), "退出", Toast.LENGTH_SHORT)
+		// .show();
+		myApp.setCurrentUser(null);
+		prefs.token().remove();
+		prefs.password().remove();
+		Intent intent = new Intent(this, LoginActivity_.class);
+		startActivityForResult(intent, ActivityCode.LOGIN_ACTIVITY);
+	}
+
+	@OnActivityResult(ActivityCode.LOGIN_ACTIVITY)
+	void onReturnFromLoginActivity() {
+		this.finish();
 	}
 
 	@Click

@@ -8,6 +8,7 @@ import java.util.Date;
 
 import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -40,6 +41,7 @@ import android.widget.Toast;
 
 import com.hubahuma.mobile.LoadingDialog_;
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
+import com.hubahuma.mobile.MyApplication;
 import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.SelectImgPopupWindow;
@@ -53,6 +55,9 @@ import com.hubahuma.mobile.utils.UtilTools;
 public class PublishNoticeActivity extends FragmentActivity implements
 		PromptDialogListener {
 
+	@App
+	MyApplication myApp;
+	
 	@ViewById
 	ProgressBar progress_bar;
 
@@ -91,7 +96,7 @@ public class PublishNoticeActivity extends FragmentActivity implements
 		promptDialog = new PromptDialog_();
 		promptDialog.setDialogListener(this);
 		btn_submit.setVisibility(View.GONE);
-		name.setText(GlobalVar.getCurrentUser().getUsername());
+		name.setText(myApp.getCurrentUser().getUsername());
 		date.setText(UtilTools.parseDate(new Date()));
 	}
 
@@ -121,7 +126,7 @@ public class PublishNoticeActivity extends FragmentActivity implements
 	@Click
 	void btn_submit() {
 		NoticeEntity notice = new NoticeEntity();
-		notice.setUser(GlobalVar.getCurrentUser());
+		notice.setUser(myApp.getCurrentUser());
 		notice.setTitle(title.getText().toString().trim());
 		notice.setContent(content.getText().toString().trim());
 		notice.setDate(new Date());

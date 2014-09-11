@@ -6,18 +6,4 @@ public class GlobalVar {
 
 	public static final boolean testMode = true;
 	
-	public static final String API_SERVER_DOMAIN = "";
-	
-	public static String token = null;
-	
-	public static UserEntity curUser = null;
-	
-	public static UserEntity getCurrentUser(){
-		return curUser;
-	}
-	
-	public static void setCurrentUser(UserEntity user){
-		curUser = user;
-	}
-	
 }

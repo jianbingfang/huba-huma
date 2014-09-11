@@ -2,6 +2,7 @@ package com.hubahuma.mobile.profile;
 
 import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -12,6 +13,7 @@ import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.LoadingDialog_;
+import com.hubahuma.mobile.MyApplication;
 import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.layout;
@@ -52,6 +54,9 @@ public class ChangeInfoActivity extends FragmentActivity implements
 
 	private boolean publishSucc = false;
 
+	@App
+	MyApplication myApp;
+	
 	@Extra
 	int type;
 
@@ -76,7 +81,7 @@ public class ChangeInfoActivity extends FragmentActivity implements
 
 		switch (type) {
 		case InfoType.NAME:
-			if (GlobalVar.getCurrentUser().getType() == UserType.ORGANIZTION) {
+			if (myApp.getCurrentUser().getType() == UserType.ORGANIZTION) {
 				title.setText("编辑机构名称");
 				hint.setText("4-30个字符，支持中英文、数字");
 			} else {
@@ -89,7 +94,7 @@ public class ChangeInfoActivity extends FragmentActivity implements
 			hint.setText("");
 			break;
 		case InfoType.INTRODUCTION:
-			if (GlobalVar.getCurrentUser().getType() == UserType.ORGANIZTION) {
+			if (myApp.getCurrentUser().getType() == UserType.ORGANIZTION) {
 				title.setText("编辑机构说明");
 				hint.setText("4-30个字符，支持中英文、数字");
 			} else {

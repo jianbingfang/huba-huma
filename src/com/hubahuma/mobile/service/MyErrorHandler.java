@@ -12,5 +12,6 @@ public class MyErrorHandler implements RestErrorHandler {
 	public void onRestClientExceptionThrown(RestClientException e) {
 		// Do whatever you want here.
 		Log.e("Http Error", e.getMessage());
+		throw e;
 	}
 }

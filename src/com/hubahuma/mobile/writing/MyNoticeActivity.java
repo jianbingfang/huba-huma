@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -15,6 +16,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.ActivityCode;
+import com.hubahuma.mobile.MyApplication;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.entity.NoticeEntity;
@@ -40,6 +42,9 @@ public class MyNoticeActivity extends Activity {
 
 	private MyNoitceListViewAdapter adapter;
 
+	@App
+	MyApplication myApp;
+	
 	@ViewById
 	ProgressBar progress_bar;
 
@@ -66,7 +71,7 @@ public class MyNoticeActivity extends Activity {
 		List<NoticeEntity> testData = new ArrayList<NoticeEntity>();
 		for (int i = 1; i <= 5; i++) {
 			NoticeEntity item = new NoticeEntity();
-			item.setUser(GlobalVar.getCurrentUser());
+			item.setUser(myApp.getCurrentUser());
 			item.setDate(new Date());
 			item.setContent("进一步做好民办教育机构的设置要严格审批权限及审批程序，各地在审批民办教育机构时，要严格执行设置标准。");
 			item.setTitle("title");

@@ -1,7 +1,10 @@
 package com.hubahuma.mobile;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NoTitle;
@@ -12,8 +15,11 @@ import org.androidannotations.annotations.rest.RestService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.springframework.web.client.RestClientException;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
-import com.hubahuma.mobile.entity.resp.AuthResp;
+import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.entity.service.AuthResp;
+import com.hubahuma.mobile.service.MyErrorHandler;
 import com.hubahuma.mobile.service.SharedPrefs_;
 import com.hubahuma.mobile.service.UserService;
 import com.hubahuma.mobile.utils.GlobalVar;
@@ -50,8 +56,19 @@ public class LoginActivity extends FragmentActivity implements
 	@RestService
 	UserService userService;
 
+	@App
+	MyApplication myApp;
+	
 	@Pref
 	SharedPrefs_ prefs;
+
+	@Bean
+	MyErrorHandler myErrorHandler;
+
+	@AfterInject
+	void afterInject() {
+		userService.setRestErrorHandler(myErrorHandler);
+	}
 
 	private LoadingDialog_ loadingDialog;
 
@@ -121,29 +138,66 @@ public class LoginActivity extends FragmentActivity implements
 	void handleLogin() {
 		showLoadingDialog();
 		AuthResp resp = null;
-		try {
-			resp = userService.login(username.getText().toString(), password
-					.getText().toString());
-		} catch (RestClientException e) {
+		if (!GlobalVar.testMode) {
+			try {
+				resp = userService.login(username.getText().toString(),
+						password.getText().toString());
+			} catch (RestClientException e) {
+				showToast("服务器验证错误", Toast.LENGTH_LONG);
+				dismissLoadingDialog();
+				Log.e("Rest Error", e.getMessage() + this.getClass().getName());
+				return;
+			}
+		} else {
+			resp = new AuthResp();
+			resp.setResult(true);
+			resp.setToken("asfsdfsadfsaf");
+		}
+
+		if (resp == null) {
 			showToast("服务器验证错误", Toast.LENGTH_LONG);
 			dismissLoadingDialog();
-			Log.e("Rest Error", e.getMessage());
 			return;
 		}
-		resp.setResult(true);
-		resp.setToken("asfsdfsadfsaf");
-		resp.setType(UserType.TEACHER);
+
+		switch (username.getText().toString()) {
+		case "1":
+			resp.setType(UserType.PARENTS);
+			break;
+		case "2":
+			resp.setType(UserType.TEACHER);
+			break;
+		case "3":
+			resp.setType(UserType.ORGANIZTION);
+			break;
+		case "4":
+			resp.setType(UserType.ADMIN);
+			break;
+		default:
+			resp.setType(UserType.TEACHER);
+			resp.setResult(false);
+			break;
+		}
 		dismissLoadingDialog();
 		requestSucc = resp.isResult();
 		if (requestSucc == true) {
-			GlobalVar.token = resp.getToken();
-			Intent intent = new Intent(this, MainActivity_.class);
-			startActivityForResult(intent, ActivityCode.MAIN_ACTIVITY);
+			
+			UserEntity user = new UserEntity();
+			user.setId("000001");
+			user.setRemark("none");
+			user.setUsername("当前用户");
+			user.setType(resp.getType());
+			myApp.token = resp.getToken();
+			myApp.setCurrentUser(user);
 
 			prefs.username().put(username.getText().toString());
 			prefs.password().put(password.getText().toString());
 			prefs.token().put(resp.getToken());
 			prefs.lastTokenUpdated().put(System.currentTimeMillis());
+
+			Intent intent = new Intent(this, MainActivity_.class);
+			startActivityForResult(intent, ActivityCode.MAIN_ACTIVITY);
+
 		} else {
 			showPromptDialog("提示", "用户名或密码不正确");
 		}
@@ -158,9 +212,14 @@ public class LoginActivity extends FragmentActivity implements
 	public void onDialogConfirm() {
 		dismissPromptDialog();
 	}
-	
+
 	@UiThread
 	void showToast(String info, int time) {
 		Toast.makeText(getApplicationContext(), info, time).show();
+	}
+
+	@Override
+	public void onBackPressed() {
+		this.finish();
 	}
 }

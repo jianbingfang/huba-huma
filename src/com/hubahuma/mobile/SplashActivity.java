@@ -2,6 +2,7 @@ package com.hubahuma.mobile;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
@@ -13,7 +14,9 @@ import org.androidannotations.annotations.rest.RestService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.springframework.web.client.RestClientException;
 
-import com.hubahuma.mobile.entity.resp.AuthResp;
+import com.baidu.mapapi.SDKInitializer;
+import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.entity.service.AuthResp;
 import com.hubahuma.mobile.service.MyErrorHandler;
 import com.hubahuma.mobile.service.SharedPrefs_;
 import com.hubahuma.mobile.service.UserService;
@@ -41,9 +44,13 @@ public class SplashActivity extends Activity {
 	@Bean
 	MyErrorHandler myErrorHandler;
 
+	@App
+	MyApplication myApp;
+
 	@AfterInject
 	void afterInject() {
 		userService.setRestErrorHandler(myErrorHandler);
+		SDKInitializer.initialize(getApplicationContext());
 	}
 
 	@AfterViews
@@ -60,10 +67,11 @@ public class SplashActivity extends Activity {
 	@Background(delay = 2000)
 	void preProc() {
 
-		// if(GlobalVar.testMode){
-		// startMainActivity();
-		// return;
-		// }
+		if (GlobalVar.testMode) {
+			startLoginActivity();
+			showToast("当前为演示模式", Toast.LENGTH_LONG);
+			return;
+		}
 
 		// 检查网络状况
 		if (!UtilTools.isNetConnected(getApplicationContext())) {
@@ -93,7 +101,35 @@ public class SplashActivity extends Activity {
 						}
 						if (resp != null && resp.isResult()) {
 							Log.d("debug", "attempt login succ");
-							GlobalVar.token = resp.getToken();
+							
+							UserEntity user = new UserEntity();
+							user.setId("000001");
+							user.setRemark("none");
+							user.setUsername("当前用户");
+							user.setType(resp.getType());
+							
+							switch (prefs.username().get()) {
+							case "1":
+								resp.setType(UserType.PARENTS);
+								break;
+							case "2":
+								resp.setType(UserType.TEACHER);
+								break;
+							case "3":
+								resp.setType(UserType.ORGANIZTION);
+								break;
+							case "4":
+								resp.setType(UserType.ADMIN);
+								break;
+							default:
+								resp.setType(UserType.TEACHER);
+								resp.setResult(false);
+								break;
+							}
+							
+							myApp.token = resp.getToken();
+							myApp.setCurrentUser(user);
+							
 							prefs.edit().token().put(resp.getToken())
 									.lastTokenUpdated()
 									.put(System.currentTimeMillis());

@@ -1,6 +1,7 @@
 package com.hubahuma.mobile.news.contacts;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -10,6 +11,7 @@ import org.androidannotations.annotations.ViewById;
 
 import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.MainActivity;
+import com.hubahuma.mobile.MyApplication;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.UserType;
@@ -50,11 +52,14 @@ public class AddContactActivity extends FragmentActivity {
 	@ViewById
 	RelativeLayout search_group_btn, new_group_btn;
 
+	@App
+	MyApplication myApp;
+	
 	@AfterViews
 	void init() {
 
-		if (GlobalVar.getCurrentUser() != null
-				&& GlobalVar.getCurrentUser().getType() == UserType.PARENTS) {
+		if (myApp.getCurrentUser() != null
+				&& myApp.getCurrentUser().getType() == UserType.PARENTS) {
 			search_group_btn.setVisibility(View.GONE);
 			new_group_btn.setVisibility(View.GONE);
 		}
