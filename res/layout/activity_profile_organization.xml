@@ -100,7 +100,7 @@
                         android:layout_height="match_parent"
                         android:alpha="1" >
 
-                        <com.hubahuma.mobile.CircleImageView
+                        <com.hubahuma.mobile.view.CircleImageView
                             xmlns:app="http://schemas.android.com/apk/res-auto"
                             android:id="@+id/portrait"
                             android:layout_width="80dp"

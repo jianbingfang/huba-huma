@@ -18,7 +18,7 @@
         android:paddingTop="15dp"
         android:visibility="visible" >
 
-        <com.hubahuma.mobile.CircleImageView
+        <com.hubahuma.mobile.view.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/portrait"
             android:layout_width="@dimen/portrait_size"

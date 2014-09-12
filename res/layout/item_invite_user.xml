@@ -26,7 +26,7 @@
             android:contentDescription="@string/app_name"
             android:scaleType="centerInside" />
 
-        <com.hubahuma.mobile.CircleImageView
+        <com.hubahuma.mobile.view.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/head_portrait"
             android:layout_width="@dimen/portrait_size"

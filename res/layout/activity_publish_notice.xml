@@ -72,7 +72,7 @@
                 android:orientation="horizontal"
                 android:padding="10dp" >
 
-                <com.hubahuma.mobile.CircleImageView
+                <com.hubahuma.mobile.view.CircleImageView
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/portrait"
                     android:layout_width="@dimen/portrait_size"

@@ -1,7 +1,6 @@
 package com.hubahuma.mobile.profile;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -13,28 +12,23 @@ import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
+import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
+
 import com.hubahuma.mobile.LoadingDialog_;
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
-import com.hubahuma.mobile.R.layout;
-import com.hubahuma.mobile.news.teachingdiary.TeachingDiaryViewAdapter;
-import com.hubahuma.mobile.utils.UtilTools;
+import com.hubahuma.mobile.view.FlowLayout;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
+@SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_change_tag)
 public class ChangeTagActivity extends FragmentActivity implements
@@ -50,7 +44,7 @@ public class ChangeTagActivity extends FragmentActivity implements
 	ImageButton btn_submit;
 
 	@ViewById
-	ListView added_tag_list_view, hot_tag_list_view;
+	FlowLayout added_tag_layout, hot_tag_layout;
 
 	@Extra
 	ArrayList<String> tagList;
@@ -61,11 +55,13 @@ public class ChangeTagActivity extends FragmentActivity implements
 
 	private PromptDialog_ promptDialog;
 
-	private TagListViewAdapter addedTagAdapter;
-
-	private TagListViewAdapter hotTagAdapter;
+	// private TagListViewAdapter addedTagAdapter;
+	//
+	// private TagListViewAdapter hotTagAdapter;
 
 	private boolean publishSucc = false;
+
+	private LayoutInflater mInflater;
 
 	@AfterViews
 	void init() {
@@ -73,12 +69,56 @@ public class ChangeTagActivity extends FragmentActivity implements
 		promptDialog = new PromptDialog_();
 		promptDialog.setDialogListener(this);
 
-		addedTagAdapter = new TagListViewAdapter(getApplicationContext(),
-				tagList);
-		added_tag_list_view.setAdapter(addedTagAdapter);
+		updateAddedListView();
 
 		preLoadData();
 		loadData();
+	}
+
+	@UiThread
+	void updateAddedListView() {
+		added_tag_layout.removeAllViews();
+		if (tagList != null) {
+			for (String tag : tagList) {
+				TagItemView tagView = TagItemView_
+						.build(getApplicationContext());
+				tagView.bind(tag);
+				tagView.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						TagItemView view = (TagItemView) v;
+						tagList.remove(view.tag.getText().toString());
+						hotTagList.add(view.tag.getText().toString());
+						updateAddedListView();
+						updateHotListView();
+					}
+				});
+				added_tag_layout.addView(tagView);
+			}
+		}
+	}
+
+	@UiThread
+	void updateHotListView() {
+		hot_tag_layout.removeAllViews();
+		if (hotTagList != null) {
+			for (String tag : hotTagList) {
+				TagItemView tagView = TagItemView_
+						.build(getApplicationContext());
+				tagView.bind(tag);
+				tagView.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						TagItemView view = (TagItemView) v;
+						hotTagList.remove(view.tag.getText().toString());
+						tagList.add(view.tag.getText().toString());
+						updateAddedListView();
+						updateHotListView();
+					}
+				});
+				hot_tag_layout.addView(tagView);
+			}
+		}
 	}
 
 	@Background(delay = 1000)
@@ -90,11 +130,13 @@ public class ChangeTagActivity extends FragmentActivity implements
 	private ArrayList<String> getTestData() {
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("音乐");
-		list.add("数学");
+		list.add("数学12");
 		list.add("英语");
-		list.add("语文");
-		list.add("体育");
-		list.add("舞蹈");
+		list.add("语文33312");
+		list.add("体育12");
+		list.add("舞蹈312");
+		list.add("钢琴1");
+		list.add("吉他314121");
 
 		list.removeAll(tagList);
 
@@ -108,26 +150,8 @@ public class ChangeTagActivity extends FragmentActivity implements
 
 	@UiThread
 	void postLoadData() {
-		hotTagAdapter = new TagListViewAdapter(getApplicationContext(),
-				hotTagList);
-		hot_tag_list_view.setAdapter(hotTagAdapter);
+		updateHotListView();
 		progress_bar.setVisibility(View.GONE);
-	}
-
-	@ItemClick(R.id.added_tag_list_view)
-	public void onAddedTagClicked(int position) {
-		String item = tagList.remove(position);
-		hotTagList.add(item);
-		addedTagAdapter.notifyDataSetChanged();
-		hotTagAdapter.notifyDataSetChanged();
-	}
-
-	@ItemClick(R.id.hot_tag_list_view)
-	public void onHotTagClicked(int position) {
-		String item = hotTagList.remove(position);
-		tagList.add(item);
-		addedTagAdapter.notifyDataSetChanged();
-		hotTagAdapter.notifyDataSetChanged();
 	}
 
 	@Click
