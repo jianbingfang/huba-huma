@@ -46,11 +46,11 @@ public class NewsActivity extends Activity {
 			switch (myApp.getCurrentUser().getType()) {
 
 			case UserType.PARENTS:
-				layout_manage_book.setVisibility(View.VISIBLE);
+				layout_teaching_diary.setVisibility(View.VISIBLE);
 				break;
 			case UserType.ORGANIZTION:
 			case UserType.TEACHER:
-				layout_teaching_diary.setVisibility(View.VISIBLE);
+				layout_manage_book.setVisibility(View.VISIBLE);
 				break;
 			default:
 				break;

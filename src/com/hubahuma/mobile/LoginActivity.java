@@ -34,6 +34,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +49,9 @@ public class LoginActivity extends FragmentActivity implements
 	EditText username, password;
 
 	@ViewById
+	CheckBox remember_check;
+
+	@ViewById
 	TextView error_info;
 
 	@ViewById
@@ -58,7 +62,7 @@ public class LoginActivity extends FragmentActivity implements
 
 	@App
 	MyApplication myApp;
-	
+
 	@Pref
 	SharedPrefs_ prefs;
 
@@ -84,8 +88,11 @@ public class LoginActivity extends FragmentActivity implements
 		System.out.println("password:" + prefs.password().get());
 		System.out.println("token:" + prefs.token().get());
 		System.out.println("time:" + prefs.lastTokenUpdated().get());
-		if (prefs.username().exists()) {
+
+		remember_check.setChecked(prefs.rememberMe().get());
+		if (remember_check.isChecked()) {
 			username.setText(prefs.username().get());
+			password.setText(prefs.password().get());
 		}
 
 		loadingDialog = new LoadingDialog_();
@@ -181,7 +188,7 @@ public class LoginActivity extends FragmentActivity implements
 		dismissLoadingDialog();
 		requestSucc = resp.isResult();
 		if (requestSucc == true) {
-			
+
 			UserEntity user = new UserEntity();
 			user.setId("000001");
 			user.setRemark("none");
@@ -190,10 +197,19 @@ public class LoginActivity extends FragmentActivity implements
 			myApp.token = resp.getToken();
 			myApp.setCurrentUser(user);
 
-			prefs.username().put(username.getText().toString());
-			prefs.password().put(password.getText().toString());
-			prefs.token().put(resp.getToken());
-			prefs.lastTokenUpdated().put(System.currentTimeMillis());
+			if (remember_check.isChecked()) {
+				prefs.username().put(username.getText().toString());
+				prefs.password().put(password.getText().toString());
+				prefs.token().put(resp.getToken());
+				prefs.lastTokenUpdated().put(System.currentTimeMillis());
+			} else {
+				prefs.username().remove();
+				prefs.password().remove();
+				prefs.token().remove();
+				prefs.lastTokenUpdated().remove();
+			}
+
+			prefs.rememberMe().put(remember_check.isChecked());
 
 			Intent intent = new Intent(this, MainActivity_.class);
 			startActivityForResult(intent, ActivityCode.MAIN_ACTIVITY);
@@ -201,6 +217,25 @@ public class LoginActivity extends FragmentActivity implements
 		} else {
 			showPromptDialog("提示", "用户名或密码不正确");
 		}
+	}
+
+	@Click
+	void btn_register_parent() {
+		Intent intent = new Intent(this, RegisterParentActivity_.class);
+		startActivityForResult(intent, ActivityCode.REGISTER_PARENT_ACTIVITY);
+	}
+
+	@OnActivityResult(ActivityCode.REGISTER_PARENT_ACTIVITY)
+	void onReturnFromRegisterParentActivity(Intent intent, int resultCode) {
+		if (resultCode == 1) {
+			String name = intent.getStringExtra("username");
+			username.setText(name);
+		}
+	}
+
+	@Click
+	void btn_register_teacher() {
+
 	}
 
 	@OnActivityResult(ActivityCode.MAIN_ACTIVITY)

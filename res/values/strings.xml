@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">huba-huma</string>
+    <string name="app_name">虎爸虎妈</string>
+    <string name="title_activity_splash">虎爸虎妈</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_news">NewsActivity</string>
     <string name="title_activity_writing">WritingActivity</string>
@@ -85,10 +86,10 @@
     <string name="title_activity_password_reset">PasswordResetActivity</string>
     <string name="title_activity_change_info">ChangeInfoActivity</string>
     <string name="title_activity_school_img_manage">SchoolImgManageActivity</string>
-    <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_change_tag">ChangeTagActivity</string>
     <string name="title_activity_my_notice">MyNoticeActivity</string>
     <string name="title_activity_receipt">ReceiptActivity</string>
+    <string name="title_activity_register_parent">RegisterParentActivity</string>
 
 </resources>

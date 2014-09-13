@@ -27,4 +27,5 @@ public class ActivityCode {
 	public static final int LOGIN_ACTIVITY = 23;
 	public static final int CHANGE_TAG_ACTIVITY = 24;
 	public static final int MY_NOTICE_ACTIVITY = 25;
+	public static final int REGISTER_PARENT_ACTIVITY = 26;
 }

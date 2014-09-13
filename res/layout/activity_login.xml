@@ -2,58 +2,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_bg"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:orientation="vertical"
-    tools:context="${relativePackage}.${activityClass}" >
+    android:background="@color/main_bg" >
 
-    <!-- title -->
-
-    <RelativeLayout
-        android:id="@+id/topbar_message"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/topbar_height"
-        android:layout_alignParentTop="true"
-        android:background="@color/topbar_bg"
-        android:paddingBottom="@dimen/topbar_vertical_padding"
-        android:paddingTop="@dimen/topbar_vertical_padding" >
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="20dp" >
+
+        <!-- title -->
 
         <TextView
             style="@style/TopBarTitle"
-            android:text="虎爸虎妈" />
-
-    </RelativeLayout>
-
-    <!-- content -->
-
-    <GridLayout
-        android:id="@+id/gridLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/topbar_message"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:columnCount="2"
-        android:rowCount="3"
-        android:useDefaultMargins="true" >
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
-            android:text="用户名："
-            android:textColor="@color/grey_hint"
-            android:textSize="18sp" />
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="50dp"
+            android:text="@string/app_name" />
+        <!-- content -->
 
         <EditText
             android:id="@+id/username"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/trans_edit_text_bg"
+            android:hint="用户名"
             android:inputType="textCapCharacters"
-            android:maxLength="11"
-            android:minWidth="160dp"
             android:paddingBottom="8dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -62,23 +40,15 @@
             android:text=""
             android:textColor="@color/white"
             android:textCursorDrawable="@null" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
-            android:text="密码："
-            android:textColor="@color/grey_hint"
-            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/password"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/trans_edit_text_bg"
+            android:hint="密码"
             android:inputType="textPassword"
-            android:maxLength="11"
-            android:minWidth="160dp"
             android:paddingBottom="8dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -88,30 +58,56 @@
             android:textColor="@color/white"
             android:textCursorDrawable="@null" />
 
-    </GridLayout>
+        <CheckBox
+            android:id="@+id/remember_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="5dp"
+            android:text="记住用户名及密码"
+            android:textColor="@color/grey_hint" />
 
-    <TextView
-        android:id="@+id/error_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/gridLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:text="错误提示"
-        android:textColor="@color/light_red" />
+        <TextView
+            android:id="@+id/error_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="错误提示"
+            android:textColor="@color/light_red" />
 
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="220dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/gridLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/btn_red_bg"
-        android:text="@string/login"
-        android:textColor="@color/white"
-        android:textSize="18dp" />
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:background="@null"
+            android:text="@string/login"
+            android:textColor="@color/text_light_blue"
+            android:textSize="18dp" />
+
+        <Button
+            android:id="@+id/btn_register_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:text="注册家长用户"
+            android:textColor="@color/text_light_blue"
+            android:textSize="18dp" />
+        
+        <Button
+            android:id="@+id/btn_register_teacher"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="0dp"
+            android:background="@null"
+            android:text="注册教师用户"
+            android:textColor="@color/text_light_blue"
+            android:textSize="18dp" />
+        
+    </LinearLayout>
 
 </RelativeLayout>

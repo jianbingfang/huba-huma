@@ -1,8 +1,5 @@
 package com.hubahuma.mobile.profile;
 
-import java.util.Date;
-
-import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
@@ -12,28 +9,18 @@ import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
-import com.hubahuma.mobile.LoadingDialog_;
-import com.hubahuma.mobile.PromptDialog_;
-import com.hubahuma.mobile.R;
-import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
-import com.hubahuma.mobile.R.layout;
-import com.hubahuma.mobile.entity.NoticeEntity;
-import com.hubahuma.mobile.utils.GlobalVar;
-import com.hubahuma.mobile.utils.UtilTools;
-
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.Editable;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.hubahuma.mobile.LoadingDialog_;
+import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
+import com.hubahuma.mobile.PromptDialog_;
+import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.utils.UtilTools;
 
 @SuppressWarnings("deprecation")
 @NoTitle
@@ -65,6 +52,7 @@ public class ChangePhoneActivity extends FragmentActivity implements
 		promptDialog = new PromptDialog_();
 		promptDialog.setDialogListener(this);
 		hint.setText(hint.getText().toString() + currNumber);
+		error_info.setText("");
 	}
 
 	boolean checkNumber() {
