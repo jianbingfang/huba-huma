@@ -50,7 +50,7 @@ public class SimpleManageBookListViewGesture implements View.OnTouchListener {
 
 	// Transient properties
 	private List<PendingDismissData> mPendingDismisses = new ArrayList<PendingDismissData>();
-	private int mDismissAnimationRefCount = 0;
+	private volatile int mDismissAnimationRefCount = 0;
 	private float mDownX;
 	private boolean mSwiping;
 	private VelocityTracker mVelocityTracker;
@@ -439,8 +439,6 @@ public class SimpleManageBookListViewGesture implements View.OnTouchListener {
 			width = textwidth;
 			++mDismissAnimationRefCount;
 		} else {
-			if (itemNum == 2)
-				++mDismissAnimationRefCount;
 			width = largewidth;
 		}
 		mDownView.animate().translationX(-width).setDuration(300)
@@ -510,7 +508,7 @@ public class SimpleManageBookListViewGesture implements View.OnTouchListener {
 								--mDismissAnimationRefCount;
 								System.out.println("mDismissAnimationRefCount:"
 										+ mDismissAnimationRefCount);
-								if (mDismissAnimationRefCount == 0) {
+								if (mDismissAnimationRefCount == 0 || true) {
 									// No active animations, process all pending
 									// dismisses.
 									// Sort by descending position

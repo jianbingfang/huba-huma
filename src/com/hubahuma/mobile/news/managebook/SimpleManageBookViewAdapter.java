@@ -118,23 +118,15 @@ public class SimpleManageBookViewAdapter extends BaseExpandableListAdapter {
 			boolean isLastChild, View convertView, ViewGroup viewgroup) {
 		if (groupPosition == 0) {
 			VerifyViewHolder holder = null;
-			if (convertView == null) {
-				convertView = mInflater.inflate(R.layout.item_contacts_verify,
-						null);
-				holder = new VerifyViewHolder();
-				holder.name = (TextView) convertView.findViewById(R.id.name);
-				holder.portrait = (ImageView) convertView
-						.findViewById(R.id.head_portrait);
-				holder.remark = (TextView) convertView
-						.findViewById(R.id.remark);
-				holder.ignore = (Button) convertView
-						.findViewById(R.id.btn_ignore);
-				holder.accept = (Button) convertView
-						.findViewById(R.id.btn_accept);
-				convertView.setTag(holder);
-			} else {// 若行已初始化，直接从tag属性获得子视图的引用
-				holder = (VerifyViewHolder) convertView.getTag();
-			}
+			convertView = mInflater
+					.inflate(R.layout.item_contacts_verify, null);
+			holder = new VerifyViewHolder();
+			holder.name = (TextView) convertView.findViewById(R.id.name);
+			holder.portrait = (ImageView) convertView
+					.findViewById(R.id.head_portrait);
+			holder.remark = (TextView) convertView.findViewById(R.id.remark);
+			holder.ignore = (Button) convertView.findViewById(R.id.btn_ignore);
+			holder.accept = (Button) convertView.findViewById(R.id.btn_accept);
 			final UserEntity user = groupData.get(groupPosition)
 					.getMemberList().get(childPosition);
 			// TODO 判断真实头像
@@ -163,25 +155,19 @@ public class SimpleManageBookViewAdapter extends BaseExpandableListAdapter {
 			});
 
 			return convertView;
-		}else{
+		} else {
 			ViewHolder holder = null;
-			if (convertView == null) {
-				convertView = mInflater.inflate(R.layout.item_contacts_parents,
-						null);
-				holder = new ViewHolder();
-				holder.name = (TextView) convertView.findViewById(R.id.name);
-				holder.portrait = (ImageView) convertView
-						.findViewById(R.id.head_portrait);
-				holder.remark = (TextView) convertView
-						.findViewById(R.id.remark);
-				holder.sendMsg = (ImageButton) convertView
-						.findViewById(R.id.btn_send_message);
-				holder.giveCall = (ImageButton) convertView
-						.findViewById(R.id.btn_call);
-				convertView.setTag(holder);
-			} else {// 若行已初始化，直接从tag属性获得子视图的引用
-				holder = (ViewHolder) convertView.getTag();
-			}
+			convertView = mInflater.inflate(R.layout.item_contacts_parents,
+					null);
+			holder = new ViewHolder();
+			holder.name = (TextView) convertView.findViewById(R.id.name);
+			holder.portrait = (ImageView) convertView
+					.findViewById(R.id.head_portrait);
+			holder.remark = (TextView) convertView.findViewById(R.id.remark);
+			holder.sendMsg = (ImageButton) convertView
+					.findViewById(R.id.btn_send_message);
+			holder.giveCall = (ImageButton) convertView
+					.findViewById(R.id.btn_call);
 			final UserEntity user = groupData.get(groupPosition)
 					.getMemberList().get(childPosition);
 			// TODO 判断真实头像
@@ -243,9 +229,9 @@ public class SimpleManageBookViewAdapter extends BaseExpandableListAdapter {
 		public void sendSMS(String phoneNum, String smsContent);
 
 		public void phoneCall(String phoneNum);
-		
+
 		public void ignoreReceipt(String id);
-		
+
 		public void acceptReceipt(String id);
 	}
 
