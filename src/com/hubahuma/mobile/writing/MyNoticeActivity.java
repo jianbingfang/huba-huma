@@ -19,7 +19,9 @@ import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.MyApplication;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.layout;
+import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.entity.NoticeEntity;
+import com.hubahuma.mobile.news.NoitceListViewAdapter;
 import com.hubahuma.mobile.profile.TagListViewAdapter;
 import com.hubahuma.mobile.utils.GlobalVar;
 
@@ -29,25 +31,31 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 @NoTitle
-@EActivity(R.layout.activity_my_notice)
+@EActivity(R.layout.activity_notice)
 public class MyNoticeActivity extends Activity {
 
 	private List<NoticeEntity> dataList;
 
-	private MyNoitceListViewAdapter adapter;
+	private MyNoitceListViewAdapter myAdapter;
+
+	private NoitceListViewAdapter adapter;
 
 	@App
 	MyApplication myApp;
-	
+
 	@ViewById
 	ProgressBar progress_bar;
 
+	@ViewById
+	Button btn_publish;
+	
 	@ViewById
 	View timeline;
 
@@ -84,16 +92,31 @@ public class MyNoticeActivity extends Activity {
 
 	@UiThread
 	void preLoadData() {
+		if (myApp.getCurrentUser().getType().equals(UserType.PARENTS)) {
+			btn_publish.setVisibility(View.GONE);
+		} else {
+			btn_publish.setVisibility(View.VISIBLE);
+		}
+
 		timeline.setVisibility(View.GONE);
 		progress_bar.setVisibility(View.VISIBLE);
+		
 	}
 
 	@UiThread
 	void postLoadData() {
 
-		adapter = new MyNoitceListViewAdapter(getApplicationContext(), dataList);
-		notice_list.setAdapter(adapter);
-		adapter.notifyDataSetChanged();
+		if (myApp.getCurrentUser().getType().equals(UserType.PARENTS)) {
+			adapter = new NoitceListViewAdapter(getApplicationContext(),
+					dataList);
+			notice_list.setAdapter(adapter);
+			adapter.notifyDataSetChanged();
+		} else {
+			myAdapter = new MyNoitceListViewAdapter(getApplicationContext(),
+					dataList);
+			notice_list.setAdapter(myAdapter);
+			myAdapter.notifyDataSetChanged();
+		}
 
 		timeline.setVisibility(View.VISIBLE);
 		progress_bar.setVisibility(View.GONE);
@@ -113,7 +136,7 @@ public class MyNoticeActivity extends Activity {
 					.getSerializableExtra("newNotice");
 			if (newNotice != null) {
 				dataList.add(0, newNotice);
-				adapter.notifyDataSetChanged();
+				myAdapter.notifyDataSetChanged();
 			}
 		}
 	}

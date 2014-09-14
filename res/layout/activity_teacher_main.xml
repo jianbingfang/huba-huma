@@ -1,0 +1,76 @@
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_bg"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="match_parent"
+            android:layout_height="0.0dip"
+            android:layout_weight="1.0" />
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.0"
+            android:visibility="gone" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/footbar_bg" >
+
+            <RadioGroup
+                android:id="@+id/main_tab_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:gravity="bottom"
+                android:orientation="horizontal" >
+
+                <RadioButton
+                    android:id="@+id/main_tab_manage_book"
+                    style="@style/FootBarButtonForThree"
+                    android:drawableTop="@drawable/news"
+                    android:text="管理本" />
+
+                <RadioButton
+                    android:id="@+id/main_tab_write_notice"
+                    style="@style/FootBarButtonForThree"
+                    android:checked="true"
+                    android:drawableTop="@drawable/writing"
+                    android:text="写通知" />
+
+                <RadioButton
+                    android:id="@+id/main_tab_profile"
+                    style="@style/FootBarButtonForThree"
+                    android:drawableTop="@drawable/profile"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:text="管理" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/main_tab_news_counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/redspot"
+                android:gravity="center"
+                android:textColor="@color/text_light"
+                android:textSize="12sp"
+                android:visibility="gone" />
+        </FrameLayout>
+    </LinearLayout>
+
+</TabHost>

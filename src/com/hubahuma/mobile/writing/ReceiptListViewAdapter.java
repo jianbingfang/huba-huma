@@ -1,30 +1,18 @@
 package com.hubahuma.mobile.writing;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.hubahuma.mobile.R;
-import com.hubahuma.mobile.entity.CommentEntity;
-import com.hubahuma.mobile.entity.DiaryEntity;
-import com.hubahuma.mobile.entity.GroupEntity;
-import com.hubahuma.mobile.entity.NoticeEntity;
 import com.hubahuma.mobile.entity.UserEntity;
-import com.hubahuma.mobile.utils.UtilTools;
 
 public class ReceiptListViewAdapter extends BaseAdapter {
 
@@ -32,9 +20,13 @@ public class ReceiptListViewAdapter extends BaseAdapter {
 
 	private LayoutInflater mInflater;
 
-	public ReceiptListViewAdapter(Context context, List<UserEntity> data) {
+	private boolean isRead;
+
+	public ReceiptListViewAdapter(Context context, List<UserEntity> data,
+			boolean read) {
 		this.mInflater = LayoutInflater.from(context);
 		this.dataList = data;
+		this.isRead = read;
 	}
 
 	@Override
@@ -60,7 +52,13 @@ public class ReceiptListViewAdapter extends BaseAdapter {
 
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.item_receipt, null);
+			if (isRead) {
+				convertView = mInflater.inflate(R.layout.item_receipt_read,
+						null);
+			} else {
+				convertView = mInflater.inflate(R.layout.item_receipt_unread,
+						null);
+			}
 			viewHolder = new ViewHolder();
 			viewHolder.portrait = (ImageView) convertView
 					.findViewById(R.id.portrait);

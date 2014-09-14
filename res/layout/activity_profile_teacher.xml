@@ -166,7 +166,8 @@
                             android:layout_marginLeft="10dp"
                             android:text="ID:"
                             android:textColor="@color/white"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/id"
@@ -177,7 +178,8 @@
                             android:layout_toRightOf="@id/id_title"
                             android:text="2082786"
                             android:textColor="@color/white"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:visibility="gone" />
                     </RelativeLayout>
                 </FrameLayout>
 

@@ -6,8 +6,10 @@ public class UserEntity implements Serializable{
 
 	private String id;
 	private String username;
+	private String phone;
 	private String remark;
 	private String type;
+	private String portrait;
 
 	public String getId() {
 		return id;
@@ -39,6 +41,22 @@ public class UserEntity implements Serializable{
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getPortrait() {
+		return portrait;
+	}
+
+	public void setPortrait(String portrait) {
+		this.portrait = portrait;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 }

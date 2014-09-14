@@ -36,6 +36,19 @@
         <item name="android:paddingBottom">@dimen/footbar_vertical_padding</item>
         <item name="android:paddingTop">@dimen/footbar_vertical_padding</item>
     </style>
+    
+    <style name="FootBarButtonForThree">
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/bg_checkbox_menus</item>
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:button">@null</item>
+        <item name="android:textColor">@color/text_light</item>
+        <item name="android:textSize">@dimen/date_txt_size</item>
+        <item name="android:layout_weight">1.0</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:paddingTop">2dp</item>
+    </style>
 
     <style name="TopBarTitle">
         <item name="android:layout_centerInParent">true</item>

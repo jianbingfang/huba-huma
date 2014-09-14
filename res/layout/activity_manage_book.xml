@@ -33,7 +33,8 @@
             android:paddingLeft="@dimen/topbar_horizontal_padding"
             android:paddingRight="0dp"
             android:scaleType="centerInside"
-            android:src="@drawable/back" />
+            android:src="@drawable/back"
+            android:visibility="gone" />
 
         <ImageButton
             android:id="@+id/btn_group_manage"
@@ -46,7 +47,8 @@
             android:paddingLeft="0dp"
             android:paddingRight="@dimen/topbar_horizontal_padding"
             android:scaleType="centerInside"
-            android:src="@drawable/group_manage" />
+            android:src="@drawable/group_manage"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <!-- divide line -->

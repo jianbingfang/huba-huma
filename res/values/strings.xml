@@ -3,8 +3,8 @@
 
     <string name="app_name">虎爸虎妈</string>
     <string name="title_activity_splash">虎爸虎妈</string>
-    <string name="uid">123</string>
-    <string name="key">123</string>
+    <string name="uid">mayuan0407</string>
+    <string name="key">Ilovesem!</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_news">NewsActivity</string>
     <string name="title_activity_writing">WritingActivity</string>
@@ -94,5 +94,6 @@
     <string name="title_activity_receipt">ReceiptActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_auth_code">AuthCodeActivity</string>
+    <string name="title_activity_search_teacher">SearchTeacherActivity</string>
 
 </resources>

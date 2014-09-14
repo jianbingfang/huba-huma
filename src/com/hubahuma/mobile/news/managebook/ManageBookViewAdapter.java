@@ -86,7 +86,8 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 		ExpandableGroupHolder holder = null; // 清空临时变量holder
 		if (true) { // 判断view（即view是否已构建好）是否为空
 
-			convertView = mInflater.inflate(R.layout.item_group_tree_title, null);
+			convertView = mInflater.inflate(R.layout.item_group_tree_title,
+					null);
 			holder = new ExpandableGroupHolder();
 			holder.title = (TextView) convertView.findViewById(R.id.group_name);
 			holder.indicator = (ImageView) convertView
@@ -130,7 +131,7 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 		} else {// 若行已初始化，直接从tag属性获得子视图的引用
 			holder = (ExpandableListHolder) convertView.getTag();
 		}
-		UserEntity user = groupData.get(groupPosition).getMemberList()
+		final UserEntity user = groupData.get(groupPosition).getMemberList()
 				.get(childPosition);
 		// TODO 判断真实头像
 		holder.portrait.setImageResource(R.drawable.default_portrait);
@@ -145,7 +146,7 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO 写入真实号码
-				phoneOperListener.sendSMS("10086", "");
+				phoneOperListener.sendSMS(user.getPhone(), "");
 				Log.d("debug", "send message to " + username);
 			}
 		});
@@ -154,7 +155,7 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO 写入真实号码
-				phoneOperListener.phoneCall("10086");
+				phoneOperListener.phoneCall(user.getPhone());
 				Log.d("debug", "make call to " + username);
 			}
 		});

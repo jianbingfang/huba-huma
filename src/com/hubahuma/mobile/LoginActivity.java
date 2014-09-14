@@ -86,9 +86,9 @@ public class LoginActivity extends FragmentActivity implements
 		if (tpl.getRequestFactory() instanceof SimpleClientHttpRequestFactory) {
 			Log.d("HTTP", "HttpUrlConnection is used");
 			((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
-					.setConnectTimeout(10000);
+					.setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
 			((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
-					.setReadTimeout(5000);
+					.setReadTimeout(GlobalVar.READ_TIMEOUT);
 		}
 
 	}
@@ -162,6 +162,12 @@ public class LoginActivity extends FragmentActivity implements
 
 	@Background
 	void handleLogin() {
+
+		if (!UtilTools.isNetConnected(getApplicationContext())) {
+			showToast("无法访问网络", Toast.LENGTH_LONG);
+			return;
+		}
+
 		showLoadingDialog();
 		AuthResp resp = null;
 		if (!GlobalVar.testMode) {
@@ -230,7 +236,18 @@ public class LoginActivity extends FragmentActivity implements
 
 			prefs.rememberMe().put(remember_check.isChecked());
 
-			Intent intent = new Intent(this, MainActivity_.class);
+			Intent intent = new Intent();
+			switch (resp.getType()) {
+			case UserType.PARENTS:
+				intent.setClass(this, ParentMainActivity_.class);
+				break;
+			case UserType.TEACHER:
+				intent.setClass(this, TeacherMainActivity_.class);
+				break;
+			default:
+				intent.setClass(this, ParentMainActivity_.class);
+				break;
+			}
 			startActivityForResult(intent, ActivityCode.MAIN_ACTIVITY);
 
 		} else {

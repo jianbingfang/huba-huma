@@ -64,10 +64,10 @@ public class ProfileSelfActivity extends Activity {
 
 	@App
 	MyApplication myApp;
-	
+
 	@Pref
 	SharedPrefs_ prefs;
-	
+
 	@ViewById
 	ImageButton btn_setup, setup;
 
@@ -76,7 +76,7 @@ public class ProfileSelfActivity extends Activity {
 
 	@ViewById
 	TextView remark, qualification, phone, name_title, name, name2, address,
-			id, email, tag, introduction_title, introduction, open_time;
+			email, tag, introduction_title, introduction, open_time;
 
 	@ViewById
 	CheckBox notify_switch, search_switch;
@@ -126,7 +126,7 @@ public class ProfileSelfActivity extends Activity {
 			break;
 		}
 
-		// clearFields();
+		clearFields();
 
 		preLoadData();
 		loadData();
@@ -139,7 +139,7 @@ public class ProfileSelfActivity extends Activity {
 		name.setText("");
 		name2.setText("");
 		address.setText("");
-		id.setText("");
+		// id.setText("");
 		email.setText("");
 		tag.setText("");
 		introduction.setText("");
@@ -170,7 +170,7 @@ public class ProfileSelfActivity extends Activity {
 		name.setText(myApp.getCurrentUser().getUsername());
 		name2.setText(myApp.getCurrentUser().getUsername());
 		remark.setText(myApp.getCurrentUser().getRemark());
-		id.setText(myApp.getCurrentUser().getId());
+		// id.setText(myApp.getCurrentUser().getId());
 
 		tag.setText(transTagList(tagList));
 

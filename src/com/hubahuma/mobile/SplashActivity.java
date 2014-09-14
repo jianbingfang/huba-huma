@@ -167,7 +167,19 @@ public class SplashActivity extends Activity {
 	}
 
 	void startMainActivity() {
-		Intent intent = new Intent(this, MainActivity_.class);
+
+		Intent intent = new Intent();
+		switch (myApp.getCurrentUser().getType()) {
+		case UserType.PARENTS:
+			intent.setClass(this, ParentMainActivity_.class);
+			break;
+		case UserType.TEACHER:
+			intent.setClass(this, TeacherMainActivity_.class);
+			break;
+		default:
+			intent.setClass(this, ParentMainActivity_.class);
+			break;
+		}
 		startActivityForResult(intent, ActivityCode.MAIN_ACTIVITY);
 	}
 

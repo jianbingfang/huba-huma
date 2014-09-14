@@ -45,7 +45,7 @@ import com.hubahuma.mobile.entity.service.UpdateOrgParam;
 import com.hubahuma.mobile.entity.service.UpdateParentParam;
 import com.hubahuma.mobile.entity.service.UpdateTeacherParam;
 
-@Rest(rootUrl = "http://101.5.115.121:8080/server", converters = { MappingJacksonHttpMessageConverter.class }, interceptors = { HttpBasicAuthenticatorInterceptor.class })
+@Rest(rootUrl = "http://192.168.2.103:8080/server", converters = { MappingJacksonHttpMessageConverter.class }, interceptors = { HttpBasicAuthenticatorInterceptor.class })
 public interface UserService extends RestClientErrorHandling {
 
 	RestTemplate getRestTemplate();

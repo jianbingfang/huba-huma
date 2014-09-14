@@ -1,0 +1,99 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <!-- title -->
+
+    <RelativeLayout
+        android:id="@+id/topbar_message"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/topbar_height"
+        android:background="@color/topbar_bg"
+        android:paddingBottom="@dimen/topbar_vertical_padding"
+        android:paddingTop="@dimen/topbar_vertical_padding" >
+
+        <TextView
+            style="@style/TopBarTitle"
+            android:text="搜索" />
+
+        <ImageButton
+            android:id="@+id/btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:contentDescription="@string/app_name"
+            android:paddingLeft="0dp"
+            android:paddingRight="@dimen/topbar_horizontal_padding"
+            android:scaleType="centerInside"
+            android:src="@drawable/confirm" />
+    </RelativeLayout>
+
+    <!-- search bar -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/search_box_vertical_padding"
+        android:paddingLeft="@dimen/search_box_horizontal_padding"
+        android:paddingRight="@dimen/search_box_horizontal_padding"
+        android:paddingTop="@dimen/search_box_vertical_padding" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:text="搜索并关注孩子的班主任，获得孩子的最新动态："
+            android:textColor="@color/grey_hint"
+            android:textSize="14sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <EditText
+                android:id="@+id/search_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_bg"
+                android:drawablePadding="8dp"
+                android:hint="输入老师的手机号"
+                android:imeOptions="actionSearch"
+                android:inputType="phone"
+                android:padding="8dp"
+                android:singleLine="true" />
+
+            <ImageButton
+                android:id="@+id/btn_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/search_input"
+                android:layout_alignRight="@id/search_input"
+                android:layout_marginBottom="9dp"
+                android:layout_marginRight="7dp"
+                android:visibility="gone"
+                android:background="@null"
+                android:src="@drawable/clear" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/error_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:text="错误"
+            android:textColor="@color/light_red" />
+    </LinearLayout>
+
+</LinearLayout>

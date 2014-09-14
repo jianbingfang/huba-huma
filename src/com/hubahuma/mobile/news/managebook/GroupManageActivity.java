@@ -26,14 +26,14 @@ import android.widget.Toast;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.entity.GroupEntity;
 import com.hubahuma.mobile.news.managebook.AddNewGroupDialog.AddGroupDialogListener;
-import com.hubahuma.mobile.news.managebook.GroupRenameDialog.GroupRenameDialogListener;
+import com.hubahuma.mobile.news.managebook.OneInputDialog.OnOneInputDialogConfirmListener;
 import com.hubahuma.mobile.utils.UtilTools;
 
 @SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_group_manage)
 public class GroupManageActivity extends FragmentActivity implements
-		GroupRenameDialogListener, AddGroupDialogListener {
+		OnOneInputDialogConfirmListener, AddGroupDialogListener {
 
 	@ViewById(R.id.group_list_view)
 	ListView list;
@@ -118,7 +118,7 @@ public class GroupManageActivity extends FragmentActivity implements
 		public void OnClickRename(int position) {
 			targetPos = position;
 			FragmentManager fm = getSupportFragmentManager();
-			GroupRenameDialog_ changeGroupDialog = new GroupRenameDialog_();
+			OneInputDialog_ changeGroupDialog = new OneInputDialog_();
 			changeGroupDialog.show(fm, "dialog_group_rename");
 		}
 
@@ -169,7 +169,7 @@ public class GroupManageActivity extends FragmentActivity implements
 	}
 
 	@Override
-	public void onFinishGroupRenameDialog(String groupName) {
+	public void onDialogConfirm(String groupName) {
 
 		int pos = 0;
 		for (; pos < filteredList.size(); pos++) {

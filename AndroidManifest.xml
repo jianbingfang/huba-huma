@@ -55,6 +55,14 @@
             android:label="@string/app_name" >
         </activity>
         <activity
+            android:name=".TeacherMainActivity_"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".ParentMainActivity_"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name=".news.NewsActivity_"
             android:label="@string/title_activity_news" >
         </activity>
@@ -87,15 +95,23 @@
             android:label="@string/title_activity_manage_book" >
         </activity>
         <activity
+            android:name=".news.managebook.SimpleManageBookActivity_"
+            android:label="@string/title_activity_manage_book" >
+        </activity>
+        <activity
             android:name=".news.managebook.GroupManageActivity_"
             android:label="@string/title_activity_group_manage" >
         </activity>
         <activity
-            android:name=".news.managebook.GroupRenameDialog_"
+            android:name=".news.managebook.OneInputDialog_"
             android:label="@string/title_activity_group_rename_dialog" >
         </activity>
         <activity
             android:name=".news.managebook.ChangeGroupDialog_"
+            android:label="@string/title_activity_change_group_dialog" >
+        </activity>
+        <activity
+            android:name=".discovery.VerifyChildDialog_"
             android:label="@string/title_activity_change_group_dialog" >
         </activity>
         <activity
@@ -217,6 +233,10 @@
         <activity
             android:name=".AuthCodeActivity_"
             android:label="@string/title_activity_auth_code" >
+        </activity>
+        <activity
+            android:name=".discovery.SearchTeacherActivity_"
+            android:label="@string/title_activity_search_teacher" >
         </activity>
     </application>
 

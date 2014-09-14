@@ -21,16 +21,17 @@ import com.hubahuma.mobile.entity.UserEntity;
 public class SearchResultViewAdapter extends BaseAdapter {
 
 	public interface onFollowListener {
-		public void onFollowClicked(UserEntity user);
+		public void onFollowClicked(ImageButton btn);
 	}
 
 	private List<UserEntity> dataList;
 
 	private LayoutInflater mInflater;
-	
+
 	private onFollowListener listener;
 
-	public SearchResultViewAdapter(Context context, List<UserEntity> data, onFollowListener listener) {
+	public SearchResultViewAdapter(Context context, List<UserEntity> data,
+			onFollowListener listener) {
 		this.dataList = data;
 		this.mInflater = LayoutInflater.from(context);
 		this.listener = listener;
@@ -83,9 +84,7 @@ public class SearchResultViewAdapter extends BaseAdapter {
 		viewHolder.follow.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((ImageButton) v).setImageResource(R.drawable.followed);
-				UserEntity user = (UserEntity) v.getTag();
-				listener.onFollowClicked(user);
+				listener.onFollowClicked((ImageButton) v);
 			}
 		});
 

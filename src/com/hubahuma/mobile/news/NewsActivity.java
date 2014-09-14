@@ -41,7 +41,6 @@ public class NewsActivity extends Activity {
 	void init() {
 		msgRedspot.setVisibility(View.VISIBLE);
 
-		System.out.println("News of "+ myApp.getCurrentUser().getType());
 		if (myApp.getCurrentUser() != null) {
 			switch (myApp.getCurrentUser().getType()) {
 

@@ -148,6 +148,7 @@
                             android:layout_marginBottom="4dp"
                             android:layout_marginLeft="10dp"
                             android:text="ID:"
+                            android:visibility="gone"
                             android:textColor="@color/white"
                             android:textSize="14sp" />
 
@@ -157,6 +158,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignBaseline="@id/id_title"
                             android:layout_marginLeft="5dp"
+                            android:visibility="gone"
                             android:layout_toRightOf="@id/id_title"
                             android:text="2082786"
                             android:textColor="@color/white"

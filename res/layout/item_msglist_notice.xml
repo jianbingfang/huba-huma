@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/msglist_item_horizontal_padding"
     android:paddingRight="@dimen/msglist_item_horizontal_padding"
+    android:paddingTop="9.5dp"
     android:background="@null"
     android:orientation="vertical" >
 
@@ -53,15 +54,16 @@
             android:textSize="15sp"
             android:text="管理员"/>
         
-        <ImageView 
+        <ImageView
             android:id="@+id/content_img"
-            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:scaleType="centerInside"
-            android:layout_marginTop="@dimen/bubble_bottom_padding"
+            android:layout_height="wrap_content"
             android:layout_below="@id/author_name"
-            android:visibility="gone"
-            android:contentDescription="@string/app_name"/>
+            android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/teaching_diary_img" />
         
         <TextView 
             android:id="@+id/content_txt"

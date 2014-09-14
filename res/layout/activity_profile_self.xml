@@ -55,7 +55,8 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="210dp"
+                    android:minHeight="210dp"
                     android:background="@android:color/black"
                     android:visibility="visible" >
 
@@ -86,7 +87,7 @@
                             android:contentDescription="@string/app_name"
                             android:scaleType="centerInside"
                             android:src="@drawable/setup"
-                            android:visibility="visible" />
+                            android:visibility="gone" />
 
                         <com.hubahuma.mobile.view.CircleImageView
                             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -153,6 +154,7 @@
                             android:layout_marginBottom="4dp"
                             android:layout_marginLeft="10dp"
                             android:text="ID:"
+                            android:visibility="gone"
                             android:textColor="@color/white"
                             android:textSize="14sp" />
 
@@ -164,6 +166,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_toRightOf="@id/id_title"
                             android:text="2082786"
+                            android:visibility="gone"
                             android:textColor="@color/white"
                             android:textSize="14sp" />
                     </RelativeLayout>

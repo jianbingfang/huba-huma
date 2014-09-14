@@ -11,37 +11,26 @@ import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.UserType;
-import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.discovery.TrainOrgListViewAdapter.TrainOrgListViewListener;
 import com.hubahuma.mobile.discovery.view.ExpandTabView;
 import com.hubahuma.mobile.discovery.view.ViewChooseTag;
 import com.hubahuma.mobile.discovery.view.ViewRegion;
 import com.hubahuma.mobile.discovery.view.ViewSort;
-import com.hubahuma.mobile.entity.GroupEntity;
 import com.hubahuma.mobile.entity.UserEntity;
-import com.hubahuma.mobile.news.managebook.GroupListViewGesture;
-import com.hubahuma.mobile.news.managebook.GroupManageViewAdapter;
-import com.hubahuma.mobile.news.managebook.GroupRenameDialog_;
-import com.hubahuma.mobile.news.teachingdiary.TeachingDiaryViewAdapter;
 import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
 import com.hubahuma.mobile.profile.ProfileParentsActivity_;
 import com.hubahuma.mobile.profile.ProfileTeacherActivity_;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ExpandableListView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 @NoTitle
