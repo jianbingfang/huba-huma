@@ -3,6 +3,7 @@ package com.hubahuma.mobile;
 import java.util.Random;
 
 import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
@@ -14,7 +15,9 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringRes;
 import org.androidannotations.annotations.rest.RestService;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.entity.service.RegisterParent;
@@ -80,13 +83,32 @@ public class AuthCodeActivity extends FragmentActivity implements
 	void afterInject() {
 		userService.setRestErrorHandler(myErrorHandler);
 		smsService.setRestErrorHandler(myErrorHandler);
+		
+		RestTemplate tpl = userService.getRestTemplate();
+		if (tpl.getRequestFactory() instanceof SimpleClientHttpRequestFactory) {
+			Log.d("HTTP", "HttpUrlConnection is used");
+			((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
+					.setConnectTimeout(10000);
+			((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
+					.setReadTimeout(5000);
+		}
+		
+		RestTemplate smsTpl = smsService.getRestTemplate();
+		if (smsTpl.getRequestFactory() instanceof SimpleClientHttpRequestFactory) {
+			Log.d("HTTP", "HttpUrlConnection is used");
+			((SimpleClientHttpRequestFactory) smsTpl.getRequestFactory())
+					.setConnectTimeout(10000);
+			((SimpleClientHttpRequestFactory) smsTpl.getRequestFactory())
+					.setReadTimeout(5000);
+		}
 	}
 
-	private int timeCount = 60;
+	private int timeCount = 10;
 
 	@AfterViews
 	void init() {
 		error_info.setText("");
+		hint.setText("");
 		send_code.setVisibility(View.GONE);
 		hint.setVisibility(View.VISIBLE);
 
@@ -98,8 +120,14 @@ public class AuthCodeActivity extends FragmentActivity implements
 	}
 
 	@UiThread
-	void afterSmsSend() {
-		phone_number.setText("+86 " + phone.substring(0, 3) + " "
+	void afterSmsSendFail() {
+		send_code.setVisibility(View.VISIBLE);
+		hint.setVisibility(View.GONE);
+	}
+
+	@UiThread
+	void afterSmsSendSucc() {
+		phone_number.setText("+86-" + phone.substring(0, 3) + " "
 				+ phone.substring(3, 7) + " " + phone.substring(7));
 		send_code.setVisibility(View.GONE);
 		hint.setVisibility(View.VISIBLE);
@@ -126,10 +154,10 @@ public class AuthCodeActivity extends FragmentActivity implements
 	}
 
 	@Click
-	void send_code(){
+	void send_code() {
 		sendAuthCode();
 	}
-	
+
 	@Click
 	void btn_submit() {
 
@@ -146,8 +174,18 @@ public class AuthCodeActivity extends FragmentActivity implements
 
 	}
 
+	@AfterTextChange
+	void auth_code() {
+		error_info.setText("");
+	}
+
 	private boolean checkCode() {
-		if (code.equals(auth_code.getText().toString().trim())) {
+
+		if (UtilTools.isEmpty(auth_code.getText().toString().trim())) {
+			error_info.setText("验证码不能为空！");
+			return false;
+		}
+		if (!code.equals(auth_code.getText().toString().trim())) {
 			error_info.setText("验证码错误！");
 			return false;
 		}
@@ -184,6 +222,7 @@ public class AuthCodeActivity extends FragmentActivity implements
 		if (!UtilTools.isNetConnected(getApplicationContext())) {
 			showToast("无法访问网络", Toast.LENGTH_LONG);
 			dismissLoadingDialog();
+			afterSmsSendFail();
 			return;
 		}
 
@@ -193,27 +232,32 @@ public class AuthCodeActivity extends FragmentActivity implements
 			code += rand.nextInt(10);
 		}
 
+		Log.d("SMS", "code:" + code);
+
 		String result = null;
 
 		String content = "短信验证码：" + code + "。【虎爸虎妈公司】";
 		try {
 			result = smsService.sendSMS(uid, key, phone, content);
+			System.out.println("SMS result:" + result);
 		} catch (RestClientException e) {
 			showToast("服务器验证错误", Toast.LENGTH_LONG);
 			dismissLoadingDialog();
 			Log.e("Rest Error", e.getMessage() + ". - "
 					+ this.getClass().getName());
+			afterSmsSendFail();
 			return;
 		}
 
 		if (result == null || Integer.parseInt(result) < 0) {
 			dismissLoadingDialog();
 			showPromptDialog("失败", "验证码发送失败，请重试。");
+			afterSmsSendFail();
 			return;
 		} else {
 			dismissLoadingDialog();
 			showToast("验证短信已发送", Toast.LENGTH_SHORT);
-			afterSmsSend();
+			afterSmsSendSucc();
 		}
 
 	}

@@ -133,7 +133,7 @@ public class RegisterActivity extends FragmentActivity implements
 			error_info.setText("姓名不能为空！");
 			return false;
 		}
-		if (UtilTools.isMobileNumber(phone.getText().toString().trim())) {
+		if (!UtilTools.isMobileNumber(phone.getText().toString().trim())) {
 			error_info.setText("手机号码格式不正确！");
 			return false;
 		}

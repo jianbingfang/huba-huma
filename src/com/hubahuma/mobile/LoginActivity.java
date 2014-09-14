@@ -1,5 +1,8 @@
 package com.hubahuma.mobile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.App;
@@ -13,7 +16,12 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
@@ -72,6 +80,17 @@ public class LoginActivity extends FragmentActivity implements
 	@AfterInject
 	void afterInject() {
 		userService.setRestErrorHandler(myErrorHandler);
+
+		RestTemplate tpl = userService.getRestTemplate();
+
+		if (tpl.getRequestFactory() instanceof SimpleClientHttpRequestFactory) {
+			Log.d("HTTP", "HttpUrlConnection is used");
+			((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
+					.setConnectTimeout(10000);
+			((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
+					.setReadTimeout(5000);
+		}
+
 	}
 
 	private LoadingDialog_ loadingDialog;

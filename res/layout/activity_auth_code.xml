@@ -77,6 +77,7 @@
             android:gravity="center"
             android:hint="请输入验证码"
             android:inputType="number"
+            android:maxLength="4"
             android:paddingBottom="8dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -84,7 +85,7 @@
             android:singleLine="true"
             android:text=""
             android:textColor="@color/white"
-            android:textCursorDrawable="@null"
+            android:textCursorDrawable="@color/transparent"
             android:textSize="25sp" />
 
         <FrameLayout

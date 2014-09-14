@@ -40,7 +40,7 @@ public class UtilTools {
 	}
 
 	public static boolean isMobileNumber(String number) {
-		Pattern p = Pattern.compile("^[1][0-9]{10}$");
+		Pattern p = Pattern.compile("^1\\d{10}$");
 		Matcher m = p.matcher(number);
 		return m.matches();
 	}

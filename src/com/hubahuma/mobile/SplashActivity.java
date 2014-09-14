@@ -12,7 +12,9 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.rest.RestService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.hubahuma.mobile.entity.UserEntity;
@@ -50,6 +52,14 @@ public class SplashActivity extends Activity {
 	@AfterInject
 	void afterInject() {
 		userService.setRestErrorHandler(myErrorHandler);
+		RestTemplate tpl = userService.getRestTemplate();
+		if (tpl.getRequestFactory() instanceof SimpleClientHttpRequestFactory) {
+			Log.d("HTTP", "HttpUrlConnection is used");
+			((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
+					.setConnectTimeout(5000);
+			((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
+					.setReadTimeout(1000);
+		}
 		SDKInitializer.initialize(getApplicationContext());
 	}
 
@@ -101,13 +111,13 @@ public class SplashActivity extends Activity {
 						}
 						if (resp != null && resp.isResult()) {
 							Log.d("debug", "attempt login succ");
-							
+
 							UserEntity user = new UserEntity();
 							user.setId("000001");
 							user.setRemark("none");
 							user.setUsername("当前用户");
 							user.setType(resp.getType());
-							
+
 							switch (prefs.username().get()) {
 							case "1":
 								resp.setType(UserType.PARENTS);
@@ -126,10 +136,10 @@ public class SplashActivity extends Activity {
 								resp.setResult(false);
 								break;
 							}
-							
+
 							myApp.token = resp.getToken();
 							myApp.setCurrentUser(user);
-							
+
 							prefs.edit().token().put(resp.getToken())
 									.lastTokenUpdated()
 									.put(System.currentTimeMillis());

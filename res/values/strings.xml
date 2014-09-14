@@ -3,8 +3,8 @@
 
     <string name="app_name">虎爸虎妈</string>
     <string name="title_activity_splash">虎爸虎妈</string>
-    <string name="uid"></string>
-    <string name="key"></string>
+    <string name="uid">123</string>
+    <string name="key">123</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_news">NewsActivity</string>
     <string name="title_activity_writing">WritingActivity</string>
