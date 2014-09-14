@@ -87,26 +87,26 @@
             android:textSize="18dp" />
 
         <Button
-            android:id="@+id/btn_register_parent"
+            android:id="@+id/btn_register"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:background="@null"
-            android:text="注册家长用户"
+            android:text="注册新用户"
             android:textColor="@color/text_light_blue"
             android:textSize="18dp" />
         
-        <Button
-            android:id="@+id/btn_register_teacher"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="0dp"
-            android:background="@null"
-            android:text="注册教师用户"
-            android:textColor="@color/text_light_blue"
-            android:textSize="18dp" />
+<!--         <Button -->
+<!--             android:id="@+id/btn_register_teacher" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="40dp" -->
+<!--             android:layout_gravity="center_horizontal" -->
+<!--             android:layout_marginTop="0dp" -->
+<!--             android:background="@null" -->
+<!--             android:text="注册教师用户" -->
+<!--             android:textColor="@color/text_light_blue" -->
+<!--             android:textSize="18dp" /> -->
         
     </LinearLayout>
 

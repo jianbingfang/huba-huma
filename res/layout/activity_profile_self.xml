@@ -228,7 +228,7 @@
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:paddingTop="15dp"
-                    android:visibility="visible" >
+                    android:visibility="gone" >
 
                     <TextView
                         android:id="@+id/email_title"

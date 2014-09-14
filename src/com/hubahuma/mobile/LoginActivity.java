@@ -220,22 +220,17 @@ public class LoginActivity extends FragmentActivity implements
 	}
 
 	@Click
-	void btn_register_parent() {
-		Intent intent = new Intent(this, RegisterParentActivity_.class);
-		startActivityForResult(intent, ActivityCode.REGISTER_PARENT_ACTIVITY);
+	void btn_register() {
+		Intent intent = new Intent(this, RegisterActivity_.class);
+		startActivityForResult(intent, ActivityCode.REGISTER_ACTIVITY);
 	}
 
-	@OnActivityResult(ActivityCode.REGISTER_PARENT_ACTIVITY)
+	@OnActivityResult(ActivityCode.REGISTER_ACTIVITY)
 	void onReturnFromRegisterParentActivity(Intent intent, int resultCode) {
 		if (resultCode == 1) {
 			String name = intent.getStringExtra("username");
 			username.setText(name);
 		}
-	}
-
-	@Click
-	void btn_register_teacher() {
-
 	}
 
 	@OnActivityResult(ActivityCode.MAIN_ACTIVITY)
