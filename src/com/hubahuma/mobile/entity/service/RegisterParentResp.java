@@ -1,11 +1,13 @@
 package com.hubahuma.mobile.entity.service;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.hubahuma.mobile.entity.Organization;
 import com.hubahuma.mobile.entity.Parent;
 import com.hubahuma.mobile.entity.Teacher;
 import com.hubahuma.mobile.entity.User;
 
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RegisterParentResp {
 
 	private boolean ok;

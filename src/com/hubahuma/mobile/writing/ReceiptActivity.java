@@ -246,7 +246,7 @@ public class ReceiptActivity extends FragmentActivity implements
 
 		if (result == null || Integer.parseInt(result) < 0) {
 			dismissLoadingDialog();
-			showPromptDialog("失败", "验证码发送失败，请稍后重试。");
+			showPromptDialog("失败", "短信发送失败，请稍后重试。");
 			return;
 		} else {
 			dismissLoadingDialog();

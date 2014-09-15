@@ -47,19 +47,15 @@ import com.hubahuma.mobile.entity.service.UpdateParentParam;
 import com.hubahuma.mobile.entity.service.UpdateTeacherParam;
 
 /**
- * "https://182.92.131.156:8080/api/"
+ * "https://182.92.131.156:8080/api"
  * "http://192.168.2.103:8080/server"
  */
-@Rest(rootUrl = "http://101.5.81.34:8080/server", converters = { MappingJacksonHttpMessageConverter.class }, interceptors = { HttpBasicAuthenticatorInterceptor.class })
+@Rest(rootUrl = "http://182.92.131.156:8080/api", converters = { MappingJacksonHttpMessageConverter.class }, interceptors = { HttpBasicAuthenticatorInterceptor.class })
 public interface UserService extends RestClientErrorHandling {
 
 	RestTemplate getRestTemplate();
 
 	void setRestTemplate(RestTemplate restTemplate);
-
-	@Post("/getUser/{id}")
-	@Accept(MediaType.APPLICATION_JSON)
-	UserEntity getUser(String id);
 
 	@Post("/authenticate")
 	@Accept(MediaType.APPLICATION_JSON)
