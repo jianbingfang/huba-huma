@@ -29,8 +29,8 @@ import android.widget.Toast;
 import com.baidu.mapapi.SDKInitializer;
 import com.hubahuma.mobile.discovery.DiscoveryActivity_;
 import com.hubahuma.mobile.entity.UserEntity;
-import com.hubahuma.mobile.entity.service.RegisterParent;
-import com.hubahuma.mobile.entity.service.RegisterTeacher;
+import com.hubahuma.mobile.entity.service.RegisterParentParam;
+import com.hubahuma.mobile.entity.service.RegisterTeacherParam;
 import com.hubahuma.mobile.entity.service.RegisterTeacherResp;
 import com.hubahuma.mobile.info.InfoActivity_;
 import com.hubahuma.mobile.news.NewsActivity_;
@@ -135,7 +135,7 @@ public class MainActivity extends TabActivity {
 	@Background
 	void registerTeacher() {
 		// TODO Auto-generated method stub
-		RegisterTeacher teacher = new RegisterTeacher();
+		RegisterTeacherParam teacher = new RegisterTeacherParam();
 		List<String> classes = new ArrayList<String>();
 		classes.add("class-1");
 		classes.add("class-2");

@@ -74,6 +74,7 @@
             android:drawableLeft="@drawable/search_icon"
             android:drawablePadding="8dp"
             android:hint="新增或搜索标签"
+            android:visibility="gone"
             android:padding="7dp"
             android:singleLine="true" />
     </RelativeLayout>

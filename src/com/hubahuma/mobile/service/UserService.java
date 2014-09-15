@@ -24,6 +24,7 @@ import com.hubahuma.mobile.entity.Parent;
 import com.hubahuma.mobile.entity.Teacher;
 import com.hubahuma.mobile.entity.User;
 import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.entity.service.AuthParam;
 import com.hubahuma.mobile.entity.service.AuthResp;
 import com.hubahuma.mobile.entity.service.ChangePasswordParam;
 import com.hubahuma.mobile.entity.service.ChangePasswordResp;
@@ -33,19 +34,23 @@ import com.hubahuma.mobile.entity.service.FetchDetailParentParam;
 import com.hubahuma.mobile.entity.service.FetchDetailParentResp;
 import com.hubahuma.mobile.entity.service.FetchDetailTeacherParam;
 import com.hubahuma.mobile.entity.service.FetchDetailTeacherResp;
-import com.hubahuma.mobile.entity.service.RegisterOrg;
+import com.hubahuma.mobile.entity.service.RegisterOrgParam;
 import com.hubahuma.mobile.entity.service.RegisterOrgResp;
-import com.hubahuma.mobile.entity.service.RegisterParent;
+import com.hubahuma.mobile.entity.service.RegisterParentParam;
 import com.hubahuma.mobile.entity.service.RegisterParentResp;
-import com.hubahuma.mobile.entity.service.RegisterTeacher;
+import com.hubahuma.mobile.entity.service.RegisterTeacherParam;
 import com.hubahuma.mobile.entity.service.RegisterTeacherResp;
-import com.hubahuma.mobile.entity.service.SearchOrg;
-import com.hubahuma.mobile.entity.service.SearchTeacher;
+import com.hubahuma.mobile.entity.service.SearchOrgParam;
+import com.hubahuma.mobile.entity.service.SearchTeacherParam;
 import com.hubahuma.mobile.entity.service.UpdateOrgParam;
 import com.hubahuma.mobile.entity.service.UpdateParentParam;
 import com.hubahuma.mobile.entity.service.UpdateTeacherParam;
 
-@Rest(rootUrl = "http://192.168.2.103:8080/server", converters = { MappingJacksonHttpMessageConverter.class }, interceptors = { HttpBasicAuthenticatorInterceptor.class })
+/**
+ * "https://182.92.131.156:8080/api/"
+ * "http://192.168.2.103:8080/server"
+ */
+@Rest(rootUrl = "http://101.5.81.34:8080/server", converters = { MappingJacksonHttpMessageConverter.class }, interceptors = { HttpBasicAuthenticatorInterceptor.class })
 public interface UserService extends RestClientErrorHandling {
 
 	RestTemplate getRestTemplate();
@@ -56,29 +61,29 @@ public interface UserService extends RestClientErrorHandling {
 	@Accept(MediaType.APPLICATION_JSON)
 	UserEntity getUser(String id);
 
-	@Get("/authenticate?username={username}&password={password}")
+	@Post("/authenticate")
 	@Accept(MediaType.APPLICATION_JSON)
-	AuthResp login(String username, String password);
+	AuthResp login(AuthParam auth);
 
 	@Post("/register-org")
 	@Accept(MediaType.APPLICATION_JSON)
-	RegisterOrgResp registerOrg(RegisterOrg org);
+	RegisterOrgResp registerOrg(RegisterOrgParam org);
 
 	@Post("/register-teacher")
 	@Accept(MediaType.APPLICATION_JSON)
-	RegisterTeacherResp registerTeacher(RegisterTeacher teacher);
+	RegisterTeacherResp registerTeacher(RegisterTeacherParam teacher);
 
 	@Post("/register-parent")
 	@Accept(MediaType.APPLICATION_JSON)
-	RegisterParentResp registerParent(RegisterParent parent);
+	RegisterParentResp registerParent(RegisterParentParam parent);
 
 	@Post("/search-org?_accessToken={token}")
 	@Accept(MediaType.APPLICATION_JSON)
-	List<Organization> searchOrg(SearchOrg searchOrg, String token);
+	List<Organization> searchOrg(SearchOrgParam searchOrg, String token);
 
 	@Post("/search-teacher?_accessToken={token}")
 	@Accept(MediaType.APPLICATION_JSON)
-	List<Teacher> searchTeacher(SearchTeacher searchTeacher, String token);
+	List<Teacher> searchTeacher(SearchTeacherParam searchTeacher, String token);
 
 	@Post("/search-parent?_accessToken={token}")
 	@Accept(MediaType.APPLICATION_JSON)
@@ -127,19 +132,19 @@ public interface UserService extends RestClientErrorHandling {
 	FetchDetailParentResp fetchDetailParentByUsername(List<String> username,
 			String token);
 
-	@Put("/update-org?_accessToken={token}")
+	@Post("/update-org?_accessToken={token}")
 	@Accept(MediaType.APPLICATION_JSON)
 	void updateOrg(UpdateOrgParam updateOrgParam, String token);
 
-	@Put("/update-teacher?_accessToken={token}")
+	@Post("/update-teacher?_accessToken={token}")
 	@Accept(MediaType.APPLICATION_JSON)
 	void updateTeacher(UpdateTeacherParam updateTeacherParam, String token);
 
-	@Put("/update-parent?_accessToken={token}")
+	@Post("/update-parent?_accessToken={token}")
 	@Accept(MediaType.APPLICATION_JSON)
 	void updateParent(UpdateParentParam updateParentParam, String token);
 
-	@Put("/change-password?_accessToken={token}")
+	@Post("/change-password?_accessToken={token}")
 	@Accept(MediaType.APPLICATION_JSON)
 	ChangePasswordResp chagePassword(ChangePasswordParam updateParentParam,
 			String token);

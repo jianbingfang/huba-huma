@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <Button
+        android:id="@+id/tag"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/tag_height"
+        android:minWidth="60dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg_new_tag"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:gravity="center"
+        android:text="+"
+        android:textSize="25sp"
+        android:textColor="@color/tag_bg" />
+
+</RelativeLayout>

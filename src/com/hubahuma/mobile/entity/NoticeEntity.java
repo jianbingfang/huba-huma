@@ -5,6 +5,8 @@ import java.util.Date;
 
 public class NoticeEntity implements Serializable{
 
+	private String noticeId;
+	
 	private UserEntity user;
 	
 	private String title;
@@ -14,6 +16,14 @@ public class NoticeEntity implements Serializable{
 	private Date date;
 	
 	private String image;
+
+	public String getNoticeId() {
+		return noticeId;
+	}
+
+	public void setNoticeId(String noticeId) {
+		this.noticeId = noticeId;
+	}
 
 	public UserEntity getUser() {
 		return user;

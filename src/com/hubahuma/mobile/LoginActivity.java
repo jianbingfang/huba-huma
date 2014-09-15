@@ -26,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 import com.baidu.mapapi.SDKInitializer;
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.entity.service.AuthParam;
 import com.hubahuma.mobile.entity.service.AuthResp;
 import com.hubahuma.mobile.service.MyErrorHandler;
 import com.hubahuma.mobile.service.SharedPrefs_;
@@ -82,14 +83,19 @@ public class LoginActivity extends FragmentActivity implements
 		userService.setRestErrorHandler(myErrorHandler);
 
 		RestTemplate tpl = userService.getRestTemplate();
-
-		if (tpl.getRequestFactory() instanceof SimpleClientHttpRequestFactory) {
-			Log.d("HTTP", "HttpUrlConnection is used");
-			((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
-					.setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
-			((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
-					.setReadTimeout(GlobalVar.READ_TIMEOUT);
-		}
+		SimpleClientHttpRequestFactory s = new SimpleClientHttpRequestFactory();
+		s.setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
+		s.setReadTimeout(GlobalVar.READ_TIMEOUT);
+		tpl.setRequestFactory(s);
+		
+		// if (tpl.getRequestFactory() instanceof
+		// SimpleClientHttpRequestFactory) {
+		// Log.d("HTTP", "HttpUrlConnection is used");
+		// ((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
+		// .setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
+		// ((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
+		// .setReadTimeout(GlobalVar.READ_TIMEOUT);
+		// }
 
 	}
 
@@ -172,12 +178,14 @@ public class LoginActivity extends FragmentActivity implements
 		AuthResp resp = null;
 		if (!GlobalVar.testMode) {
 			try {
-				resp = userService.login(username.getText().toString(),
-						password.getText().toString());
+				AuthParam ap = new AuthParam();
+				ap.setUsername(username.getText().toString());
+				ap.setPassword(password.getText().toString());
+				resp = userService.login(ap);
+				
 			} catch (RestClientException e) {
-				showToast("服务器验证错误", Toast.LENGTH_LONG);
 				dismissLoadingDialog();
-				Log.e("Rest Error", e.getMessage() + this.getClass().getName());
+				showToast("服务器连接异常", Toast.LENGTH_LONG);
 				return;
 			}
 		} else {

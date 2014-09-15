@@ -55,7 +55,7 @@ public class MyNoticeActivity extends Activity {
 
 	@ViewById
 	Button btn_publish;
-	
+
 	@ViewById
 	View timeline;
 
@@ -79,6 +79,7 @@ public class MyNoticeActivity extends Activity {
 		List<NoticeEntity> testData = new ArrayList<NoticeEntity>();
 		for (int i = 1; i <= 5; i++) {
 			NoticeEntity item = new NoticeEntity();
+			item.setNoticeId("3124123123");
 			item.setUser(myApp.getCurrentUser());
 			item.setDate(new Date());
 			item.setContent("进一步做好民办教育机构的设置要严格审批权限及审批程序，各地在审批民办教育机构时，要严格执行设置标准。");
@@ -100,7 +101,7 @@ public class MyNoticeActivity extends Activity {
 
 		timeline.setVisibility(View.GONE);
 		progress_bar.setVisibility(View.VISIBLE);
-		
+
 	}
 
 	@UiThread
@@ -144,6 +145,9 @@ public class MyNoticeActivity extends Activity {
 	@ItemClick
 	void notice_list(int position) {
 		Intent intent = new Intent(this, ReceiptActivity_.class);
+		NoticeEntity notice = dataList.get(position);
+		intent.putExtra("noticeId", notice.getNoticeId());
+		intent.putExtra("content", notice.getContent());
 		startActivity(intent);
 	}
 

@@ -14,6 +14,7 @@ import org.androidannotations.annotations.ViewById;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,18 +22,21 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.hubahuma.mobile.LoadingDialog_;
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.discovery.VerifyChildDialog_;
+import com.hubahuma.mobile.profile.InputNewTagDialog.InputNewTagDialogConfirmListener;
 import com.hubahuma.mobile.view.FlowLayout;
 
 @SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_change_tag)
 public class ChangeTagActivity extends FragmentActivity implements
-		PromptDialogListener {
+		PromptDialogListener, InputNewTagDialogConfirmListener {
 
 	@ViewById
 	ProgressBar progress_bar;
@@ -55,6 +59,8 @@ public class ChangeTagActivity extends FragmentActivity implements
 
 	private PromptDialog_ promptDialog;
 
+	private NewTagButtonView newTagBtn;
+
 	// private TagListViewAdapter addedTagAdapter;
 	//
 	// private TagListViewAdapter hotTagAdapter;
@@ -68,6 +74,16 @@ public class ChangeTagActivity extends FragmentActivity implements
 		loadingDialog = new LoadingDialog_();
 		promptDialog = new PromptDialog_();
 		promptDialog.setDialogListener(this);
+
+		newTagBtn = NewTagButtonView_.build(getApplicationContext());
+		newTagBtn.tag.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				FragmentManager fm = getSupportFragmentManager();
+				InputNewTagDialog_ dialog = new InputNewTagDialog_();
+				dialog.show(fm, "dialog_new_tag");
+			}
+		});
 
 		updateAddedListView();
 
@@ -96,6 +112,9 @@ public class ChangeTagActivity extends FragmentActivity implements
 				added_tag_layout.addView(tagView);
 			}
 		}
+
+		added_tag_layout.addView(newTagBtn);
+
 	}
 
 	@UiThread
@@ -206,7 +225,6 @@ public class ChangeTagActivity extends FragmentActivity implements
 	@Click
 	void btn_back() {
 		Intent intent = getIntent();
-		intent.putExtra("result", "returned from ChangeTagActivity");
 		if (publishSucc) {
 			intent.putStringArrayListExtra("newTagList", tagList);
 			this.setResult(1, intent);
@@ -227,5 +245,27 @@ public class ChangeTagActivity extends FragmentActivity implements
 		if (publishSucc) {
 			btn_back();
 		}
+	}
+
+	@UiThread
+	void showToast(String info, int time) {
+		Toast.makeText(getApplicationContext(), info, time).show();
+	}
+
+	@Override
+	public void onDialogConfirm(String inputText) {
+
+		if (tagList.contains(inputText)) {
+			showToast("该标签已存在", Toast.LENGTH_SHORT);
+			return;
+		} else {
+			tagList.add(inputText);
+			updateAddedListView();
+		}
+
+		if (hotTagList.remove(inputText)) {
+			updateHotListView();
+		}
+
 	}
 }

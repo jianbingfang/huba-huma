@@ -20,13 +20,14 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
-import com.hubahuma.mobile.entity.service.RegisterParent;
+import com.hubahuma.mobile.entity.service.RegisterParentParam;
 import com.hubahuma.mobile.entity.service.RegisterParentResp;
-import com.hubahuma.mobile.entity.service.RegisterTeacher;
+import com.hubahuma.mobile.entity.service.RegisterTeacherParam;
 import com.hubahuma.mobile.entity.service.RegisterTeacherResp;
 import com.hubahuma.mobile.service.MyErrorHandler;
 import com.hubahuma.mobile.service.SmsService;
 import com.hubahuma.mobile.service.UserService;
+import com.hubahuma.mobile.utils.GlobalVar;
 import com.hubahuma.mobile.utils.UtilTools;
 
 import android.app.Activity;
@@ -85,25 +86,17 @@ public class AuthCodeActivity extends FragmentActivity implements
 		smsService.setRestErrorHandler(myErrorHandler);
 		
 		RestTemplate tpl = userService.getRestTemplate();
-		if (tpl.getRequestFactory() instanceof SimpleClientHttpRequestFactory) {
-			Log.d("HTTP", "HttpUrlConnection is used");
-			((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
-					.setConnectTimeout(10000);
-			((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
-					.setReadTimeout(5000);
-		}
-		
 		RestTemplate smsTpl = smsService.getRestTemplate();
-		if (smsTpl.getRequestFactory() instanceof SimpleClientHttpRequestFactory) {
-			Log.d("HTTP", "HttpUrlConnection is used");
-			((SimpleClientHttpRequestFactory) smsTpl.getRequestFactory())
-					.setConnectTimeout(10000);
-			((SimpleClientHttpRequestFactory) smsTpl.getRequestFactory())
-					.setReadTimeout(5000);
-		}
+
+		SimpleClientHttpRequestFactory s = new SimpleClientHttpRequestFactory();
+		s.setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
+		s.setReadTimeout(GlobalVar.READ_TIMEOUT);
+		
+		tpl.setRequestFactory(s);
+		smsTpl.setRequestFactory(s);
 	}
 
-	private int timeCount = 10;
+	private int timeCount = 60;
 
 	@AfterViews
 	void init() {
@@ -182,11 +175,11 @@ public class AuthCodeActivity extends FragmentActivity implements
 	private boolean checkCode() {
 
 		if (UtilTools.isEmpty(auth_code.getText().toString().trim())) {
-			error_info.setText("验证码不能为空！");
+			error_info.setText("验证码不能为空");
 			return false;
 		}
 		if (!code.equals(auth_code.getText().toString().trim())) {
-			error_info.setText("验证码错误！");
+			error_info.setText("验证码错误");
 			return false;
 		}
 		error_info.setText("");
@@ -232,7 +225,7 @@ public class AuthCodeActivity extends FragmentActivity implements
 			code += rand.nextInt(10);
 		}
 
-		Log.d("SMS", "code:" + code);
+		System.out.println("SMS code:" + code);
 
 		String result = null;
 
@@ -241,10 +234,8 @@ public class AuthCodeActivity extends FragmentActivity implements
 			result = smsService.sendSMS(uid, key, phone, content);
 			System.out.println("SMS result:" + result);
 		} catch (RestClientException e) {
-			showToast("服务器验证错误", Toast.LENGTH_LONG);
+			showToast("服务器连接异常", Toast.LENGTH_LONG);
 			dismissLoadingDialog();
-			Log.e("Rest Error", e.getMessage() + ". - "
-					+ this.getClass().getName());
 			afterSmsSendFail();
 			return;
 		}
@@ -273,7 +264,7 @@ public class AuthCodeActivity extends FragmentActivity implements
 		showLoadingDialog();
 		RegisterParentResp resp = null;
 
-		RegisterParent parent = new RegisterParent();
+		RegisterParentParam parent = new RegisterParentParam();
 
 		parent.setUsername(username);
 		parent.setPassword(password);
@@ -319,7 +310,7 @@ public class AuthCodeActivity extends FragmentActivity implements
 		showLoadingDialog();
 		RegisterTeacherResp resp = null;
 
-		RegisterTeacher teacher = new RegisterTeacher();
+		RegisterTeacherParam teacher = new RegisterTeacherParam();
 
 		teacher.setUsername(username);
 		teacher.setPassword(password);
