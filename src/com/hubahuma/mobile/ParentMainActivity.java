@@ -73,7 +73,7 @@ public class ParentMainActivity extends TabActivity {
 	@AfterViews
 	void init() {
 
-		mainTabNewsCounter.setVisibility(View.VISIBLE);
+		mainTabNewsCounter.setVisibility(View.GONE);
 		mainTabNewsCounter.setText("10");
 
 		tabHost = this.getTabHost();

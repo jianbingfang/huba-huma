@@ -216,7 +216,7 @@ public class ReceiptActivity extends FragmentActivity implements
 	}
 
 	@Background
-	void resendSms() {
+	void handleResendSms() {
 		showLoadingDialog();
 
 		if (!UtilTools.isNetConnected(getApplicationContext())) {
@@ -250,8 +250,10 @@ public class ReceiptActivity extends FragmentActivity implements
 			return;
 		} else {
 			dismissLoadingDialog();
-			showPromptDialog("成功", "短信已成功发送。");
-			resend_sms.setVisibility(View.GONE);
+			showPromptDialog("成功", "通知内容已通过短信成功发送。");
+			resend_sms.setText("已重发");
+			resend_sms.setEnabled(false);
+			resend_sms.setBackgroundResource(R.drawable.btn_grey_bg);
 			// showToast("验证短信已发送", Toast.LENGTH_SHORT);
 		}
 

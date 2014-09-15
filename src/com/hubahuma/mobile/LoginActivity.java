@@ -87,7 +87,7 @@ public class LoginActivity extends FragmentActivity implements
 		s.setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
 		s.setReadTimeout(GlobalVar.READ_TIMEOUT);
 		tpl.setRequestFactory(s);
-		
+
 		// if (tpl.getRequestFactory() instanceof
 		// SimpleClientHttpRequestFactory) {
 		// Log.d("HTTP", "HttpUrlConnection is used");
@@ -182,7 +182,7 @@ public class LoginActivity extends FragmentActivity implements
 				ap.setUsername(username.getText().toString());
 				ap.setPassword(password.getText().toString());
 				resp = userService.login(ap);
-				
+
 			} catch (RestClientException e) {
 				dismissLoadingDialog();
 				showToast("服务器连接异常", Toast.LENGTH_LONG);
@@ -199,7 +199,7 @@ public class LoginActivity extends FragmentActivity implements
 			dismissLoadingDialog();
 			return;
 		}
-
+		resp.setResult(true);
 		switch (username.getText().toString()) {
 		case "1":
 			resp.setType(UserType.PARENTS);

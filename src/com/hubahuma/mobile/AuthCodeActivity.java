@@ -226,6 +226,7 @@ public class AuthCodeActivity extends FragmentActivity implements
 		}
 
 		System.out.println("SMS code:" + code);
+		showToast(code, Toast.LENGTH_LONG);
 
 		String result = null;
 

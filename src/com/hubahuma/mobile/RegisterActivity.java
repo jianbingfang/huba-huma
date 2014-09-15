@@ -94,6 +94,7 @@ public class RegisterActivity extends FragmentActivity implements
 	@Click
 	void btn_register() {
 		if (checkInput()) {
+			btn_register.setEnabled(false);
 			Intent intent = new Intent(this, AuthCodeActivity_.class);
 			intent.putExtra("username", username.getText().toString().trim());
 			intent.putExtra("password", password.getText().toString().trim());
@@ -165,6 +166,7 @@ public class RegisterActivity extends FragmentActivity implements
 
 	@OnActivityResult(ActivityCode.AUTH_CODE_ACTIVITY)
 	void onReturnFromMainActivity(Intent intent, int resultCode) {
+		btn_register.setEnabled(true);
 		if (resultCode == 1) {
 			this.setResult(1, intent);
 			this.finish();
