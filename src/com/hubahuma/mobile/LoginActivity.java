@@ -88,15 +88,6 @@ public class LoginActivity extends FragmentActivity implements
 		s.setReadTimeout(GlobalVar.READ_TIMEOUT);
 		tpl.setRequestFactory(s);
 
-		// if (tpl.getRequestFactory() instanceof
-		// SimpleClientHttpRequestFactory) {
-		// Log.d("HTTP", "HttpUrlConnection is used");
-		// ((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
-		// .setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
-		// ((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
-		// .setReadTimeout(GlobalVar.READ_TIMEOUT);
-		// }
-
 	}
 
 	private LoadingDialog_ loadingDialog;
@@ -168,10 +159,11 @@ public class LoginActivity extends FragmentActivity implements
 
 	@Background
 	void handleLogin() {
-
-		if (!UtilTools.isNetConnected(getApplicationContext())) {
-			showToast("无法访问网络", Toast.LENGTH_LONG);
-			return;
+		if (!GlobalVar.testMode) {
+			if (!UtilTools.isNetConnected(getApplicationContext())) {
+				showToast("无法访问网络", Toast.LENGTH_LONG);
+				return;
+			}
 		}
 
 		showLoadingDialog();
@@ -223,11 +215,15 @@ public class LoginActivity extends FragmentActivity implements
 		if (requestSucc == true) {
 
 			UserEntity user = new UserEntity();
-			user.setId("000001");
-			user.setRemark("none");
-			user.setUsername("当前用户");
+			user.setUsername(username.getText().toString());
+			user.setPassword(password.getText().toString());
+			user.setUserId("000001");
+			user.setName("用户A");
+			user.setRemark("备注信息");
+			user.setUsername("user_test");
+			user.setPhone("18201014080");
 			user.setType(resp.getType());
-			myApp.token = resp.getToken();
+			myApp.setToken(resp.getToken());
 			myApp.setCurrentUser(user);
 
 			if (remember_check.isChecked()) {

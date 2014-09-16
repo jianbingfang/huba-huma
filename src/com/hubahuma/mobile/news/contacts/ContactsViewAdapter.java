@@ -147,7 +147,7 @@ public class ContactsViewAdapter extends BaseExpandableListAdapter {
 			}
 		});
 		
-		holder.name.setText(user.getUsername());
+		holder.name.setText(user.getName());
 		if ("".equals(user.getRemark())) {
 			holder.remark.setVisibility(View.GONE);
 		} else {

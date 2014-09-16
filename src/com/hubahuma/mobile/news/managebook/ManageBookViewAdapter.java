@@ -135,7 +135,7 @@ public class ManageBookViewAdapter extends BaseExpandableListAdapter {
 				.get(childPosition);
 		// TODO 判断真实头像
 		holder.portrait.setImageResource(R.drawable.default_portrait);
-		final String username = user.getUsername();
+		final String username = user.getName();
 		holder.name.setText(username);
 		holder.remark.setText(user.getRemark());
 		// TODO 记录该用户ID

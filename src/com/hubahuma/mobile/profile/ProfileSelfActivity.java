@@ -58,6 +58,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_profile_self)
 public class ProfileSelfActivity extends Activity {
@@ -167,8 +168,8 @@ public class ProfileSelfActivity extends Activity {
 
 	@UiThread
 	void postLoadData() {
-		name.setText(myApp.getCurrentUser().getUsername());
-		name2.setText(myApp.getCurrentUser().getUsername());
+		name.setText(myApp.getCurrentUser().getName());
+		name2.setText(myApp.getCurrentUser().getName());
 		remark.setText(myApp.getCurrentUser().getRemark());
 		// id.setText(myApp.getCurrentUser().getId());
 

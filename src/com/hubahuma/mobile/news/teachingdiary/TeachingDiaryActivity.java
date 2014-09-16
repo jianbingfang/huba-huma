@@ -104,9 +104,9 @@ public class TeachingDiaryActivity extends Activity implements
 		Random rand = new Random();
 
 		UserEntity user = new UserEntity();
-		user.setId("#0001");
+		user.setUserId("#0001");
 		user.setType(UserType.TEACHER);
-		user.setUsername("姚燕芬老师");
+		user.setName("姚燕芬老师");
 		user.setRemark("北京市第二幼儿园");
 
 		for (int i = 0; i < 4; i++) {

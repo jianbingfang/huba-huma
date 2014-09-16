@@ -96,7 +96,7 @@ public class PublishNoticeActivity extends FragmentActivity implements
 		promptDialog = new PromptDialog_();
 		promptDialog.setDialogListener(this);
 		btn_submit.setVisibility(View.GONE);
-		name.setText(myApp.getCurrentUser().getUsername());
+		name.setText(myApp.getCurrentUser().getName());
 		date.setText(UtilTools.parseDate(new Date()));
 	}
 
@@ -126,7 +126,6 @@ public class PublishNoticeActivity extends FragmentActivity implements
 	@Click
 	void btn_submit() {
 		NoticeEntity notice = new NoticeEntity();
-		notice.setUser(myApp.getCurrentUser());
 		notice.setTitle(title.getText().toString().trim());
 		notice.setContent(content.getText().toString().trim());
 		notice.setDate(new Date());

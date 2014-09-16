@@ -2,6 +2,8 @@ package com.hubahuma.mobile.entity.service;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class SearchOrgParam {
 
 	private String description;
@@ -9,6 +11,17 @@ public class SearchOrgParam {
 	private List<String> tags;
 	private String type;
 	private boolean verified;
+	
+	@JsonProperty("_accessToken")
+	private String token;
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 	public String getDescription() {
 		return description;

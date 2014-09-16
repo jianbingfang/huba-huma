@@ -96,8 +96,8 @@ public class ContactsActivity extends FragmentActivity implements
 		for (List<UserEntity> group : childList) {
 			List<UserEntity> userList = new ArrayList<UserEntity>();
 			for (UserEntity user : group) {
-				if (user.getUsername() != null
-						&& user.getUsername().contains(word)) {
+				if (user.getName() != null
+						&& user.getName().contains(word)) {
 					userList.add(user);
 				}
 			}
@@ -118,8 +118,8 @@ public class ContactsActivity extends FragmentActivity implements
 		List<UserEntity> childList1 = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 4; i++) {
 			UserEntity child1Data = new UserEntity();
-			child1Data.setId("group#" + i);
-			child1Data.setUsername("快乐城堡儿童英语第" + i + "群");
+			child1Data.setUserId("group#" + i);
+			child1Data.setName("快乐城堡儿童英语第" + i + "群");
 			child1Data.setRemark(i * 10 + "人");
 			childList1.add(child1Data);
 		}
@@ -129,9 +129,9 @@ public class ContactsActivity extends FragmentActivity implements
 		List<UserEntity> childList2 = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 1; i++) {
 			UserEntity child1Data = new UserEntity();
-			child1Data.setId("school#" + i);
+			child1Data.setUserId("school#" + i);
 			child1Data.setType(UserType.ORGANIZTION);
-			child1Data.setUsername("快乐城堡儿童英语");
+			child1Data.setName("快乐城堡儿童英语");
 			child1Data.setRemark("");
 			childList2.add(child1Data);
 		}
@@ -141,9 +141,9 @@ public class ContactsActivity extends FragmentActivity implements
 		List<UserEntity> childList3 = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 4; i++) {
 			UserEntity child1Data = new UserEntity();
-			child1Data.setId("teacher#" + i);
+			child1Data.setUserId("teacher#" + i);
 			child1Data.setType(UserType.TEACHER);
-			child1Data.setUsername("王萍" + i);
+			child1Data.setName("王萍" + i);
 			child1Data.setRemark("北京市第" + i + "中学");
 			childList3.add(child1Data);
 		}
@@ -153,9 +153,9 @@ public class ContactsActivity extends FragmentActivity implements
 		List<UserEntity> childList4 = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 6; i++) {
 			UserEntity child1Data = new UserEntity();
-			child1Data.setId("user#" + i);
+			child1Data.setUserId("user#" + i);
 			child1Data.setType(UserType.PARENTS);
-			child1Data.setUsername("李国成" + i);
+			child1Data.setName("李国成" + i);
 			child1Data.setRemark("李小丽父亲" + i);
 			childList4.add(child1Data);
 		}

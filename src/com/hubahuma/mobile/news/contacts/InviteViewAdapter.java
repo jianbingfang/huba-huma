@@ -134,7 +134,7 @@ public class InviteViewAdapter extends BaseExpandableListAdapter {
 		// TODO 判断真实头像
 		holder.portrait.setImageResource(R.drawable.default_portrait);
 		holder.checkBox.setTag(user);
-		holder.name.setText(user.getUsername());
+		holder.name.setText(user.getName());
 		if ("".equals(user.getRemark())) {
 			holder.remark.setVisibility(View.GONE);
 		} else {

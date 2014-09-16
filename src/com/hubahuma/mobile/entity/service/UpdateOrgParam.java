@@ -2,6 +2,8 @@ package com.hubahuma.mobile.entity.service;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class UpdateOrgParam {
 
 	private String organizationId;
@@ -11,6 +13,17 @@ public class UpdateOrgParam {
 	private String phone;
 	private String photo;
 	private List<String> tags;
+
+	@JsonProperty("_accessToken")
+	private String token;
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 	public String getOrganizationId() {
 		return organizationId;

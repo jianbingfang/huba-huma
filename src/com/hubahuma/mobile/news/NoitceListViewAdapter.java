@@ -68,7 +68,7 @@ public class NoitceListViewAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		if (UtilTools.isEmpty(item.getUser().getPortrait())) {
+		if (UtilTools.isEmpty(item.getAuthor().getPortrait())) {
 			viewHolder.portrait.setImageResource(R.drawable.default_portrait);
 		} else {
 			// TODO 判断真实头像
@@ -81,7 +81,7 @@ public class NoitceListViewAdapter extends BaseAdapter {
 			viewHolder.content_img
 					.setImageResource(R.drawable.teaching_diary_img);
 		}
-		viewHolder.author_name.setText(item.getUser().getUsername());
+		viewHolder.author_name.setText(item.getAuthor().getName());
 		viewHolder.content_txt.setText(item.getContent());
 		viewHolder.message_date.setText(UtilTools.parseDate(item.getDate()));
 

@@ -102,7 +102,7 @@ public class TeachingDiaryViewAdapter extends BaseAdapter {
 				listener.onAuthorClick((UserEntity) v.getTag());
 			}
 		});
-		viewHolder.authorName.setText(item.getAuthor().getUsername());
+		viewHolder.authorName.setText(item.getAuthor().getName());
 		viewHolder.authorName.setTag(item.getAuthor());
 		viewHolder.authorName.setOnClickListener(new OnClickListener() {
 			@Override

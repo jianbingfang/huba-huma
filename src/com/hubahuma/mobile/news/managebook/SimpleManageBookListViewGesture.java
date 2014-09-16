@@ -115,7 +115,7 @@ public class SimpleManageBookListViewGesture implements View.OnTouchListener {
 	}
 
 	public interface TouchCallbacks { // Callback functions
-		void onDelete(ListView listView, int[] reverseSortedPositions);
+		boolean onDelete(ListView listView, int[] reverseSortedPositions);
 
 		void OnClickChangeGroup(int position);
 
@@ -503,6 +503,7 @@ public class SimpleManageBookListViewGesture implements View.OnTouchListener {
 						ValueAnimator animator = ValueAnimator.ofInt(
 								originalHeight, 0).setDuration(mAnimationTime);
 						animator.addListener(new AnimatorListenerAdapter() {
+							
 							@Override
 							public void onAnimationEnd(Animator animation) {
 								--mDismissAnimationRefCount;

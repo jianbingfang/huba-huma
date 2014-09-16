@@ -76,7 +76,7 @@ public class SearchResultViewAdapter extends BaseAdapter {
 
 		// TODO 判断真实头像
 		viewHolder.portrait.setImageResource(R.drawable.default_portrait);
-		final String username = user.getUsername();
+		final String username = user.getName();
 		viewHolder.name.setText(username);
 		viewHolder.remark.setText(user.getRemark());
 		viewHolder.follow.setTag(user);

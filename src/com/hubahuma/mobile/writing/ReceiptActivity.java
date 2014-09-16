@@ -167,9 +167,9 @@ public class ReceiptActivity extends FragmentActivity implements
 		List<UserEntity> testData = new ArrayList<UserEntity>();
 		for (int i = 1; i <= rand.nextInt(20); i++) {
 			UserEntity item = new UserEntity();
-			item.setId("0000" + i);
+			item.setUserId("0000" + i);
 			item.setType(UserType.PARENTS);
-			item.setUsername("高健" + i);
+			item.setName("高健" + i);
 			item.setRemark("高晓东" + i + "爸爸");
 			testData.add(item);
 		}
@@ -231,7 +231,7 @@ public class ReceiptActivity extends FragmentActivity implements
 		}
 		phone = phone.substring(1);
 
-		String msg = "来自\"" + myApp.getCurrentUser().getUsername() + "\"的通知："
+		String msg = "来自\"" + myApp.getCurrentUser().getName() + "\"的通知："
 				+ content + " 【虎爸虎妈公司】";
 
 		String result = null;

@@ -72,7 +72,7 @@ public class ReceiptListViewAdapter extends BaseAdapter {
 
 		// TODO 加入真实头像
 		viewHolder.portrait.setImageResource(R.drawable.default_portrait);
-		viewHolder.name.setText(item.getUsername());
+		viewHolder.name.setText(item.getName());
 		viewHolder.remark.setText(item.getRemark());
 
 		return convertView;

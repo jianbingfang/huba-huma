@@ -1,10 +1,23 @@
 package com.hubahuma.mobile.entity.service;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class ChangePasswordParam {
 
 	private String userId;
 	private String oldPassword;
 	private String newPassword;
+
+	@JsonProperty("_accessToken")
+	private String token;
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 	public String getUserId() {
 		return userId;

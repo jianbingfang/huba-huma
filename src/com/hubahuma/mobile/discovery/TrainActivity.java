@@ -75,9 +75,9 @@ public class TrainActivity extends Activity implements TrainOrgListViewListener 
 		List<UserEntity> list = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 10; i++) {
 			UserEntity data = new UserEntity();
-			data.setId("school#" + i);
+			data.setUserId("school#" + i);
 			data.setType(UserType.ORGANIZTION);
-			data.setUsername("快乐城堡儿童英语");
+			data.setName("快乐城堡儿童英语");
 			data.setRemark("");
 			list.add(data);
 		}

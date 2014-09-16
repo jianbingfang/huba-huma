@@ -19,6 +19,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.hubahuma.mobile.entity.User;
 import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.entity.service.AuthParam;
 import com.hubahuma.mobile.entity.service.AuthResp;
@@ -119,12 +120,6 @@ public class SplashActivity extends Activity {
 					if (resp != null && resp.isResult()) {
 						Log.d("debug", "attempt login succ");
 
-						UserEntity user = new UserEntity();
-						user.setId("000001");
-						user.setRemark("none");
-						user.setUsername("当前用户");
-						user.setType(resp.getType());
-
 						switch (prefs.username().get()) {
 						case "1":
 							resp.setType(UserType.PARENTS);
@@ -144,12 +139,22 @@ public class SplashActivity extends Activity {
 							break;
 						}
 
-						myApp.token = resp.getToken();
+						UserEntity user = new UserEntity();
+						user.setUsername(prefs.username().get());
+						user.setPassword(prefs.password().get());
+						user.setUserId("000001");
+						user.setName("用户A");
+						user.setRemark("备注信息");
+						user.setUsername("user_test");
+						user.setPhone("18201014080");
+						user.setType(resp.getType());
+						myApp.setToken(resp.getToken());
 						myApp.setCurrentUser(user);
-
+						
 						prefs.edit().token().put(resp.getToken())
 								.lastTokenUpdated()
 								.put(System.currentTimeMillis());
+
 						startMainActivity();
 						return;
 					}

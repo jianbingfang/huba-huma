@@ -227,9 +227,9 @@ public class SearchResultActivity extends FragmentActivity implements
 		List<UserEntity> list = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 4; i++) {
 			UserEntity user = new UserEntity();
-			user.setId("teacher#" + i);
+			user.setUserId("teacher#" + i);
 			user.setType(UserType.TEACHER);
-			user.setUsername("王萍" + i);
+			user.setName("王萍" + i);
 			user.setRemark("北京市第" + i + "中学");
 			list.add(user);
 		}

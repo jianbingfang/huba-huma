@@ -2,6 +2,8 @@ package com.hubahuma.mobile.entity.service;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class UpdateTeacherParam {
 
 	private String teacherId;
@@ -12,6 +14,17 @@ public class UpdateTeacherParam {
 	private String photo;
 	private String signature;
 	private List<String> tags;
+
+	@JsonProperty("_accessToken")
+	private String token;
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 	public String getTeacherId() {
 		return teacherId;

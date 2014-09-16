@@ -99,9 +99,9 @@ public class CommentsActivity extends Activity {
 		Random rand = new Random();
 
 		UserEntity user = new UserEntity();
-		user.setId("#0001");
+		user.setUserId("#0001");
 		user.setType(UserType.PARENTS);
-		user.setUsername("李晓龙");
+		user.setName("李晓龙");
 		user.setRemark("李一贤家长");
 
 		for (int i = 0; i < 4; i++) {

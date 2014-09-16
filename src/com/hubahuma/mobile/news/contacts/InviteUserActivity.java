@@ -172,9 +172,9 @@ public class InviteUserActivity extends Activity implements
 		List<UserEntity> childList3 = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 4; i++) {
 			UserEntity child1Data = new UserEntity();
-			child1Data.setId("teacher#" + i);
+			child1Data.setUserId("teacher#" + i);
 			child1Data.setType(UserType.TEACHER);
-			child1Data.setUsername("王萍" + i);
+			child1Data.setName("王萍" + i);
 			child1Data.setRemark("北京市第" + i + "中学");
 			// child1Data.setChecked(false);
 			childList3.add(child1Data);
@@ -185,9 +185,9 @@ public class InviteUserActivity extends Activity implements
 		List<UserEntity> childList4 = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 6; i++) {
 			UserEntity child1Data = new UserEntity();
-			child1Data.setId("user#" + i);
+			child1Data.setUserId("user#" + i);
 			child1Data.setType(UserType.PARENTS);
-			child1Data.setUsername("李国成" + i);
+			child1Data.setName("李国成" + i);
 			child1Data.setRemark("李小丽父亲" + i);
 			// child1Data.setChecked(false);
 			childList4.add(child1Data);

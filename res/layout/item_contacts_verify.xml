@@ -66,7 +66,7 @@
                 android:id="@+id/btn_ignore"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="0dp"
                 android:background="@drawable/receipt_red_bg"
                 android:text="忽略"
                 android:textColor="@color/white"
@@ -76,11 +76,12 @@
                 android:id="@+id/btn_accept"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
-                android:layout_marginRight="0dp"
+                android:layout_marginLeft="10dp"
                 android:background="@drawable/receipt_green_bg"
                 android:text="通过"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="visible" />
         </LinearLayout>
     </RelativeLayout>
 

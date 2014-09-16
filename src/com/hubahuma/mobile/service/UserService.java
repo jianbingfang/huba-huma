@@ -26,6 +26,8 @@ import com.hubahuma.mobile.entity.User;
 import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.entity.service.AuthParam;
 import com.hubahuma.mobile.entity.service.AuthResp;
+import com.hubahuma.mobile.entity.service.BindPhoneParam;
+import com.hubahuma.mobile.entity.service.BoolResp;
 import com.hubahuma.mobile.entity.service.ChangePasswordParam;
 import com.hubahuma.mobile.entity.service.ChangePasswordResp;
 import com.hubahuma.mobile.entity.service.FetchDetailOrgParam;
@@ -41,16 +43,18 @@ import com.hubahuma.mobile.entity.service.RegisterParentResp;
 import com.hubahuma.mobile.entity.service.RegisterTeacherParam;
 import com.hubahuma.mobile.entity.service.RegisterTeacherResp;
 import com.hubahuma.mobile.entity.service.SearchOrgParam;
+import com.hubahuma.mobile.entity.service.SearchParentParam;
 import com.hubahuma.mobile.entity.service.SearchTeacherParam;
 import com.hubahuma.mobile.entity.service.UpdateOrgParam;
 import com.hubahuma.mobile.entity.service.UpdateParentParam;
 import com.hubahuma.mobile.entity.service.UpdateTeacherParam;
+import com.hubahuma.mobile.entity.service.VerifyBindPhoneParam;
 
 /**
  * "https://182.92.131.156:8080/api"
  * "http://192.168.2.103:8080/server"
  */
-@Rest(rootUrl = "http://182.92.131.156:8080/api", converters = { MappingJacksonHttpMessageConverter.class }, interceptors = { HttpBasicAuthenticatorInterceptor.class })
+@Rest(rootUrl = "http://192.168.2.103:8080/server", converters = { MappingJacksonHttpMessageConverter.class }, interceptors = { HttpBasicAuthenticatorInterceptor.class })
 public interface UserService extends RestClientErrorHandling {
 
 	RestTemplate getRestTemplate();
@@ -73,17 +77,17 @@ public interface UserService extends RestClientErrorHandling {
 	@Accept(MediaType.APPLICATION_JSON)
 	RegisterParentResp registerParent(RegisterParentParam parent);
 
-	@Post("/search-org?_accessToken={token}")
+	@Post("/search-org")
 	@Accept(MediaType.APPLICATION_JSON)
-	List<Organization> searchOrg(SearchOrgParam searchOrg, String token);
+	List<Organization> searchOrg(SearchOrgParam searchOrg);
 
-	@Post("/search-teacher?_accessToken={token}")
+	@Post("/search-teacher")
 	@Accept(MediaType.APPLICATION_JSON)
-	List<Teacher> searchTeacher(SearchTeacherParam searchTeacher, String token);
+	List<Teacher> searchTeacher(SearchTeacherParam searchTeacher);
 
-	@Post("/search-parent?_accessToken={token}")
+	@Post("/search-parent")
 	@Accept(MediaType.APPLICATION_JSON)
-	List<Parent> searchParent(String name, String token);
+	List<Parent> searchParent(SearchParentParam searchParentParam);
 
 	@Post("/fetch-detail-org?_accessToken={token}")
 	@Accept(MediaType.APPLICATION_JSON)
@@ -128,28 +132,27 @@ public interface UserService extends RestClientErrorHandling {
 	FetchDetailParentResp fetchDetailParentByUsername(List<String> username,
 			String token);
 
-	@Post("/update-org?_accessToken={token}")
+	@Post("/update-org")
 	@Accept(MediaType.APPLICATION_JSON)
-	void updateOrg(UpdateOrgParam updateOrgParam, String token);
+	void updateOrg(UpdateOrgParam updateOrgParam);
 
-	@Post("/update-teacher?_accessToken={token}")
+	@Post("/update-teacher")
 	@Accept(MediaType.APPLICATION_JSON)
-	void updateTeacher(UpdateTeacherParam updateTeacherParam, String token);
+	void updateTeacher(UpdateTeacherParam updateTeacherParam);
 
-	@Post("/update-parent?_accessToken={token}")
+	@Post("/update-parent")
 	@Accept(MediaType.APPLICATION_JSON)
-	void updateParent(UpdateParentParam updateParentParam, String token);
+	void updateParent(UpdateParentParam updateParentParam);
 
-	@Post("/change-password?_accessToken={token}")
+	@Post("/change-password")
 	@Accept(MediaType.APPLICATION_JSON)
-	ChangePasswordResp chagePassword(ChangePasswordParam updateParentParam,
-			String token);
+	ChangePasswordResp chagePassword(ChangePasswordParam updateParentParam);
 
-	@Post("/bind-phone?userId={userId}&phone={phone}")
+	@Post("/bind-phone")
 	@Accept(MediaType.APPLICATION_JSON)
-	void bindPhone(String userId, String phone);
+	void bindPhone(BindPhoneParam bindPhoneParam);
 
-	@Post("/verify-bind-phone?userId={userId}&code={code}")
+	@Post("/verify-bind-phone")
 	@Accept(MediaType.APPLICATION_JSON)
-	void verifyBindPhone(String userId, String code);
+	BoolResp verifyBindPhone(VerifyBindPhoneParam param);
 }

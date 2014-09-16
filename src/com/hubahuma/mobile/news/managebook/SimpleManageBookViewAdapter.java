@@ -31,6 +31,11 @@ public class SimpleManageBookViewAdapter extends BaseExpandableListAdapter {
 
 	private SimpleManageBookListener listener;
 
+	private final int VIEW_NUMBER = 2;
+
+	private final int VERIFY_VIEW = 0;
+	private final int CONTACT_VIEW = 1;
+
 	public SimpleManageBookViewAdapter(Context context,
 			List<GroupEntity> groupData,
 			SimpleManageBookListener phoneOperListener) {
@@ -81,22 +86,41 @@ public class SimpleManageBookViewAdapter extends BaseExpandableListAdapter {
 		return true;
 	}
 
+	@Override
+	public int getChildType(int groupPosition, int childPosition) {
+		if (groupPosition == 0) {
+			return VERIFY_VIEW;
+		} else {
+			return CONTACT_VIEW;
+		}
+	}
+
+	@Override
+	public int getChildTypeCount() {
+		return VIEW_NUMBER;
+	}
+
+	@Override
+	public int getGroupTypeCount() {
+		return 1;
+	}
+
 	@SuppressLint("InflateParams")
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded,
 			View convertView, ViewGroup viewgroup) {
-		ExpandableGroupHolder holder = null; // 清空临时变量holder
+		GroupHolder holder = null; // 清空临时变量holder
 		if (true) { // 判断view（即view是否已构建好）是否为空
 
 			convertView = mInflater.inflate(R.layout.item_group_tree_title,
 					null);
-			holder = new ExpandableGroupHolder();
+			holder = new GroupHolder();
 			holder.title = (TextView) convertView.findViewById(R.id.group_name);
 			holder.indicator = (ImageView) convertView
 					.findViewById(R.id.indicator);
 			convertView.setTag(holder);
 		} else { // 若view不为空，直接从view的tag属性中获得各子视图的引用
-			holder = (ExpandableGroupHolder) convertView.getTag();
+			holder = (GroupHolder) convertView.getTag();
 		}
 		String title = (String) groupData.get(groupPosition).getGroupName();
 		holder.title.setText(title);
@@ -116,70 +140,117 @@ public class SimpleManageBookViewAdapter extends BaseExpandableListAdapter {
 	@Override
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup viewgroup) {
-		if (groupPosition == 0) {
-			VerifyViewHolder holder = null;
-			convertView = mInflater
-					.inflate(R.layout.item_contacts_verify, null);
-			holder = new VerifyViewHolder();
-			holder.name = (TextView) convertView.findViewById(R.id.name);
-			holder.portrait = (ImageView) convertView
-					.findViewById(R.id.head_portrait);
-			holder.remark = (TextView) convertView.findViewById(R.id.remark);
-			holder.ignore = (Button) convertView.findViewById(R.id.btn_ignore);
-			holder.accept = (Button) convertView.findViewById(R.id.btn_accept);
+
+		VerifyViewHolder holder1 = null;
+		ContactViewHolder holder2 = null;
+
+		int type = getChildType(groupPosition, childPosition);
+
+		if (convertView == null) {
+
+			switch (type) {
+			case VERIFY_VIEW:
+				convertView = mInflater.inflate(R.layout.item_contacts_verify,
+						null);
+				holder1 = new VerifyViewHolder();
+				holder1.name = (TextView) convertView.findViewById(R.id.name);
+				holder1.portrait = (ImageView) convertView
+						.findViewById(R.id.head_portrait);
+				holder1.remark = (TextView) convertView
+						.findViewById(R.id.remark);
+				holder1.ignore = (Button) convertView
+						.findViewById(R.id.btn_ignore);
+				holder1.accept = (Button) convertView
+						.findViewById(R.id.btn_accept);
+				convertView.setTag(holder1);
+				break;
+
+			case CONTACT_VIEW:
+				convertView = mInflater.inflate(R.layout.item_contacts_parents,
+						null);
+				holder2 = new ContactViewHolder();
+				holder2.name = (TextView) convertView.findViewById(R.id.name);
+				holder2.portrait = (ImageView) convertView
+						.findViewById(R.id.head_portrait);
+				holder2.remark = (TextView) convertView
+						.findViewById(R.id.remark);
+				holder2.sendMsg = (ImageButton) convertView
+						.findViewById(R.id.btn_send_message);
+				holder2.giveCall = (ImageButton) convertView
+						.findViewById(R.id.btn_call);
+				convertView.setTag(holder2);
+				break;
+			}
+
+		} else {
+			switch (type) {
+			case VERIFY_VIEW:
+				holder1 = (VerifyViewHolder) convertView.getTag();
+				break;
+			case CONTACT_VIEW:
+				holder2 = (ContactViewHolder) convertView.getTag();
+				break;
+			}
+		}
+
+		if (type == VERIFY_VIEW) {
 			final UserEntity user = groupData.get(groupPosition)
 					.getMemberList().get(childPosition);
 			// TODO 判断真实头像
-			holder.portrait.setImageResource(R.drawable.default_portrait);
-			final String username = user.getUsername();
-			holder.name.setText(username);
-			holder.remark.setText(user.getRemark());
-			// TODO 记录该用户ID
-			holder.ignore.setTag(holder.name);
-			holder.accept.setTag(holder.name);
-
-			holder.ignore.setOnClickListener(new OnClickListener() {
+			holder1.portrait.setImageResource(R.drawable.default_portrait);
+			holder1.portrait.setTag(user);
+			holder1.portrait.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					listener.ignoreReceipt(user.getId());
+					UserEntity user = (UserEntity) v.getTag();
+					listener.onPortraitClick(user);
+				}
+			});
+			final String username = user.getName();
+			holder1.name.setText(username);
+			holder1.remark.setText(user.getRemark());
+			// TODO 记录该用户ID
+			holder1.ignore.setTag(user);
+			holder1.accept.setTag(user);
+
+			final Button btn_accept = holder1.accept;
+			holder1.ignore.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					listener.ignoreReceipt((Button) v, btn_accept);
 					Log.d("debug", "ignore receipt from " + username);
 				}
 			});
 
-			holder.accept.setOnClickListener(new OnClickListener() {
+			final Button btn_ignore = holder1.ignore;
+			holder1.accept.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					listener.acceptReceipt(user.getId());
+					listener.acceptReceipt(btn_ignore, (Button) v);
 					Log.d("debug", "accept receipt from " + username);
 				}
 			});
-
-			return convertView;
 		} else {
-			ViewHolder holder = null;
-			convertView = mInflater.inflate(R.layout.item_contacts_parents,
-					null);
-			holder = new ViewHolder();
-			holder.name = (TextView) convertView.findViewById(R.id.name);
-			holder.portrait = (ImageView) convertView
-					.findViewById(R.id.head_portrait);
-			holder.remark = (TextView) convertView.findViewById(R.id.remark);
-			holder.sendMsg = (ImageButton) convertView
-					.findViewById(R.id.btn_send_message);
-			holder.giveCall = (ImageButton) convertView
-					.findViewById(R.id.btn_call);
 			final UserEntity user = groupData.get(groupPosition)
 					.getMemberList().get(childPosition);
 			// TODO 判断真实头像
-			holder.portrait.setImageResource(R.drawable.default_portrait);
-			final String username = user.getUsername();
-			holder.name.setText(username);
-			holder.remark.setText(user.getRemark());
+			holder2.portrait.setImageResource(R.drawable.default_portrait);
+			holder2.portrait.setTag(user);
+			holder2.portrait.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					UserEntity user = (UserEntity) v.getTag();
+					listener.onPortraitClick(user);
+				}
+			});
+			final String username = user.getName();
+			holder2.name.setText(username);
+			holder2.remark.setText(user.getRemark());
 			// TODO 记录该用户ID
-			holder.sendMsg.setTag(holder.name);
-			holder.giveCall.setTag(holder.name);
+			holder2.sendMsg.setTag(holder2.name);
+			holder2.giveCall.setTag(holder2.name);
 
-			holder.sendMsg.setOnClickListener(new OnClickListener() {
+			holder2.sendMsg.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					// TODO 写入真实号码
@@ -188,7 +259,7 @@ public class SimpleManageBookViewAdapter extends BaseExpandableListAdapter {
 				}
 			});
 
-			holder.giveCall.setOnClickListener(new OnClickListener() {
+			holder2.giveCall.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					// TODO 写入真实号码
@@ -196,13 +267,14 @@ public class SimpleManageBookViewAdapter extends BaseExpandableListAdapter {
 					Log.d("debug", "make call to " + username);
 				}
 			});
-
-			return convertView;
 		}
+
+		return convertView;
+
 	}
 
 	// 父单元
-	static class ExpandableGroupHolder {
+	static class GroupHolder {
 		ImageView indicator;
 		TextView title;
 	}
@@ -217,7 +289,7 @@ public class SimpleManageBookViewAdapter extends BaseExpandableListAdapter {
 	}
 
 	// 子单元
-	static class ViewHolder {
+	static class ContactViewHolder {
 		ImageView portrait;
 		TextView name;
 		TextView remark;
@@ -226,13 +298,16 @@ public class SimpleManageBookViewAdapter extends BaseExpandableListAdapter {
 	}
 
 	public interface SimpleManageBookListener {
+		
+		public void onPortraitClick(UserEntity user);
+		
 		public void sendSMS(String phoneNum, String smsContent);
 
 		public void phoneCall(String phoneNum);
 
-		public void ignoreReceipt(String id);
+		public void ignoreReceipt(Button ignore, Button accept);
 
-		public void acceptReceipt(String id);
+		public void acceptReceipt(Button ignore, Button accept);
 	}
 
 }

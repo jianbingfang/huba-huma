@@ -7,8 +7,6 @@ public class NoticeEntity implements Serializable{
 
 	private String noticeId;
 	
-	private UserEntity user;
-	
 	private String title;
 	
 	private String content;
@@ -16,6 +14,8 @@ public class NoticeEntity implements Serializable{
 	private Date date;
 	
 	private String image;
+	
+	private UserEntity author;
 
 	public String getNoticeId() {
 		return noticeId;
@@ -23,14 +23,6 @@ public class NoticeEntity implements Serializable{
 
 	public void setNoticeId(String noticeId) {
 		this.noticeId = noticeId;
-	}
-
-	public UserEntity getUser() {
-		return user;
-	}
-
-	public void setUser(UserEntity user) {
-		this.user = user;
 	}
 
 	public String getTitle() {
@@ -64,7 +56,14 @@ public class NoticeEntity implements Serializable{
 	public void setImage(String image) {
 		this.image = image;
 	}
-	
+
+	public UserEntity getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(UserEntity author) {
+		this.author = author;
+	}
 	
 	
 }

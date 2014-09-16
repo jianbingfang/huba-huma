@@ -2,6 +2,10 @@ package com.hubahuma.mobile;
 
 import org.androidannotations.annotations.EApplication;
 
+import com.hubahuma.mobile.entity.Organization;
+import com.hubahuma.mobile.entity.Parent;
+import com.hubahuma.mobile.entity.Teacher;
+import com.hubahuma.mobile.entity.User;
 import com.hubahuma.mobile.entity.UserEntity;
 
 import android.app.Application;
@@ -11,16 +15,34 @@ public class MyApplication extends Application {
 
 	public static final boolean testMode = false;
 
-	public String token = null;
+	private String token = null;
 
-	private UserEntity curUser = null;
+	private UserEntity currentUser = null;
+
+//	private String userType = null;
 
 	public UserEntity getCurrentUser() {
-		return curUser;
+		return currentUser;
 	}
 
 	public void setCurrentUser(UserEntity user) {
-		curUser = user;
+		currentUser = user;
 	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+//	public String getUserType() {
+//		return userType;
+//	}
+//
+//	public void setUserType(String type) {
+//		this.userType = type;
+//	}
 
 }

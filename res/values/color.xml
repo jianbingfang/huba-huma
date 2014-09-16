@@ -40,4 +40,6 @@
     <color name="choose_bar_divider">#5c6878</color>
     <color name="tag_bg">#547CAC</color>
     <color name="date_circle">#9797A6</color>
+    <color name="btn_green">#28B152</color>
+    <color name="dark_green">#007000</color>
 </resources>

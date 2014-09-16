@@ -107,7 +107,7 @@ public class ProfileOrganizationActivity extends Activity {
 	void phone_panel() {
 		// TODO 加入真实号码
 		Uri callToUri = Uri.parse("tel:" + phone_number.getText().toString());
-		Intent intent = new Intent(Intent.ACTION_CALL, callToUri);
+		Intent intent = new Intent(Intent.ACTION_DIAL, callToUri);
 		startActivity(intent);
 	}
 

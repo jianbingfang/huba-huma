@@ -80,7 +80,7 @@ public class MyNoticeActivity extends Activity {
 		for (int i = 1; i <= 5; i++) {
 			NoticeEntity item = new NoticeEntity();
 			item.setNoticeId("3124123123");
-			item.setUser(myApp.getCurrentUser());
+			item.setAuthor(myApp.getCurrentUser());
 			item.setDate(new Date());
 			item.setContent("进一步做好民办教育机构的设置要严格审批权限及审批程序，各地在审批民办教育机构时，要严格执行设置标准。");
 			item.setTitle("title");

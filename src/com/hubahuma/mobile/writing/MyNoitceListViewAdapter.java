@@ -77,8 +77,8 @@ public class MyNoitceListViewAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		viewHolder.name.setText(item.getUser().getUsername());
-		viewHolder.remark.setText(item.getUser().getRemark());
+		viewHolder.name.setText(item.getAuthor().getName());
+		viewHolder.remark.setText(item.getAuthor().getRemark());
 		viewHolder.content.setText(item.getContent());
 		if(UtilTools.isEmpty(item.getImage())){
 			viewHolder.image.setVisibility(View.GONE);

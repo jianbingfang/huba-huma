@@ -1,9 +1,11 @@
 package com.hubahuma.mobile.entity.service;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class AuthParam {
 
 	private String username;
-	
+
 	private String password;
 
 	public String getUsername() {
@@ -21,7 +23,5 @@ public class AuthParam {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
-	
+
 }

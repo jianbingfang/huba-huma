@@ -29,6 +29,7 @@
             android:contentDescription="@string/app_name"
             android:paddingLeft="@dimen/topbar_horizontal_padding"
             android:paddingRight="0dp"
+            android:visibility="gone"
             android:scaleType="centerInside"
             android:src="@drawable/back" />
 

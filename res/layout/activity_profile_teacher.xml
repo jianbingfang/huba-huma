@@ -32,6 +32,10 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/back" />
 
+            <TextView
+                style="@style/TopBarTitle"
+                android:text="个人主页" />
+
             <ImageButton
                 android:id="@+id/btn_share"
                 android:layout_width="wrap_content"
@@ -40,6 +44,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/topbar_horizontal_padding"
                 android:background="@null"
+                android:visibility="gone"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerInside"
                 android:src="@drawable/forward" />

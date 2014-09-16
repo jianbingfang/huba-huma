@@ -2,6 +2,8 @@ package com.hubahuma.mobile.entity.service;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class UpdateParentParam {
 
 	private String parentId;
@@ -10,7 +12,17 @@ public class UpdateParentParam {
 	private String photo;
 	private String signature;
 
-	
+	@JsonProperty("_accessToken")
+	private String token;
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	public String getParentId() {
 		return parentId;
 	}

@@ -1,6 +1,6 @@
 package com.hubahuma.mobile.entity;
 
-public class Parent {
+public class Parent implements Comparable<Parent>{
 
 	private Location location;
 	private String name;
@@ -44,6 +44,11 @@ public class Parent {
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	
+	@Override
+	public int compareTo(Parent another) {
+		return this.name.compareTo(another.getName());
 	}
 	
 	

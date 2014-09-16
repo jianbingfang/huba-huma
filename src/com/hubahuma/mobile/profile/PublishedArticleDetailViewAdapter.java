@@ -91,7 +91,7 @@ public class PublishedArticleDetailViewAdapter extends BaseAdapter {
 		}
 
 		viewHolder.portrait.setBackgroundResource(R.drawable.default_portrait);
-		viewHolder.authorName.setText(item.getAuthor().getUsername());
+		viewHolder.authorName.setText(item.getAuthor().getName());
 		viewHolder.remark.setText(item.getAuthor().getRemark());
 		viewHolder.date.setText(UtilTools.parseDate(item.getDate()));
 		// TODO 判断真实图片

@@ -77,7 +77,7 @@ public class TrainOrgListViewAdapter extends BaseAdapter {
 				listener.onPortraitClick((UserEntity)v.getTag());
 			}
 		});
-		holder.name.setText(entity.getUsername());
+		holder.name.setText(entity.getName());
 		Random rand = new Random();
 		// TODO 载入真实数据
 		String remark = "教师：" + rand.nextInt(50) + "名"

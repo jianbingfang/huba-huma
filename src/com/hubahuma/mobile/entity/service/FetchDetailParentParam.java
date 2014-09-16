@@ -2,13 +2,25 @@ package com.hubahuma.mobile.entity.service;
 
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class FetchDetailParentParam {
 
 	List<String> parentId;
 	List<String> userId;
 	List<String> username;
 
+	@JsonProperty("_accessToken")
+	private String token;
 
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+	
 	public List<String> getParentId() {
 		return parentId;
 	}
