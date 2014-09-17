@@ -143,14 +143,14 @@ public class SplashActivity extends Activity {
 						user.setUsername(prefs.username().get());
 						user.setPassword(prefs.password().get());
 						user.setUserId("000001");
-						user.setName("用户A");
-						user.setRemark("备注信息");
+						user.setName(resp.getType() + "用户");
+						user.setRemark("我是一个" + resp.getType());
 						user.setUsername("user_test");
 						user.setPhone("18201014080");
 						user.setType(resp.getType());
 						myApp.setToken(resp.getToken());
 						myApp.setCurrentUser(user);
-						
+
 						prefs.edit().token().put(resp.getToken())
 								.lastTokenUpdated()
 								.put(System.currentTimeMillis());

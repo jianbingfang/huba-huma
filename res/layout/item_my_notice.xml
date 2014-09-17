@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
     android:orientation="vertical"
-    android:paddingTop="@dimen/timeline_top_margin"
-    android:paddingBottom="@dimen/timeline_top_margin"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
     android:paddingLeft="@dimen/msglist_item_horizontal_padding"
     android:paddingRight="@dimen/msglist_item_horizontal_padding" >
 

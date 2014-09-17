@@ -44,10 +44,10 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/topbar_horizontal_padding"
                 android:background="@null"
-                android:visibility="gone"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerInside"
-                android:src="@drawable/forward" />
+                android:src="@drawable/forward"
+                android:visibility="gone" />
 
             <ImageButton
                 android:id="@+id/btn_add_to_managebook"
@@ -59,7 +59,8 @@
                 android:background="@null"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerInside"
-                android:src="@drawable/exist_in_managebook" />
+                android:src="@drawable/exist_in_managebook"
+                android:visibility="gone" />
 
             <ImageButton
                 android:id="@+id/btn_follow"
@@ -71,7 +72,8 @@
                 android:background="@null"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerInside"
-                android:src="@drawable/add_follow" />
+                android:src="@drawable/add_follow"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <!-- content -->
@@ -111,7 +113,7 @@
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="30dp"
                             android:src="@drawable/default_portrait"
                             app:border_color="@color/white"
                             app:border_width="2dp" />
@@ -200,7 +202,7 @@
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:paddingTop="15dp"
-                    android:visibility="visible" >
+                    android:visibility="gone" >
 
                     <TextView
                         android:id="@+id/score_title"
@@ -253,7 +255,7 @@
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:paddingTop="15dp"
-                    android:visibility="visible" >
+                    android:visibility="gone" >
 
                     <ImageView
                         android:id="@+id/address_hint"
@@ -376,6 +378,7 @@
                     android:background="@color/profile_item_bar"
                     android:clickable="true"
                     android:gravity="top"
+                    android:layout_marginBottom="90dp"
                     android:paddingBottom="15dp"
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
@@ -413,7 +416,7 @@
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:paddingTop="15dp"
-                    android:visibility="visible" >
+                    android:visibility="gone" >
 
                     <TextView
                         android:id="@+id/latest_article_hint"
@@ -474,7 +477,7 @@
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:paddingTop="15dp"
-                    android:visibility="visible" >
+                    android:visibility="gone" >
 
                     <TextView
                         android:id="@+id/comment_title"
@@ -554,6 +557,7 @@
                     android:layout_marginBottom="90dp"
                     android:layout_marginTop="30dp"
                     android:background="@drawable/btn_red_bg"
+                    android:visibility="gone"
                     android:text="屏蔽该用户"
                     android:textColor="@color/white"
                     android:textSize="15dp" />
@@ -598,6 +602,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/footbar_bg"
+            android:visibility="gone"
             android:padding="4dp" >
 
             <Button
@@ -609,6 +614,7 @@
                 android:background="@null"
                 android:drawableLeft="@drawable/parents_group"
                 android:drawablePadding="4dp"
+                android:visibility="gone"
                 android:text="私信"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
@@ -622,6 +628,7 @@
                 android:drawableLeft="@drawable/icon_write_comment"
                 android:drawablePadding="0dp"
                 android:text="写点评"
+                android:visibility="gone"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
@@ -629,7 +636,7 @@
                 android:id="@+id/btn_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:background="@null"

@@ -19,6 +19,7 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
+import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.LoadingDialog_;
 import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
@@ -28,10 +29,13 @@ import com.hubahuma.mobile.discovery.VerifyChildDialog.OnVerifyChildDialogConfir
 import com.hubahuma.mobile.discovery.VerifyChildDialog_;
 import com.hubahuma.mobile.entity.GroupEntity;
 import com.hubahuma.mobile.entity.UserEntity;
-import com.hubahuma.mobile.news.contacts.SearchResultViewAdapter.onFollowListener;
+import com.hubahuma.mobile.news.contacts.SearchResultViewAdapter.SearchResultViewListener;
 import com.hubahuma.mobile.news.managebook.GroupManageViewAdapter;
 import com.hubahuma.mobile.news.managebook.OneInputDialog_;
 import com.hubahuma.mobile.news.managebook.OneInputDialog.OnOneInputDialogConfirmListener;
+import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
+import com.hubahuma.mobile.profile.ProfileParentsActivity_;
+import com.hubahuma.mobile.profile.ProfileTeacherActivity_;
 import com.hubahuma.mobile.service.MyErrorHandler;
 import com.hubahuma.mobile.service.UserService;
 import com.hubahuma.mobile.utils.GlobalVar;
@@ -57,7 +61,7 @@ import android.widget.Toast;
 @NoTitle
 @EActivity(R.layout.activity_search_result)
 public class SearchResultActivity extends FragmentActivity implements
-		onFollowListener, PromptDialogListener, OnVerifyChildDialogConfirmListener {
+		SearchResultViewListener, PromptDialogListener, OnVerifyChildDialogConfirmListener {
 
 	private SearchResultViewAdapter adapter;
 
@@ -223,6 +227,33 @@ public class SearchResultActivity extends FragmentActivity implements
 		dismissPromptDialog();
 	}
 
+	@Override
+	public void onPortraitClick(UserEntity user) {
+		Intent intent = new Intent();
+		intent.putExtra("user", user);
+
+		switch (user.getType()) {
+		case UserType.ORGANIZTION:
+			intent.setClass(this, ProfileOrganizationActivity_.class);
+			startActivityForResult(intent,
+					ActivityCode.PROFILE_ORGANIZATION_ACTIVITY);
+			break;
+
+		case UserType.TEACHER:
+			intent.setClass(this, ProfileTeacherActivity_.class);
+			startActivityForResult(intent,
+					ActivityCode.PROFILE_TEACHER_ACTIVITY);
+			break;
+
+		case UserType.PARENTS:
+			intent.setClass(this, ProfileParentsActivity_.class);
+			startActivityForResult(intent,
+					ActivityCode.PROFILE_PARENTS_ACTIVITY);
+			break;
+
+		}
+	}
+	
 	private List<UserEntity> getTestData() {
 		List<UserEntity> list = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 4; i++) {

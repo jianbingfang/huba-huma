@@ -20,10 +20,13 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
+import com.hubahuma.mobile.entity.service.BindPhoneParam;
+import com.hubahuma.mobile.entity.service.BoolResp;
 import com.hubahuma.mobile.entity.service.RegisterParentParam;
 import com.hubahuma.mobile.entity.service.RegisterParentResp;
 import com.hubahuma.mobile.entity.service.RegisterTeacherParam;
 import com.hubahuma.mobile.entity.service.RegisterTeacherResp;
+import com.hubahuma.mobile.entity.service.VerifyBindPhoneParam;
 import com.hubahuma.mobile.service.MyErrorHandler;
 import com.hubahuma.mobile.service.SmsService;
 import com.hubahuma.mobile.service.UserService;
@@ -65,8 +68,8 @@ public class AuthCodeActivity extends FragmentActivity implements
 	@RestService
 	UserService userService;
 
-	@RestService
-	SmsService smsService;
+	// @RestService
+	// SmsService smsService;
 
 	@StringRes
 	String uid, key;
@@ -78,22 +81,14 @@ public class AuthCodeActivity extends FragmentActivity implements
 
 	private PromptDialog_ promptDialog;
 
-	private String code = "";
-
 	@AfterInject
 	void afterInject() {
 		userService.setRestErrorHandler(myErrorHandler);
-		smsService.setRestErrorHandler(myErrorHandler);
-		
 		RestTemplate tpl = userService.getRestTemplate();
-		RestTemplate smsTpl = smsService.getRestTemplate();
-
 		SimpleClientHttpRequestFactory s = new SimpleClientHttpRequestFactory();
 		s.setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
 		s.setReadTimeout(GlobalVar.READ_TIMEOUT);
-		
 		tpl.setRequestFactory(s);
-		smsTpl.setRequestFactory(s);
 	}
 
 	private int timeCount = 60;
@@ -109,7 +104,7 @@ public class AuthCodeActivity extends FragmentActivity implements
 		promptDialog = new PromptDialog_();
 		promptDialog.setDialogListener(this);
 
-		sendAuthCode();
+		afterSmsSendSucc();
 	}
 
 	@UiThread
@@ -154,7 +149,27 @@ public class AuthCodeActivity extends FragmentActivity implements
 	@Click
 	void btn_submit() {
 
-		if (checkCode()) {
+		VerifyBindPhoneParam verifyBindPhoneParam = new VerifyBindPhoneParam();
+		// TODO 申请绑定手机
+		// verifyBindPhoneParam.setUserId(userId);
+		BoolResp resp = null;
+		try {
+			resp = userService.verifyBindPhone(verifyBindPhoneParam);
+		} catch (RestClientException e) {
+			dismissLoadingDialog();
+			showToast("连接异常，短信发送失败", Toast.LENGTH_LONG);
+			afterSmsSendFail();
+			return;
+		}
+
+		if (resp == null) {
+			dismissLoadingDialog();
+			showToast("连接异常，短信发送失败", Toast.LENGTH_LONG);
+			afterSmsSendFail();
+			return;
+		}
+
+		if (resp.isOk()) {
 			switch (type) {
 			case UserType.PARENTS:
 				handleRegisterParent();
@@ -163,6 +178,9 @@ public class AuthCodeActivity extends FragmentActivity implements
 				handleRegisterTeacher();
 				break;
 			}
+		} else {
+			error_info.setText("验证码错误");
+			return;
 		}
 
 	}
@@ -173,13 +191,8 @@ public class AuthCodeActivity extends FragmentActivity implements
 	}
 
 	private boolean checkCode() {
-
 		if (UtilTools.isEmpty(auth_code.getText().toString().trim())) {
 			error_info.setText("验证码不能为空");
-			return false;
-		}
-		if (!code.equals(auth_code.getText().toString().trim())) {
-			error_info.setText("验证码错误");
 			return false;
 		}
 		error_info.setText("");
@@ -219,38 +232,20 @@ public class AuthCodeActivity extends FragmentActivity implements
 			return;
 		}
 
-		code = "";
-		Random rand = new Random();
-		for (int i = 0; i < 4; i++) {
-			code += rand.nextInt(10);
-		}
+		BindPhoneParam bindPhoneParam = new BindPhoneParam();
 
-		System.out.println("SMS code:" + code);
-		showToast(code, Toast.LENGTH_LONG);
-
-		String result = null;
-
-		String content = "短信验证码：" + code + "。【虎爸虎妈公司】";
 		try {
-			result = smsService.sendSMS(uid, key, phone, content);
-			System.out.println("SMS result:" + result);
+			userService.bindPhone(bindPhoneParam);
 		} catch (RestClientException e) {
-			showToast("服务器连接异常", Toast.LENGTH_LONG);
 			dismissLoadingDialog();
+			showToast("连接异常，短信发送失败", Toast.LENGTH_LONG);
 			afterSmsSendFail();
 			return;
 		}
 
-		if (result == null || Integer.parseInt(result) < 0) {
-			dismissLoadingDialog();
-			showPromptDialog("失败", "验证码发送失败，请重试。");
-			afterSmsSendFail();
-			return;
-		} else {
-			dismissLoadingDialog();
-			showToast("验证短信已发送", Toast.LENGTH_SHORT);
-			afterSmsSendSucc();
-		}
+		dismissLoadingDialog();
+		showToast("验证短信已发送", Toast.LENGTH_SHORT);
+		afterSmsSendSucc();
 
 	}
 

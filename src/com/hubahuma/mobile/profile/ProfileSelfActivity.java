@@ -134,7 +134,7 @@ public class ProfileSelfActivity extends Activity {
 	}
 
 	void clearFields() {
-		remark.setVisibility(View.GONE);
+		remark.setText("");
 		qualification.setVisibility(View.GONE);
 		phone.setText("");
 		name.setText("");
@@ -171,6 +171,7 @@ public class ProfileSelfActivity extends Activity {
 		name.setText(myApp.getCurrentUser().getName());
 		name2.setText(myApp.getCurrentUser().getName());
 		remark.setText(myApp.getCurrentUser().getRemark());
+		phone.setText(myApp.getCurrentUser().getPhone());
 		// id.setText(myApp.getCurrentUser().getId());
 
 		tag.setText(transTagList(tagList));
@@ -199,8 +200,9 @@ public class ProfileSelfActivity extends Activity {
 
 	@Click(R.id.custom_bg)
 	void onCustomBgClick() {
-		Toast.makeText(getApplicationContext(), "长按此处可修改背景", Toast.LENGTH_SHORT)
-				.show();
+		// Toast.makeText(getApplicationContext(), "长按此处可修改背景",
+		// Toast.LENGTH_SHORT)
+		// .show();
 	}
 
 	@LongClick(R.id.portrait)
@@ -214,6 +216,11 @@ public class ProfileSelfActivity extends Activity {
 
 	@LongClick(R.id.custom_bg)
 	void onCustomBgLongClick() {
+
+		// 第一版不提供该功能
+		if (true)
+			return;
+
 		menuWindow = new SelectImgPopupWindow(this, itemsOnClick);
 		menuWindow.showAtLocation(this.findViewById(R.id.profile_self),
 				Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);

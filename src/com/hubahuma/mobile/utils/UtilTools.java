@@ -1,5 +1,6 @@
 package com.hubahuma.mobile.utils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,8 +13,12 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Base64;
 import android.util.Log;
 
 public class UtilTools {
@@ -71,6 +76,30 @@ public class UtilTools {
 			Log.v("error", e.toString());
 		}
 		return false;
+	}
+
+	// 将Bitmap转换成字符串
+	public static String bitmap2String(Bitmap bitmap) {
+		String string = null;
+		ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+		bitmap.compress(CompressFormat.PNG, 100, bStream);
+		byte[] bytes = bStream.toByteArray();
+		string = Base64.encodeToString(bytes, Base64.DEFAULT);
+		return string;
+	}
+
+	// 将字符串转换成Bitmap类型
+	public Bitmap string2Bitmap(String string) {
+		Bitmap bitmap = null;
+		try {
+			byte[] bitmapArray;
+			bitmapArray = Base64.decode(string, Base64.DEFAULT);
+			bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0,
+					bitmapArray.length);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bitmap;
 	}
 
 	public static String object2json(Object obj) {

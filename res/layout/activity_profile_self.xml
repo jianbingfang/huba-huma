@@ -95,7 +95,7 @@
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="30dp"
                             android:src="@drawable/default_portrait"
                             app:border_color="@color/white"
                             app:border_width="2dp" />
@@ -565,7 +565,7 @@
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:paddingTop="10dp"
-                    android:visibility="visible" >
+                    android:visibility="gone" >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -598,7 +598,7 @@
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:paddingTop="10dp"
-                    android:visibility="visible" >
+                    android:visibility="gone" >
 
                     <TextView
                         android:layout_width="wrap_content"

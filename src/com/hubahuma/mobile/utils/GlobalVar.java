@@ -9,6 +9,4 @@ public class GlobalVar {
 	
 	public static final int READ_TIMEOUT = 2000;
 	
-	public static final String SERVER_ADDR= "";
-	
 }

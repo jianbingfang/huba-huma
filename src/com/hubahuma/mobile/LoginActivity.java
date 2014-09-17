@@ -218,8 +218,8 @@ public class LoginActivity extends FragmentActivity implements
 			user.setUsername(username.getText().toString());
 			user.setPassword(password.getText().toString());
 			user.setUserId("000001");
-			user.setName("用户A");
-			user.setRemark("备注信息");
+			user.setName(resp.getType()+"用户");
+			user.setRemark("我是一个"+resp.getType());
 			user.setUsername("user_test");
 			user.setPhone("18201014080");
 			user.setType(resp.getType());

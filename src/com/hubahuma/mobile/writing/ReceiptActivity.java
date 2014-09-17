@@ -22,6 +22,7 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.LoadingDialog_;
 import com.hubahuma.mobile.MyApplication;
 import com.hubahuma.mobile.PromptDialog_;
@@ -31,11 +32,15 @@ import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.entity.NoticeEntity;
 import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
+import com.hubahuma.mobile.profile.ProfileParentsActivity_;
+import com.hubahuma.mobile.profile.ProfileTeacherActivity_;
 import com.hubahuma.mobile.service.MyErrorHandler;
 import com.hubahuma.mobile.service.SmsService;
 import com.hubahuma.mobile.service.UserService;
 import com.hubahuma.mobile.utils.GlobalVar;
 import com.hubahuma.mobile.utils.UtilTools;
+import com.hubahuma.mobile.writing.ReceiptListViewAdapter.ReceiptListViewListener;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -53,7 +58,7 @@ import android.widget.Toast;
 @NoTitle
 @EActivity(R.layout.activity_receipt)
 public class ReceiptActivity extends FragmentActivity implements
-		PromptDialogListener {
+		PromptDialogListener, ReceiptListViewListener {
 
 	@ViewById
 	ProgressBar progress_bar;
@@ -107,14 +112,14 @@ public class ReceiptActivity extends FragmentActivity implements
 		smsService.setRestErrorHandler(myErrorHandler);
 
 		RestTemplate tpl = userService.getRestTemplate();
-		RestTemplate smsTpl = smsService.getRestTemplate();
+		// RestTemplate smsTpl = smsService.getRestTemplate();
 
 		SimpleClientHttpRequestFactory s = new SimpleClientHttpRequestFactory();
 		s.setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
 		s.setReadTimeout(GlobalVar.READ_TIMEOUT);
 
 		tpl.setRequestFactory(s);
-		smsTpl.setRequestFactory(s);
+		// smsTpl.setRequestFactory(s);
 	}
 
 	@AfterViews
@@ -185,12 +190,12 @@ public class ReceiptActivity extends FragmentActivity implements
 	void postLoadData() {
 
 		readAdapter = new ReceiptListViewAdapter(getApplicationContext(),
-				readDataList, true);
+				readDataList, true, this);
 		read_list.setAdapter(readAdapter);
 		readAdapter.notifyDataSetChanged();
 
 		unreadAdapter = new ReceiptListViewAdapter(getApplicationContext(),
-				unreadDataList, false);
+				unreadDataList, false, this);
 		unread_list.setAdapter(unreadAdapter);
 		unreadAdapter.notifyDataSetChanged();
 
@@ -225,18 +230,11 @@ public class ReceiptActivity extends FragmentActivity implements
 			return;
 		}
 
-		String phone = "";
-		for (UserEntity user : unreadDataList) {
-			phone += "," + user.getPhone();
-		}
-		phone = phone.substring(1);
-
-		String msg = "来自\"" + myApp.getCurrentUser().getName() + "\"的通知："
-				+ content + " 【虎爸虎妈公司】";
-
+		// TODO 调用UserService的短信接口
+		
 		String result = null;
 		try {
-			result = smsService.sendSMS(uid, key, phone, msg);
+			// result = smsService.sendSMS(uid, key, phone, msg);
 			System.out.println("SMS result:" + result);
 		} catch (RestClientException e) {
 			showToast("服务器连接异常", Toast.LENGTH_LONG);
@@ -262,6 +260,33 @@ public class ReceiptActivity extends FragmentActivity implements
 	@Override
 	public void onDialogConfirm() {
 		dismissPromptDialog();
+	}
+
+	@Override
+	public void onPortraitClick(UserEntity user) {
+		Intent intent = new Intent();
+		intent.putExtra("user", user);
+
+		switch (user.getType()) {
+		case UserType.ORGANIZTION:
+			intent.setClass(this, ProfileOrganizationActivity_.class);
+			startActivityForResult(intent,
+					ActivityCode.PROFILE_ORGANIZATION_ACTIVITY);
+			break;
+
+		case UserType.TEACHER:
+			intent.setClass(this, ProfileTeacherActivity_.class);
+			startActivityForResult(intent,
+					ActivityCode.PROFILE_TEACHER_ACTIVITY);
+			break;
+
+		case UserType.PARENTS:
+			intent.setClass(this, ProfileParentsActivity_.class);
+			startActivityForResult(intent,
+					ActivityCode.PROFILE_PARENTS_ACTIVITY);
+			break;
+
+		}
 	}
 
 	@UiThread

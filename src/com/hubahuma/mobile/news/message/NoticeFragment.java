@@ -308,4 +308,5 @@ public class NoticeFragment extends BaseFragment {
 
 		return readedStr;
 	}
+
 }

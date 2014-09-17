@@ -113,7 +113,7 @@
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:layout_centerHorizontal="true"
-                            android:layout_marginTop="20dp"
+                            android:layout_marginTop="30dp"
                             android:src="@drawable/default_portrait"
                             app:border_color="@color/white"
                             app:border_width="2dp" />
@@ -186,7 +186,7 @@
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:paddingTop="15dp"
-                    android:visibility="visible" >
+                    android:visibility="gone" >
 
                     <ImageView
                         android:id="@+id/address_hint"
@@ -314,7 +314,7 @@
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:paddingTop="15dp"
-                    android:visibility="visible" >
+                    android:visibility="gone" >
 
                     <TextView
                         android:id="@+id/latest_article_hint"
@@ -385,6 +385,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/footbar_bg"
+            android:visibility="gone"
             android:gravity="center"
             android:padding="4dp" >
 
@@ -403,7 +404,7 @@
                 android:textAlignment="gravity"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btn_phone"

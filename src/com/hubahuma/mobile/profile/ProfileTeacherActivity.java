@@ -1,7 +1,9 @@
 package com.hubahuma.mobile.profile;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.profile.WriteCommentActivity.CommentType;
 
 @SuppressWarnings("deprecation")
@@ -28,6 +31,15 @@ public class ProfileTeacherActivity extends Activity {
 	
 	@ViewById
 	ProgressBar progress_bar;
+	
+	@Extra
+	UserEntity user;
+	
+	@AfterViews
+	void init(){
+		name.setText(user.getName());
+		phone_number.setText(user.getPhone());
+	}
 	
 	@Click
 	void btn_comment(){

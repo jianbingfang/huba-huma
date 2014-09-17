@@ -20,18 +20,20 @@ import com.hubahuma.mobile.entity.UserEntity;
 
 public class SearchResultViewAdapter extends BaseAdapter {
 
-	public interface onFollowListener {
+	public interface SearchResultViewListener {
 		public void onFollowClicked(ImageButton btn);
+
+		public void onPortraitClick(UserEntity user);
 	}
 
 	private List<UserEntity> dataList;
 
 	private LayoutInflater mInflater;
 
-	private onFollowListener listener;
+	private SearchResultViewListener listener;
 
 	public SearchResultViewAdapter(Context context, List<UserEntity> data,
-			onFollowListener listener) {
+			SearchResultViewListener listener) {
 		this.dataList = data;
 		this.mInflater = LayoutInflater.from(context);
 		this.listener = listener;
@@ -76,6 +78,15 @@ public class SearchResultViewAdapter extends BaseAdapter {
 
 		// TODO 判断真实头像
 		viewHolder.portrait.setImageResource(R.drawable.default_portrait);
+		viewHolder.portrait.setTag(user);
+		viewHolder.portrait.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				UserEntity user = (UserEntity) v.getTag();
+				listener.onPortraitClick(user);
+			}
+		});
+
 		final String username = user.getName();
 		viewHolder.name.setText(username);
 		viewHolder.remark.setText(user.getRemark());

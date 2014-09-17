@@ -7,7 +7,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,17 +18,24 @@ import com.hubahuma.mobile.entity.UserEntity;
 
 public class ReceiptListViewAdapter extends BaseAdapter {
 
+	public interface ReceiptListViewListener {
+		public void onPortraitClick(UserEntity user);
+	}
+
 	private List<UserEntity> dataList;
 
 	private LayoutInflater mInflater;
 
+	private ReceiptListViewListener listener;
+
 	private boolean isRead;
 
 	public ReceiptListViewAdapter(Context context, List<UserEntity> data,
-			boolean read) {
+			boolean hasRead, ReceiptListViewListener listener) {
 		this.mInflater = LayoutInflater.from(context);
 		this.dataList = data;
-		this.isRead = read;
+		this.isRead = hasRead;
+		this.listener = listener;
 	}
 
 	@Override
@@ -72,6 +81,14 @@ public class ReceiptListViewAdapter extends BaseAdapter {
 
 		// TODO 加入真实头像
 		viewHolder.portrait.setImageResource(R.drawable.default_portrait);
+		viewHolder.portrait.setTag(item);
+		viewHolder.portrait.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				UserEntity user = (UserEntity) v.getTag();
+				listener.onPortraitClick(user);
+			}
+		});
 		viewHolder.name.setText(item.getName());
 		viewHolder.remark.setText(item.getRemark());
 

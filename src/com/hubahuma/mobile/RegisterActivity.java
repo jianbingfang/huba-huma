@@ -16,11 +16,14 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.res.StringRes;
 import org.androidannotations.annotations.rest.RestService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.entity.service.AuthResp;
+import com.hubahuma.mobile.entity.service.BindPhoneParam;
 import com.hubahuma.mobile.entity.service.RegisterParentParam;
 import com.hubahuma.mobile.entity.service.RegisterParentResp;
 import com.hubahuma.mobile.entity.service.RegisterTeacherParam;
@@ -39,6 +42,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -64,8 +68,8 @@ public class RegisterActivity extends FragmentActivity implements
 	@ViewById
 	RadioGroup user_type;
 
-	// @RestService
-	// SmsService smsService;
+	@RestService
+	UserService userService;
 
 	@Pref
 	SharedPrefs_ prefs;
@@ -77,10 +81,15 @@ public class RegisterActivity extends FragmentActivity implements
 
 	private PromptDialog_ promptDialog;
 
-	// @AfterInject
-	// void afterInject() {
-	// smsService.setRestErrorHandler(myErrorHandler);
-	// }
+	@AfterInject
+	void afterInject() {
+		userService.setRestErrorHandler(myErrorHandler);
+		RestTemplate tpl = userService.getRestTemplate();
+		SimpleClientHttpRequestFactory s = new SimpleClientHttpRequestFactory();
+		s.setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
+		s.setReadTimeout(GlobalVar.READ_TIMEOUT);
+		tpl.setRequestFactory(s);
+	}
 
 	@AfterViews
 	void init() {
@@ -95,21 +104,53 @@ public class RegisterActivity extends FragmentActivity implements
 	void btn_register() {
 		if (checkInput()) {
 			btn_register.setEnabled(false);
-			Intent intent = new Intent(this, AuthCodeActivity_.class);
-			intent.putExtra("username", username.getText().toString().trim());
-			intent.putExtra("password", password.getText().toString().trim());
-			intent.putExtra("name", name.getText().toString().trim());
-			intent.putExtra("phone", phone.getText().toString().trim());
-			switch (user_type.getCheckedRadioButtonId()) {
-			case R.id.radio_parent:
-				intent.putExtra("type", UserType.PARENTS);
-				break;
-			case R.id.radio_teacher:
-				intent.putExtra("type", UserType.TEACHER);
-				break;
-			}
-			startActivityForResult(intent, ActivityCode.AUTH_CODE_ACTIVITY);
+			sendAuthCode();
 		}
+	}
+
+	@UiThread
+	void afterSmsSendSucc() {
+		btn_register.setEnabled(true);
+		Intent intent = new Intent(this, AuthCodeActivity_.class);
+		intent.putExtra("username", username.getText().toString().trim());
+		intent.putExtra("password", password.getText().toString().trim());
+		intent.putExtra("name", name.getText().toString().trim());
+		intent.putExtra("phone", phone.getText().toString().trim());
+		switch (user_type.getCheckedRadioButtonId()) {
+		case R.id.radio_parent:
+			intent.putExtra("type", UserType.PARENTS);
+			break;
+		case R.id.radio_teacher:
+			intent.putExtra("type", UserType.TEACHER);
+			break;
+		}
+		startActivityForResult(intent, ActivityCode.AUTH_CODE_ACTIVITY);
+	}
+	
+	@Background
+	void sendAuthCode() {
+		showLoadingDialog();
+
+		if (!UtilTools.isNetConnected(getApplicationContext())) {
+			showToast("无法访问网络", Toast.LENGTH_LONG);
+			dismissLoadingDialog();
+			return;
+		}
+
+		BindPhoneParam bindPhoneParam = new BindPhoneParam();
+
+		try {
+			userService.bindPhone(bindPhoneParam);
+		} catch (RestClientException e) {
+			showToast("服务器连接异常", Toast.LENGTH_LONG);
+			dismissLoadingDialog();
+			return;
+		}
+
+		dismissLoadingDialog();
+		showToast("验证短信已发送", Toast.LENGTH_SHORT);
+		afterSmsSendSucc();
+
 	}
 
 	private boolean checkInput() {
