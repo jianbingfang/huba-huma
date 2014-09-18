@@ -30,6 +30,8 @@ import com.hubahuma.mobile.entity.service.BindPhoneParam;
 import com.hubahuma.mobile.entity.service.BoolResp;
 import com.hubahuma.mobile.entity.service.ChangePasswordParam;
 import com.hubahuma.mobile.entity.service.ChangePasswordResp;
+import com.hubahuma.mobile.entity.service.FetchAnnouncementParam;
+import com.hubahuma.mobile.entity.service.FetchAnnouncementResp;
 import com.hubahuma.mobile.entity.service.FetchDetailOrgParam;
 import com.hubahuma.mobile.entity.service.FetchDetailOrgResp;
 import com.hubahuma.mobile.entity.service.FetchDetailParentParam;
@@ -155,4 +157,8 @@ public interface UserService extends RestClientErrorHandling {
 	@Post("/verify-bind-phone")
 	@Accept(MediaType.APPLICATION_JSON)
 	BoolResp verifyBindPhone(VerifyBindPhoneParam param);
+	
+	@Post("/fetch-announcement")
+	@Accept(MediaType.APPLICATION_JSON)
+	FetchAnnouncementResp fetchAnnouncement(FetchAnnouncementParam param);
 }

@@ -177,9 +177,9 @@ public class ChangeInfoActivity extends FragmentActivity implements
 		publishSucc = changeInfo(type);
 		dismissLoadingDialog();
 		if (publishSucc) {
-			showPromptDialog("提示", "修改成功！");
+			showPromptDialog("提示", "修改成功");
 		} else {
-			showPromptDialog("错误", "修改失败！");
+			showPromptDialog("错误", "修改失败");
 		}
 	}
 
@@ -241,15 +241,15 @@ public class ChangeInfoActivity extends FragmentActivity implements
 
 	private boolean checkName() {
 		if (UtilTools.isEmpty(input.getText().toString().trim())) {
-			error_info.setText("输入不能为空！");
+			error_info.setText("输入不能为空");
 			return false;
 		}
 		if (input.getText().toString().trim().equals(value)) {
-			error_info.setText("输入与原值一样，请重新输入！");
+			error_info.setText("输入与原值一样，请重新输入");
 			return false;
 		}
 		if (input.getText().toString().trim().length() > 30) {
-			error_info.setText("长度不能超过30字符！");
+			error_info.setText("长度不能超过30字符");
 			return false;
 		}
 		error_info.setText("");
@@ -258,15 +258,15 @@ public class ChangeInfoActivity extends FragmentActivity implements
 
 	private boolean checkEmail() {
 		if (UtilTools.isEmpty(input.getText().toString().trim())) {
-			error_info.setText("输入不能为空！");
+			error_info.setText("输入不能为空");
 			return false;
 		}
 		if (input.getText().toString().trim().equals(value)) {
-			error_info.setText("输入与原值一样，请重新输入！");
+			error_info.setText("输入与原值一样，请重新输入");
 			return false;
 		}
 		if (!UtilTools.isEmail(input.getText().toString().trim())) {
-			error_info.setText("邮箱格式错误！");
+			error_info.setText("邮箱格式错误");
 			return false;
 		}
 		error_info.setText("");
@@ -275,11 +275,11 @@ public class ChangeInfoActivity extends FragmentActivity implements
 
 	private boolean checkIntroduction() {
 		if (input.getText().toString().trim().equals(value)) {
-			error_info.setText("输入与原值一样，请重新输入！");
+			error_info.setText("输入与原值一样，请重新输入");
 			return false;
 		}
 		if (input.getText().toString().trim().length() > 200) {
-			error_info.setText("长度不能超过200字符！");
+			error_info.setText("长度不能超过200字符");
 			return false;
 		}
 		error_info.setText("");
@@ -288,11 +288,11 @@ public class ChangeInfoActivity extends FragmentActivity implements
 
 	private boolean checkOpentime() {
 		if (input.getText().toString().trim().equals(value)) {
-			error_info.setText("输入与原值一样，请重新输入！");
+			error_info.setText("输入与原值一样，请重新输入");
 			return false;
 		}
 		if (input.getText().toString().trim().length() > 30) {
-			error_info.setText("长度不能超过30字符！");
+			error_info.setText("长度不能超过30字符");
 			return false;
 		}
 		error_info.setText("");
@@ -301,15 +301,15 @@ public class ChangeInfoActivity extends FragmentActivity implements
 
 	private boolean checkAddress() {
 		if (UtilTools.isEmpty(input.getText().toString().trim())) {
-			error_info.setText("输入不能为空！");
+			error_info.setText("输入不能为空");
 			return false;
 		}
 		if (input.getText().toString().trim().equals(value)) {
-			error_info.setText("输入与原值一样，请重新输入！");
+			error_info.setText("输入与原值一样，请重新输入");
 			return false;
 		}
 		if (input.getText().toString().trim().length() > 30) {
-			error_info.setText("长度不能超过30字符！");
+			error_info.setText("长度不能超过30字符");
 			return false;
 		}
 		error_info.setText("");

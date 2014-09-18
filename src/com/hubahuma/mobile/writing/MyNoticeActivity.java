@@ -40,6 +40,8 @@ import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.entity.NoticeEntity;
 import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.entity.service.AuthParam;
+import com.hubahuma.mobile.entity.service.FetchAnnouncementParam;
+import com.hubahuma.mobile.entity.service.FetchAnnouncementResp;
 import com.hubahuma.mobile.news.message.NoticeFragment;
 import com.hubahuma.mobile.news.message.OnNewMessageListener;
 import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
@@ -65,15 +67,16 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_notice)
 public class MyNoticeActivity extends FragmentActivity implements
-		NoitceListViewListener, OnNewMessageListener, PromptDialogListener {
+		NoitceListViewListener, OnNewMessageListener {
 
-	private List<NoticeEntity> dataList;
+	private List<NoticeEntity> dataList = new ArrayList<NoticeEntity>();
 
 	private MyNoitceListViewAdapter myAdapter;
 
@@ -87,6 +90,9 @@ public class MyNoticeActivity extends FragmentActivity implements
 
 	@ViewById
 	View timeline;
+
+	@ViewById
+	TextView no_data_hint;
 
 	@ViewById
 	PullToRefreshListView notice_list;
@@ -117,16 +123,53 @@ public class MyNoticeActivity extends FragmentActivity implements
 
 	private LoadingDialog_ loadingDialog;
 
-	private PromptDialog_ promptDialog;
-
 	@AfterViews
 	void init() {
+
 		preLoadData();
-		loadData();
+		if (myApp.getCurrentUser().getType().equals(UserType.PARENTS)) {
+			loadNotice();
+		} else {
+			loadMyNotice();
+		}
 	}
 
 	@Background(delay = 1000)
-	void loadData() {
+	void loadNotice() {
+
+		FetchAnnouncementParam param = new FetchAnnouncementParam();
+		param.setUntilId("");
+
+		FetchAnnouncementResp resp = null;
+
+		try {
+			resp = userService.fetchAnnouncement(param);
+		} catch (RestClientException e) {
+			showToast("数据获取失败", Toast.LENGTH_LONG);
+			postLoadData();
+			return;
+		}
+
+		if (resp == null) {
+			showToast("数据加载失败", Toast.LENGTH_LONG);
+			postLoadData();
+			return;
+		}
+
+		if (resp.isHasMore()) {
+			showToast("通知过多，未加载完全", Toast.LENGTH_LONG);
+		}
+
+		dataList = resp.getNoticeList();
+		if (dataList == null) {
+			dataList = new ArrayList<NoticeEntity>();
+		}
+		postLoadData();
+	}
+
+	@Background(delay = 1000)
+	void loadMyNotice() {
+		// TODO 加载老师自己发过的通知
 		dataList = getTestData(5);
 		postLoadData();
 	}
@@ -152,17 +195,14 @@ public class MyNoticeActivity extends FragmentActivity implements
 
 	@UiThread
 	void preLoadData() {
-
 		loadingDialog = new LoadingDialog_();
-		promptDialog = new PromptDialog_();
-		promptDialog.setDialogListener(this);
-
 		if (myApp.getCurrentUser().getType().equals(UserType.PARENTS)) {
 			btn_publish.setVisibility(View.GONE);
 		} else {
 			btn_publish.setVisibility(View.VISIBLE);
 		}
 
+		no_data_hint.setVisibility(View.GONE);
 		timeline.setVisibility(View.GONE);
 		progress_bar.setVisibility(View.VISIBLE);
 
@@ -230,42 +270,60 @@ public class MyNoticeActivity extends FragmentActivity implements
 			myAdapter.notifyDataSetChanged();
 		}
 
-		timeline.setVisibility(View.VISIBLE);
+		if (dataList == null || dataList.isEmpty()) {
+			no_data_hint.setVisibility(View.VISIBLE);
+			timeline.setVisibility(View.GONE);
+		} else {
+			no_data_hint.setVisibility(View.GONE);
+			timeline.setVisibility(View.VISIBLE);
+		}
 		progress_bar.setVisibility(View.GONE);
 
 	}
 
 	@Background(delay = 2000)
 	void loadNewNotice() {
-		List<NoticeEntity> newResultList = getTestData(1);
+		List<NoticeEntity> newResultList = null;
 
+		FetchAnnouncementParam param = new FetchAnnouncementParam();
+		if (dataList != null && !dataList.isEmpty())
+			param.setUntilId(dataList.get(0).getNoticeId());
+
+		FetchAnnouncementResp resp = null;
 		try {
-			// TODO 加载新数据
-
+			resp = userService.fetchAnnouncement(param);
 		} catch (RestClientException e) {
-			dismissLoadingDialog();
-			showToast("服务器连接异常", Toast.LENGTH_LONG);
+			showToast("数据获取失败", Toast.LENGTH_LONG);
 			return;
 		}
 
+		if (resp == null) {
+			showToast("数据加载失败", Toast.LENGTH_LONG);
+			return;
+		}
+
+		if (resp.isHasMore()) {
+			showToast("通知过多，未加载完全", Toast.LENGTH_LONG);
+		}
+
+		newResultList = resp.getNoticeList();
 		afterNewDataReceived(newResultList);
 	}
 
 	@UiThread
 	void afterNewDataReceived(List<NoticeEntity> resultList) {
 		// 在头部增加新添内容
-		try {
-			if (resultList != null && !resultList.isEmpty()) {
-				for (NoticeEntity result : resultList) {
-					dataList.add(0, result);
-				}
-				// 通知程序数据集已经改变，如果不做通知，那么将不会刷新mListItems的集合
-				adapter.notifyDataSetChanged();
-				notice_list.onRefreshComplete();
-				this.OnNewMessageShowed(OnNewMessageListener.NOTICE_MESSAGE);
+		if (resultList != null && !resultList.isEmpty()) {
+			for (NoticeEntity result : resultList) {
+				dataList.add(0, result);
 			}
-		} catch (Exception e) {
-			showToast("数据加载异常", Toast.LENGTH_LONG);
+			// 通知程序数据集已经改变，如果不做通知，那么将不会刷新mListItems的集合
+			adapter.notifyDataSetChanged();
+			notice_list.onRefreshComplete();
+			this.OnNewMessageShowed(OnNewMessageListener.NOTICE_MESSAGE);
+
+		} else {
+			showToast("没有更新的通知了", Toast.LENGTH_SHORT);
 		}
 
 	}
@@ -330,11 +388,6 @@ public class MyNoticeActivity extends FragmentActivity implements
 		}
 	}
 
-	@Override
-	public void onDialogConfirm() {
-		dismissPromptDialog();
-	}
-
 	@UiThread
 	void showLoadingDialog() {
 		loadingDialog.show(getSupportFragmentManager(), "dialog_loading");
@@ -343,18 +396,6 @@ public class MyNoticeActivity extends FragmentActivity implements
 	@UiThread
 	void dismissLoadingDialog() {
 		loadingDialog.dismiss();
-	}
-
-	@UiThread
-	void showPromptDialog(String title, String content) {
-		promptDialog.setTitle(title);
-		promptDialog.setContent(content);
-		promptDialog.show(getSupportFragmentManager(), "dialog_prompt");
-	}
-
-	@UiThread
-	void dismissPromptDialog() {
-		promptDialog.dismiss();
 	}
 
 	@UiThread

@@ -74,7 +74,7 @@ public class SearchTeacherActivity extends Activity {
 	
 	private boolean checkInput() {
 		if (!UtilTools.isMobileNumber(search_input.getText().toString().trim())) {
-			error_info.setText("手机号码格式不正确！");
+			error_info.setText("手机号码格式不正确");
 			return false;
 		}
 		error_info.setText("");

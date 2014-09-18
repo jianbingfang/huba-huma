@@ -49,7 +49,7 @@ import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 @NoTitle
-@EActivity(R.layout.activity_auth_code)
+@EActivity(R.layout.activity_verify_code)
 public class AuthCodeActivity extends FragmentActivity implements
 		PromptDialogListener {
 
@@ -67,9 +67,6 @@ public class AuthCodeActivity extends FragmentActivity implements
 
 	@RestService
 	UserService userService;
-
-	// @RestService
-	// SmsService smsService;
 
 	@StringRes
 	String uid, key;
@@ -120,6 +117,7 @@ public class AuthCodeActivity extends FragmentActivity implements
 		send_code.setVisibility(View.GONE);
 		hint.setVisibility(View.VISIBLE);
 
+		timeCount = 60;
 		hint.setText("接收短信大约需要" + timeCount + "秒");
 
 		final Handler handler = new Handler();
@@ -233,6 +231,7 @@ public class AuthCodeActivity extends FragmentActivity implements
 		}
 
 		BindPhoneParam bindPhoneParam = new BindPhoneParam();
+		bindPhoneParam.setPhone(phone);
 
 		try {
 			userService.bindPhone(bindPhoneParam);

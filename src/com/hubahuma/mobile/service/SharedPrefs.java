@@ -22,4 +22,5 @@ public interface SharedPrefs {
 	
 	@DefaultLong(Long.MAX_VALUE)
 	long lastTokenUpdated();
+	
 }

@@ -124,11 +124,11 @@ public class LoginActivity extends FragmentActivity implements
 
 	private boolean checkInput() {
 		if (UtilTools.isEmpty(username.getText().toString())) {
-			error_info.setText("用户名不能为空！");
+			error_info.setText("用户名不能为空");
 			return false;
 		}
 		if (UtilTools.isEmpty(password.getText().toString())) {
-			error_info.setText("密码不能为空！");
+			error_info.setText("密码不能为空");
 			return false;
 		}
 		error_info.setText("");

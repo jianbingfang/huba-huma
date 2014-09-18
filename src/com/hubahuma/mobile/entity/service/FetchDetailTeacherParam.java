@@ -3,7 +3,9 @@ package com.hubahuma.mobile.entity.service;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class FetchDetailTeacherParam {
 
 	List<String> teacherId;

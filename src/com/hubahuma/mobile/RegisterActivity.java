@@ -155,28 +155,28 @@ public class RegisterActivity extends FragmentActivity implements
 
 	private boolean checkInput() {
 		if (UtilTools.isEmpty(username.getText().toString().trim())) {
-			error_info.setText("用户名不能为空！");
+			error_info.setText("用户名不能为空");
 			return false;
 		}
 		if (UtilTools.isEmpty(password.getText().toString())) {
-			error_info.setText("密码不能为空！");
+			error_info.setText("密码不能为空");
 			return false;
 		}
 		if (UtilTools.isEmpty(password_again.getText().toString())) {
-			error_info.setText("密码确认不能为空！");
+			error_info.setText("密码确认不能为空");
 			return false;
 		}
 		if (!password.getText().toString()
 				.equals(password_again.getText().toString())) {
-			error_info.setText("密码两次输入不一致，请重新输入！");
+			error_info.setText("密码两次输入不一致，请重新输入");
 			return false;
 		}
 		if (UtilTools.isEmpty(name.getText().toString().trim())) {
-			error_info.setText("姓名不能为空！");
+			error_info.setText("姓名不能为空");
 			return false;
 		}
 		if (!UtilTools.isMobileNumber(phone.getText().toString().trim())) {
-			error_info.setText("手机号码格式不正确！");
+			error_info.setText("手机号码格式不正确");
 			return false;
 		}
 		error_info.setText("");

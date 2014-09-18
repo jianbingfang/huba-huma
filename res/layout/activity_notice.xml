@@ -52,12 +52,6 @@
         android:layout_height="match_parent"
         android:background="@color/main_bg" >
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
         <View
             android:id="@+id/timeline"
             android:layout_width="@dimen/timeline_width"
@@ -80,6 +74,22 @@
             android:headerDividersEnabled="false"
             android:paddingTop="0dp"
             android:smoothScrollbar="true" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/no_data_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="40dp"
+            android:text="暂时没有通知..."
+            android:textColor="@color/text_light"
+            android:textSize="18sp" />
     </FrameLayout>
 
 </LinearLayout>
