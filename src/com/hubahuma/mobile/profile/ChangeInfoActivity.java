@@ -1,15 +1,20 @@
 package com.hubahuma.mobile.profile;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.rest.RestService;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
 
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.LoadingDialog_;
@@ -18,6 +23,8 @@ import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.UserType;
+import com.hubahuma.mobile.service.MyErrorHandler;
+import com.hubahuma.mobile.service.UserService;
 import com.hubahuma.mobile.utils.GlobalVar;
 import com.hubahuma.mobile.utils.UtilTools;
 
@@ -72,6 +79,22 @@ public class ChangeInfoActivity extends FragmentActivity implements
 	@ViewById
 	TextView title, error_info, hint;
 
+	@RestService
+	UserService userService;
+
+	@Bean
+	MyErrorHandler myErrorHandler;
+
+	@AfterInject
+	void afterInject() {
+		userService.setRestErrorHandler(myErrorHandler);
+		RestTemplate tpl = userService.getRestTemplate();
+		SimpleClientHttpRequestFactory s = new SimpleClientHttpRequestFactory();
+		s.setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
+		s.setReadTimeout(GlobalVar.READ_TIMEOUT);
+		tpl.setRequestFactory(s);
+	}
+	
 	@AfterViews
 	void init() {
 

@@ -51,6 +51,8 @@ import com.hubahuma.mobile.entity.service.UpdateOrgParam;
 import com.hubahuma.mobile.entity.service.UpdateParentParam;
 import com.hubahuma.mobile.entity.service.UpdateTeacherParam;
 import com.hubahuma.mobile.entity.service.VerifyBindPhoneParam;
+import com.hubahuma.mobile.entity.service.WriteAnnouncementParam;
+import com.hubahuma.mobile.entity.service.WriteAnnouncementResp;
 
 /**
  * "https://182.92.131.156:8080/api"
@@ -152,7 +154,7 @@ public interface UserService extends RestClientErrorHandling {
 
 	@Post("/bind-phone")
 	@Accept(MediaType.APPLICATION_JSON)
-	void bindPhone(BindPhoneParam bindPhoneParam);
+	String bindPhone(BindPhoneParam bindPhoneParam);
 
 	@Post("/verify-bind-phone")
 	@Accept(MediaType.APPLICATION_JSON)
@@ -161,4 +163,8 @@ public interface UserService extends RestClientErrorHandling {
 	@Post("/fetch-announcement")
 	@Accept(MediaType.APPLICATION_JSON)
 	FetchAnnouncementResp fetchAnnouncement(FetchAnnouncementParam param);
+	
+	@Post("/write-announcement")
+	@Accept(MediaType.APPLICATION_JSON)
+	WriteAnnouncementResp writeAnnouncement(WriteAnnouncementParam param);
 }

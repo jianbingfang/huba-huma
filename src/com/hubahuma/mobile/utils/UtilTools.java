@@ -3,7 +3,9 @@ package com.hubahuma.mobile.utils;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,6 +13,7 @@ import java.util.regex.Pattern;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.type.TypeFactory;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -89,7 +92,7 @@ public class UtilTools {
 	}
 
 	// 将字符串转换成Bitmap类型
-	public Bitmap string2Bitmap(String string) {
+	public static Bitmap string2Bitmap(String string) {
 		Bitmap bitmap = null;
 		try {
 			byte[] bitmapArray;
@@ -115,5 +118,22 @@ public class UtilTools {
 			e.printStackTrace();
 		}
 		return json;
+	}
+
+	public static <T> List<T> getList(String json, Class<?> clazz) {
+		TypeFactory t = TypeFactory.defaultInstance();
+		ObjectMapper mapper = new ObjectMapper();
+		// 指定容器结构和类型（这里是ArrayList和clazz）
+		List<T> list = null;
+		try {
+			list = mapper.readValue(json,
+					t.constructCollectionType(ArrayList.class, clazz));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// 如果T确定的情况下可以使用下面的方法：
+		// List<T> list = objectMapper.readValue(jsonVal, new
+		// TypeReference<List<T>>() {});
+		return list;
 	}
 }

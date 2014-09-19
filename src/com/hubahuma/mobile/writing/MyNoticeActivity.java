@@ -1,5 +1,6 @@
 package com.hubahuma.mobile.writing;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +21,9 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -49,9 +53,11 @@ import com.hubahuma.mobile.profile.ProfileParentsActivity_;
 import com.hubahuma.mobile.profile.ProfileTeacherActivity_;
 import com.hubahuma.mobile.profile.TagListViewAdapter;
 import com.hubahuma.mobile.service.MyErrorHandler;
+import com.hubahuma.mobile.service.NoticePrefs_;
 import com.hubahuma.mobile.service.SharedPrefs_;
 import com.hubahuma.mobile.service.UserService;
 import com.hubahuma.mobile.utils.GlobalVar;
+import com.hubahuma.mobile.utils.UtilTools;
 import com.hubahuma.mobile.writing.NoitceListViewAdapter.NoitceListViewListener;
 
 import android.app.Activity;
@@ -102,9 +108,6 @@ public class MyNoticeActivity extends FragmentActivity implements
 
 	@App
 	MyApplication myApp;
-
-	@Pref
-	SharedPrefs_ prefs;
 
 	@Bean
 	MyErrorHandler myErrorHandler;
@@ -206,6 +209,10 @@ public class MyNoticeActivity extends FragmentActivity implements
 		timeline.setVisibility(View.GONE);
 		progress_bar.setVisibility(View.VISIBLE);
 
+	}
+
+	void loadLocalData() {
+		
 	}
 
 	@UiThread

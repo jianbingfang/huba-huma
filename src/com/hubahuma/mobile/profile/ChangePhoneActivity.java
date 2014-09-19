@@ -62,6 +62,8 @@ public class ChangePhoneActivity extends FragmentActivity implements
 
 	private boolean publishSucc = false;
 
+	private String trueCode = null;
+
 	@RestService
 	UserService userService;
 
@@ -138,6 +140,12 @@ public class ChangePhoneActivity extends FragmentActivity implements
 			error_info.setText("验证码不能为空");
 			return false;
 		}
+
+		if (!trueCode.equals(auth_code.getText().toString().trim())) {
+			error_info.setText("验证码错误");
+			return false;
+		}
+
 		error_info.setText("");
 		return true;
 	}
@@ -164,12 +172,17 @@ public class ChangePhoneActivity extends FragmentActivity implements
 		bindPhoneParam.setPhone(number.getText().toString().trim());
 
 		try {
-			userService.bindPhone(bindPhoneParam);
+			trueCode = userService.bindPhone(bindPhoneParam);
 		} catch (RestClientException e) {
 			dismissLoadingDialog();
 			showToast("连接异常，短信发送失败", Toast.LENGTH_LONG);
 			afterSmsSendFail();
 			return;
+		}
+
+		if (trueCode == null) {
+			showToast("服务器处理异常，请稍后再试", Toast.LENGTH_LONG);
+			afterSmsSendFail();
 		}
 
 		dismissLoadingDialog();

@@ -4,18 +4,27 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.rest.RestService;
+import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -46,6 +55,11 @@ import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.SelectImgPopupWindow;
 import com.hubahuma.mobile.entity.NoticeEntity;
+import com.hubahuma.mobile.entity.service.WriteAnnouncementParam;
+import com.hubahuma.mobile.entity.service.WriteAnnouncementResp;
+import com.hubahuma.mobile.service.MyErrorHandler;
+import com.hubahuma.mobile.service.SharedPrefs_;
+import com.hubahuma.mobile.service.UserService;
 import com.hubahuma.mobile.utils.GlobalVar;
 import com.hubahuma.mobile.utils.UtilTools;
 
@@ -57,7 +71,7 @@ public class PublishNoticeActivity extends FragmentActivity implements
 
 	@App
 	MyApplication myApp;
-	
+
 	@ViewById
 	ProgressBar progress_bar;
 
@@ -76,6 +90,12 @@ public class PublishNoticeActivity extends FragmentActivity implements
 	@ViewById
 	Button btn_add_img;
 
+	@RestService
+	UserService userService;
+
+	@Bean
+	MyErrorHandler myErrorHandler;
+
 	private LoadingDialog_ loadingDialog;
 
 	private PromptDialog_ promptDialog;
@@ -84,11 +104,21 @@ public class PublishNoticeActivity extends FragmentActivity implements
 
 	private boolean imgAdded = false;
 
-	private Bitmap photo;
+	private Bitmap photo = null;
 
 	SelectImgPopupWindow menuWindow;
 
-	private NoticeEntity newNotice;
+	private NoticeEntity newNotice = null;
+
+	@AfterInject
+	void afterInject() {
+		userService.setRestErrorHandler(myErrorHandler);
+		RestTemplate tpl = userService.getRestTemplate();
+		SimpleClientHttpRequestFactory s = new SimpleClientHttpRequestFactory();
+		s.setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
+		s.setReadTimeout(GlobalVar.READ_TIMEOUT);
+		tpl.setRequestFactory(s);
+	}
 
 	@AfterViews
 	void init() {
@@ -126,10 +156,18 @@ public class PublishNoticeActivity extends FragmentActivity implements
 	@Click
 	void btn_submit() {
 		NoticeEntity notice = new NoticeEntity();
-		notice.setTitle(title.getText().toString().trim());
+		if (!UtilTools.isEmpty(title.getText().toString().trim())) {
+			notice.setTitle(title.getText().toString().trim());
+		} else {
+			notice.setTitle(null);
+		}
 		notice.setContent(content.getText().toString().trim());
 		notice.setDate(new Date());
-		notice.setImage(null);
+		if (imgAdded) {
+			notice.setImage(UtilTools.bitmap2String(photo));
+		} else {
+			notice.setImage(null);
+		}
 		showLoadingDialog();
 		handlePublishNotice(notice);
 	}
@@ -162,7 +200,7 @@ public class PublishNoticeActivity extends FragmentActivity implements
 		dismissLoadingDialog();
 		if (publishSucc) {
 			showPromptDialog("提示", "发布成功!");
-			newNotice = notice;
+			// newNotice = notice;
 		} else {
 			showPromptDialog("错误", "发布失败!");
 		}
@@ -204,9 +242,37 @@ public class PublishNoticeActivity extends FragmentActivity implements
 	// Uri imageUri = Uri.parse(IMAGE_FILE_LOCATION);
 
 	boolean publishNotice(NoticeEntity notice) {
-		// TODO 发送notice数据给后台
+		WriteAnnouncementResp resp = null;
+		try {
+			WriteAnnouncementParam param = new WriteAnnouncementParam();
+			param.setTitle(notice.getTitle());
+			param.setText(notice.getContent());
+			if (!UtilTools.isEmpty(notice.getImage())) {
+				List<String> photos = new ArrayList<String>();
+				photos.add(notice.getImage());
+				param.setPhotos(photos);
+			}
+			List<String> recepients = new ArrayList<String>();
+			param.setRecepients(recepients);
+			resp = userService.writeAnnouncement(param);
+		} catch (RestClientException e) {
+			showToast("服务器连接异常", Toast.LENGTH_LONG);
+			return false;
+		}
+
+		if (resp == null) {
+			showToast("服务器处理错误", Toast.LENGTH_LONG);
+			return false;
+		}
+
+		newNotice = resp.getCreatedObject();
 
 		return true;
+	}
+
+	@UiThread
+	void showToast(String info, int time) {
+		Toast.makeText(getApplicationContext(), info, time).show();
 	}
 
 	@OnActivityResult(PHOTO_REQUEST_TAKEPHOTO)
@@ -258,8 +324,9 @@ public class PublishNoticeActivity extends FragmentActivity implements
 		intent.putExtra("outputY", 300);
 		intent.putExtra("scale", true);
 		intent.putExtra("return-data", true);
-//		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-//		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+		// intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+		// intent.putExtra("outputFormat",
+		// Bitmap.CompressFormat.JPEG.toString());
 		intent.putExtra("noFaceDetection", true);
 
 		startActivityForResult(intent, PHOTO_REQUEST_CUT);

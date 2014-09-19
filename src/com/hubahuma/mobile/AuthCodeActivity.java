@@ -78,6 +78,8 @@ public class AuthCodeActivity extends FragmentActivity implements
 
 	private PromptDialog_ promptDialog;
 
+	private String trueCode = null;
+
 	@AfterInject
 	void afterInject() {
 		userService.setRestErrorHandler(myErrorHandler);
@@ -147,27 +149,27 @@ public class AuthCodeActivity extends FragmentActivity implements
 	@Click
 	void btn_submit() {
 
-		VerifyBindPhoneParam verifyBindPhoneParam = new VerifyBindPhoneParam();
-		// TODO 申请绑定手机
+		// VerifyBindPhoneParam verifyBindPhoneParam = new
+		// VerifyBindPhoneParam();
 		// verifyBindPhoneParam.setUserId(userId);
-		BoolResp resp = null;
-		try {
-			resp = userService.verifyBindPhone(verifyBindPhoneParam);
-		} catch (RestClientException e) {
-			dismissLoadingDialog();
-			showToast("连接异常，短信发送失败", Toast.LENGTH_LONG);
-			afterSmsSendFail();
-			return;
-		}
+		// BoolResp resp = null;
+		// try {
+		// resp = userService.verifyBindPhone(verifyBindPhoneParam);
+		// } catch (RestClientException e) {
+		// dismissLoadingDialog();
+		// showToast("连接异常，短信发送失败", Toast.LENGTH_LONG);
+		// afterSmsSendFail();
+		// return;
+		// }
+		//
+		// if (resp == null) {
+		// dismissLoadingDialog();
+		// showToast("连接异常，短信发送失败", Toast.LENGTH_LONG);
+		// afterSmsSendFail();
+		// return;
+		// }
 
-		if (resp == null) {
-			dismissLoadingDialog();
-			showToast("连接异常，短信发送失败", Toast.LENGTH_LONG);
-			afterSmsSendFail();
-			return;
-		}
-
-		if (resp.isOk()) {
+		if (checkCode()) {
 			switch (type) {
 			case UserType.PARENTS:
 				handleRegisterParent();
@@ -191,6 +193,11 @@ public class AuthCodeActivity extends FragmentActivity implements
 	private boolean checkCode() {
 		if (UtilTools.isEmpty(auth_code.getText().toString().trim())) {
 			error_info.setText("验证码不能为空");
+			return false;
+		}
+
+		if (!trueCode.equals(auth_code.getText().toString().trim())) {
+			error_info.setText("验证码错误");
 			return false;
 		}
 		error_info.setText("");
@@ -234,12 +241,17 @@ public class AuthCodeActivity extends FragmentActivity implements
 		bindPhoneParam.setPhone(phone);
 
 		try {
-			userService.bindPhone(bindPhoneParam);
+			trueCode = userService.bindPhone(bindPhoneParam);
 		} catch (RestClientException e) {
 			dismissLoadingDialog();
 			showToast("连接异常，短信发送失败", Toast.LENGTH_LONG);
 			afterSmsSendFail();
 			return;
+		}
+
+		if (trueCode == null) {
+			showToast("服务器处理异常，请稍后再试", Toast.LENGTH_LONG);
+			afterSmsSendFail();
 		}
 
 		dismissLoadingDialog();

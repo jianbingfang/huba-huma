@@ -128,7 +128,7 @@
                             android:shadowColor="@android:color/black"
                             android:shadowDx="1"
                             android:shadowDy="3"
-                            android:text="刘春玲"
+                            android:text=""
                             android:textColor="@color/white"
                             android:textSize="20sp" />
 
@@ -142,7 +142,7 @@
                             android:shadowColor="@android:color/black"
                             android:shadowDx="1"
                             android:shadowDy="3"
-                            android:text="陈灿灿母亲"
+                            android:text=""
                             android:textColor="@color/white"
                             android:textSize="18sp" />
 
@@ -252,7 +252,7 @@
                         android:layout_toRightOf="@id/phone_hint"
                         android:maxWidth="150dp"
                         android:singleLine="true"
-                        android:text="13058967226"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="15sp" />
 
@@ -295,7 +295,7 @@
                         android:layout_marginLeft="20dp"
                         android:maxWidth="300dp"
                         android:singleLine="true"
-                        android:text="英语    少儿英语    早教"
+                        android:text=""
                         android:textColor="@color/white"
                         android:textSize="15sp" />
                 </LinearLayout>

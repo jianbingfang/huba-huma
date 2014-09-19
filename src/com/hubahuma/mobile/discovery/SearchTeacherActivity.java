@@ -30,6 +30,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+@SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_search_teacher)
 public class SearchTeacherActivity extends Activity {
