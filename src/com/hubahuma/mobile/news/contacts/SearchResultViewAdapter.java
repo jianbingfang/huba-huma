@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.entity.GroupEntity;
 import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.utils.UtilTools;
 
 public class SearchResultViewAdapter extends BaseAdapter {
 
@@ -76,8 +79,18 @@ public class SearchResultViewAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		// TODO 判断真实头像
-		viewHolder.portrait.setImageResource(R.drawable.default_portrait);
+		if (UtilTools.isEmpty(user.getPortrait())) {
+			viewHolder.portrait.setImageResource(R.drawable.default_portrait);
+		} else {
+			try {
+				Bitmap img = UtilTools.string2Bitmap(user.getPortrait());
+				viewHolder.portrait.setImageBitmap(img);
+			} catch (Exception e) {
+				viewHolder.portrait
+						.setImageResource(R.drawable.default_portrait);
+				Log.e("Base64", e.getMessage());
+			}
+		}
 		viewHolder.portrait.setTag(user);
 		viewHolder.portrait.setOnClickListener(new OnClickListener() {
 			@Override

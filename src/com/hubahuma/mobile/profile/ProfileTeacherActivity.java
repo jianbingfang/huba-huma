@@ -48,16 +48,20 @@ public class ProfileTeacherActivity extends Activity {
 	void init() {
 
 		if (!UtilTools.isEmpty(user.getPortrait())) {
-			Bitmap bitmap = UtilTools.string2Bitmap(user.getPortrait());
-			if (bitmap != null) {
+			Bitmap bitmap;
+			try {
+				bitmap = UtilTools.string2Bitmap(user.getPortrait());
 				portrait.setImageBitmap(bitmap);
+			} catch (Exception e) {
+				portrait.setImageResource(R.drawable.default_portrait);
+				Log.e("Base64", e.getMessage());
 			}
 		}
 
 		name.setText(user.getName());
 		remark.setText(user.getRemark());
 		phone_number.setText(user.getPhone());
-		introduce.setText(user.getIntroduce());
+		introduce.setText(user.getDescription());
 		address.setText(user.getAddress());
 		if (user.isVerified()) {
 			qualification.setVisibility(View.VISIBLE);

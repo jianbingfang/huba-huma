@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
@@ -16,11 +17,13 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.ActivityCode;
 import com.hubahuma.mobile.LoadingDialog_;
+import com.hubahuma.mobile.MyApplication;
 import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.UserType;
@@ -29,6 +32,10 @@ import com.hubahuma.mobile.discovery.VerifyChildDialog.OnVerifyChildDialogConfir
 import com.hubahuma.mobile.discovery.VerifyChildDialog_;
 import com.hubahuma.mobile.entity.GroupEntity;
 import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.entity.service.AuthParam;
+import com.hubahuma.mobile.entity.service.FetchDetailTeacherParam;
+import com.hubahuma.mobile.entity.service.FetchDetailTeacherResp;
+import com.hubahuma.mobile.entity.service.SendVerificationRequestTeacherParam;
 import com.hubahuma.mobile.news.contacts.SearchResultViewAdapter.SearchResultViewListener;
 import com.hubahuma.mobile.news.managebook.GroupManageViewAdapter;
 import com.hubahuma.mobile.news.managebook.OneInputDialog_;
@@ -55,26 +62,34 @@ import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_search_result)
 public class SearchResultActivity extends FragmentActivity implements
-		SearchResultViewListener, PromptDialogListener, OnVerifyChildDialogConfirmListener {
+		SearchResultViewListener, PromptDialogListener,
+		OnVerifyChildDialogConfirmListener {
 
 	private SearchResultViewAdapter adapter;
 
-	private List<UserEntity> userList;
+	private List<UserEntity> userList = new ArrayList<UserEntity>();
 
 	@ViewById
 	ListView search_result_list;
 
 	@ViewById
+	TextView no_data_hint;
+
+	@ViewById
 	ProgressBar progress_bar;
 
 	@Extra
-	String phone;
+	String search_word;
+
+	@App
+	MyApplication myApp;
 
 	@RestService
 	UserService userService;
@@ -106,21 +121,50 @@ public class SearchResultActivity extends FragmentActivity implements
 
 	@AfterViews
 	void init() {
-
 		preLoadData();
 		loadData();
 	}
 
-	@Background(delay = 1000)
+	@Background(delay = 0)
 	void loadData() {
 		// TODO 做后台处理
-		userList = getTestData();
+		// userList = getTestData();
+
+		UserEntity user = new UserEntity();
+		FetchDetailTeacherResp teacherResp = null;
+
+		try {
+			FetchDetailTeacherParam param = new FetchDetailTeacherParam();
+			List<String> un = new ArrayList<String>();
+			un.add(search_word);
+			param.setUsername(un);
+			param.setToken(myApp.getToken());
+			teacherResp = userService.fetchDetailTeacher(param);
+			if (teacherResp == null || teacherResp.getTeacherObjects() == null
+					|| teacherResp.getTeacherObjects().isEmpty()
+					|| teacherResp.getUserObjects() == null
+					|| teacherResp.getUserObjects().isEmpty()) {
+				showToast("服务器数据返回异常", Toast.LENGTH_LONG);
+				dismissLoadingDialog();
+			} else {
+				for (int i = 0; i < teacherResp.getTeacherObjects().size(); i++) {
+					user.bind(teacherResp.getTeacherObjects().get(i),
+							teacherResp.getUserObjects().get(i));
+					userList.add(user);
+				}
+			}
+		} catch (RestClientException e) {
+			dismissLoadingDialog();
+			showToast("用户数据获取失败", Toast.LENGTH_LONG);
+		}
+
 		postLoadData();
 	}
 
 	@UiThread
 	void preLoadData() {
 		search_result_list.setVisibility(View.GONE);
+		no_data_hint.setVisibility(View.GONE);
 		progress_bar.setVisibility(View.VISIBLE);
 
 		loadingDialog = new LoadingDialog_();
@@ -134,13 +178,19 @@ public class SearchResultActivity extends FragmentActivity implements
 				userList, this);
 		search_result_list.setAdapter(adapter);
 		progress_bar.setVisibility(View.GONE);
-		search_result_list.setVisibility(View.VISIBLE);
+
+		if (userList == null || userList.isEmpty()) {
+			no_data_hint.setVisibility(View.VISIBLE);
+			search_result_list.setVisibility(View.GONE);
+		} else {
+			no_data_hint.setVisibility(View.GONE);
+			search_result_list.setVisibility(View.VISIBLE);
+		}
 	}
 
 	@Click
 	void btn_back() {
 		Intent intent = getIntent();
-		intent.putExtra("result", "returned from SearchResultActivity");
 		this.setResult(0, intent);
 		this.finish();
 	}
@@ -162,37 +212,46 @@ public class SearchResultActivity extends FragmentActivity implements
 	}
 
 	@Override
-	public void onDialogConfirm(String childName) {
+	public void onDialogConfirm(String message) {
 		showLoadingDialog();
-		handleFollow(targetFollow);
+		handleFollow(targetFollow, message);
 	}
 
 	@Background
-	void handleFollow(ImageButton btn) {
+	void handleFollow(ImageButton btn, String message) {
 
 		if (btn == null) {
 			showPromptDialog("失败", "关注失败");
 			return;
 		}
 
-		UserEntity user = (UserEntity) btn.getTag();
-
 		if (!UtilTools.isNetConnected(getApplicationContext())) {
 			showToast("无法访问网络", Toast.LENGTH_LONG);
 			return;
 		}
 
-		// TODO
-		boolean succ = false;
+		try {
+			SendVerificationRequestTeacherParam param = new SendVerificationRequestTeacherParam();
+			UserEntity teacher = (UserEntity) btn.getTag();
+			if (teacher != null) {
+				param.setTeacherId(teacher.getUserId());
+				param.setMessage(message);
+				userService.SendVerificationRequestTeacher(param);
+			}else{
+				dismissLoadingDialog();
+				showPromptDialog("失败", "数据加载失败");
+				return;
+			}
+		} catch (RestClientException e) {
+			dismissLoadingDialog();
+			showPromptDialog("失败", "服务器连接异常");
+			return;
+		}
 
 		dismissLoadingDialog();
-		if (succ) {
-			showToast("成功关注", Toast.LENGTH_SHORT);
-			btn.setImageResource(R.drawable.followed);
-			btn.setClickable(false);
-		} else {
-			showPromptDialog("失败", "关注失败");
-		}
+		showToast("关注成功", Toast.LENGTH_SHORT);
+		btn.setImageResource(R.drawable.followed);
+		btn.setClickable(false);
 	}
 
 	@UiThread
@@ -253,7 +312,7 @@ public class SearchResultActivity extends FragmentActivity implements
 
 		}
 	}
-	
+
 	private List<UserEntity> getTestData() {
 		List<UserEntity> list = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 4; i++) {

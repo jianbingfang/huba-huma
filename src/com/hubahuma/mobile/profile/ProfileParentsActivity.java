@@ -47,9 +47,13 @@ public class ProfileParentsActivity extends Activity {
 	void init() {
 
 		if (!UtilTools.isEmpty(user.getPortrait())) {
-			Bitmap bitmap = UtilTools.string2Bitmap(user.getPortrait());
-			if (bitmap != null) {
+			Bitmap bitmap;
+			try {
+				bitmap = UtilTools.string2Bitmap(user.getPortrait());
 				portrait.setImageBitmap(bitmap);
+			} catch (Exception e) {
+				portrait.setImageResource(R.drawable.default_portrait);
+				Log.e("Base64", e.getMessage());
 			}
 		}
 

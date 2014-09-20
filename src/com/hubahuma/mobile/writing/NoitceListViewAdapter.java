@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +29,11 @@ public class NoitceListViewAdapter extends BaseAdapter {
 	private List<NoticeEntity> dataList;
 
 	private LayoutInflater mInflater;
-	
+
 	private NoitceListViewListener listener;
 
-	public NoitceListViewAdapter(Context context, List<NoticeEntity> data, NoitceListViewListener listener) {
+	public NoitceListViewAdapter(Context context, List<NoticeEntity> data,
+			NoitceListViewListener listener) {
 		this.mInflater = LayoutInflater.from(context);
 		this.dataList = data;
 		this.listener = listener;
@@ -81,10 +84,18 @@ public class NoitceListViewAdapter extends BaseAdapter {
 		if (UtilTools.isEmpty(item.getAuthor().getPortrait())) {
 			viewHolder.portrait.setImageResource(R.drawable.default_portrait);
 		} else {
-			// TODO 判断真实头像
-			viewHolder.portrait.setImageResource(R.drawable.default_portrait);
+
+			try {
+				Bitmap img = UtilTools
+						.string2Bitmap(item.getAuthor().getPortrait());
+				viewHolder.portrait.setImageBitmap(img);
+			} catch (Exception e) {
+				viewHolder.portrait.setImageResource(R.drawable.default_portrait);
+				Log.e("Base64", e.getMessage());
+			}
+
 		}
-		
+
 		viewHolder.portrait.setTag(item.getAuthor());
 		viewHolder.portrait.setOnClickListener(new OnClickListener() {
 			@Override
@@ -93,7 +104,7 @@ public class NoitceListViewAdapter extends BaseAdapter {
 				listener.onPortraitClick(user);
 			}
 		});
-		
+
 		if (UtilTools.isEmpty(item.getImage())) {
 			viewHolder.content_img.setVisibility(View.GONE);
 		} else {

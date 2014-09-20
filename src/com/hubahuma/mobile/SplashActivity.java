@@ -1,6 +1,8 @@
 package com.hubahuma.mobile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
@@ -23,6 +25,10 @@ import com.hubahuma.mobile.entity.User;
 import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.entity.service.AuthParam;
 import com.hubahuma.mobile.entity.service.AuthResp;
+import com.hubahuma.mobile.entity.service.FetchDetailParentParam;
+import com.hubahuma.mobile.entity.service.FetchDetailParentResp;
+import com.hubahuma.mobile.entity.service.FetchDetailTeacherParam;
+import com.hubahuma.mobile.entity.service.FetchDetailTeacherResp;
 import com.hubahuma.mobile.service.MyErrorHandler;
 import com.hubahuma.mobile.service.SharedPrefs_;
 import com.hubahuma.mobile.service.UserService;
@@ -120,42 +126,88 @@ public class SplashActivity extends Activity {
 					if (resp != null && resp.isResult()) {
 						Log.d("debug", "attempt login succ");
 
-						switch (prefs.username().get()) {
-						case "1":
-							resp.setType(UserType.PARENTS);
+						UserEntity user = new UserEntity();
+						Intent intent = new Intent();
+						switch (resp.getType()) {
+						case UserType.PARENTS:
+
+							FetchDetailParentResp parentResp = null;
+
+							try {
+								FetchDetailParentParam param = new FetchDetailParentParam();
+								List<String> un = new ArrayList<String>();
+								un.add(prefs.username().get());
+								param.setUsername(un);
+								param.setToken(resp.getToken());
+								parentResp = userService
+										.fetchDetailParent(param);
+								if (parentResp == null
+										|| parentResp.getParentObjects() == null
+										|| parentResp.getParentObjects()
+												.isEmpty()
+										|| parentResp.getUserObjects() == null
+										|| parentResp.getUserObjects()
+												.isEmpty()) {
+									showToast("服务器数据返回异常", Toast.LENGTH_LONG);
+									startLoginActivity();
+									return;
+								} else {
+									user.bind(parentResp.getParentObjects()
+											.get(0), parentResp
+											.getUserObjects().get(0));
+									myApp.setToken(resp.getToken());
+									myApp.setCurrentUser(user);
+								}
+							} catch (RestClientException e) {
+								showToast("用户数据获取失败", Toast.LENGTH_LONG);
+								startLoginActivity();
+								return;
+							}
+
+							intent.setClass(this, ParentMainActivity_.class);
 							break;
-						case "2":
-							resp.setType(UserType.TEACHER);
-							break;
-						case "3":
-							resp.setType(UserType.ORGANIZTION);
-							break;
-						case "4":
-							resp.setType(UserType.ADMIN);
+						case UserType.TEACHER:
+							FetchDetailTeacherResp teacherResp = null;
+
+							try {
+								FetchDetailTeacherParam param = new FetchDetailTeacherParam();
+								List<String> un = new ArrayList<String>();
+								un.add(prefs.username().get());
+								param.setUsername(un);
+								param.setToken(resp.getToken());
+								teacherResp = userService
+										.fetchDetailTeacher(param);
+								if (teacherResp == null
+										|| teacherResp.getTeacherObjects() == null
+										|| teacherResp.getTeacherObjects()
+												.isEmpty()
+										|| teacherResp.getUserObjects() == null
+										|| teacherResp.getUserObjects()
+												.isEmpty()) {
+									showToast("服务器数据返回异常", Toast.LENGTH_LONG);
+									startLoginActivity();
+									return;
+								} else {
+									user.bind(teacherResp.getTeacherObjects()
+											.get(0), teacherResp
+											.getUserObjects().get(0));
+									myApp.setToken(resp.getToken());
+									myApp.setCurrentUser(user);
+								}
+							} catch (RestClientException e) {
+								showToast("用户数据获取失败", Toast.LENGTH_LONG);
+								startLoginActivity();
+								return;
+							}
+
+							intent.setClass(this, TeacherMainActivity_.class);
 							break;
 						default:
-							resp.setType(UserType.TEACHER);
-							resp.setResult(false);
-							break;
+							startLoginActivity();
+							return;
 						}
-
-						UserEntity user = new UserEntity();
-						user.setUsername(prefs.username().get());
-						user.setPassword(prefs.password().get());
-						user.setUserId("000001");
-						user.setName(resp.getType() + "用户");
-						user.setRemark("我是一个" + resp.getType());
-						user.setUsername("user_test");
-						user.setPhone("18201014080");
-						user.setType(resp.getType());
-						myApp.setToken(resp.getToken());
-						myApp.setCurrentUser(user);
-
-						prefs.edit().token().put(resp.getToken())
-								.lastTokenUpdated()
-								.put(System.currentTimeMillis());
-
-						startMainActivity();
+						startActivityForResult(intent,
+								ActivityCode.MAIN_ACTIVITY);
 						return;
 					}
 				}

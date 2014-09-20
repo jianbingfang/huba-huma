@@ -3,6 +3,8 @@ package com.hubahuma.mobile.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import com.hubahuma.mobile.UserType;
+
 public class UserEntity implements Serializable, Comparable<UserEntity> {
 
 	private String username;
@@ -14,7 +16,7 @@ public class UserEntity implements Serializable, Comparable<UserEntity> {
 	private String type;
 	private String portrait;
 	private String address;
-	private String introduce;
+	private String description;
 	private List<String> tags;
 	private boolean verified;
 
@@ -98,12 +100,12 @@ public class UserEntity implements Serializable, Comparable<UserEntity> {
 		this.tags = tags;
 	}
 
-	public String getIntroduce() {
-		return introduce;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setIntroduce(String introduce) {
-		this.introduce = introduce;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public boolean isVerified() {
@@ -118,5 +120,39 @@ public class UserEntity implements Serializable, Comparable<UserEntity> {
 	public int compareTo(UserEntity another) {
 		return this.name.compareTo(another.getName());
 	}
+	
+	public void bind(Teacher t){
+		this.name = t.getName();
+		this.portrait = t.getPhoto();
+		this.phone = t.getPhone();
+		this.remark = t.getSignature();
+		this.description = t.getDescription();
+		this.tags = t.getTags();
+		this.type = UserType.TEACHER;
+		this.userId = t.getUserId();
+		this.verified = t.isVerified();
+	}
+	
+	public void bind(Teacher t, User user){
+		this.bind(t);
+		this.username = user.getUsername();
+		this.password = user.getPassword();
+	}
+	
+	public void bind(Parent p){
+		this.name = p.getName();
+		this.portrait = p.getPhoto();
+		this.address = p.getLocation();
+		this.phone = p.getPhone();
+		this.remark = p.getSignature();
+		this.type = UserType.PARENTS;
+		this.userId = p.getUserId();
+	}
 
+	public void bind(Parent p, User user){
+		this.bind(p);
+		this.username = user.getUsername();
+		this.password = user.getPassword();
+	}
+	
 }

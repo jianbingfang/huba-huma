@@ -54,7 +54,7 @@ public class SearchTeacherActivity extends Activity {
 		if (checkInput()) {
 			Intent intent = new Intent();
 			intent.setClass(this, SearchResultActivity_.class);
-			intent.putExtra("phone", search_input.getText().toString().trim());
+			intent.putExtra("search_word", search_input.getText().toString().trim());
 			startActivityForResult(intent, ActivityCode.SEARCH_RESULT_ACTIVITY);
 		}
 	}

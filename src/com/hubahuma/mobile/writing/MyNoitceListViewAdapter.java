@@ -6,6 +6,8 @@ import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -66,8 +68,7 @@ public class MyNoitceListViewAdapter extends BaseAdapter {
 					.findViewById(R.id.remark);
 			viewHolder.content = (TextView) convertView
 					.findViewById(R.id.content);
-			viewHolder.image = (ImageView) convertView
-					.findViewById(R.id.image);
+			viewHolder.image = (ImageView) convertView.findViewById(R.id.image);
 			viewHolder.day = (TextView) convertView.findViewById(R.id.day);
 			viewHolder.month = (TextView) convertView.findViewById(R.id.month);
 			viewHolder.receipt_info = (TextView) convertView
@@ -80,12 +81,17 @@ public class MyNoitceListViewAdapter extends BaseAdapter {
 		viewHolder.name.setText(item.getAuthor().getName());
 		viewHolder.remark.setText(item.getAuthor().getRemark());
 		viewHolder.content.setText(item.getContent());
-		if(UtilTools.isEmpty(item.getImage())){
+		if (UtilTools.isEmpty(item.getImage())) {
 			viewHolder.image.setVisibility(View.GONE);
-		}else{
-			// TODO 加入真实图片
-			viewHolder.image.setVisibility(View.VISIBLE);
-			viewHolder.image.setImageResource(R.drawable.teaching_diary_img);
+		} else {
+			try {
+				Bitmap img = UtilTools.string2Bitmap(item.getImage());
+				viewHolder.image.setImageBitmap(img);
+				viewHolder.image.setVisibility(View.VISIBLE);
+			} catch (Exception e) {
+				viewHolder.image.setVisibility(View.GONE);
+				Log.e("Base64", e.getMessage());
+			}
 		}
 		viewHolder.day.setText(UtilTools.getDate(item.getDate()));
 		viewHolder.month.setText(UtilTools.getMonth(item.getDate()));

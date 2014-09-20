@@ -92,16 +92,12 @@ public class UtilTools {
 	}
 
 	// 将字符串转换成Bitmap类型
-	public static Bitmap string2Bitmap(String string) {
+	public static Bitmap string2Bitmap(String string) throws Exception{
 		Bitmap bitmap = null;
-		try {
-			byte[] bitmapArray;
-			bitmapArray = Base64.decode(string, Base64.DEFAULT);
-			bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0,
-					bitmapArray.length);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		byte[] bitmapArray;
+		bitmapArray = Base64.decode(string, Base64.DEFAULT);
+		bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0,
+				bitmapArray.length);
 		return bitmap;
 	}
 

@@ -2,17 +2,17 @@ package com.hubahuma.mobile.entity;
 
 public class Parent implements Comparable<Parent>{
 
-	private Location location;
+	private String location;
 	private String name;
 	private String phone;
 	private String photo;
 	private String signature;
 	private String userId;
 	
-	public Location getLocation() {
+	public String getLocation() {
 		return location;
 	}
-	public void setLocation(Location location) {
+	public void setLocation(String location) {
 		this.location = location;
 	}
 	public String getName() {

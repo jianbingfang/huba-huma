@@ -45,11 +45,11 @@
         android:text="@string/search_result"
         android:textColor="@color/grey_hint"
         android:textSize="14sp" />
-    
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/contacts_list_divider"/>
+        android:background="@color/contacts_list_divider" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -76,6 +76,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/no_data_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_marginTop="40dp"
+            android:text="很抱歉，没有找到此人..."
+            android:textColor="@color/text_light"
+            android:textSize="18sp" />
     </FrameLayout>
 
 </LinearLayout>

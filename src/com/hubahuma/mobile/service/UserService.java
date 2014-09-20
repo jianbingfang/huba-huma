@@ -47,6 +47,7 @@ import com.hubahuma.mobile.entity.service.RegisterTeacherResp;
 import com.hubahuma.mobile.entity.service.SearchOrgParam;
 import com.hubahuma.mobile.entity.service.SearchParentParam;
 import com.hubahuma.mobile.entity.service.SearchTeacherParam;
+import com.hubahuma.mobile.entity.service.SendVerificationRequestTeacherParam;
 import com.hubahuma.mobile.entity.service.UpdateOrgParam;
 import com.hubahuma.mobile.entity.service.UpdateParentParam;
 import com.hubahuma.mobile.entity.service.UpdateTeacherParam;
@@ -55,8 +56,7 @@ import com.hubahuma.mobile.entity.service.WriteAnnouncementParam;
 import com.hubahuma.mobile.entity.service.WriteAnnouncementResp;
 
 /**
- * "https://182.92.131.156:8080/api"
- * "http://192.168.2.103:8080/server"
+ * "https://182.92.131.156:8080/api" "http://192.168.2.103:8080/server"
  */
 @Rest(rootUrl = "http://192.168.2.103:8080/server", converters = { MappingJacksonHttpMessageConverter.class }, interceptors = { HttpBasicAuthenticatorInterceptor.class })
 public interface UserService extends RestClientErrorHandling {
@@ -106,35 +106,35 @@ public interface UserService extends RestClientErrorHandling {
 	FetchDetailOrgResp fetchDetailOrgByUsername(List<String> username,
 			String token);
 
-	@Post("/fetch-detail-teacher?_accessToken={token}")
+	@Post("/fetch-detail-teacher")
 	@Accept(MediaType.APPLICATION_JSON)
-	FetchDetailTeacherResp fetchDetailTeacherByTeacherId(
-			List<String> teacherId, String token);
+	FetchDetailTeacherResp fetchDetailTeacher(
+			FetchDetailTeacherParam param);
 
-	@Post("/fetch-detail-teacher?_accessToken={token}")
-	@Accept(MediaType.APPLICATION_JSON)
-	FetchDetailTeacherResp fetchDetailTeacherByUserId(List<String> userId,
-			String token);
+	// @Post("/fetch-detail-teacher?_accessToken={token}")
+	// @Accept(MediaType.APPLICATION_JSON)
+	// FetchDetailTeacherResp fetchDetailTeacherByUserId(List<String> userId,
+	// String token);
+	//
+	// @Post("/fetch-detail-teacher?_accessToken={token}")
+	// @Accept(MediaType.APPLICATION_JSON)
+	// FetchDetailTeacherResp fetchDetailTeacherByUsername(List<String>
+	// username,
+	// String token);
 
-	@Post("/fetch-detail-teacher?_accessToken={token}")
+	@Post("/fetch-detail-parent")
 	@Accept(MediaType.APPLICATION_JSON)
-	FetchDetailTeacherResp fetchDetailTeacherByUsername(List<String> username,
-			String token);
+	FetchDetailParentResp fetchDetailParent(FetchDetailParentParam param);
 
-	@Post("/fetch-detail-parent?_accessToken={token}")
-	@Accept(MediaType.APPLICATION_JSON)
-	FetchDetailParentResp fetchDetailParentByParentId(List<String> parentId,
-			String token);
-
-	@Post("/fetch-detail-parent?_accessToken={token}")
-	@Accept(MediaType.APPLICATION_JSON)
-	FetchDetailParentResp fetchDetailParentByUserId(List<String> userId,
-			String token);
-
-	@Post("/fetch-detail-parent?_accessToken={token}")
-	@Accept(MediaType.APPLICATION_JSON)
-	FetchDetailParentResp fetchDetailParentByUsername(List<String> username,
-			String token);
+	// @Post("/fetch-detail-parent?_accessToken={token}")
+	// @Accept(MediaType.APPLICATION_JSON)
+	// FetchDetailParentResp fetchDetailParentByUserId(List<String> userId,
+	// String token);
+	//
+	// @Post("/fetch-detail-parent?_accessToken={token}")
+	// @Accept(MediaType.APPLICATION_JSON)
+	// FetchDetailParentResp fetchDetailParentByUsername(List<String> username,
+	// String token);
 
 	@Post("/update-org")
 	@Accept(MediaType.APPLICATION_JSON)
@@ -159,12 +159,17 @@ public interface UserService extends RestClientErrorHandling {
 	@Post("/verify-bind-phone")
 	@Accept(MediaType.APPLICATION_JSON)
 	BoolResp verifyBindPhone(VerifyBindPhoneParam param);
-	
+
 	@Post("/fetch-announcement")
 	@Accept(MediaType.APPLICATION_JSON)
 	FetchAnnouncementResp fetchAnnouncement(FetchAnnouncementParam param);
-	
+
 	@Post("/write-announcement")
 	@Accept(MediaType.APPLICATION_JSON)
 	WriteAnnouncementResp writeAnnouncement(WriteAnnouncementParam param);
+	
+	
+	@Post("/send-verification-request-teacher")
+	@Accept(MediaType.APPLICATION_JSON)
+	void SendVerificationRequestTeacher(SendVerificationRequestTeacherParam param);
 }

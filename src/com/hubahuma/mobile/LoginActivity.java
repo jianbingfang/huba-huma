@@ -28,6 +28,10 @@ import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.entity.service.AuthParam;
 import com.hubahuma.mobile.entity.service.AuthResp;
+import com.hubahuma.mobile.entity.service.FetchDetailParentParam;
+import com.hubahuma.mobile.entity.service.FetchDetailParentResp;
+import com.hubahuma.mobile.entity.service.FetchDetailTeacherParam;
+import com.hubahuma.mobile.entity.service.FetchDetailTeacherResp;
 import com.hubahuma.mobile.service.MyErrorHandler;
 import com.hubahuma.mobile.service.SharedPrefs_;
 import com.hubahuma.mobile.service.UserService;
@@ -174,6 +178,11 @@ public class LoginActivity extends FragmentActivity implements
 				ap.setUsername(username.getText().toString());
 				ap.setPassword(password.getText().toString());
 				resp = userService.login(ap);
+				if (resp == null) {
+					showToast("服务器数据返回异常", Toast.LENGTH_LONG);
+					dismissLoadingDialog();
+					return;
+				}
 
 			} catch (RestClientException e) {
 				dismissLoadingDialog();
@@ -184,47 +193,28 @@ public class LoginActivity extends FragmentActivity implements
 			resp = new AuthResp();
 			resp.setResult(true);
 			resp.setToken("asfsdfsadfsaf");
+			switch (username.getText().toString()) {
+			case "1":
+				resp.setType(UserType.PARENTS);
+				break;
+			case "2":
+				resp.setType(UserType.TEACHER);
+				break;
+			case "3":
+				resp.setType(UserType.ORGANIZTION);
+				break;
+			case "4":
+				resp.setType(UserType.ADMIN);
+				break;
+			default:
+				resp.setType(UserType.TEACHER);
+				resp.setResult(false);
+				break;
+			}
 		}
 
-		if (resp == null) {
-			showToast("服务器验证错误", Toast.LENGTH_LONG);
-			dismissLoadingDialog();
-			return;
-		}
-		resp.setResult(true);
-		switch (username.getText().toString()) {
-		case "1":
-			resp.setType(UserType.PARENTS);
-			break;
-		case "2":
-			resp.setType(UserType.TEACHER);
-			break;
-		case "3":
-			resp.setType(UserType.ORGANIZTION);
-			break;
-		case "4":
-			resp.setType(UserType.ADMIN);
-			break;
-		default:
-			resp.setType(UserType.TEACHER);
-			resp.setResult(false);
-			break;
-		}
-		dismissLoadingDialog();
 		requestSucc = resp.isResult();
 		if (requestSucc == true) {
-
-			UserEntity user = new UserEntity();
-			user.setUsername(username.getText().toString());
-			user.setPassword(password.getText().toString());
-			user.setUserId("000001");
-			user.setName(resp.getType()+"用户");
-			user.setRemark("我是一个"+resp.getType());
-			user.setUsername("user_test");
-			user.setPhone("18201014080");
-			user.setType(resp.getType());
-			myApp.setToken(resp.getToken());
-			myApp.setCurrentUser(user);
 
 			if (remember_check.isChecked()) {
 				prefs.username().put(username.getText().toString());
@@ -240,12 +230,88 @@ public class LoginActivity extends FragmentActivity implements
 
 			prefs.rememberMe().put(remember_check.isChecked());
 
+			UserEntity user = new UserEntity();
+
+			if (GlobalVar.testMode) {
+				user.setUsername(username.getText().toString());
+				user.setPassword(password.getText().toString());
+				user.setUserId("000001");
+				user.setName(resp.getType() + "用户");
+				user.setRemark("我是一个" + resp.getType());
+				user.setUsername("user_test");
+				user.setPhone("18201014080");
+				user.setType(resp.getType());
+				myApp.setToken(resp.getToken());
+				myApp.setCurrentUser(user);
+			}
+
 			Intent intent = new Intent();
 			switch (resp.getType()) {
 			case UserType.PARENTS:
+
+				if (!GlobalVar.testMode) {
+
+					FetchDetailParentResp parentResp = null;
+
+					try {
+						FetchDetailParentParam param = new FetchDetailParentParam();
+						List<String> un = new ArrayList<String>();
+						un.add(username.getText().toString());
+						param.setUsername(un);
+						param.setToken(resp.getToken());
+						parentResp = userService.fetchDetailParent(param);
+						if (parentResp == null
+								|| parentResp.getParentObjects() == null
+								|| parentResp.getParentObjects().isEmpty()
+								|| parentResp.getUserObjects() == null
+								|| parentResp.getUserObjects().isEmpty()) {
+							showToast("服务器数据返回异常", Toast.LENGTH_LONG);
+							dismissLoadingDialog();
+						} else {
+							user.bind(parentResp.getParentObjects().get(0),
+									parentResp.getUserObjects().get(0));
+							myApp.setToken(resp.getToken());
+							myApp.setCurrentUser(user);
+						}
+					} catch (RestClientException e) {
+						dismissLoadingDialog();
+						showToast("用户数据获取失败", Toast.LENGTH_LONG);
+					}
+				}
+
 				intent.setClass(this, ParentMainActivity_.class);
 				break;
 			case UserType.TEACHER:
+				if (GlobalVar.testMode) {
+					FetchDetailTeacherResp teacherResp = null;
+
+					try {
+						FetchDetailTeacherParam param = new FetchDetailTeacherParam();
+						List<String> un = new ArrayList<String>();
+						un.add(username.getText().toString());
+						param.setUsername(un);
+						param.setToken(resp.getToken());
+						teacherResp = userService.fetchDetailTeacher(param);
+						if (teacherResp == null
+								|| teacherResp.getTeacherObjects() == null
+								|| teacherResp.getTeacherObjects().isEmpty()
+								|| teacherResp.getUserObjects() == null
+								|| teacherResp.getUserObjects().isEmpty()) {
+							showToast("服务器数据返回异常", Toast.LENGTH_LONG);
+							dismissLoadingDialog();
+						} else {
+							user.bind(teacherResp.getTeacherObjects().get(0),
+									teacherResp.getUserObjects().get(0));
+							myApp.setToken(resp.getToken());
+							myApp.setCurrentUser(user);
+						}
+					} catch (RestClientException e) {
+						dismissLoadingDialog();
+						showToast("用户数据获取失败", Toast.LENGTH_LONG);
+					}
+
+				}
+
 				intent.setClass(this, TeacherMainActivity_.class);
 				break;
 			default:
