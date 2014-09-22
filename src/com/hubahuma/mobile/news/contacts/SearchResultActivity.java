@@ -35,6 +35,8 @@ import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.entity.service.AuthParam;
 import com.hubahuma.mobile.entity.service.FetchDetailTeacherParam;
 import com.hubahuma.mobile.entity.service.FetchDetailTeacherResp;
+import com.hubahuma.mobile.entity.service.SearchTeacherParam;
+import com.hubahuma.mobile.entity.service.SearchTeacherResp;
 import com.hubahuma.mobile.entity.service.SendVerificationRequestParentParam;
 import com.hubahuma.mobile.news.contacts.SearchResultViewAdapter.SearchResultViewListener;
 import com.hubahuma.mobile.news.managebook.GroupManageViewAdapter;
@@ -124,24 +126,18 @@ public class SearchResultActivity extends FragmentActivity implements
 		// userList = getTestData();
 
 		UserEntity user = new UserEntity();
-		FetchDetailTeacherResp teacherResp = null;
 
 		try {
-			FetchDetailTeacherParam param = new FetchDetailTeacherParam();
-			List<String> un = new ArrayList<String>();
-			un.add(search_word);
-			param.setUsername(un);
+			SearchTeacherParam param = new SearchTeacherParam();
+			param.setName(search_word);
 			param.setToken(myApp.getToken());
-			teacherResp = userService.fetchDetailTeacher(param);
-			if (teacherResp == null || teacherResp.getTeacherObjects() == null
-					|| teacherResp.getTeacherObjects().isEmpty()
-					|| teacherResp.getUserObjects() == null
-					|| teacherResp.getUserObjects().isEmpty()) {
+			SearchTeacherResp teacherResp = userService.searchTeacher(param);
+			if (teacherResp == null || teacherResp.getResult() == null
+					|| teacherResp.getResult().isEmpty()) {
 				showToast("服务器数据返回异常", Toast.LENGTH_LONG);
 			} else {
-				for (int i = 0; i < teacherResp.getTeacherObjects().size(); i++) {
-					user.bind(teacherResp.getTeacherObjects().get(i),
-							teacherResp.getUserObjects().get(i));
+				for (int i = 0; i < teacherResp.getResult().size(); i++) {
+					user.bind(teacherResp.getResult().get(i));
 					userList.add(user);
 				}
 			}

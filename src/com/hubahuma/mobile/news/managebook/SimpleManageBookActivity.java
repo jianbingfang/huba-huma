@@ -171,12 +171,9 @@ public class SimpleManageBookActivity extends FragmentActivity implements
 
 		list.setOnTouchListener(touchListener);
 
-		if (GlobalVar.testMode) {
-			setTestData();
-		} else {
-			showLoadingDialog();
-			loadData();
-		}
+		showLoadingDialog();
+		loadData();
+
 	}
 
 	@Background
@@ -268,6 +265,10 @@ public class SimpleManageBookActivity extends FragmentActivity implements
 	void afterLoadData() {
 		adapter.notifyDataSetChanged();
 		dismissLoadingDialog();
+
+		if (GlobalVar.testMode) {
+			setTestData();
+		}
 	}
 
 	@AfterTextChange(R.id.search_input)

@@ -42,6 +42,7 @@ import com.hubahuma.mobile.entity.service.RegisterTeacherResp;
 import com.hubahuma.mobile.entity.service.SearchOrgParam;
 import com.hubahuma.mobile.entity.service.SearchParentParam;
 import com.hubahuma.mobile.entity.service.SearchTeacherParam;
+import com.hubahuma.mobile.entity.service.SearchTeacherResp;
 import com.hubahuma.mobile.entity.service.SendAnnouncementReadReceiptParam;
 import com.hubahuma.mobile.entity.service.SendVerificationRequestParentParam;
 import com.hubahuma.mobile.entity.service.UpdateOrgParam;
@@ -83,7 +84,7 @@ public interface UserService extends RestClientErrorHandling {
 
 	@Post("/search-teacher")
 	@Accept(MediaType.APPLICATION_JSON)
-	List<Teacher> searchTeacher(SearchTeacherParam searchTeacher);
+	SearchTeacherResp searchTeacher(SearchTeacherParam searchTeacher);
 
 	@Post("/search-parent")
 	@Accept(MediaType.APPLICATION_JSON)

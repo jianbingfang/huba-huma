@@ -74,10 +74,13 @@ public class SearchTeacherActivity extends Activity {
 	}
 	
 	private boolean checkInput() {
-		if (!UtilTools.isMobileNumber(search_input.getText().toString().trim())) {
-			error_info.setText("手机号码格式不正确");
-			return false;
+		if(UtilTools.isEmpty(search_input.getText().toString().trim())){
+			error_info.setText("输入不能为空");
 		}
+//		if (!UtilTools.isMobileNumber(search_input.getText().toString().trim())) {
+//			error_info.setText("手机号码格式不正确");
+//			return false;
+//		}
 		error_info.setText("");
 		return true;
 	}

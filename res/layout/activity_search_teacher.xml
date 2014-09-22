@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/edit_text_bg"
                 android:drawablePadding="8dp"
-                android:hint="输入老师的手机号"
+                android:hint="输入老师的姓名"
                 android:imeOptions="actionSearch"
                 android:inputType="phone"
                 android:padding="8dp"
