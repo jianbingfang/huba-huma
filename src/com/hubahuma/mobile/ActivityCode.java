@@ -29,4 +29,5 @@ public class ActivityCode {
 	public static final int MY_NOTICE_ACTIVITY = 25;
 	public static final int REGISTER_ACTIVITY = 26;
 	public static final int AUTH_CODE_ACTIVITY = 27;
+	public static final int RECEIPT_ACTIVITY = 28;
 }

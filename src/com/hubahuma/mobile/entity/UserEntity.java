@@ -1,7 +1,9 @@
 package com.hubahuma.mobile.entity;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.hubahuma.mobile.UserType;
 
@@ -19,6 +21,7 @@ public class UserEntity implements Serializable, Comparable<UserEntity> {
 	private String description;
 	private List<String> tags;
 	private boolean verified;
+	private Map<String, Object> extra = new HashMap<String, Object>();
 
 	public String getUsername() {
 		return username;
@@ -114,6 +117,14 @@ public class UserEntity implements Serializable, Comparable<UserEntity> {
 
 	public void setVerified(boolean verified) {
 		this.verified = verified;
+	}
+
+	public Map<String, Object> getExtra() {
+		return extra;
+	}
+
+	public void setExtra(Map<String, Object> extra) {
+		this.extra = extra;
 	}
 
 	@Override

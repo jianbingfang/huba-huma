@@ -11,6 +11,7 @@ import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.App;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -21,6 +22,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import android.app.ExpandableListActivity;
@@ -55,13 +57,27 @@ import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.entity.GroupEntity;
+import com.hubahuma.mobile.entity.Parent;
+import com.hubahuma.mobile.entity.User;
 import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.entity.VerificationRequestParent;
+import com.hubahuma.mobile.entity.service.AuthParam;
+import com.hubahuma.mobile.entity.service.DeleteContactsParam;
+import com.hubahuma.mobile.entity.service.DenyVerificationRequestParentParam;
+import com.hubahuma.mobile.entity.service.FetchContactsParam;
+import com.hubahuma.mobile.entity.service.FetchContactsResp;
+import com.hubahuma.mobile.entity.service.FetchDetailParentParam;
+import com.hubahuma.mobile.entity.service.FetchDetailParentResp;
+import com.hubahuma.mobile.entity.service.FetchVerificationRequestParentParam;
+import com.hubahuma.mobile.entity.service.PassVerificationRequestParentParam;
+import com.hubahuma.mobile.entity.service.WriteAnnouncementParam;
 import com.hubahuma.mobile.news.managebook.ChangeGroupDialog.EditNameDialogListener;
 import com.hubahuma.mobile.news.managebook.SimpleManageBookViewAdapter.SimpleManageBookListener;
 import com.hubahuma.mobile.news.message.MessageActivity_;
 import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
 import com.hubahuma.mobile.profile.ProfileParentsActivity_;
 import com.hubahuma.mobile.profile.ProfileTeacherActivity_;
+import com.hubahuma.mobile.service.FetchVerificationRequestParentResp;
 import com.hubahuma.mobile.service.MyErrorHandler;
 import com.hubahuma.mobile.service.SharedPrefs_;
 import com.hubahuma.mobile.service.UserService;
@@ -92,7 +108,7 @@ public class SimpleManageBookActivity extends FragmentActivity implements
 
 	private SimpleManageBookViewAdapter adapter;
 
-	private List<GroupEntity> groupList;
+	private List<GroupEntity> groupList = new ArrayList<GroupEntity>();
 	private List<GroupEntity> filteredGroupList;
 	private int targetGroupPos = -1;
 	private int targetChildPos = -1;
@@ -105,13 +121,11 @@ public class SimpleManageBookActivity extends FragmentActivity implements
 	@AfterInject
 	void afterInject() {
 		userService.setRestErrorHandler(myErrorHandler);
-
 		RestTemplate tpl = userService.getRestTemplate();
 		SimpleClientHttpRequestFactory s = new SimpleClientHttpRequestFactory();
 		s.setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
 		s.setReadTimeout(GlobalVar.READ_TIMEOUT);
 		tpl.setRequestFactory(s);
-
 	}
 
 	@AfterViews
@@ -121,10 +135,15 @@ public class SimpleManageBookActivity extends FragmentActivity implements
 		promptDialog = new PromptDialog_();
 		promptDialog.setDialogListener(this);
 
-		groupList = new ArrayList<GroupEntity>();
-		setTestData();
+		GroupEntity toVerify = new GroupEntity();
+		toVerify.setGroupName("待验证家长");
+		toVerify.setMemberList(new ArrayList<UserEntity>());
+		groupList.add(toVerify);
 
-		Collections.sort(groupList.get(1).getMemberList());
+		GroupEntity verified = new GroupEntity();
+		verified.setGroupName("通过验证本班家长");
+		verified.setMemberList(new ArrayList<UserEntity>());
+		groupList.add(verified);
 
 		filteredGroupList = new ArrayList<GroupEntity>(groupList);
 
@@ -152,6 +171,103 @@ public class SimpleManageBookActivity extends FragmentActivity implements
 
 		list.setOnTouchListener(touchListener);
 
+		if (GlobalVar.testMode) {
+			setTestData();
+		} else {
+			showLoadingDialog();
+			loadData();
+		}
+	}
+
+	@Background
+	void loadData() {
+
+		try {
+			FetchVerificationRequestParentParam param = new FetchVerificationRequestParentParam();
+			param.setToken(myApp.getToken());
+			FetchVerificationRequestParentResp resp = userService
+					.fetchVerificationRequestParent(param);
+			if (resp != null) {
+				List<String> parentIds = new ArrayList<String>();
+				for (VerificationRequestParent req : resp.getRequests()) {
+					UserEntity user = new UserEntity();
+					user.getExtra().put("verificationRequestId", req.getId());
+					groupList.get(0).getMemberList().add(user);
+					parentIds.add(req.getParentId());
+				}
+
+				FetchDetailParentParam p = new FetchDetailParentParam();
+				p.setParentId(parentIds);
+				param.setToken(myApp.getToken());
+				FetchDetailParentResp parentResp = userService
+						.fetchDetailParent(p);
+				if (parentResp == null || parentResp.getParentObjects() == null
+						|| parentResp.getParentObjects().isEmpty()
+						|| parentResp.getUserObjects() == null
+						|| parentResp.getUserObjects().isEmpty()) {
+					showToast("服务器数据返回异常", Toast.LENGTH_LONG);
+					dismissLoadingDialog();
+				} else {
+					List<Parent> pl = parentResp.getParentObjects();
+					List<User> ul = parentResp.getUserObjects();
+					for (int i = 0; i < pl.size(); i++) {
+						groupList.get(0).getMemberList().get(i)
+								.bind(pl.get(i), ul.get(i));
+					}
+				}
+
+			} else {
+				showToast("验证数据载入失败", Toast.LENGTH_LONG);
+			}
+
+		} catch (RestClientException e) {
+			showToast("服务器异常，验证数据载入失败", Toast.LENGTH_LONG);
+		}
+
+		try {
+
+			FetchContactsParam param = new FetchContactsParam();
+			param.setToken(myApp.getToken());
+			FetchContactsResp resp = userService.fetchContacts(param);
+
+			if (resp != null) {
+
+				FetchDetailParentParam p = new FetchDetailParentParam();
+				p.setUserId(resp.getContactIds());
+				param.setToken(myApp.getToken());
+				FetchDetailParentResp parentResp = userService
+						.fetchDetailParent(p);
+				if (parentResp == null || parentResp.getParentObjects() == null
+						|| parentResp.getParentObjects().isEmpty()
+						|| parentResp.getUserObjects() == null
+						|| parentResp.getUserObjects().isEmpty()) {
+					showToast("联系人载入失败", Toast.LENGTH_LONG);
+					dismissLoadingDialog();
+				} else {
+					List<Parent> pl = parentResp.getParentObjects();
+					List<User> ul = parentResp.getUserObjects();
+					for (int i = 0; i < pl.size(); i++) {
+						UserEntity user = new UserEntity();
+						user.bind(pl.get(i), ul.get(i));
+						groupList.get(1).getMemberList().add(user);
+					}
+				}
+
+			}
+
+		} catch (RestClientException e) {
+			showToast("服务器异常，联系人载入失败", Toast.LENGTH_LONG);
+		}
+
+		Collections.sort(groupList.get(1).getMemberList());
+
+		afterLoadData();
+	}
+
+	@UiThread
+	void afterLoadData() {
+		adapter.notifyDataSetChanged();
+		dismissLoadingDialog();
 	}
 
 	@AfterTextChange(R.id.search_input)
@@ -165,8 +281,7 @@ public class SimpleManageBookActivity extends FragmentActivity implements
 			tempGroup.getMemberList().clear();
 			List<UserEntity> userList = new ArrayList<UserEntity>();
 			for (UserEntity user : group.getMemberList()) {
-				if (user.getName() != null
-						&& user.getName().contains(word)) {
+				if (user.getName() != null && user.getName().contains(word)) {
 					userList.add(user);
 				} else if (user.getRemark() != null
 						&& user.getRemark().contains(word)) {
@@ -182,6 +297,11 @@ public class SimpleManageBookActivity extends FragmentActivity implements
 		adapter.notifyDataSetChanged();
 
 		expandAllGroup();
+	}
+
+	@UiThread
+	void showToast(String info, int time) {
+		Toast.makeText(getApplicationContext(), info, time).show();
 	}
 
 	@UiThread
@@ -210,7 +330,6 @@ public class SimpleManageBookActivity extends FragmentActivity implements
 
 		@Override
 		public void OnClickChangeGroup(int position) {
-			// TODO Auto-generated method stub
 			long pos = list.getExpandableListPosition(position);
 			int childPos = ExpandableListView.getPackedPositionChild(pos);// 获取第一行child的id
 			int groupPos = ExpandableListView.getPackedPositionGroup(pos);// 获取第一行group的id
@@ -226,7 +345,6 @@ public class SimpleManageBookActivity extends FragmentActivity implements
 
 		@Override
 		public void LoadDataForScroll(int count) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -239,27 +357,60 @@ public class SimpleManageBookActivity extends FragmentActivity implements
 				Log.d("DELETE", "pos=" + pos + " -> [" + groupPos + ","
 						+ childPos + "]");
 
-				// handle delete contact
-
-				UserEntity deletedUser = filteredGroupList.get(groupPos)
+				showToast("正在删除...", Toast.LENGTH_SHORT);
+				UserEntity user = filteredGroupList.get(groupPos)
 						.getMemberList().remove(childPos);
-				groupList.get(groupPos).getMemberList().remove(deletedUser);
-
-				Toast.makeText(getApplicationContext(),
-						"已删除：" + deletedUser.getName(), Toast.LENGTH_SHORT)
-						.show();
+				groupList.get(groupPos).getMemberList().remove(user);
 				adapter.notifyDataSetChanged();
 
+				// 如果是联系人的group，则进行后台实际删除
+				if (groupPos > 0) {
+					handleDeleteContact(user, groupPos);
+				}
 			}
 			return true;
 		}
 
 		@Override
 		public void OnClickListView(int position) {
-			// TODO Auto-generated method stub
+
 		}
 
 	};
+
+	@Background(delay = 0)
+	void handleDeleteContact(UserEntity user, int groupPos) {
+		try {
+			DeleteContactsParam param = new DeleteContactsParam();
+			List<String> ids = new ArrayList<String>();
+			ids.add(user.getUserId());
+			param.setIds(ids);
+			param.setToken(myApp.getToken());
+			userService.deleteContacts(param);
+		} catch (RestClientException e) {
+			afterDeleteContactFail(user, groupPos);
+			return;
+		}
+		afterDeleteContactSucc(user);
+	}
+
+	@UiThread
+	void afterDeleteContactSucc(UserEntity deletedUser) {
+		Toast.makeText(getApplicationContext(), "已删除：" + deletedUser.getName(),
+				Toast.LENGTH_SHORT).show();
+		Log.d("Delete Contact Succ", deletedUser.getName());
+	}
+
+	@UiThread
+	void afterDeleteContactFail(UserEntity deletedUser, int groupPos) {
+
+		groupList.get(groupPos).getMemberList().add(deletedUser);
+		Collections.sort(groupList.get(groupPos).getMemberList());
+		adapter.notifyDataSetChanged();
+		Toast.makeText(getApplicationContext(), "删除失败，服务器连接异常",
+				Toast.LENGTH_SHORT).show();
+		Log.d("Delete Contact Fail", deletedUser.getName());
+	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
@@ -362,7 +513,29 @@ public class SimpleManageBookActivity extends FragmentActivity implements
 
 	@Override
 	public void ignoreReceipt(Button ignore, Button accept) {
-		// showLoadingDialog();
+		showLoadingDialog();
+		UserEntity user = (UserEntity) ignore.getTag();
+		handleIgnoreReceipt(user.getUserId(), ignore, accept);
+	}
+
+	@Background
+	void handleIgnoreReceipt(String parentId, Button ignore, Button accept) {
+		try {
+			DenyVerificationRequestParentParam param = new DenyVerificationRequestParentParam();
+			param.setId(parentId);
+			param.setToken(myApp.getToken());
+			userService.denyVerificationRequestParent(param);
+		} catch (RestClientException e) {
+			dismissLoadingDialog();
+			showToast("失败，服务器连接异常", Toast.LENGTH_LONG);
+			return;
+		}
+		afterIgnoreSucc(ignore, accept);
+	}
+
+	@UiThread
+	void afterIgnoreSucc(Button ignore, Button accept) {
+		dismissLoadingDialog();
 		ignore.setVisibility(View.GONE);
 		accept.setText("已忽略");
 		accept.setEnabled(false);
@@ -371,20 +544,41 @@ public class SimpleManageBookActivity extends FragmentActivity implements
 
 	@Override
 	public void acceptReceipt(Button ignore, Button accept) {
-		// TODO Auto-generated method stub
+		showLoadingDialog();
+		UserEntity user = (UserEntity) accept.getTag();
+		String verificationRequestId = (String) user.getExtra().get(
+				"verificationRequestId");
+		handleAcceptReceipt(verificationRequestId, ignore, accept);
+	}
 
+	@Background
+	void handleAcceptReceipt(String id, Button ignore, Button accept) {
+		try {
+			PassVerificationRequestParentParam param = new PassVerificationRequestParentParam();
+			param.setId(id);
+			param.setToken(myApp.getToken());
+			userService.passVerificationRequestParent(param);
+		} catch (RestClientException e) {
+			dismissLoadingDialog();
+			showToast("失败，服务器连接异常", Toast.LENGTH_LONG);
+			return;
+		}
+		afterAcceptSucc(ignore, accept);
+	}
+
+	@UiThread
+	void afterAcceptSucc(Button ignore, Button accept) {
+		dismissLoadingDialog();
 		UserEntity user = (UserEntity) accept.getTag();
 		groupList.get(1).getMemberList().add(user);
 		Collections.sort(groupList.get(1).getMemberList());
-//		filteredGroupList.get(1).getMemberList().add(user);
-//		Collections.sort(filteredGroupList.get(1).getMemberList());
+		// filteredGroupList.get(1).getMemberList().add(user);
+		// Collections.sort(filteredGroupList.get(1).getMemberList());
 		adapter.notifyDataSetChanged();
-
 		ignore.setVisibility(View.GONE);
 		accept.setText("已通过");
 		accept.setEnabled(false);
 		accept.setBackgroundResource(R.drawable.btn_dark_green_bg);
-
 	}
 
 	@Override
@@ -423,33 +617,24 @@ public class SimpleManageBookActivity extends FragmentActivity implements
 	}
 
 	private void setTestData() {
-		GroupEntity toVerify = new GroupEntity();
-		toVerify.setGroupName("待验证家长");
-		List<UserEntity> childList1 = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 4; i++) {
 			UserEntity child1Data = new UserEntity();
 			child1Data.setUserId("user#" + i);
 			child1Data.setType(UserType.PARENTS);
 			child1Data.setName("王萍" + i);
 			child1Data.setRemark("赵林母亲" + i);
-			childList1.add(child1Data);
+			groupList.get(0).getMemberList().add(child1Data);
 		}
-		toVerify.setMemberList(childList1);
-		groupList.add(toVerify);
 
-		GroupEntity verified = new GroupEntity();
-		verified.setGroupName("通过验证本班家长");
-		List<UserEntity> childList2 = new ArrayList<UserEntity>();
 		for (int i = 1; i <= 6; i++) {
 			UserEntity child2Data = new UserEntity();
 			child2Data.setUserId("user#" + i * 10);
 			child2Data.setType(UserType.PARENTS);
 			child2Data.setName("李国成" + i);
 			child2Data.setRemark("李小丽父亲" + i);
-			childList2.add(child2Data);
+			groupList.get(1).getMemberList().add(child2Data);
 		}
-		verified.setMemberList(childList2);
-		groupList.add(verified);
+		adapter.notifyDataSetChanged();
 	}
 
 }

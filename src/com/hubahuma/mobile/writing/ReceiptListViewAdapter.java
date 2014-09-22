@@ -4,6 +4,8 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.utils.UtilTools;
 
 public class ReceiptListViewAdapter extends BaseAdapter {
 
@@ -61,26 +64,32 @@ public class ReceiptListViewAdapter extends BaseAdapter {
 
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
-			if (isRead) {
-				convertView = mInflater.inflate(R.layout.item_receipt_read,
-						null);
-			} else {
-				convertView = mInflater.inflate(R.layout.item_receipt_unread,
-						null);
-			}
+			convertView = mInflater.inflate(R.layout.item_receipt, null);
 			viewHolder = new ViewHolder();
 			viewHolder.portrait = (ImageView) convertView
 					.findViewById(R.id.portrait);
 			viewHolder.name = (TextView) convertView.findViewById(R.id.name);
 			viewHolder.remark = (TextView) convertView
 					.findViewById(R.id.remark);
+			viewHolder.read_hint = (TextView) convertView.findViewById(R.id.read_hint);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		// TODO 加入真实头像
-		viewHolder.portrait.setImageResource(R.drawable.default_portrait);
+		if (UtilTools.isEmpty(item.getPortrait())) {
+			viewHolder.portrait.setImageResource(R.drawable.default_portrait);
+		} else {
+			try {
+				Bitmap img = UtilTools.string2Bitmap(item.getPortrait());
+				viewHolder.portrait.setImageBitmap(img);
+			} catch (Exception e) {
+				viewHolder.portrait
+						.setImageResource(R.drawable.default_portrait);
+				Log.e("Base64", e.getMessage());
+			}
+
+		}
 		viewHolder.portrait.setTag(item);
 		viewHolder.portrait.setOnClickListener(new OnClickListener() {
 			@Override
@@ -91,6 +100,13 @@ public class ReceiptListViewAdapter extends BaseAdapter {
 		});
 		viewHolder.name.setText(item.getName());
 		viewHolder.remark.setText(item.getRemark());
+		if (isRead) {
+			viewHolder.read_hint.setText("已读");
+			viewHolder.read_hint.setBackgroundResource(R.drawable.receipt_green_bg);
+		} else {
+			viewHolder.read_hint.setText("未读");
+			viewHolder.read_hint.setBackgroundResource(R.drawable.receipt_red_bg);
+		}
 
 		return convertView;
 	}
@@ -99,6 +115,7 @@ public class ReceiptListViewAdapter extends BaseAdapter {
 		public ImageView portrait;
 		public TextView name;
 		public TextView remark;
+		public TextView read_hint;
 	}
 
 }

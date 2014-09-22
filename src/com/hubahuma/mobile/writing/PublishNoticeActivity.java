@@ -55,6 +55,13 @@ import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.SelectImgPopupWindow;
 import com.hubahuma.mobile.entity.NoticeEntity;
+import com.hubahuma.mobile.entity.Parent;
+import com.hubahuma.mobile.entity.User;
+import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.entity.service.FetchContactsParam;
+import com.hubahuma.mobile.entity.service.FetchContactsResp;
+import com.hubahuma.mobile.entity.service.FetchDetailParentParam;
+import com.hubahuma.mobile.entity.service.FetchDetailParentResp;
 import com.hubahuma.mobile.entity.service.WriteAnnouncementParam;
 import com.hubahuma.mobile.entity.service.WriteAnnouncementResp;
 import com.hubahuma.mobile.service.MyErrorHandler;
@@ -244,6 +251,36 @@ public class PublishNoticeActivity extends FragmentActivity implements
 	boolean publishNotice(NoticeEntity notice) {
 		WriteAnnouncementResp resp = null;
 		try {
+
+			List<String> recepients = new ArrayList<String>();
+
+			FetchContactsParam p = new FetchContactsParam();
+			p.setToken(myApp.getToken());
+			FetchContactsResp rp = userService.fetchContacts(p);
+
+			if (rp == null) {
+				showToast("联系人载入失败", Toast.LENGTH_LONG);
+				return false;
+			}
+
+			FetchDetailParentParam pa = new FetchDetailParentParam();
+			pa.setUserId(rp.getContactIds());
+			pa.setToken(myApp.getToken());
+			FetchDetailParentResp parentResp = userService
+					.fetchDetailParent(pa);
+			if (parentResp == null || parentResp.getParentObjects() == null
+					|| parentResp.getParentObjects().isEmpty()
+					|| parentResp.getUserObjects() == null
+					|| parentResp.getUserObjects().isEmpty()) {
+				showToast("联系人载入失败", Toast.LENGTH_LONG);
+				return false;
+			} else {
+				List<User> ul = parentResp.getUserObjects();
+				for (int i = 0; i < ul.size(); i++) {
+					recepients.add(ul.get(i).getUserId());
+				}
+			}
+
 			WriteAnnouncementParam param = new WriteAnnouncementParam();
 			param.setTitle(notice.getTitle());
 			param.setText(notice.getContent());
@@ -252,20 +289,19 @@ public class PublishNoticeActivity extends FragmentActivity implements
 				photos.add(notice.getImage());
 				param.setPhotos(photos);
 			}
-			List<String> recepients = new ArrayList<String>();
 			param.setRecepients(recepients);
+			param.setToken(myApp.getToken());
 			resp = userService.writeAnnouncement(param);
+			if (resp == null) {
+				showToast("服务器处理错误", Toast.LENGTH_LONG);
+				return false;
+			}
+			newNotice = resp.getCreatedObject();
+
 		} catch (RestClientException e) {
 			showToast("服务器连接异常", Toast.LENGTH_LONG);
 			return false;
 		}
-
-		if (resp == null) {
-			showToast("服务器处理错误", Toast.LENGTH_LONG);
-			return false;
-		}
-
-		newNotice = resp.getCreatedObject();
 
 		return true;
 	}
@@ -354,7 +390,6 @@ public class PublishNoticeActivity extends FragmentActivity implements
 	@Click
 	void btn_back() {
 		Intent intent = getIntent();
-		intent.putExtra("result", "returned from PublishNoticeActivity");
 		if (publishSucc) {
 			intent.putExtra("newNotice", newNotice);
 			this.setResult(1, intent);

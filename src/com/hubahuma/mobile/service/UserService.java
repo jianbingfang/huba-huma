@@ -1,43 +1,38 @@
 package com.hubahuma.mobile.service;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.androidannotations.annotations.rest.Accept;
-import org.androidannotations.annotations.rest.Get;
 import org.androidannotations.annotations.rest.Post;
-import org.androidannotations.annotations.rest.Put;
 import org.androidannotations.annotations.rest.Rest;
-import org.androidannotations.annotations.rest.SetsCookie;
 import org.androidannotations.api.rest.MediaType;
 import org.androidannotations.api.rest.RestClientErrorHandling;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.client.ClientHttpRequestExecution;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import com.hubahuma.mobile.entity.Organization;
 import com.hubahuma.mobile.entity.Parent;
 import com.hubahuma.mobile.entity.Teacher;
-import com.hubahuma.mobile.entity.User;
-import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.entity.service.AuthParam;
 import com.hubahuma.mobile.entity.service.AuthResp;
 import com.hubahuma.mobile.entity.service.BindPhoneParam;
+import com.hubahuma.mobile.entity.service.BindPhoneResp;
 import com.hubahuma.mobile.entity.service.BoolResp;
 import com.hubahuma.mobile.entity.service.ChangePasswordParam;
 import com.hubahuma.mobile.entity.service.ChangePasswordResp;
+import com.hubahuma.mobile.entity.service.DeleteContactsParam;
+import com.hubahuma.mobile.entity.service.DenyVerificationRequestParentParam;
 import com.hubahuma.mobile.entity.service.FetchAnnouncementParam;
 import com.hubahuma.mobile.entity.service.FetchAnnouncementResp;
-import com.hubahuma.mobile.entity.service.FetchDetailOrgParam;
+import com.hubahuma.mobile.entity.service.FetchContactsParam;
+import com.hubahuma.mobile.entity.service.FetchContactsResp;
 import com.hubahuma.mobile.entity.service.FetchDetailOrgResp;
 import com.hubahuma.mobile.entity.service.FetchDetailParentParam;
 import com.hubahuma.mobile.entity.service.FetchDetailParentResp;
 import com.hubahuma.mobile.entity.service.FetchDetailTeacherParam;
 import com.hubahuma.mobile.entity.service.FetchDetailTeacherResp;
+import com.hubahuma.mobile.entity.service.FetchVerificationRequestParentParam;
+import com.hubahuma.mobile.entity.service.PassVerificationRequestParentParam;
 import com.hubahuma.mobile.entity.service.RegisterOrgParam;
 import com.hubahuma.mobile.entity.service.RegisterOrgResp;
 import com.hubahuma.mobile.entity.service.RegisterParentParam;
@@ -47,7 +42,8 @@ import com.hubahuma.mobile.entity.service.RegisterTeacherResp;
 import com.hubahuma.mobile.entity.service.SearchOrgParam;
 import com.hubahuma.mobile.entity.service.SearchParentParam;
 import com.hubahuma.mobile.entity.service.SearchTeacherParam;
-import com.hubahuma.mobile.entity.service.SendVerificationRequestTeacherParam;
+import com.hubahuma.mobile.entity.service.SendAnnouncementReadReceiptParam;
+import com.hubahuma.mobile.entity.service.SendVerificationRequestParentParam;
 import com.hubahuma.mobile.entity.service.UpdateOrgParam;
 import com.hubahuma.mobile.entity.service.UpdateParentParam;
 import com.hubahuma.mobile.entity.service.UpdateTeacherParam;
@@ -58,7 +54,7 @@ import com.hubahuma.mobile.entity.service.WriteAnnouncementResp;
 /**
  * "https://182.92.131.156:8080/api" "http://192.168.2.103:8080/server"
  */
-@Rest(rootUrl = "http://192.168.2.103:8080/server", converters = { MappingJacksonHttpMessageConverter.class }, interceptors = { HttpBasicAuthenticatorInterceptor.class })
+@Rest(rootUrl = "http://182.92.131.156:8080/api", converters = { MappingJacksonHttpMessageConverter.class }, interceptors = { HttpBasicAuthenticatorInterceptor.class })
 public interface UserService extends RestClientErrorHandling {
 
 	RestTemplate getRestTemplate();
@@ -108,8 +104,7 @@ public interface UserService extends RestClientErrorHandling {
 
 	@Post("/fetch-detail-teacher")
 	@Accept(MediaType.APPLICATION_JSON)
-	FetchDetailTeacherResp fetchDetailTeacher(
-			FetchDetailTeacherParam param);
+	FetchDetailTeacherResp fetchDetailTeacher(FetchDetailTeacherParam param);
 
 	// @Post("/fetch-detail-teacher?_accessToken={token}")
 	// @Accept(MediaType.APPLICATION_JSON)
@@ -154,7 +149,7 @@ public interface UserService extends RestClientErrorHandling {
 
 	@Post("/bind-phone")
 	@Accept(MediaType.APPLICATION_JSON)
-	String bindPhone(BindPhoneParam bindPhoneParam);
+	void bindPhone(BindPhoneParam bindPhoneParam);
 
 	@Post("/verify-bind-phone")
 	@Accept(MediaType.APPLICATION_JSON)
@@ -167,9 +162,35 @@ public interface UserService extends RestClientErrorHandling {
 	@Post("/write-announcement")
 	@Accept(MediaType.APPLICATION_JSON)
 	WriteAnnouncementResp writeAnnouncement(WriteAnnouncementParam param);
-	
-	
-	@Post("/send-verification-request-teacher")
+
+	@Post("/send-verification-request-parent")
 	@Accept(MediaType.APPLICATION_JSON)
-	void SendVerificationRequestTeacher(SendVerificationRequestTeacherParam param);
+	void sendVerificationRequestParent(SendVerificationRequestParentParam param);
+
+	@Post("/fetch-verification-request-parent")
+	@Accept(MediaType.APPLICATION_JSON)
+	FetchVerificationRequestParentResp fetchVerificationRequestParent(
+			FetchVerificationRequestParentParam param);
+
+	@Post("/send-announcement-read-receipt")
+	@Accept(MediaType.APPLICATION_JSON)
+	void sendAnnouncementReadReceipt(SendAnnouncementReadReceiptParam param);
+
+	@Post("/pass-verification-request-parent")
+	@Accept(MediaType.APPLICATION_JSON)
+	void passVerificationRequestParent(PassVerificationRequestParentParam param);
+	
+	@Post("/deny-verification-request-parent")
+	@Accept(MediaType.APPLICATION_JSON)
+	void denyVerificationRequestParent(DenyVerificationRequestParentParam param);
+	
+	@Post("/delete-contacts")
+	@Accept(MediaType.APPLICATION_JSON)
+	void deleteContacts(DeleteContactsParam param);
+	
+	@Post("/fetch-contacts")
+	@Accept(MediaType.APPLICATION_JSON)
+	FetchContactsResp fetchContacts(FetchContactsParam param);
+	
+	
 }

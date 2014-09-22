@@ -8,9 +8,9 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 @JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 public class FetchDetailOrgParam {
 
-	List<String> orgId;
-	List<String> userId;
-	List<String> username;
+	private List<String> orgId;
+	private List<String> userId;
+	private List<String> username;
 	
 	@JsonProperty("_accessToken")
 	private String token;

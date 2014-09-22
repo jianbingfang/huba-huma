@@ -1,10 +1,23 @@
 package com.hubahuma.mobile.entity.service;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class BindPhoneParam {
 
 	private String userId;
-	
+
 	private String phone;
+
+	@JsonProperty("_accessToken")
+	private String token;
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 	public String getUserId() {
 		return userId;
@@ -21,6 +34,5 @@ public class BindPhoneParam {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
-	
+
 }

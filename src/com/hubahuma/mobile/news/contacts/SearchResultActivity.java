@@ -35,7 +35,7 @@ import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.entity.service.AuthParam;
 import com.hubahuma.mobile.entity.service.FetchDetailTeacherParam;
 import com.hubahuma.mobile.entity.service.FetchDetailTeacherResp;
-import com.hubahuma.mobile.entity.service.SendVerificationRequestTeacherParam;
+import com.hubahuma.mobile.entity.service.SendVerificationRequestParentParam;
 import com.hubahuma.mobile.news.contacts.SearchResultViewAdapter.SearchResultViewListener;
 import com.hubahuma.mobile.news.managebook.GroupManageViewAdapter;
 import com.hubahuma.mobile.news.managebook.OneInputDialog_;
@@ -106,17 +106,11 @@ public class SearchResultActivity extends FragmentActivity implements
 	@AfterInject
 	void afterInject() {
 		userService.setRestErrorHandler(myErrorHandler);
-
 		RestTemplate tpl = userService.getRestTemplate();
-
-		if (tpl.getRequestFactory() instanceof SimpleClientHttpRequestFactory) {
-			Log.d("HTTP", "HttpUrlConnection is used");
-			((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
-					.setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
-			((SimpleClientHttpRequestFactory) tpl.getRequestFactory())
-					.setReadTimeout(GlobalVar.READ_TIMEOUT);
-		}
-
+		SimpleClientHttpRequestFactory s = new SimpleClientHttpRequestFactory();
+		s.setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
+		s.setReadTimeout(GlobalVar.READ_TIMEOUT);
+		tpl.setRequestFactory(s);
 	}
 
 	@AfterViews
@@ -127,7 +121,6 @@ public class SearchResultActivity extends FragmentActivity implements
 
 	@Background(delay = 0)
 	void loadData() {
-		// TODO 做后台处理
 		// userList = getTestData();
 
 		UserEntity user = new UserEntity();
@@ -145,7 +138,6 @@ public class SearchResultActivity extends FragmentActivity implements
 					|| teacherResp.getUserObjects() == null
 					|| teacherResp.getUserObjects().isEmpty()) {
 				showToast("服务器数据返回异常", Toast.LENGTH_LONG);
-				dismissLoadingDialog();
 			} else {
 				for (int i = 0; i < teacherResp.getTeacherObjects().size(); i++) {
 					user.bind(teacherResp.getTeacherObjects().get(i),
@@ -154,7 +146,6 @@ public class SearchResultActivity extends FragmentActivity implements
 				}
 			}
 		} catch (RestClientException e) {
-			dismissLoadingDialog();
 			showToast("用户数据获取失败", Toast.LENGTH_LONG);
 		}
 
@@ -202,13 +193,11 @@ public class SearchResultActivity extends FragmentActivity implements
 
 	@Override
 	public void onFollowClicked(ImageButton btn) {
+		targetFollow = btn;
 
 		FragmentManager fm = getSupportFragmentManager();
 		VerifyChildDialog_ verifyDialog = new VerifyChildDialog_();
 		verifyDialog.show(fm, "dialog_verify_child");
-
-		targetFollow = btn;
-
 	}
 
 	@Override
@@ -231,13 +220,14 @@ public class SearchResultActivity extends FragmentActivity implements
 		}
 
 		try {
-			SendVerificationRequestTeacherParam param = new SendVerificationRequestTeacherParam();
+			SendVerificationRequestParentParam param = new SendVerificationRequestParentParam();
 			UserEntity teacher = (UserEntity) btn.getTag();
 			if (teacher != null) {
 				param.setTeacherId(teacher.getUserId());
-				param.setMessage(message);
-				userService.SendVerificationRequestTeacher(param);
-			}else{
+				param.setRelationship(message);
+				param.setToken(myApp.getToken());
+				userService.sendVerificationRequestParent(param);
+			} else {
 				dismissLoadingDialog();
 				showPromptDialog("失败", "数据加载失败");
 				return;

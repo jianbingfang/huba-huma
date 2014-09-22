@@ -1,7 +1,5 @@
 package com.hubahuma.mobile;
 
-import java.util.Random;
-
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
@@ -19,33 +17,23 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
-import com.hubahuma.mobile.entity.service.BindPhoneParam;
-import com.hubahuma.mobile.entity.service.BoolResp;
-import com.hubahuma.mobile.entity.service.RegisterParentParam;
-import com.hubahuma.mobile.entity.service.RegisterParentResp;
-import com.hubahuma.mobile.entity.service.RegisterTeacherParam;
-import com.hubahuma.mobile.entity.service.RegisterTeacherResp;
-import com.hubahuma.mobile.entity.service.VerifyBindPhoneParam;
-import com.hubahuma.mobile.service.MyErrorHandler;
-import com.hubahuma.mobile.service.SmsService;
-import com.hubahuma.mobile.service.UserService;
-import com.hubahuma.mobile.utils.GlobalVar;
-import com.hubahuma.mobile.utils.UtilTools;
-
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
+import com.hubahuma.mobile.entity.service.BindPhoneParam;
+import com.hubahuma.mobile.entity.service.BoolResp;
+import com.hubahuma.mobile.entity.service.VerifyBindPhoneParam;
+import com.hubahuma.mobile.service.MyErrorHandler;
+import com.hubahuma.mobile.service.UserService;
+import com.hubahuma.mobile.utils.GlobalVar;
+import com.hubahuma.mobile.utils.UtilTools;
 
 @SuppressWarnings("deprecation")
 @NoTitle
@@ -53,8 +41,11 @@ import android.widget.Toast;
 public class AuthCodeActivity extends FragmentActivity implements
 		PromptDialogListener {
 
+	// @Extra
+	// String username, password, name, phone, type, trueCode;
+
 	@Extra
-	String username, password, name, phone, type;
+	String phone, type, userId, token;
 
 	@ViewById
 	TextView error_info, phone_number, hint;
@@ -77,8 +68,6 @@ public class AuthCodeActivity extends FragmentActivity implements
 	private LoadingDialog_ loadingDialog;
 
 	private PromptDialog_ promptDialog;
-
-	private String trueCode = null;
 
 	@AfterInject
 	void afterInject() {
@@ -149,39 +138,48 @@ public class AuthCodeActivity extends FragmentActivity implements
 	@Click
 	void btn_submit() {
 
-		// VerifyBindPhoneParam verifyBindPhoneParam = new
-		// VerifyBindPhoneParam();
-		// verifyBindPhoneParam.setUserId(userId);
-		// BoolResp resp = null;
-		// try {
-		// resp = userService.verifyBindPhone(verifyBindPhoneParam);
-		// } catch (RestClientException e) {
-		// dismissLoadingDialog();
-		// showToast("连接异常，短信发送失败", Toast.LENGTH_LONG);
-		// afterSmsSendFail();
-		// return;
-		// }
-		//
-		// if (resp == null) {
-		// dismissLoadingDialog();
-		// showToast("连接异常，短信发送失败", Toast.LENGTH_LONG);
-		// afterSmsSendFail();
-		// return;
-		// }
-
-		if (checkCode()) {
-			switch (type) {
-			case UserType.PARENTS:
-				handleRegisterParent();
-				break;
-			case UserType.TEACHER:
-				handleRegisterTeacher();
-				break;
-			}
-		} else {
-			error_info.setText("验证码错误");
+		VerifyBindPhoneParam verifyBindPhoneParam = new VerifyBindPhoneParam();
+		verifyBindPhoneParam.setUserId(userId);
+		verifyBindPhoneParam.setToken(token);
+		BoolResp resp = null;
+		try {
+			resp = userService.verifyBindPhone(verifyBindPhoneParam);
+		} catch (RestClientException e) {
+			dismissLoadingDialog();
+			showToast("连接异常，短信发送失败", Toast.LENGTH_LONG);
+			afterSmsSendFail();
 			return;
 		}
+
+		if (resp == null) {
+			dismissLoadingDialog();
+			showToast("连接异常，短信发送失败", Toast.LENGTH_LONG);
+			afterSmsSendFail();
+			return;
+		}
+		if (resp.isOk()) {
+			Intent intent = getIntent();
+			this.setResult(1, intent);
+			this.finish();
+		} else {
+			dismissLoadingDialog();
+			showToast("验证码错误", Toast.LENGTH_LONG);
+			afterSmsSendFail();
+		}
+
+		// if (checkCode()) {
+		// switch (type) {
+		// case UserType.PARENTS:
+		// handleRegisterParent();
+		// break;
+		// case UserType.TEACHER:
+		// handleRegisterTeacher();
+		// break;
+		// }
+		// } else {
+		// error_info.setText("验证码错误");
+		// return;
+		// }
 
 	}
 
@@ -196,10 +194,6 @@ public class AuthCodeActivity extends FragmentActivity implements
 			return false;
 		}
 
-		if (!trueCode.equals(auth_code.getText().toString().trim())) {
-			error_info.setText("验证码错误");
-			return false;
-		}
 		error_info.setText("");
 		return true;
 	}
@@ -239,9 +233,11 @@ public class AuthCodeActivity extends FragmentActivity implements
 
 		BindPhoneParam bindPhoneParam = new BindPhoneParam();
 		bindPhoneParam.setPhone(phone);
+		bindPhoneParam.setUserId(userId);
+		bindPhoneParam.setToken(token);
 
 		try {
-			trueCode = userService.bindPhone(bindPhoneParam);
+			userService.bindPhone(bindPhoneParam);
 		} catch (RestClientException e) {
 			dismissLoadingDialog();
 			showToast("连接异常，短信发送失败", Toast.LENGTH_LONG);
@@ -249,108 +245,10 @@ public class AuthCodeActivity extends FragmentActivity implements
 			return;
 		}
 
-		if (trueCode == null) {
-			showToast("服务器处理异常，请稍后再试", Toast.LENGTH_LONG);
-			afterSmsSendFail();
-		}
-
 		dismissLoadingDialog();
 		showToast("验证短信已发送", Toast.LENGTH_SHORT);
 		afterSmsSendSucc();
 
-	}
-
-	@Background
-	void handleRegisterParent() {
-
-		if (!UtilTools.isNetConnected(getApplicationContext())) {
-			showToast("无法访问网络", Toast.LENGTH_LONG);
-			return;
-		}
-
-		showLoadingDialog();
-		RegisterParentResp resp = null;
-
-		RegisterParentParam parent = new RegisterParentParam();
-
-		parent.setUsername(username);
-		parent.setPassword(password);
-		parent.setName(name);
-		parent.setPhone(phone);
-
-		try {
-			resp = userService.registerParent(parent);
-		} catch (RestClientException e) {
-			showToast("服务器验证错误", Toast.LENGTH_LONG);
-			dismissLoadingDialog();
-			Log.e("Rest Error", e.getMessage() + this.getClass().getName());
-			return;
-		}
-
-		if (resp == null) {
-			showToast("服务器验证错误", Toast.LENGTH_LONG);
-			dismissLoadingDialog();
-			return;
-		}
-
-		dismissLoadingDialog();
-		if (resp.isOk()) {
-
-			Intent intent = getIntent();
-			intent.putExtra("username", username);
-			this.setResult(1, intent);
-			this.finish();
-
-		} else {
-			showPromptDialog("注册失败", resp.getReason());
-		}
-	}
-
-	@Background
-	void handleRegisterTeacher() {
-
-		if (!UtilTools.isNetConnected(getApplicationContext())) {
-			showToast("无法访问网络", Toast.LENGTH_LONG);
-			return;
-		}
-
-		showLoadingDialog();
-		RegisterTeacherResp resp = null;
-
-		RegisterTeacherParam teacher = new RegisterTeacherParam();
-
-		teacher.setUsername(username);
-		teacher.setPassword(password);
-		teacher.setName(name);
-		teacher.setPhone(phone);
-
-		try {
-			resp = userService.registerTeacher(teacher);
-		} catch (RestClientException e) {
-			showToast("服务器验证错误", Toast.LENGTH_LONG);
-			dismissLoadingDialog();
-			Log.e("Rest Error", e.getMessage() + ". "
-					+ this.getClass().getName());
-			return;
-		}
-
-		if (resp == null) {
-			showToast("服务器验证错误", Toast.LENGTH_LONG);
-			dismissLoadingDialog();
-			return;
-		}
-
-		dismissLoadingDialog();
-		if (resp.isOk()) {
-
-			Intent intent = getIntent();
-			intent.putExtra("username", username);
-			this.setResult(1, intent);
-			this.finish();
-
-		} else {
-			showPromptDialog("注册失败", resp.getReason());
-		}
 	}
 
 	@Override

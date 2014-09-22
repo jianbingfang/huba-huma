@@ -24,6 +24,7 @@ import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.entity.service.AuthResp;
 import com.hubahuma.mobile.entity.service.BindPhoneParam;
+import com.hubahuma.mobile.entity.service.BindPhoneResp;
 import com.hubahuma.mobile.entity.service.RegisterParentParam;
 import com.hubahuma.mobile.entity.service.RegisterParentResp;
 import com.hubahuma.mobile.entity.service.RegisterTeacherParam;
@@ -68,6 +69,9 @@ public class RegisterActivity extends FragmentActivity implements
 	@ViewById
 	RadioGroup user_type;
 
+	private String userId = null;
+	private String token = null;
+
 	@RestService
 	UserService userService;
 
@@ -104,8 +108,22 @@ public class RegisterActivity extends FragmentActivity implements
 	void btn_register() {
 		if (checkInput()) {
 			btn_register.setEnabled(false);
-			sendAuthCode();
+
+			switch (user_type.getCheckedRadioButtonId()) {
+			case R.id.radio_parent:
+				handleRegisterParent();
+				break;
+			case R.id.radio_teacher:
+				handleRegisterTeacher();
+				break;
+			}
+
 		}
+	}
+
+	@UiThread
+	void afterSmsSendFail() {
+		btn_register.setEnabled(true);
 	}
 
 	@UiThread
@@ -116,6 +134,9 @@ public class RegisterActivity extends FragmentActivity implements
 		intent.putExtra("password", password.getText().toString().trim());
 		intent.putExtra("name", name.getText().toString().trim());
 		intent.putExtra("phone", phone.getText().toString().trim());
+		intent.putExtra("userId", userId);
+		intent.putExtra("token", token);
+
 		switch (user_type.getCheckedRadioButtonId()) {
 		case R.id.radio_parent:
 			intent.putExtra("type", UserType.PARENTS);
@@ -126,7 +147,7 @@ public class RegisterActivity extends FragmentActivity implements
 		}
 		startActivityForResult(intent, ActivityCode.AUTH_CODE_ACTIVITY);
 	}
-	
+
 	@Background
 	void sendAuthCode() {
 		showLoadingDialog();
@@ -138,7 +159,10 @@ public class RegisterActivity extends FragmentActivity implements
 		}
 
 		BindPhoneParam bindPhoneParam = new BindPhoneParam();
-
+		// TODO 设置param的id参数
+		bindPhoneParam.setPhone(phone.getText().toString().trim());
+		bindPhoneParam.setToken(token);
+		Log.d("bindPhoneParam", UtilTools.object2json(bindPhoneParam));
 		try {
 			userService.bindPhone(bindPhoneParam);
 		} catch (RestClientException e) {
@@ -151,6 +175,99 @@ public class RegisterActivity extends FragmentActivity implements
 		showToast("验证短信已发送", Toast.LENGTH_SHORT);
 		afterSmsSendSucc();
 
+	}
+
+	@Background
+	void handleRegisterParent() {
+
+		if (!UtilTools.isNetConnected(getApplicationContext())) {
+			showToast("无法访问网络", Toast.LENGTH_LONG);
+			return;
+		}
+
+		showLoadingDialog();
+		RegisterParentResp resp = null;
+
+		RegisterParentParam parent = new RegisterParentParam();
+
+		parent.setUsername(username.getText().toString().trim());
+		parent.setPassword(password.getText().toString().trim());
+		parent.setName(name.getText().toString().trim());
+		parent.setPhone(phone.getText().toString().trim());
+
+		try {
+			resp = userService.registerParent(parent);
+		} catch (RestClientException e) {
+			showToast("服务器验证错误", Toast.LENGTH_LONG);
+			dismissLoadingDialog();
+			afterSmsSendFail();
+			Log.e("Rest Error", e.getMessage() + this.getClass().getName());
+			return;
+		}
+
+		if (resp == null) {
+			showToast("服务器验证错误", Toast.LENGTH_LONG);
+			afterSmsSendFail();
+			dismissLoadingDialog();
+			return;
+		}
+
+		dismissLoadingDialog();
+		if (resp.isOk()) {
+			userId = resp.getUser().getUserId();
+			token = resp.getToken();
+			afterSmsSendSucc();
+		} else {
+			showPromptDialog("注册失败", resp.getReason());
+			afterSmsSendFail();
+		}
+	}
+
+	@Background
+	void handleRegisterTeacher() {
+
+		if (!UtilTools.isNetConnected(getApplicationContext())) {
+			showToast("无法访问网络", Toast.LENGTH_LONG);
+			return;
+		}
+
+		showLoadingDialog();
+		RegisterTeacherResp resp = null;
+
+		RegisterTeacherParam teacher = new RegisterTeacherParam();
+
+		teacher.setUsername(username.getText().toString().trim());
+		teacher.setPassword(password.getText().toString().trim());
+		teacher.setName(name.getText().toString().trim());
+		teacher.setPhone(phone.getText().toString().trim());
+
+		try {
+			resp = userService.registerTeacher(teacher);
+		} catch (RestClientException e) {
+			showToast("服务器验证错误", Toast.LENGTH_LONG);
+			afterSmsSendFail();
+			dismissLoadingDialog();
+			Log.e("Rest Error", e.getMessage() + ". "
+					+ this.getClass().getName());
+			return;
+		}
+
+		if (resp == null) {
+			showToast("服务器验证错误", Toast.LENGTH_LONG);
+			afterSmsSendFail();
+			dismissLoadingDialog();
+			return;
+		}
+
+		dismissLoadingDialog();
+		if (resp.isOk()) {
+			userId = resp.getUser().getUserId();
+			token = resp.getToken();
+			afterSmsSendSucc();
+		} else {
+			showPromptDialog("注册失败", resp.getReason());
+			afterSmsSendFail();
+		}
 	}
 
 	private boolean checkInput() {
@@ -210,6 +327,7 @@ public class RegisterActivity extends FragmentActivity implements
 		btn_register.setEnabled(true);
 		if (resultCode == 1) {
 			this.setResult(1, intent);
+			intent.putExtra("username", username.getText().toString().trim());
 			this.finish();
 		}
 	}

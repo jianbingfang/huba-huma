@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.CheckedChange;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -17,19 +19,31 @@ import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.rest.RestService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import com.hubahuma.mobile.ActivityCode;
+import com.hubahuma.mobile.LoadingDialog_;
 import com.hubahuma.mobile.LoginActivity_;
 import com.hubahuma.mobile.MyApplication;
+import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.SelectImgPopupWindow;
 import com.hubahuma.mobile.UserType;
+import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
 import com.hubahuma.mobile.R.layout;
+import com.hubahuma.mobile.entity.service.UpdateParentParam;
+import com.hubahuma.mobile.entity.service.UpdateTeacherParam;
 import com.hubahuma.mobile.profile.ChangeInfoActivity.InfoType;
 import com.hubahuma.mobile.profile.WriteCommentActivity.CommentType;
+import com.hubahuma.mobile.service.MyErrorHandler;
 import com.hubahuma.mobile.service.SharedPrefs_;
+import com.hubahuma.mobile.service.UserService;
 import com.hubahuma.mobile.utils.GlobalVar;
+import com.hubahuma.mobile.utils.UtilTools;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -40,6 +54,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -61,7 +76,8 @@ import android.widget.Toast;
 @SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_profile_self)
-public class ProfileSelfActivity extends Activity {
+public class ProfileSelfActivity extends FragmentActivity implements
+		PromptDialogListener {
 
 	@App
 	MyApplication myApp;
@@ -95,7 +111,25 @@ public class ProfileSelfActivity extends Activity {
 
 	private ImageView targetImgView = null;
 
-	private Bitmap photo;
+	@RestService
+	UserService userService;
+
+	@Bean
+	MyErrorHandler myErrorHandler;
+
+	private LoadingDialog_ loadingDialog;
+
+	private PromptDialog_ promptDialog;
+	
+	@AfterInject
+	void afterInject() {
+		userService.setRestErrorHandler(myErrorHandler);
+		RestTemplate tpl = userService.getRestTemplate();
+		SimpleClientHttpRequestFactory s = new SimpleClientHttpRequestFactory();
+		s.setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
+		s.setReadTimeout(GlobalVar.READ_TIMEOUT);
+		tpl.setRequestFactory(s);
+	}
 
 	@AfterViews
 	void init() {
@@ -126,6 +160,10 @@ public class ProfileSelfActivity extends Activity {
 		case UserType.ADMIN:
 			break;
 		}
+
+		loadingDialog = new LoadingDialog_();
+		promptDialog = new PromptDialog_();
+		promptDialog.setDialogListener(this);
 
 		clearFields();
 
@@ -216,15 +254,13 @@ public class ProfileSelfActivity extends Activity {
 
 	@LongClick(R.id.custom_bg)
 	void onCustomBgLongClick() {
-
 		// 第一版不提供该功能
-		if (true)
-			return;
-
-		menuWindow = new SelectImgPopupWindow(this, itemsOnClick);
-		menuWindow.showAtLocation(this.findViewById(R.id.profile_self),
-				Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-		targetImgView = custom_bg;
+		/*
+		 * menuWindow = new SelectImgPopupWindow(this, itemsOnClick);
+		 * menuWindow.showAtLocation(this.findViewById(R.id.profile_self),
+		 * Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); targetImgView =
+		 * custom_bg;
+		 */
 	}
 
 	private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// 拍照
@@ -272,8 +308,10 @@ public class ProfileSelfActivity extends Activity {
 
 	@OnActivityResult(PHOTO_REQUEST_CUT)
 	void onReturnFromCuttedImage(Intent data) {
-		if (data != null)
-			setPicToView(data);
+		if (data != null){
+			showLoadingDialog();
+			uploadPhoto(data);
+		}
 	}
 
 	private void startPhotoZoom(Uri uri) {
@@ -310,13 +348,53 @@ public class ProfileSelfActivity extends Activity {
 		startActivityForResult(intent, PHOTO_REQUEST_CUT);
 	}
 
-	// 将进行剪裁后的图片显示到UI界面上
-	private void setPicToView(Intent picdata) {
+	@Background
+	void uploadPhoto(Intent picdata) {
 		Bundle bundle = picdata.getExtras();
 		if (bundle != null) {
-			photo = bundle.getParcelable("data");
-			targetImgView.setImageBitmap(photo);// (drawable);
+			Bitmap photo = bundle.getParcelable("data");
+			if (handleUploadPhoto(photo)) {
+				setImgToView(photo);
+			}
 		}
+		dismissLoadingDialog();
+	}
+
+	boolean handleUploadPhoto(Bitmap img) {
+		if (UserType.TEACHER.equals(myApp.getCurrentUser().getType())) {
+			try {
+				UpdateTeacherParam param = new UpdateTeacherParam();
+				param.setTeacherId(myApp.getCurrentUser().getUserId());
+				param.setPhoto(UtilTools.bitmap2String(img));
+				param.setToken(myApp.getToken());
+				userService.updateTeacher(param);
+				return true;
+			} catch (RestClientException e) {
+				showToast("服务器连接异常", Toast.LENGTH_LONG);
+				return false;
+			}
+		} else if (UserType.PARENTS.equals(myApp.getCurrentUser().getType())) {
+			try {
+				UpdateParentParam param = new UpdateParentParam();
+				param.setParentId(myApp.getCurrentUser().getUserId());
+				param.setPhoto(UtilTools.bitmap2String(img));
+				param.setToken(myApp.getToken());
+				userService.updateParent(param);
+				return true;
+			} catch (RestClientException e) {
+				showToast("服务器连接异常", Toast.LENGTH_LONG);
+				return false;
+			}
+		} else {
+			showToast("修改类型错误", Toast.LENGTH_LONG);
+			return false;
+		}
+	}
+
+	@UiThread
+	void setImgToView(Bitmap img) {
+		// 将进行剪裁后的图片显示到UI界面上
+		targetImgView.setImageBitmap(img);// (drawable);
 	}
 
 	// 使用系统当前日期加以调整作为照片的名称
@@ -325,6 +403,38 @@ public class ProfileSelfActivity extends Activity {
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
 				"'IMG'_yyyyMMdd_HHmmss");
 		return dateFormat.format(date) + ".jpg";
+	}
+	
+	@UiThread
+	void showToast(String info, int time) {
+		Toast.makeText(getApplicationContext(), info, time).show();
+	}
+
+	@UiThread
+	void showLoadingDialog() {
+		loadingDialog.show(getSupportFragmentManager(), "dialog_loading");
+	}
+
+	@UiThread
+	void dismissLoadingDialog() {
+		loadingDialog.dismiss();
+	}
+
+	@UiThread
+	void showPromptDialog(String title, String content) {
+		promptDialog.setTitle(title);
+		promptDialog.setContent(content);
+		promptDialog.show(getSupportFragmentManager(), "dialog_prompt");
+	}
+
+	@UiThread
+	void dismissPromptDialog() {
+		promptDialog.dismiss();
+	}
+	
+	@Override
+	public void onDialogConfirm() {
+		dismissPromptDialog();
 	}
 
 	@OnActivityResult(ActivityCode.LOCATION_ACTIVITY)

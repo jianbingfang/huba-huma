@@ -16,38 +16,13 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.StringRes;
 import org.androidannotations.annotations.rest.RestService;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import com.hubahuma.mobile.ActivityCode;
-import com.hubahuma.mobile.LoadingDialog_;
-import com.hubahuma.mobile.MyApplication;
-import com.hubahuma.mobile.PromptDialog_;
-import com.hubahuma.mobile.R;
-import com.hubahuma.mobile.UserType;
-import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
-import com.hubahuma.mobile.R.layout;
-import com.hubahuma.mobile.entity.NoticeEntity;
-import com.hubahuma.mobile.entity.UserEntity;
-import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
-import com.hubahuma.mobile.profile.ProfileParentsActivity_;
-import com.hubahuma.mobile.profile.ProfileTeacherActivity_;
-import com.hubahuma.mobile.service.MyErrorHandler;
-import com.hubahuma.mobile.service.SmsService;
-import com.hubahuma.mobile.service.UserService;
-import com.hubahuma.mobile.utils.GlobalVar;
-import com.hubahuma.mobile.utils.UtilTools;
-import com.hubahuma.mobile.writing.ReceiptListViewAdapter.ReceiptListViewListener;
-
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -55,6 +30,27 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hubahuma.mobile.ActivityCode;
+import com.hubahuma.mobile.LoadingDialog_;
+import com.hubahuma.mobile.MyApplication;
+import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
+import com.hubahuma.mobile.PromptDialog_;
+import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.UserType;
+import com.hubahuma.mobile.entity.NoticeEntity;
+import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.entity.service.WriteAnnouncementParam;
+import com.hubahuma.mobile.entity.service.WriteAnnouncementResp;
+import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
+import com.hubahuma.mobile.profile.ProfileParentsActivity_;
+import com.hubahuma.mobile.profile.ProfileTeacherActivity_;
+import com.hubahuma.mobile.service.MyErrorHandler;
+import com.hubahuma.mobile.service.UserService;
+import com.hubahuma.mobile.utils.GlobalVar;
+import com.hubahuma.mobile.utils.UtilTools;
+import com.hubahuma.mobile.writing.ReceiptListViewAdapter.ReceiptListViewListener;
+
+@SuppressWarnings("deprecation")
 @NoTitle
 @EActivity(R.layout.activity_receipt)
 public class ReceiptActivity extends FragmentActivity implements
@@ -73,7 +69,7 @@ public class ReceiptActivity extends FragmentActivity implements
 	Button resend_app, resend_sms;
 
 	@Extra
-	String content, noticeId;
+	NoticeEntity notice;
 
 	private List<UserEntity> readDataList;
 
@@ -86,49 +82,32 @@ public class ReceiptActivity extends FragmentActivity implements
 	@RestService
 	UserService userService;
 
-	@RestService
-	SmsService smsService;
-
 	@App
 	MyApplication myApp;
 
-	@StringRes
-	String uid, key;
-
 	@Bean
 	MyErrorHandler myErrorHandler;
+
+	private NoticeEntity newNotice = null;
+
+	private boolean publishSucc = false;
 
 	private LoadingDialog_ loadingDialog;
 
 	private PromptDialog_ promptDialog;
 
-	private String code = "";
-
-	private int timeCount = 60;
-
 	@AfterInject
 	void afterInject() {
 		userService.setRestErrorHandler(myErrorHandler);
-		smsService.setRestErrorHandler(myErrorHandler);
-
 		RestTemplate tpl = userService.getRestTemplate();
-		// RestTemplate smsTpl = smsService.getRestTemplate();
-
 		SimpleClientHttpRequestFactory s = new SimpleClientHttpRequestFactory();
 		s.setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
 		s.setReadTimeout(GlobalVar.READ_TIMEOUT);
-
 		tpl.setRequestFactory(s);
-		// smsTpl.setRequestFactory(s);
 	}
 
 	@AfterViews
 	void init() {
-		unread_info.setText("未读：");
-		read_info.setText("已读：");
-		resend_app.setVisibility(View.GONE);
-		resend_sms.setVisibility(View.GONE);
-
 		loadingDialog = new LoadingDialog_();
 		promptDialog = new PromptDialog_();
 		promptDialog.setDialogListener(this);
@@ -183,6 +162,10 @@ public class ReceiptActivity extends FragmentActivity implements
 
 	@UiThread
 	void preLoadData() {
+		unread_info.setText("未读：");
+		read_info.setText("已读：");
+		resend_app.setVisibility(View.GONE);
+		resend_sms.setVisibility(View.GONE);
 		progress_bar.setVisibility(View.VISIBLE);
 	}
 
@@ -210,14 +193,54 @@ public class ReceiptActivity extends FragmentActivity implements
 		progress_bar.setVisibility(View.GONE);
 	}
 
-	@Click
-	void resend_app() {
-
+	@Click(R.id.resend_app)
+	void resendNoticeByApp() {
+		showLoadingDialog();
+		handleResendNoticeByApp();
 	}
 
-	@Click
-	void resend_sms() {
+	@Background
+	void handleResendNoticeByApp() {
+		notice.setDate(new Date());
+		publishSucc = publishNotice(notice);
+		dismissLoadingDialog();
+		if (publishSucc) {
+			showPromptDialog("提示", "该通知已通过应用重新发布");
+		} else {
+			showPromptDialog("错误", "发布失败");
+		}
+	}
 
+	boolean publishNotice(NoticeEntity notice) {
+		try {
+			WriteAnnouncementParam param = new WriteAnnouncementParam();
+			param.setTitle(notice.getTitle());
+			param.setText(notice.getContent());
+			if (!UtilTools.isEmpty(notice.getImage())) {
+				List<String> photos = new ArrayList<String>();
+				photos.add(notice.getImage());
+				param.setPhotos(photos);
+			}
+			List<String> recepients = new ArrayList<String>();
+			param.setRecepients(recepients);
+			param.setToken(myApp.getToken());
+			WriteAnnouncementResp resp = userService.writeAnnouncement(param);
+			if (resp == null) {
+				showToast("服务器处理错误", Toast.LENGTH_LONG);
+				return false;
+			}
+			newNotice = resp.getCreatedObject();
+		} catch (RestClientException e) {
+			showToast("服务器连接异常", Toast.LENGTH_LONG);
+			return false;
+		}
+
+		return true;
+	}
+
+	@Click(R.id.resend_sms)
+	void resendNoticeBySms() {
+		handleResendSms();
 	}
 
 	@Background
@@ -231,7 +254,7 @@ public class ReceiptActivity extends FragmentActivity implements
 		}
 
 		// TODO 调用UserService的短信接口
-		
+
 		String result = null;
 		try {
 			// result = smsService.sendSMS(uid, key, phone, msg);
@@ -297,8 +320,12 @@ public class ReceiptActivity extends FragmentActivity implements
 	@Click
 	void btn_back() {
 		Intent intent = getIntent();
-		intent.putExtra("result", "returned from PublishNoticeActivity");
-		this.setResult(0, intent);
+		if (publishSucc) {
+			intent.putExtra("newNotice", newNotice);
+			this.setResult(1, intent);
+		} else {
+			this.setResult(0, intent);
+		}
 		this.finish();
 	}
 

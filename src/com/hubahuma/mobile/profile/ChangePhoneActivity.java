@@ -2,6 +2,7 @@ package com.hubahuma.mobile.profile;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
@@ -18,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,9 +29,17 @@ import android.widget.Toast;
 
 import com.hubahuma.mobile.LoadingDialog_;
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
+import com.hubahuma.mobile.MyApplication;
 import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.entity.service.BindPhoneParam;
+import com.hubahuma.mobile.entity.service.BindPhoneResp;
+import com.hubahuma.mobile.entity.service.BoolResp;
+import com.hubahuma.mobile.entity.service.UpdateParentParam;
+import com.hubahuma.mobile.entity.service.UpdateTeacherParam;
+import com.hubahuma.mobile.entity.service.VerifyBindPhoneParam;
+import com.hubahuma.mobile.profile.ChangeInfoActivity.InfoType;
 import com.hubahuma.mobile.service.MyErrorHandler;
 import com.hubahuma.mobile.service.UserService;
 import com.hubahuma.mobile.utils.GlobalVar;
@@ -56,16 +66,21 @@ public class ChangePhoneActivity extends FragmentActivity implements
 	@Extra
 	String currNumber;
 
+	private String phone;
+
 	private LoadingDialog_ loadingDialog;
 
 	private PromptDialog_ promptDialog;
 
 	private boolean publishSucc = false;
 
-	private String trueCode = null;
+	// private String trueCode = null;
 
 	@RestService
 	UserService userService;
+
+	@App
+	MyApplication myApp;
 
 	@Bean
 	MyErrorHandler myErrorHandler;
@@ -135,24 +150,38 @@ public class ChangePhoneActivity extends FragmentActivity implements
 		return true;
 	}
 
-	boolean checkCode() {
-		if (UtilTools.isEmpty(auth_code.getText().toString().trim())) {
-			error_info.setText("验证码不能为空");
-			return false;
+	@Background
+	void handleCheckCode() {
+
+		VerifyBindPhoneParam param = new VerifyBindPhoneParam();
+		param.setCode(auth_code.getText().toString().trim());
+		param.setUserId(myApp.getCurrentUser().getUserId());
+		param.setToken(myApp.getToken());
+
+		try {
+			BoolResp resp = userService.verifyBindPhone(param);
+			if (resp == null) {
+				dismissLoadingDialog();
+				showToast("返回数据异常，验证失败", Toast.LENGTH_LONG);
+				afterSmsSendFail();
+				return;
+			}
+			if (resp.isOk()) {
+				handleChangePhone();
+			}
+		} catch (RestClientException e) {
+			dismissLoadingDialog();
+			showToast("连接异常，验证失败", Toast.LENGTH_LONG);
+			afterSmsSendFail();
+			return;
 		}
 
-		if (!trueCode.equals(auth_code.getText().toString().trim())) {
-			error_info.setText("验证码错误");
-			return false;
-		}
-
-		error_info.setText("");
-		return true;
 	}
 
 	@Click
 	void send_code() {
 		if (checkNumber()) {
+			phone = number.getText().toString().trim();
 			sendAuthCode();
 		}
 	}
@@ -170,19 +199,15 @@ public class ChangePhoneActivity extends FragmentActivity implements
 
 		BindPhoneParam bindPhoneParam = new BindPhoneParam();
 		bindPhoneParam.setPhone(number.getText().toString().trim());
+		bindPhoneParam.setToken(myApp.getToken());
 
 		try {
-			trueCode = userService.bindPhone(bindPhoneParam);
+			userService.bindPhone(bindPhoneParam);
 		} catch (RestClientException e) {
 			dismissLoadingDialog();
 			showToast("连接异常，短信发送失败", Toast.LENGTH_LONG);
 			afterSmsSendFail();
 			return;
-		}
-
-		if (trueCode == null) {
-			showToast("服务器处理异常，请稍后再试", Toast.LENGTH_LONG);
-			afterSmsSendFail();
 		}
 
 		dismissLoadingDialog();
@@ -192,17 +217,19 @@ public class ChangePhoneActivity extends FragmentActivity implements
 	}
 
 	@Click
-	void btn_add_img() {
-
+	void btn_submit() {
+		if (checkCode()) {
+			handleCheckCode();
+		}
 	}
 
-	@Click
-	void btn_submit() {
-
-		if (checkNumber() && checkCode()) {
-			showLoadingDialog();
-			handleChangePhone();
+	boolean checkCode() {
+		if (UtilTools.isEmpty(auth_code.getText().toString().trim())) {
+			error_info.setText("验证码不能为空");
+			return false;
 		}
+		error_info.setText("");
+		return true;
 	}
 
 	@UiThread
@@ -232,7 +259,7 @@ public class ChangePhoneActivity extends FragmentActivity implements
 		promptDialog.dismiss();
 	}
 
-	@Background(delay = 1000)
+	@Background(delay = 0)
 	void handleChangePhone() {
 		publishSucc = changePhone();
 		dismissLoadingDialog();
@@ -244,8 +271,36 @@ public class ChangePhoneActivity extends FragmentActivity implements
 	}
 
 	boolean changePhone() {
-		// TODO 发送notice数据给后台
-		return true;
+
+		if (UserType.TEACHER.equals(myApp.getCurrentUser().getType())) {
+			try {
+				UpdateTeacherParam param = new UpdateTeacherParam();
+				param.setTeacherId(myApp.getCurrentUser().getUserId());
+				param.setPhone(phone);
+				param.setToken(myApp.getToken());
+				userService.updateTeacher(param);
+				return true;
+			} catch (RestClientException e) {
+				showToast("服务器连接异常", Toast.LENGTH_LONG);
+				return false;
+			}
+		} else if (UserType.PARENTS.equals(myApp.getCurrentUser().getType())) {
+			try {
+				UpdateParentParam param = new UpdateParentParam();
+				param.setParentId(myApp.getCurrentUser().getUserId());
+				param.setPhone(phone);
+				param.setToken(myApp.getToken());
+				userService.updateParent(param);
+				return true;
+			} catch (RestClientException e) {
+				showToast("服务器连接异常", Toast.LENGTH_LONG);
+				return false;
+			}
+		} else {
+			showToast("修改类型错误", Toast.LENGTH_LONG);
+			return false;
+		}
+
 	}
 
 	@Click

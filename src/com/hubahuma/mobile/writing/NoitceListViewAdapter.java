@@ -24,6 +24,8 @@ public class NoitceListViewAdapter extends BaseAdapter {
 
 	public interface NoitceListViewListener {
 		public void onPortraitClick(UserEntity user);
+
+		public boolean onNoticeClick(String id);
 	}
 
 	private List<NoticeEntity> dataList;
@@ -86,11 +88,12 @@ public class NoitceListViewAdapter extends BaseAdapter {
 		} else {
 
 			try {
-				Bitmap img = UtilTools
-						.string2Bitmap(item.getAuthor().getPortrait());
+				Bitmap img = UtilTools.string2Bitmap(item.getAuthor()
+						.getPortrait());
 				viewHolder.portrait.setImageBitmap(img);
 			} catch (Exception e) {
-				viewHolder.portrait.setImageResource(R.drawable.default_portrait);
+				viewHolder.portrait
+						.setImageResource(R.drawable.default_portrait);
 				Log.e("Base64", e.getMessage());
 			}
 
@@ -114,6 +117,17 @@ public class NoitceListViewAdapter extends BaseAdapter {
 		}
 		viewHolder.author_name.setText(item.getAuthor().getName());
 		viewHolder.content_txt.setText(item.getContent());
+		viewHolder.content_txt.setTag(item.getNoticeId());
+		viewHolder.content_txt.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String id = (String) v.getTag();
+				v.setClickable(false);
+				if (listener.onNoticeClick(id)) {
+					v.setClickable(false);
+				}
+			}
+		});
 		viewHolder.message_date.setText(UtilTools.parseDate(item.getDate()));
 
 		return convertView;

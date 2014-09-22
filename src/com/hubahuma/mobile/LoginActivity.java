@@ -212,6 +212,8 @@ public class LoginActivity extends FragmentActivity implements
 				break;
 			}
 		}
+		
+		Log.i("Login", UtilTools.object2json(resp));
 
 		requestSucc = resp.isResult();
 		if (requestSucc == true) {
@@ -260,6 +262,8 @@ public class LoginActivity extends FragmentActivity implements
 						param.setUsername(un);
 						param.setToken(resp.getToken());
 						parentResp = userService.fetchDetailParent(param);
+						Log.i("Fetch Req", UtilTools.object2json(param));
+						Log.i("Fetch Res", UtilTools.object2json(parentResp));
 						if (parentResp == null
 								|| parentResp.getParentObjects() == null
 								|| parentResp.getParentObjects().isEmpty()

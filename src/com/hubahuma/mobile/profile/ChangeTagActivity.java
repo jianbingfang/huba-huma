@@ -2,8 +2,11 @@ package com.hubahuma.mobile.profile;
 
 import java.util.ArrayList;
 
+import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -11,6 +14,10 @@ import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.rest.RestService;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
@@ -26,10 +33,18 @@ import android.widget.Toast;
 
 import com.hubahuma.mobile.LoadingDialog_;
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
+import com.hubahuma.mobile.MyApplication;
 import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
+import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.discovery.VerifyChildDialog_;
+import com.hubahuma.mobile.entity.service.AuthParam;
+import com.hubahuma.mobile.entity.service.UpdateParentParam;
+import com.hubahuma.mobile.entity.service.UpdateTeacherParam;
 import com.hubahuma.mobile.profile.InputNewTagDialog.InputNewTagDialogConfirmListener;
+import com.hubahuma.mobile.service.MyErrorHandler;
+import com.hubahuma.mobile.service.UserService;
+import com.hubahuma.mobile.utils.GlobalVar;
 import com.hubahuma.mobile.view.FlowLayout;
 
 @SuppressWarnings("deprecation")
@@ -50,10 +65,30 @@ public class ChangeTagActivity extends FragmentActivity implements
 	@ViewById
 	FlowLayout added_tag_layout, hot_tag_layout;
 
+	@App
+	MyApplication myApp;
+
 	@Extra
 	ArrayList<String> tagList;
 
 	ArrayList<String> hotTagList;
+
+	@RestService
+	UserService userService;
+
+	@Bean
+	MyErrorHandler myErrorHandler;
+
+	@AfterInject
+	void afterInject() {
+		userService.setRestErrorHandler(myErrorHandler);
+		RestTemplate tpl = userService.getRestTemplate();
+		SimpleClientHttpRequestFactory s = new SimpleClientHttpRequestFactory();
+		s.setConnectTimeout(GlobalVar.CONNECT_TIMEOUT);
+		s.setReadTimeout(GlobalVar.READ_TIMEOUT);
+		tpl.setRequestFactory(s);
+
+	}
 
 	private LoadingDialog_ loadingDialog;
 
@@ -61,13 +96,7 @@ public class ChangeTagActivity extends FragmentActivity implements
 
 	private NewTagButtonView newTagBtn;
 
-	// private TagListViewAdapter addedTagAdapter;
-	//
-	// private TagListViewAdapter hotTagAdapter;
-
 	private boolean publishSucc = false;
-
-	private LayoutInflater mInflater;
 
 	@AfterViews
 	void init() {
@@ -149,13 +178,13 @@ public class ChangeTagActivity extends FragmentActivity implements
 	private ArrayList<String> getTestData() {
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("音乐");
-		list.add("数学12");
+		list.add("数学");
 		list.add("英语");
-		list.add("语文33312");
-		list.add("体育12");
-		list.add("舞蹈312");
-		list.add("钢琴1");
-		list.add("吉他314121");
+		list.add("语文");
+		list.add("体育");
+		list.add("舞蹈");
+		list.add("钢琴");
+		list.add("吉他");
 
 		list.removeAll(tagList);
 
@@ -206,7 +235,7 @@ public class ChangeTagActivity extends FragmentActivity implements
 		promptDialog.dismiss();
 	}
 
-	@Background(delay = 1000)
+	@Background(delay = 0)
 	void handleChangeTag() {
 		publishSucc = changeTag();
 		dismissLoadingDialog();
@@ -217,8 +246,32 @@ public class ChangeTagActivity extends FragmentActivity implements
 		}
 	}
 
-	boolean changeTag() {
-		// TODO 发送notice数据给后台
+	private boolean changeTag() {
+		if (UserType.TEACHER.equals(myApp.getCurrentUser().getType())) {
+			try {
+				UpdateTeacherParam param = new UpdateTeacherParam();
+				param.setTeacherId(myApp.getCurrentUser().getUserId());
+				param.setTags(tagList);
+				param.setToken(myApp.getToken());
+				userService.updateTeacher(param);
+			} catch (RestClientException e) {
+				dismissLoadingDialog();
+				showToast("服务器连接异常", Toast.LENGTH_LONG);
+				return false;
+			}
+		}
+		/*else if(UserType.PARENTS.equals(myApp.getCurrentUser().getType())){
+			try {
+				UpdateParentParam param = new UpdateParentParam();
+				param.setParentId(myApp.getCurrentUser().getUserId());
+				param.setTags(tagList);
+				userService.updateParent(param);
+			} catch (RestClientException e) {
+				dismissLoadingDialog();
+				showToast("服务器连接异常", Toast.LENGTH_LONG);
+				return false;
+			}
+		}*/
 		return true;
 	}
 

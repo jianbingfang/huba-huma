@@ -85,9 +85,9 @@
             android:id="@+id/no_data_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="top|center_horizontal"
-            android:layout_marginTop="40dp"
-            android:text="暂时没有通知..."
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            android:text="暂时没有通知...\n可下拉尝试刷新"
             android:textColor="@color/text_light"
             android:textSize="18sp" />
     </FrameLayout>

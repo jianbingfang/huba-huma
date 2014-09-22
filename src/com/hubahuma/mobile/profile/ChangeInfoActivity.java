@@ -14,6 +14,7 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.rest.RestService;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
@@ -23,6 +24,8 @@ import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.R.layout;
 import com.hubahuma.mobile.UserType;
+import com.hubahuma.mobile.entity.service.UpdateParentParam;
+import com.hubahuma.mobile.entity.service.UpdateTeacherParam;
 import com.hubahuma.mobile.service.MyErrorHandler;
 import com.hubahuma.mobile.service.UserService;
 import com.hubahuma.mobile.utils.GlobalVar;
@@ -40,6 +43,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 @NoTitle
@@ -63,7 +67,7 @@ public class ChangeInfoActivity extends FragmentActivity implements
 
 	@App
 	MyApplication myApp;
-	
+
 	@Extra
 	int type;
 
@@ -94,7 +98,7 @@ public class ChangeInfoActivity extends FragmentActivity implements
 		s.setReadTimeout(GlobalVar.READ_TIMEOUT);
 		tpl.setRequestFactory(s);
 	}
-	
+
 	@AfterViews
 	void init() {
 
@@ -195,9 +199,9 @@ public class ChangeInfoActivity extends FragmentActivity implements
 		promptDialog.dismiss();
 	}
 
-	@Background(delay = 1000)
+	@Background(delay = 0)
 	void handleChangeInfo() {
-		publishSucc = changeInfo(type);
+		publishSucc = changeInfo(type, input.getText().toString().trim());
 		dismissLoadingDialog();
 		if (publishSucc) {
 			showPromptDialog("提示", "修改成功");
@@ -206,20 +210,62 @@ public class ChangeInfoActivity extends FragmentActivity implements
 		}
 	}
 
-	boolean changeInfo(int infoType) {
-		switch (infoType) {
-		case InfoType.NAME:
-			break;
-		case InfoType.EMAIL:
-			break;
-		case InfoType.INTRODUCTION:
-			break;
-		case InfoType.OPENTIME:
-			break;
-		case InfoType.ADDRESS:
-			break;
+	boolean changeInfo(int infoType, String value) {
+		if (UserType.TEACHER.equals(myApp.getCurrentUser().getType())) {
+			try {
+				UpdateTeacherParam param = new UpdateTeacherParam();
+				param.setTeacherId(myApp.getCurrentUser().getUserId());
+				param.setToken(myApp.getToken());
+				switch (infoType) {
+				case InfoType.NAME:
+					param.setName(value);
+					break;
+				case InfoType.INTRODUCTION:
+					param.setDescription(value);
+					break;
+				case InfoType.EMAIL:
+					break;
+				case InfoType.OPENTIME:
+					break;
+				case InfoType.ADDRESS:
+					break;
+				}
+				userService.updateTeacher(param);
+				return true;
+			} catch (RestClientException e) {
+				showToast("服务器连接异常", Toast.LENGTH_LONG);
+				return false;
+			}
+		} else if (UserType.PARENTS.equals(myApp.getCurrentUser().getType())) {
+			try {
+				UpdateParentParam param = new UpdateParentParam();
+				param.setParentId(myApp.getCurrentUser().getUserId());
+				param.setToken(myApp.getToken());
+				switch (infoType) {
+				case InfoType.NAME:
+					param.setName(value);
+					break;
+				case InfoType.INTRODUCTION:
+					param.setSignature(value);
+					break;
+				case InfoType.EMAIL:
+					break;
+				case InfoType.OPENTIME:
+					break;
+				case InfoType.ADDRESS:
+					break;
+				}
+				userService.updateParent(param);
+				return true;
+			} catch (RestClientException e) {
+				showToast("服务器连接异常", Toast.LENGTH_LONG);
+				return false;
+			}
+		} else {
+			showToast("修改类型错误", Toast.LENGTH_LONG);
+			return false;
 		}
-		return true;
+
 	}
 
 	@AfterTextChange(R.id.input)
@@ -247,6 +293,11 @@ public class ChangeInfoActivity extends FragmentActivity implements
 			this.setResult(0, intent);
 		}
 		this.finish();
+	}
+
+	@UiThread
+	void showToast(String info, int time) {
+		Toast.makeText(getApplicationContext(), info, time).show();
 	}
 
 	@Override

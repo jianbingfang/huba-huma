@@ -46,6 +46,7 @@ import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.entity.service.AuthParam;
 import com.hubahuma.mobile.entity.service.FetchAnnouncementParam;
 import com.hubahuma.mobile.entity.service.FetchAnnouncementResp;
+import com.hubahuma.mobile.entity.service.SendAnnouncementReadReceiptParam;
 import com.hubahuma.mobile.news.message.NoticeFragment;
 import com.hubahuma.mobile.news.message.OnNewMessageListener;
 import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
@@ -65,6 +66,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -80,7 +82,7 @@ import android.widget.Toast;
 @NoTitle
 @EActivity(R.layout.activity_notice)
 public class MyNoticeActivity extends FragmentActivity implements
-		NoitceListViewListener, OnNewMessageListener {
+		NoitceListViewListener, OnNewMessageListener, PromptDialogListener {
 
 	private List<NoticeEntity> dataList = new ArrayList<NoticeEntity>();
 
@@ -112,6 +114,10 @@ public class MyNoticeActivity extends FragmentActivity implements
 	@Bean
 	MyErrorHandler myErrorHandler;
 
+	private LoadingDialog_ loadingDialog;
+
+	private PromptDialog_ promptDialog;
+
 	@AfterInject
 	void afterInject() {
 		userService.setRestErrorHandler(myErrorHandler);
@@ -123,8 +129,6 @@ public class MyNoticeActivity extends FragmentActivity implements
 		tpl.setRequestFactory(s);
 
 	}
-
-	private LoadingDialog_ loadingDialog;
 
 	@AfterViews
 	void init() {
@@ -142,31 +146,29 @@ public class MyNoticeActivity extends FragmentActivity implements
 
 		FetchAnnouncementParam param = new FetchAnnouncementParam();
 		param.setUntilId("");
-
-		FetchAnnouncementResp resp = null;
+		param.setToken(myApp.getToken());
 
 		try {
-			resp = userService.fetchAnnouncement(param);
+			FetchAnnouncementResp resp = userService.fetchAnnouncement(param);
+			if (resp == null) {
+				showToast("数据加载失败", Toast.LENGTH_LONG);
+				postLoadData();
+				return;
+			}
+			if (resp.isHasMore()) {
+				showToast("通知过多，未加载完全", Toast.LENGTH_LONG);
+			}
+			dataList = resp.getNoticeList();
 		} catch (RestClientException e) {
 			showToast("数据获取失败", Toast.LENGTH_LONG);
 			postLoadData();
 			return;
 		}
 
-		if (resp == null) {
-			showToast("数据加载失败", Toast.LENGTH_LONG);
-			postLoadData();
-			return;
-		}
-
-		if (resp.isHasMore()) {
-			showToast("通知过多，未加载完全", Toast.LENGTH_LONG);
-		}
-
-		dataList = resp.getNoticeList();
 		if (dataList == null) {
 			dataList = new ArrayList<NoticeEntity>();
 		}
+
 		postLoadData();
 	}
 
@@ -199,6 +201,8 @@ public class MyNoticeActivity extends FragmentActivity implements
 	@UiThread
 	void preLoadData() {
 		loadingDialog = new LoadingDialog_();
+		promptDialog = new PromptDialog_();
+		promptDialog.setDialogListener(this);
 		if (myApp.getCurrentUser().getType().equals(UserType.PARENTS)) {
 			btn_publish.setVisibility(View.GONE);
 		} else {
@@ -212,7 +216,7 @@ public class MyNoticeActivity extends FragmentActivity implements
 	}
 
 	void loadLocalData() {
-		
+		// TODO 导入本地已存通知
 	}
 
 	@UiThread
@@ -222,8 +226,8 @@ public class MyNoticeActivity extends FragmentActivity implements
 				.setOnLastItemVisibleListener(new OnLastItemVisibleListener() {
 					@Override
 					public void onLastItemVisible() {
-						// TODO Auto-generated method stub
-						showToast("正在载入历史数据", Toast.LENGTH_SHORT);
+						// TODO 加载更多的历史记录
+						// showToast("正在载入历史数据", Toast.LENGTH_SHORT);
 					}
 				});
 
@@ -262,9 +266,9 @@ public class MyNoticeActivity extends FragmentActivity implements
 					Intent intent = new Intent(MyNoticeActivity.this,
 							ReceiptActivity_.class);
 					NoticeEntity notice = dataList.get(position);
-					intent.putExtra("noticeId", notice.getNoticeId());
-					intent.putExtra("content", notice.getContent());
-					startActivity(intent);
+					intent.putExtra("notice", notice);
+					startActivityForResult(intent,
+							ActivityCode.RECEIPT_ACTIVITY);
 				}
 			});
 
@@ -283,6 +287,9 @@ public class MyNoticeActivity extends FragmentActivity implements
 		} else {
 			no_data_hint.setVisibility(View.GONE);
 			timeline.setVisibility(View.VISIBLE);
+			if (myApp.getCurrentUser().getType().equals(UserType.PARENTS)) {
+				showToast("点击通知内容以给老师发送已读回执", Toast.LENGTH_LONG);
+			}
 		}
 		progress_bar.setVisibility(View.GONE);
 
@@ -290,31 +297,35 @@ public class MyNoticeActivity extends FragmentActivity implements
 
 	@Background(delay = 2000)
 	void loadNewNotice() {
+
+		Log.d("Refresh", "trying to load new notice");
+
 		List<NoticeEntity> newResultList = null;
 
 		FetchAnnouncementParam param = new FetchAnnouncementParam();
 		if (dataList != null && !dataList.isEmpty())
 			param.setUntilId(dataList.get(0).getNoticeId());
+		param.setToken(myApp.getToken());
 
 		FetchAnnouncementResp resp = null;
 		try {
 			resp = userService.fetchAnnouncement(param);
+			if (resp != null && resp.isHasMore()) {
+				showToast("通知过多，未加载完全", Toast.LENGTH_LONG);
+			}
 		} catch (RestClientException e) {
-			showToast("数据获取失败", Toast.LENGTH_LONG);
+			afterNewDataFailed();
 			return;
-		}
-
-		if (resp == null) {
-			showToast("数据加载失败", Toast.LENGTH_LONG);
-			return;
-		}
-
-		if (resp.isHasMore()) {
-			showToast("通知过多，未加载完全", Toast.LENGTH_LONG);
 		}
 
 		newResultList = resp.getNoticeList();
 		afterNewDataReceived(newResultList);
+	}
+
+	@UiThread
+	void afterNewDataFailed() {
+		notice_list.onRefreshComplete();
+		showToast("数据获取失败", Toast.LENGTH_LONG);
 	}
 
 	@UiThread
@@ -326,12 +337,12 @@ public class MyNoticeActivity extends FragmentActivity implements
 			}
 			// 通知程序数据集已经改变，如果不做通知，那么将不会刷新mListItems的集合
 			adapter.notifyDataSetChanged();
-			notice_list.onRefreshComplete();
 			this.OnNewMessageShowed(OnNewMessageListener.NOTICE_MESSAGE);
-
+			showToast("有新通知，别忘了点击内容以告诉老师已读", Toast.LENGTH_LONG);
 		} else {
 			showToast("没有更新的通知了", Toast.LENGTH_SHORT);
 		}
+		notice_list.onRefreshComplete();
 
 	}
 
@@ -344,6 +355,18 @@ public class MyNoticeActivity extends FragmentActivity implements
 
 	@OnActivityResult(ActivityCode.PUBLISH_NOTICE_ACTIVITY)
 	void onReturnFromPublishNoticeActivity(int resultCode, Intent intent) {
+		if (resultCode == 1) {
+			NoticeEntity newNotice = (NoticeEntity) intent
+					.getSerializableExtra("newNotice");
+			if (newNotice != null) {
+				dataList.add(0, newNotice);
+				myAdapter.notifyDataSetChanged();
+			}
+		}
+	}
+
+	@OnActivityResult(ActivityCode.RECEIPT_ACTIVITY)
+	void onReturnFromReceiptActivity(int resultCode, Intent intent) {
 		if (resultCode == 1) {
 			NoticeEntity newNotice = (NoticeEntity) intent
 					.getSerializableExtra("newNotice");
@@ -395,6 +418,23 @@ public class MyNoticeActivity extends FragmentActivity implements
 		}
 	}
 
+	@Override
+	public boolean onNoticeClick(String id) {
+		showToast("正在发送已读回执...", Toast.LENGTH_SHORT);
+		try {
+			SendAnnouncementReadReceiptParam param = new SendAnnouncementReadReceiptParam();
+			param.setId(id);
+			param.setToken(myApp.getToken());
+			userService.sendAnnouncementReadReceipt(param);
+		} catch (RestClientException e) {
+			showPromptDialog("失败", "网络异常，回执发送失败");
+			// showToast("回执发送失败", Toast.LENGTH_LONG);
+			return false;
+		}
+		showPromptDialog("提示", "回执已成功发送给老师");
+		return true;
+	}
+
 	@UiThread
 	void showLoadingDialog() {
 		loadingDialog.show(getSupportFragmentManager(), "dialog_loading");
@@ -408,6 +448,23 @@ public class MyNoticeActivity extends FragmentActivity implements
 	@UiThread
 	void showToast(String info, int time) {
 		Toast.makeText(getApplicationContext(), info, time).show();
+	}
+
+	@Override
+	public void onDialogConfirm() {
+		dismissPromptDialog();
+	}
+
+	@UiThread
+	void showPromptDialog(String title, String content) {
+		promptDialog.setTitle(title);
+		promptDialog.setContent(content);
+		promptDialog.show(getSupportFragmentManager(), "dialog_prompt");
+	}
+
+	@UiThread
+	void dismissPromptDialog() {
+		promptDialog.dismiss();
 	}
 
 	@Click
@@ -434,4 +491,5 @@ public class MyNoticeActivity extends FragmentActivity implements
 		// TODO Auto-generated method stub
 
 	}
+
 }
