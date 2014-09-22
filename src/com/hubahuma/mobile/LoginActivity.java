@@ -325,6 +325,7 @@ public class LoginActivity extends FragmentActivity implements
 			startActivityForResult(intent, ActivityCode.MAIN_ACTIVITY);
 
 		} else {
+			dismissLoadingDialog();
 			showPromptDialog("提示", "用户名或密码不正确");
 		}
 	}
