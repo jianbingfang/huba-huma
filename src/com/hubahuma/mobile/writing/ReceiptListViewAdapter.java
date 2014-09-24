@@ -8,10 +8,9 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,30 +24,32 @@ public class ReceiptListViewAdapter extends BaseAdapter {
 		public void onPortraitClick(UserEntity user);
 	}
 
-	private List<UserEntity> dataList;
+	private List<UserEntity> userList;
+
+	// private List<UserEntity> readUserList;
+
+	private int unreadNum;
 
 	private LayoutInflater mInflater;
 
 	private ReceiptListViewListener listener;
 
-	private boolean isRead;
-
-	public ReceiptListViewAdapter(Context context, List<UserEntity> data,
-			boolean hasRead, ReceiptListViewListener listener) {
+	public ReceiptListViewAdapter(Context context, List<UserEntity> userList,
+			int unreadNum, ReceiptListViewListener listener) {
 		this.mInflater = LayoutInflater.from(context);
-		this.dataList = data;
-		this.isRead = hasRead;
+		this.userList = userList;
+		this.unreadNum = unreadNum;
 		this.listener = listener;
 	}
 
 	@Override
 	public int getCount() {
-		return dataList.size();
+		return userList.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return dataList.get(position);
+		return userList.get(position);
 	}
 
 	@Override
@@ -60,7 +61,7 @@ public class ReceiptListViewAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
-		UserEntity item = dataList.get(position);
+		UserEntity item = userList.get(position);
 
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
@@ -71,7 +72,8 @@ public class ReceiptListViewAdapter extends BaseAdapter {
 			viewHolder.name = (TextView) convertView.findViewById(R.id.name);
 			viewHolder.remark = (TextView) convertView
 					.findViewById(R.id.remark);
-			viewHolder.read_hint = (TextView) convertView.findViewById(R.id.read_hint);
+			viewHolder.read_hint = (TextView) convertView
+					.findViewById(R.id.read_hint);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -100,12 +102,14 @@ public class ReceiptListViewAdapter extends BaseAdapter {
 		});
 		viewHolder.name.setText(item.getName());
 		viewHolder.remark.setText(item.getRemark());
-		if (isRead) {
+		if (position < unreadNum) {
 			viewHolder.read_hint.setText("已读");
-			viewHolder.read_hint.setBackgroundResource(R.drawable.receipt_green_bg);
+			viewHolder.read_hint
+					.setBackgroundResource(R.drawable.receipt_green_bg);
 		} else {
 			viewHolder.read_hint.setText("未读");
-			viewHolder.read_hint.setBackgroundResource(R.drawable.receipt_red_bg);
+			viewHolder.read_hint
+					.setBackgroundResource(R.drawable.receipt_red_bg);
 		}
 
 		return convertView;

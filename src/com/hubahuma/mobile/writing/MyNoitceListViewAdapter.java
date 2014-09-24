@@ -78,14 +78,16 @@ public class MyNoitceListViewAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		viewHolder.name.setText(item.getAuthor().getName());
-		viewHolder.remark.setText(item.getAuthor().getRemark());
-		viewHolder.content.setText(item.getContent());
-		if (UtilTools.isEmpty(item.getImage())) {
+		viewHolder.name.setText(item.getAuthor());
+		// TODO 加入remark信息
+		viewHolder.remark.setText("");
+		viewHolder.content.setText(item.getText());
+		if (item.getPhotos() == null || item.getPhotos().isEmpty()
+				|| UtilTools.isEmpty(item.getPhotos().get(0))) {
 			viewHolder.image.setVisibility(View.GONE);
 		} else {
 			try {
-				Bitmap img = UtilTools.string2Bitmap(item.getImage());
+				Bitmap img = UtilTools.string2Bitmap(item.getPhotos().get(0));
 				viewHolder.image.setImageBitmap(img);
 				viewHolder.image.setVisibility(View.VISIBLE);
 			} catch (Exception e) {

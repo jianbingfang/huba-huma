@@ -2,10 +2,7 @@ package com.hubahuma.mobile.news.managebook;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterTextChange;
@@ -25,27 +22,18 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import android.app.ExpandableListActivity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
-import android.support.annotation.ColorRes;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.view.ViewGroup.MarginLayoutParams;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -61,7 +49,6 @@ import com.hubahuma.mobile.entity.Parent;
 import com.hubahuma.mobile.entity.User;
 import com.hubahuma.mobile.entity.UserEntity;
 import com.hubahuma.mobile.entity.VerificationRequestParent;
-import com.hubahuma.mobile.entity.service.AuthParam;
 import com.hubahuma.mobile.entity.service.DeleteContactsParam;
 import com.hubahuma.mobile.entity.service.DenyVerificationRequestParentParam;
 import com.hubahuma.mobile.entity.service.FetchContactsParam;
@@ -70,10 +57,8 @@ import com.hubahuma.mobile.entity.service.FetchDetailParentParam;
 import com.hubahuma.mobile.entity.service.FetchDetailParentResp;
 import com.hubahuma.mobile.entity.service.FetchVerificationRequestParentParam;
 import com.hubahuma.mobile.entity.service.PassVerificationRequestParentParam;
-import com.hubahuma.mobile.entity.service.WriteAnnouncementParam;
 import com.hubahuma.mobile.news.managebook.ChangeGroupDialog.EditNameDialogListener;
 import com.hubahuma.mobile.news.managebook.SimpleManageBookViewAdapter.SimpleManageBookListener;
-import com.hubahuma.mobile.news.message.MessageActivity_;
 import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
 import com.hubahuma.mobile.profile.ProfileParentsActivity_;
 import com.hubahuma.mobile.profile.ProfileTeacherActivity_;
@@ -195,7 +180,7 @@ public class SimpleManageBookActivity extends FragmentActivity implements
 
 				FetchDetailParentParam p = new FetchDetailParentParam();
 				p.setParentId(parentIds);
-				param.setToken(myApp.getToken());
+				p.setToken(myApp.getToken());
 				FetchDetailParentResp parentResp = userService
 						.fetchDetailParent(p);
 				if (parentResp == null || parentResp.getParentObjects() == null

@@ -83,13 +83,12 @@ public class NoitceListViewAdapter extends BaseAdapter {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		if (UtilTools.isEmpty(item.getAuthor().getPortrait())) {
+		if (UtilTools.isEmpty(item.getAuthorPhoto())) {
 			viewHolder.portrait.setImageResource(R.drawable.default_portrait);
 		} else {
 
 			try {
-				Bitmap img = UtilTools.string2Bitmap(item.getAuthor()
-						.getPortrait());
+				Bitmap img = UtilTools.string2Bitmap(item.getAuthorPhoto());
 				viewHolder.portrait.setImageBitmap(img);
 			} catch (Exception e) {
 				viewHolder.portrait
@@ -108,15 +107,22 @@ public class NoitceListViewAdapter extends BaseAdapter {
 			}
 		});
 
-		if (UtilTools.isEmpty(item.getImage())) {
+		if (item.getPhotos() == null || item.getPhotos().isEmpty()
+				|| UtilTools.isEmpty(item.getPhotos().get(0))) {
 			viewHolder.content_img.setVisibility(View.GONE);
 		} else {
-			// TODO 判断是否真的有图片
-			viewHolder.content_img
-					.setImageResource(R.drawable.teaching_diary_img);
+			Bitmap img;
+			try {
+				img = UtilTools.string2Bitmap(item.getPhotos().get(0));
+				viewHolder.content_img.setImageBitmap(img);
+				viewHolder.content_img.setVisibility(View.VISIBLE);
+			} catch (Exception e) {
+				viewHolder.content_img.setVisibility(View.GONE);
+				Log.e("Base64", e.getMessage());
+			}
 		}
-		viewHolder.author_name.setText(item.getAuthor().getName());
-		viewHolder.content_txt.setText(item.getContent());
+		viewHolder.author_name.setText(item.getAuthor());
+		viewHolder.content_txt.setText(item.getText());
 		viewHolder.content_txt.setTag(item.getNoticeId());
 		viewHolder.content_txt.setOnClickListener(new OnClickListener() {
 			@Override

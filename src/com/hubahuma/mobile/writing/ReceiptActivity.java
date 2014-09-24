@@ -38,7 +38,11 @@ import com.hubahuma.mobile.PromptDialog_;
 import com.hubahuma.mobile.R;
 import com.hubahuma.mobile.UserType;
 import com.hubahuma.mobile.entity.NoticeEntity;
+import com.hubahuma.mobile.entity.Parent;
+import com.hubahuma.mobile.entity.User;
 import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.entity.service.FetchDetailParentParam;
+import com.hubahuma.mobile.entity.service.FetchDetailParentResp;
 import com.hubahuma.mobile.entity.service.WriteAnnouncementParam;
 import com.hubahuma.mobile.entity.service.WriteAnnouncementResp;
 import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
@@ -63,7 +67,7 @@ public class ReceiptActivity extends FragmentActivity implements
 	TextView read_info, unread_info;
 
 	@ViewById
-	ListView read_list, unread_list;
+	ListView read_list;
 
 	@ViewById
 	Button resend_app, resend_sms;
@@ -71,13 +75,15 @@ public class ReceiptActivity extends FragmentActivity implements
 	@Extra
 	NoticeEntity notice;
 
-	private List<UserEntity> readDataList;
+	// private List<UserEntity> readUserList;
 
-	private List<UserEntity> unreadDataList;
+	private List<UserEntity> userList;
+
+	private int unreadNum = 0;
 
 	private ReceiptListViewAdapter readAdapter;
 
-	private ReceiptListViewAdapter unreadAdapter;
+	// private ReceiptListViewAdapter unreadAdapter;
 
 	@RestService
 	UserService userService;
@@ -138,58 +144,84 @@ public class ReceiptActivity extends FragmentActivity implements
 		promptDialog.dismiss();
 	}
 
-	@Background(delay = 1000)
+	@Background(delay = 0)
 	void loadData() {
-		readDataList = getTestData();
-		unreadDataList = getTestData();
-		postLoadData();
-	}
-
-	private List<UserEntity> getTestData() {
-
-		Random rand = new Random();
-		List<UserEntity> testData = new ArrayList<UserEntity>();
-		for (int i = 1; i <= rand.nextInt(20); i++) {
-			UserEntity item = new UserEntity();
-			item.setUserId("0000" + i);
-			item.setType(UserType.PARENTS);
-			item.setName("高健" + i);
-			item.setRemark("高晓东" + i + "爸爸");
-			testData.add(item);
+		// readUserList = getTestData();
+		// userList = getTestData();
+		try {
+			FetchDetailParentParam p = new FetchDetailParentParam();
+			p.setParentId(notice.getRecipients());
+			p.setToken(myApp.getToken());
+			FetchDetailParentResp parentResp = userService.fetchDetailParent(p);
+			if (parentResp == null || parentResp.getParentObjects() == null
+					|| parentResp.getParentObjects().isEmpty()
+					|| parentResp.getUserObjects() == null
+					|| parentResp.getUserObjects().isEmpty()) {
+				showToast("服务器数据返回异常", Toast.LENGTH_LONG);
+				postLoadDataFail();
+				return;
+			} else {
+				List<Parent> pl = parentResp.getParentObjects();
+				List<User> ul = parentResp.getUserObjects();
+				for (int i = 0; i < pl.size(); i++) {
+					UserEntity user = new UserEntity();
+					user.bind(pl.get(i), ul.get(i));
+					if (notice.getRecipientsRead() != null
+							&& notice.getRecipientsRead().contains(
+									user.getUserId())) {
+						userList.add(user);
+						// readUserList.add(user);
+					} else {
+						userList.add(unreadNum, user);
+						unreadNum++;
+					}
+				}
+			}
+		} catch (RestClientException e) {
+			showToast("服务器异常，回执数据载入失败", Toast.LENGTH_LONG);
+			postLoadDataFail();
+			return;
 		}
-		return testData;
+
+		postLoadDataSucc();
 	}
 
 	@UiThread
 	void preLoadData() {
+
+		unreadNum = 0;
+
 		unread_info.setText("未读：");
 		read_info.setText("已读：");
 		resend_app.setVisibility(View.GONE);
 		resend_sms.setVisibility(View.GONE);
 		progress_bar.setVisibility(View.VISIBLE);
+
+		// readUserList = new ArrayList<UserEntity>();
+		userList = new ArrayList<UserEntity>();
+
+		readAdapter = new ReceiptListViewAdapter(getApplicationContext(),
+				userList, unreadNum, this);
+		read_list.setAdapter(readAdapter);
 	}
 
 	@UiThread
-	void postLoadData() {
+	void postLoadDataFail() {
+		progress_bar.setVisibility(View.GONE);
+	}
 
-		readAdapter = new ReceiptListViewAdapter(getApplicationContext(),
-				readDataList, true, this);
-		read_list.setAdapter(readAdapter);
-		readAdapter.notifyDataSetChanged();
+	@UiThread
+	void postLoadDataSucc() {
 
-		unreadAdapter = new ReceiptListViewAdapter(getApplicationContext(),
-				unreadDataList, false, this);
-		unread_list.setAdapter(unreadAdapter);
-		unreadAdapter.notifyDataSetChanged();
+		unread_info.setText("未读：" + unreadNum);
+		read_info.setText("已读：" + (userList.size() - unreadNum));
 
-		unread_info.setText("未读：" + unreadDataList.size());
-		read_info.setText("已读：" + readDataList.size());
-
-		if (unreadDataList.size() > 0) {
+		if (unreadNum > 0) {
 			resend_app.setVisibility(View.VISIBLE);
 			resend_sms.setVisibility(View.VISIBLE);
 		}
 
+		readAdapter.notifyDataSetChanged();
 		progress_bar.setVisibility(View.GONE);
 	}
 
@@ -215,14 +247,9 @@ public class ReceiptActivity extends FragmentActivity implements
 		try {
 			WriteAnnouncementParam param = new WriteAnnouncementParam();
 			param.setTitle(notice.getTitle());
-			param.setText(notice.getContent());
-			if (!UtilTools.isEmpty(notice.getImage())) {
-				List<String> photos = new ArrayList<String>();
-				photos.add(notice.getImage());
-				param.setPhotos(photos);
-			}
-			List<String> recepients = new ArrayList<String>();
-			param.setRecepients(recepients);
+			param.setText(notice.getText());
+			param.setPhotos(notice.getPhotos());
+			param.setRecepients(notice.getRecipients());
 			param.setToken(myApp.getToken());
 			WriteAnnouncementResp resp = userService.writeAnnouncement(param);
 			if (resp == null) {
@@ -334,4 +361,18 @@ public class ReceiptActivity extends FragmentActivity implements
 		btn_back();
 	}
 
+	private List<UserEntity> getTestData() {
+
+		Random rand = new Random();
+		List<UserEntity> testData = new ArrayList<UserEntity>();
+		for (int i = 1; i <= rand.nextInt(20); i++) {
+			UserEntity item = new UserEntity();
+			item.setUserId("0000" + i);
+			item.setType(UserType.PARENTS);
+			item.setName("高健" + i);
+			item.setRemark("高晓东" + i + "爸爸");
+			testData.add(item);
+		}
+		return testData;
+	}
 }

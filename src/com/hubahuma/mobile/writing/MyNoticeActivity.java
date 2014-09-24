@@ -186,13 +186,18 @@ public class MyNoticeActivity extends FragmentActivity implements
 		for (int i = 1; i <= num; i++) {
 			NoticeEntity item = new NoticeEntity();
 			item.setNoticeId("3124123123");
-			item.setAuthor(myApp.getCurrentUser());
+			item.setAuthor(myApp.getCurrentUser().getName());
+			item.setAuthorId(myApp.getCurrentUser().getUserId());
+			item.setAuthorPhoto(myApp.getCurrentUser().getPortrait());;
 			item.setDate(new Date());
-			item.setContent(rand.nextInt(100)
+			item.setText(rand.nextInt(100)
 					+ "进一步做好民办教育机构的设置要严格审批权限及审批程序，各地在审批民办教育机构时，要严格执行设置标准。");
 			item.setTitle("title");
-			if (i % 2 == 0)
-				item.setImage("has_a_image");
+			if (i % 2 == 0) {
+				List<String> photos = new ArrayList<String>();
+				photos.add("has_a_image");
+				item.setPhotos(photos);
+			}
 			testData.add(item);
 		}
 		return testData;

@@ -126,48 +126,6 @@
                     android:background="@color/contacts_list_divider" />
 
                 <ListView
-                    android:id="@+id/unread_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
-                    android:cacheColorHint="@android:color/transparent"
-                    android:divider="@color/contacts_list_divider"
-                    android:dividerHeight="0.5dp"
-                    android:fadingEdge="none"
-                    android:fastScrollEnabled="false"
-                    android:footerDividersEnabled="false"
-                    android:headerDividersEnabled="true"
-                    android:smoothScrollbar="true" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:visibility="gone"
-                android:paddingBottom="0dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="0dp"
-                android:paddingTop="10dp" >
-
-<!--                 <TextView -->
-<!--                     android:id="@+id/read_info" -->
-<!--                     android:layout_width="wrap_content" -->
-<!--                     android:layout_height="wrap_content" -->
-<!--                     android:layout_gravity="left" -->
-<!--                     android:layout_marginBottom="10dp" -->
-<!--                     android:layout_marginLeft="5dp" -->
-<!--                     android:text="共23位家长已读通知" -->
-<!--                     android:textColor="@color/grey" -->
-<!--                     android:textSize="18sp" /> -->
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:background="@color/contacts_list_divider" />
-
-                <ListView
                     android:id="@+id/read_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -181,6 +139,48 @@
                     android:headerDividersEnabled="true"
                     android:smoothScrollbar="true" />
             </LinearLayout>
+
+<!--             <LinearLayout -->
+<!--                 android:layout_width="match_parent" -->
+<!--                 android:layout_height="0dp" -->
+<!--                 android:layout_weight="1" -->
+<!--                 android:orientation="vertical" -->
+<!--                 android:visibility="gone" -->
+<!--                 android:paddingBottom="0dp" -->
+<!--                 android:paddingLeft="10dp" -->
+<!--                 android:paddingRight="0dp" -->
+<!--                 android:paddingTop="10dp" > -->
+
+<!--                 <TextView -->
+<!--                     android:id="@+id/read_info" -->
+<!--                     android:layout_width="wrap_content" -->
+<!--                     android:layout_height="wrap_content" -->
+<!--                     android:layout_gravity="left" -->
+<!--                     android:layout_marginBottom="10dp" -->
+<!--                     android:layout_marginLeft="5dp" -->
+<!--                     android:text="共23位家长已读通知" -->
+<!--                     android:textColor="@color/grey" -->
+<!--                     android:textSize="18sp" /> -->
+
+<!--                 <View -->
+<!--                     android:layout_width="match_parent" -->
+<!--                     android:layout_height="0.5dp" -->
+<!--                     android:background="@color/contacts_list_divider" /> -->
+
+<!--                 <ListView -->
+<!--                     android:id="@+id/read_list" -->
+<!--                     android:layout_width="match_parent" -->
+<!--                     android:layout_height="match_parent" -->
+<!--                     android:background="@android:color/transparent" -->
+<!--                     android:cacheColorHint="@android:color/transparent" -->
+<!--                     android:divider="@color/contacts_list_divider" -->
+<!--                     android:dividerHeight="0.5dp" -->
+<!--                     android:fadingEdge="none" -->
+<!--                     android:fastScrollEnabled="false" -->
+<!--                     android:footerDividersEnabled="false" -->
+<!--                     android:headerDividersEnabled="true" -->
+<!--                     android:smoothScrollbar="true" /> -->
+<!--             </LinearLayout> -->
         </LinearLayout>
     </FrameLayout>
 

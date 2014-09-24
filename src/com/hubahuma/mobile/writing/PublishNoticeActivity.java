@@ -168,12 +168,14 @@ public class PublishNoticeActivity extends FragmentActivity implements
 		} else {
 			notice.setTitle(null);
 		}
-		notice.setContent(content.getText().toString().trim());
+		notice.setText(content.getText().toString().trim());
 		notice.setDate(new Date());
 		if (imgAdded) {
-			notice.setImage(UtilTools.bitmap2String(photo));
+			List<String> photos = new ArrayList<String>();
+			photos.add(UtilTools.bitmap2String(photo));
+			notice.setPhotos(photos);
 		} else {
-			notice.setImage(null);
+			notice.setPhotos(null);
 		}
 		showLoadingDialog();
 		handlePublishNotice(notice);
@@ -283,11 +285,9 @@ public class PublishNoticeActivity extends FragmentActivity implements
 
 			WriteAnnouncementParam param = new WriteAnnouncementParam();
 			param.setTitle(notice.getTitle());
-			param.setText(notice.getContent());
-			if (!UtilTools.isEmpty(notice.getImage())) {
-				List<String> photos = new ArrayList<String>();
-				photos.add(notice.getImage());
-				param.setPhotos(photos);
+			param.setText(notice.getText());
+			if (notice.getPhotos() != null) {
+				param.setPhotos(notice.getPhotos());
 			}
 			param.setRecepients(recepients);
 			param.setToken(myApp.getToken());

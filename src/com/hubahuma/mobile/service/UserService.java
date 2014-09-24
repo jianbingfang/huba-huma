@@ -12,11 +12,9 @@ import org.springframework.web.client.RestTemplate;
 
 import com.hubahuma.mobile.entity.Organization;
 import com.hubahuma.mobile.entity.Parent;
-import com.hubahuma.mobile.entity.Teacher;
 import com.hubahuma.mobile.entity.service.AuthParam;
 import com.hubahuma.mobile.entity.service.AuthResp;
 import com.hubahuma.mobile.entity.service.BindPhoneParam;
-import com.hubahuma.mobile.entity.service.BindPhoneResp;
 import com.hubahuma.mobile.entity.service.BoolResp;
 import com.hubahuma.mobile.entity.service.ChangePasswordParam;
 import com.hubahuma.mobile.entity.service.ChangePasswordResp;

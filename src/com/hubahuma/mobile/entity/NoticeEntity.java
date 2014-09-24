@@ -2,20 +2,39 @@ package com.hubahuma.mobile.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-public class NoticeEntity implements Serializable{
+import org.codehaus.jackson.annotate.JsonProperty;
 
+public class NoticeEntity implements Serializable {
+
+	@JsonProperty("_id")
 	private String noticeId;
-	
+
+	private String author;
+
+	private String authorId;
+
+	private String authorPhoto;
+
 	private String title;
-	
-	private String content;
-	
+
+	private String text;
+
 	private Date date;
-	
-	private String image;
-	
-	private UserEntity author;
+
+	private List<String> photos;
+
+	@JsonProperty("_recipients")
+	private List<String> recipients;
+
+	@JsonProperty("_recipientsRead")
+	private List<String> recipientsRead;
+
+	@JsonProperty("_type")
+	private String type;
+
+	// private UserEntity author;
 
 	public String getNoticeId() {
 		return noticeId;
@@ -33,12 +52,12 @@ public class NoticeEntity implements Serializable{
 		this.title = title;
 	}
 
-	public String getContent() {
-		return content;
+	public String getText() {
+		return text;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setText(String text) {
+		this.text = text;
 	}
 
 	public Date getDate() {
@@ -49,21 +68,60 @@ public class NoticeEntity implements Serializable{
 		this.date = date;
 	}
 
-	public String getImage() {
-		return image;
+	public List<String> getPhotos() {
+		return photos;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setPhotos(List<String> photos) {
+		this.photos = photos;
 	}
 
-	public UserEntity getAuthor() {
+	public String getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(UserEntity author) {
+	public void setAuthor(String author) {
 		this.author = author;
 	}
-	
-	
+
+	public String getAuthorId() {
+		return authorId;
+	}
+
+	public void setAuthorId(String authorId) {
+		this.authorId = authorId;
+	}
+
+	public String getAuthorPhoto() {
+		return authorPhoto;
+	}
+
+	public void setAuthorPhoto(String authorPhoto) {
+		this.authorPhoto = authorPhoto;
+	}
+
+	public List<String> getRecipients() {
+		return recipients;
+	}
+
+	public void setRecipients(List<String> recipients) {
+		this.recipients = recipients;
+	}
+
+	public List<String> getRecipientsRead() {
+		return recipientsRead;
+	}
+
+	public void setRecipientsRead(List<String> recipientsRead) {
+		this.recipientsRead = recipientsRead;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 }
