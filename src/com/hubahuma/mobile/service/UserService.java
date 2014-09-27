@@ -158,6 +158,10 @@ public interface UserService extends RestClientErrorHandling {
 	@Accept(MediaType.APPLICATION_JSON)
 	FetchAnnouncementResp fetchAnnouncement(FetchAnnouncementParam param);
 
+	@Post("/fetch-announcement-teacher")
+	@Accept(MediaType.APPLICATION_JSON)
+	FetchAnnouncementResp fetchAnnouncementTeacher(FetchAnnouncementParam param);
+	
 	@Post("/write-announcement")
 	@Accept(MediaType.APPLICATION_JSON)
 	WriteAnnouncementResp writeAnnouncement(WriteAnnouncementParam param);

@@ -141,7 +141,7 @@ public class MyNoticeActivity extends FragmentActivity implements
 		}
 	}
 
-	@Background(delay = 1000)
+	@Background(delay = 0)
 	void loadNotice() {
 
 		FetchAnnouncementParam param = new FetchAnnouncementParam();
@@ -172,10 +172,35 @@ public class MyNoticeActivity extends FragmentActivity implements
 		postLoadData();
 	}
 
-	@Background(delay = 1000)
+	@Background(delay = 0)
 	void loadMyNotice() {
-		// TODO 加载老师自己发过的通知
-		dataList = getTestData(5);
+
+		FetchAnnouncementParam param = new FetchAnnouncementParam();
+		param.setUntilId("");
+		param.setToken(myApp.getToken());
+
+		try {
+			FetchAnnouncementResp resp = userService
+					.fetchAnnouncementTeacher(param);
+			if (resp == null) {
+				showToast("数据加载失败", Toast.LENGTH_LONG);
+				postLoadData();
+				return;
+			}
+			if (resp.isHasMore()) {
+				showToast("通知过多，未加载完全", Toast.LENGTH_LONG);
+			}
+			dataList = resp.getNoticeList();
+		} catch (RestClientException e) {
+			showToast("数据获取失败", Toast.LENGTH_LONG);
+			postLoadData();
+			return;
+		}
+
+		if (dataList == null) {
+			dataList = new ArrayList<NoticeEntity>();
+		}
+
 		postLoadData();
 	}
 
@@ -188,7 +213,8 @@ public class MyNoticeActivity extends FragmentActivity implements
 			item.setNoticeId("3124123123");
 			item.setAuthor(myApp.getCurrentUser().getName());
 			item.setAuthorId(myApp.getCurrentUser().getUserId());
-			item.setAuthorPhoto(myApp.getCurrentUser().getPortrait());;
+			item.setAuthorPhoto(myApp.getCurrentUser().getPortrait());
+			;
 			item.setDate(new Date());
 			item.setText(rand.nextInt(100)
 					+ "进一步做好民办教育机构的设置要严格审批权限及审批程序，各地在审批民办教育机构时，要严格执行设置标准。");

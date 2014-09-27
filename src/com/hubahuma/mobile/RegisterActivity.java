@@ -1,10 +1,7 @@
 package com.hubahuma.mobile;
 
-import java.util.Random;
-
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
@@ -13,43 +10,32 @@ import org.androidannotations.annotations.NoTitle;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
-import org.androidannotations.annotations.res.StringRes;
 import org.androidannotations.annotations.rest.RestService;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.hubahuma.mobile.PromptDialog.PromptDialogListener;
-import com.hubahuma.mobile.entity.UserEntity;
-import com.hubahuma.mobile.entity.service.AuthResp;
 import com.hubahuma.mobile.entity.service.BindPhoneParam;
-import com.hubahuma.mobile.entity.service.BindPhoneResp;
 import com.hubahuma.mobile.entity.service.RegisterParentParam;
 import com.hubahuma.mobile.entity.service.RegisterParentResp;
 import com.hubahuma.mobile.entity.service.RegisterTeacherParam;
 import com.hubahuma.mobile.entity.service.RegisterTeacherResp;
 import com.hubahuma.mobile.service.MyErrorHandler;
 import com.hubahuma.mobile.service.SharedPrefs_;
-import com.hubahuma.mobile.service.SmsService;
 import com.hubahuma.mobile.service.UserService;
 import com.hubahuma.mobile.utils.GlobalVar;
 import com.hubahuma.mobile.utils.UtilTools;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 @NoTitle
@@ -159,8 +145,8 @@ public class RegisterActivity extends FragmentActivity implements
 		}
 
 		BindPhoneParam bindPhoneParam = new BindPhoneParam();
-		// TODO 设置param的id参数
 		bindPhoneParam.setPhone(phone.getText().toString().trim());
+		bindPhoneParam.setUserId(userId);
 		bindPhoneParam.setToken(token);
 		Log.d("bindPhoneParam", UtilTools.object2json(bindPhoneParam));
 		try {
@@ -206,7 +192,7 @@ public class RegisterActivity extends FragmentActivity implements
 		}
 
 		if (resp == null) {
-			showToast("服务器验证错误", Toast.LENGTH_LONG);
+			showToast("数据返回错误", Toast.LENGTH_LONG);
 			afterSmsSendFail();
 			dismissLoadingDialog();
 			return;
@@ -253,7 +239,7 @@ public class RegisterActivity extends FragmentActivity implements
 		}
 
 		if (resp == null) {
-			showToast("服务器验证错误", Toast.LENGTH_LONG);
+			showToast("数据返回错误", Toast.LENGTH_LONG);
 			afterSmsSendFail();
 			dismissLoadingDialog();
 			return;

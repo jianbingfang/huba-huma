@@ -148,6 +148,13 @@ public class ReceiptActivity extends FragmentActivity implements
 	void loadData() {
 		// readUserList = getTestData();
 		// userList = getTestData();
+
+		if (!UtilTools.isNetConnected(getApplicationContext())) {
+			showToast("无法访问网络", Toast.LENGTH_LONG);
+			postLoadDataFail();
+			return;
+		}
+
 		try {
 			FetchDetailParentParam p = new FetchDetailParentParam();
 			p.setParentId(notice.getRecipients());
