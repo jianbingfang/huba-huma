@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -41,8 +42,10 @@ import com.hubahuma.mobile.entity.NoticeEntity;
 import com.hubahuma.mobile.entity.Parent;
 import com.hubahuma.mobile.entity.User;
 import com.hubahuma.mobile.entity.UserEntity;
+import com.hubahuma.mobile.entity.service.BoolResp;
 import com.hubahuma.mobile.entity.service.FetchDetailParentParam;
 import com.hubahuma.mobile.entity.service.FetchDetailParentResp;
+import com.hubahuma.mobile.entity.service.SendSmsToParentParam;
 import com.hubahuma.mobile.entity.service.WriteAnnouncementParam;
 import com.hubahuma.mobile.entity.service.WriteAnnouncementResp;
 import com.hubahuma.mobile.profile.ProfileOrganizationActivity_;
@@ -287,31 +290,44 @@ public class ReceiptActivity extends FragmentActivity implements
 			return;
 		}
 
-		// TODO 调用UserService的短信接口
-
-		String result = null;
-		try {
-			// result = smsService.sendSMS(uid, key, phone, msg);
-			System.out.println("SMS result:" + result);
-		} catch (RestClientException e) {
-			showToast("服务器连接异常", Toast.LENGTH_LONG);
-			dismissLoadingDialog();
-			return;
+		int succNum = 0;
+		for (int i = 0; i < unreadNum; i++) {
+			try {
+				SendSmsToParentParam param = new SendSmsToParentParam();
+				param.setUserId(userList.get(i).getUserId());
+				param.setContent("来自[" + myApp.getCurrentUser().getUsername()
+						+ "]的通知：" + notice.getText());
+				param.setToken(myApp.getToken());
+				BoolResp result = userService.sendSmsToParent(param);
+				Log.i("SMS",
+						"To:" + param.getUserId() + ".\n" + param.getContent());
+				if (result == null || !result.isOk()) {
+					showPromptDialog("失败", "短信发送失败，请稍后重试。");
+					return;
+				} else {
+					succNum++;
+				}
+			} catch (RestClientException e) {
+				showToast("服务器连接异常", Toast.LENGTH_LONG);
+				dismissLoadingDialog();
+				continue;
+			}
 		}
 
-		if (result == null || Integer.parseInt(result) < 0) {
-			dismissLoadingDialog();
-			showPromptDialog("失败", "短信发送失败，请稍后重试。");
-			return;
-		} else {
-			dismissLoadingDialog();
-			showPromptDialog("成功", "通知内容已通过短信成功发送。");
-			resend_sms.setText("已重发");
-			resend_sms.setEnabled(false);
-			resend_sms.setBackgroundResource(R.drawable.btn_grey_bg);
-			// showToast("验证短信已发送", Toast.LENGTH_SHORT);
-		}
+		showPromptDialog("成功", "通知内容已通过短信发送各位家长。");
+		Log.i("SMS", "Succed:" + succNum);
+		updateResendSmsButton();
+		// showToast("验证短信已发送", Toast.LENGTH_SHORT);
 
+		dismissLoadingDialog();
+
+	}
+
+	@UiThread
+	void updateResendSmsButton() {
+		resend_sms.setText("已重发");
+		resend_sms.setEnabled(false);
+		resend_sms.setBackgroundResource(R.drawable.btn_grey_bg);
 	}
 
 	@Override

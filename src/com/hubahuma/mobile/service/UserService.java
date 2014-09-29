@@ -42,6 +42,7 @@ import com.hubahuma.mobile.entity.service.SearchParentParam;
 import com.hubahuma.mobile.entity.service.SearchTeacherParam;
 import com.hubahuma.mobile.entity.service.SearchTeacherResp;
 import com.hubahuma.mobile.entity.service.SendAnnouncementReadReceiptParam;
+import com.hubahuma.mobile.entity.service.SendSmsToParentParam;
 import com.hubahuma.mobile.entity.service.SendVerificationRequestParentParam;
 import com.hubahuma.mobile.entity.service.UpdateOrgParam;
 import com.hubahuma.mobile.entity.service.UpdateParentParam;
@@ -195,5 +196,7 @@ public interface UserService extends RestClientErrorHandling {
 	@Accept(MediaType.APPLICATION_JSON)
 	FetchContactsResp fetchContacts(FetchContactsParam param);
 	
-	
+	@Post("/teacher-send-sms-to-parent")
+	@Accept(MediaType.APPLICATION_JSON)
+	BoolResp sendSmsToParent(SendSmsToParentParam param);
 }
