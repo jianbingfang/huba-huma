@@ -100,7 +100,7 @@ public class SplashActivity extends Activity {
 		}
 
 		if (prefs.token().exists() && prefs.lastTokenUpdated().exists()
-				&& false) {
+				) {
 			long timestamp = prefs.lastTokenUpdated().get();
 			long duration = System.currentTimeMillis() - timestamp;
 			long oneMonth = 30 * 24 * 60 * 60 * 1000;

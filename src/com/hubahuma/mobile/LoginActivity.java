@@ -271,6 +271,7 @@ public class LoginActivity extends FragmentActivity implements
 								|| parentResp.getUserObjects().isEmpty()) {
 							showToast("服务器数据返回异常", Toast.LENGTH_LONG);
 							dismissLoadingDialog();
+							return;
 						} else {
 							user.bind(parentResp.getParentObjects().get(0),
 									parentResp.getUserObjects().get(0));
@@ -280,6 +281,7 @@ public class LoginActivity extends FragmentActivity implements
 					} catch (RestClientException e) {
 						dismissLoadingDialog();
 						showToast("用户数据获取失败", Toast.LENGTH_LONG);
+						return;
 					}
 				}
 
@@ -303,6 +305,7 @@ public class LoginActivity extends FragmentActivity implements
 								|| teacherResp.getUserObjects().isEmpty()) {
 							showToast("服务器数据返回异常", Toast.LENGTH_LONG);
 							dismissLoadingDialog();
+							return;
 						} else {
 							user.bind(teacherResp.getTeacherObjects().get(0),
 									teacherResp.getUserObjects().get(0));
@@ -312,6 +315,7 @@ public class LoginActivity extends FragmentActivity implements
 					} catch (RestClientException e) {
 						dismissLoadingDialog();
 						showToast("用户数据获取失败", Toast.LENGTH_LONG);
+						return;
 					}
 
 				}
